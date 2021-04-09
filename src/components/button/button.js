@@ -11,19 +11,19 @@ import {
 import {lightTheme} from '../../config/theme';
 import baseStyles from './button.styles';
 
-const Button = props => {
-  const {
-    onPress = () => console.log('Please attach onPress event into button'),
-    type = 'solid',
-    title,
-    titleStyle: passedTitleStyle,
-    containerStyle,
-    loading = false,
-    loadingStyle: passedLoadingStyle,
-    disabled = false,
-    disabledStyle,
-  } = props;
-
+const Button = ({
+  onPress = () => console.log('Please attach onPress event into button'),
+  type = 'solid',
+  title,
+  titleStyle: passedTitleStyle,
+  containerStyle,
+  loading = false,
+  loadingStyle: passedLoadingStyle,
+  disabled = false,
+  disabledStyle,
+  startIcon,
+  buttonStyle,
+}) => {
   const handleOnPress = useCallback(
     evt => {
       if (!loading) {
@@ -59,6 +59,7 @@ const Button = props => {
               type === 'solid' && {backgroundColor: lightTheme.disabled},
             disabled &&
               type === 'outline' && {borderColor: lightTheme.disabled},
+            buttonStyle,
             disabledStyle,
           ])}>
           {loading && (
@@ -67,6 +68,7 @@ const Button = props => {
               color={type === 'solid' ? 'white' : lightTheme.primary}
             />
           )}
+          {!loading && !!startIcon && startIcon()}
           {!loading && typeof title === 'string' && (
             <Text style={titleStyle}>{title}</Text>
           )}

@@ -1,0 +1,4 @@
+// login
+export const SET_PHONE_NUMBER = '';
+export const LOGIN_WITH_PHONE_NUMBER = 'LOGIN_WITH_PHONE_NUMBER';
+export const LOGIN_WITH_FACEBOOK = 'LOGIN_WITH_FACEBOOK';
