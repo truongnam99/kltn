@@ -1,14 +1,13 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import {LoginManager, AccessToken} from 'react-native-fbsdk';
-import auth from '@react-native-firebase/auth';
 
 import {Button} from '../../../components/index';
 import {lightTheme} from '../../../config/theme';
 import {navigationName} from '../../../constants/navigation';
 import {translate} from '../../../constants/translate';
+import {useHooks} from '../hooks';
 import styles from './login.style';
 
 const ButtonLogin = props => {
@@ -35,37 +34,29 @@ const ButtonLogin = props => {
 };
 
 const Login = ({navigation}) => {
+  const {handlers} = useHooks({navigation});
+  const {handleSetUser, handleFacebookLogin} = handlers;
+
   async function onFacebookButtonPress() {
     try {
-      // Attempt login with permissions
-      const result = await LoginManager.logInWithPermissions([
-        'public_profile',
-        'email',
-      ]);
+      const userCredential = await handleFacebookLogin();
 
-      if (result.isCancelled) {
-        throw 'User cancelled the login process';
+      if (!userCredential) {
+        throw 'Login fail';
       }
 
-      // Once signed in, get the users AccesToken
-      const data = await AccessToken.getCurrentAccessToken();
-
-      if (!data) {
-        throw 'Something went wrong obtaining access token';
+      console.log('userCredential', userCredential);
+      handleSetUser(userCredential.user);
+      if (userCredential.additionalUserInfo.isNewUser) {
+        navigation.navigate(navigationName.login.additionalUserInfo);
+      } else {
+        navigation.navigate(navigationName.login.additionalUserInfo);
+        //navigation.navigate(navigationName.findInn.findInn);
       }
 
-      // Create a Firebase credential with the AccessToken
-      const facebookCredential = auth.FacebookAuthProvider.credential(
-        data.accessToken,
-      );
-
-      // Sign-in the user with the credential
-      const response = await auth().signInWithCredential(facebookCredential);
-
-      navigation.navigate(navigationName.findInn.findInn);
-      return response;
+      return userCredential;
     } catch (error) {
-      console.log(error);
+      Alert.alert(error);
     }
   }
 

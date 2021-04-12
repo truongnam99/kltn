@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
+
 import {Button, TextInput} from '../../../components/index';
 import {navigationName} from '../../../constants/navigation';
 import {translate} from '../../../constants/translate';
@@ -17,7 +18,6 @@ const PhoneLogin = ({navigation}) => {
 
   const handleSignIn = () => {
     if (!checkPhoneNumber()) {
-      alert('Invalid phone number');
       return;
     }
 

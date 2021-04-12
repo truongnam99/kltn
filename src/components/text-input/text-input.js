@@ -2,17 +2,17 @@ import React from 'react';
 import {TextInput as RNTextInput, View, Text, StyleSheet} from 'react-native';
 import styles from './text-input.style';
 
-const TextInput = props => {
-  const {
-    type = 'normal',
-    placeholder,
-    title,
-    onChangeText,
-    containerStyle,
-    titleStyle,
-    textInputStyle,
-    ...attributes
-  } = props;
+const TextInput = ({
+  type = 'normal',
+  placeholder,
+  title,
+  onChangeText,
+  containerStyle,
+  titleStyle,
+  textInputStyle,
+  marginTop,
+  ...attributes
+}) => {
   return (
     <View style={StyleSheet.flatten([styles.container, containerStyle])}>
       {title && (

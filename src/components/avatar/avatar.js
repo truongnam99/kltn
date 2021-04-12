@@ -3,17 +3,16 @@ import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import baseStyles from './avatar.style';
 import {lightTheme} from '../../config/theme';
 
-const Avatar = props => {
-  const [isShowDetail, setShowDetail] = useState(true);
-  const {
-    size = 'small',
-    outlined = false,
-    source = 'https://reactnative.dev/img/tiny_logo.png',
-    onPress,
-    containerStyle: passedContainedStyle,
-    type = 'circle',
-    isShowDetailFullScreen = true,
-  } = props;
+const Avatar = ({
+  size = 'small',
+  outlined = false,
+  source = 'https://reactnative.dev/img/tiny_logo.png',
+  onPress,
+  containerStyle: passedContainedStyle,
+  type = 'circle',
+  isShowDetailFullScreen = false,
+}) => {
+  const [isShowDetail, setShowDetail] = useState(isShowDetailFullScreen);
 
   const containerStyle = StyleSheet.flatten([
     baseStyles.container,

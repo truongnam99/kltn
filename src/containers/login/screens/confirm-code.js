@@ -5,21 +5,24 @@ import auth from '@react-native-firebase/auth';
 import {Button, TextInput} from '../../../components';
 import styles from './confirm-code.style';
 import {navigationName} from '../../../constants/navigation';
+import {useHooks} from '../hooks';
 
 const ConfirmCode = ({navigation}) => {
+  const {handlers, selectors} = useHooks({navigation});
+  const {handleSetUser} = handlers;
   const [confirm, setConfirm] = useState(null);
   const [code] = useState('');
 
   async function signInWithPhoneNumber(phoneNumber) {
     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    console.log('aaaaaaaaa', confirmation);
     setConfirm(confirmation);
   }
 
   async function confirmCode() {
     try {
-      const response = await confirm.confirm(code);
-      if (response) {
+      const userCredential = await confirm.confirm(code);
+      if (userCredential) {
+        handleSetUser(userCredential);
         navigation.navigate(navigationName.findInn.findInn);
         // return addition more info if isNewUser, else go to home
       } else {

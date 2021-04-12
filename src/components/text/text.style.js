@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
   italic: {
     fontStyle: 'italic',
   },
+  underline: {
+    textDecorationLine: 'underline',
+  },
   bold: {
     fontWeight: 'bold',
   },
