@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text as RNText, ScrollView} from 'react-native';
 import {useHooks} from '../hooks';
+import moment from 'moment';
 
 import {TextInput, Avatar, Text} from '../../../components';
 import {translate} from '../../../constants/translate';
@@ -8,6 +9,7 @@ import styles from './additional-info.style';
 import {useState} from 'react';
 import DatePicker from 'react-native-datepicker';
 import HeaderAction from '../../../components/header-action/header-action';
+import {navigationName} from '../../../constants/navigation';
 
 const CTextInput = ({...props}) => {
   return <TextInput {...props} containerStyle={styles.marginTop} />;
@@ -15,23 +17,27 @@ const CTextInput = ({...props}) => {
 
 const AdditionalInfo = ({navigation}) => {
   const {selectors, handlers} = useHooks({navigation});
-  const {updateProfile} = handlers;
-  const {user} = selectors;
+  const {createUser, handleSetUser} = handlers;
+  const {userCredential} = selectors;
+
   const [userInfo, setUserInfo] = useState({
-    photoURL: user.photoURL,
-    displayName: user.displayName,
-    phoneNumber: user.phoneNumber,
-    email: user.email,
-    birthday: user.birthday ?? new Date(),
-    homeTown: user.homeTown,
-    job: user.job,
-    social: user.social,
+    uid: userCredential.uid,
+    photoURL: userCredential.photoURL,
+    displayName: userCredential.displayName,
+    phoneNumber: userCredential.phoneNumber,
+    email: userCredential.email,
+    birthday: userCredential.birthday
+      ? moment(userCredential.birthday).format('DD/MM/YYYY')
+      : moment().format('DD/MM/YYYY'),
+    homeTown: userCredential.homeTown,
+    job: userCredential.job,
+    social: userCredential.social,
   });
 
   const onDateChange = (dateStr, date) => {
     setUserInfo({
       ...userInfo,
-      birthday: date,
+      birthday: moment(date).format('DD/MM/YYYY'),
     });
   };
 
@@ -43,7 +49,6 @@ const AdditionalInfo = ({navigation}) => {
   };
 
   const onPhoneNumberChange = value => {
-    console.log(value);
     setUserInfo({
       ...userInfo,
       phoneNumber: value,
@@ -78,12 +83,13 @@ const AdditionalInfo = ({navigation}) => {
   };
 
   const onSave = async () => {
-    await updateProfile(userInfo);
+    const user = await createUser(userInfo);
+    handleSetUser(user);
+    navigation.navigate(navigationName.findInn.findInn);
   };
 
   return (
     <View style={styles.container}>
-      <HeaderAction isShowClose={false} onCheck={() => onSave()} />
       <ScrollView style={styles.infoContainer}>
         <View style={styles.imageContainer}>
           <Avatar source={userInfo.photoURL} size="large" />
@@ -111,7 +117,7 @@ const AdditionalInfo = ({navigation}) => {
         <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
         <DatePicker
           mode="date"
-          date={userInfo.birthday}
+          date={moment(userInfo.birthday, 'DD/MM/YYYY')}
           format="DD/MM/YYYY"
           androidMode="spinner"
           customStyles={{
@@ -128,6 +134,7 @@ const AdditionalInfo = ({navigation}) => {
         <CTextInput title={translate.job} onChangeText={onJobChange} />
         <CTextInput title={translate.social} onChangeText={onSocialChange} />
       </ScrollView>
+      <HeaderAction isShowClose={false} onCheck={() => onSave()} />
     </View>
   );
 };

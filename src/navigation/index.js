@@ -23,6 +23,7 @@ export default function Navigation() {
           component={PhoneLogin}
         />
         <Stack.Screen name={navigationName.homeContainer} component={Home} />
+        <Stack.Screen name={navigationName.findInn.findInn} component={Home} />
         <Stack.Screen
           name={navigationName.login.confirmCode}
           component={ConfirmCode}

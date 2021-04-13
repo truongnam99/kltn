@@ -24,7 +24,9 @@ const HeaderAction = ({
           name="check"
           size={24}
           style={styles.checkIcon}
-          onPress={() => onCheck()}
+          onPress={() => {
+            onCheck();
+          }}
         />
       )}
     </View>

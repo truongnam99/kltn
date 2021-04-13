@@ -8,20 +8,22 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {SafeAreaView, useColorScheme} from 'react-native';
-import {applyMiddleware, createStore} from 'redux';
+import {SafeAreaView, Text, useColorScheme, View} from 'react-native';
+import {applyMiddleware, compose, createStore} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
 
 import allReducers from './src/store/reducers';
 import Navigation from './src/navigation';
+import Test from './src/containers/test';
 
 const sagaMiddleware = createSagaMiddleware();
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   allReducers,
-  composeEnhancer(applyMiddleware(sagaMiddleware)),
+  composeEnhancers(applyMiddleware(sagaMiddleware)),
 );
 
 // const store = createStore(allReducers, applyMiddleware(sagaMiddleware));
@@ -35,6 +37,7 @@ const App: () => Node = () => {
   return (
     <Provider store={store}>
       <SafeAreaView style={backgroundStyle}>
+        {/* <Test /> */}
         <Navigation />
       </SafeAreaView>
     </Provider>
