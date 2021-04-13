@@ -1,11 +1,14 @@
-import {LOGIN_WITH_FACEBOOK, LOGIN_WITH_PHONE_NUMBER} from '../actions/types';
+import {SET_CONFIRM_CODE} from '../actions/types';
 
-const loginReducer = (state, actions) => {
-  switch (actions.type) {
-    case LOGIN_WITH_FACEBOOK:
-      break;
-    case LOGIN_WITH_PHONE_NUMBER:
-      break;
+const loginReducer = (state = {confirm: null}, action) => {
+  switch (action.type) {
+    case SET_CONFIRM_CODE:
+      return {
+        ...state,
+        confirm: action.payload,
+      };
+    default:
+      return state;
   }
 };
 

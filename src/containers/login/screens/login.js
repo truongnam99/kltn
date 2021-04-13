@@ -54,7 +54,6 @@ const Login = ({navigation}) => {
       if (userCredential.additionalUserInfo.isNewUser) {
         navigation.navigate(navigationName.login.additionalUserInfo);
       } else {
-        // navigation.navigate(navigationName.login.additionalUserInfo);
         redirectToAdditionalIfNotHaveUser(userCredential.user.uid);
         navigation.navigate(navigationName.findInn.findInn);
       }

@@ -1,9 +1,25 @@
-import {SET_USER} from '../actions/types';
+import auth from '@react-native-firebase/auth';
 
-const userReducer = (state = null, action) => {
+import {SET_USER, SET_USER_CREDENTIAL} from '../actions/types';
+
+const userReducer = (
+  state = {
+    userInfo: null,
+    userCredential: auth().currentUser,
+  },
+  action,
+) => {
   switch (action.type) {
     case SET_USER:
-      return action.payload;
+      return {
+        ...state,
+        userInfo: action.payload,
+      };
+    case SET_USER_CREDENTIAL:
+      return {
+        ...state,
+        userCredential: action.payload,
+      };
     default:
       return state;
   }

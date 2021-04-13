@@ -1,5 +1,15 @@
-import {LOGIN_WITH_FACEBOOK, LOGIN_WITH_PHONE_NUMBER, SET_USER} from './types';
+import {SET_CONFIRM_CODE, SET_PHONE_NUMBER} from './types';
 
-const loginWithFacebook = () => {};
+export const setConfirm = confirm => {
+  return {
+    type: SET_CONFIRM_CODE,
+    payload: confirm,
+  };
+};
 
-const loginWithPhoneNumber = phoneNumber => {};
+export const setPhoneNumber = phoneNumber => {
+  return {
+    type: SET_PHONE_NUMBER,
+    payload: phoneNumber,
+  };
+};

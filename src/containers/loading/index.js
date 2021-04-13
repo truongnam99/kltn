@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 import styles from './loading.style';
 import {lightTheme} from '../../config/theme';
 import {navigationName} from '../../constants/navigation';
-import {setUser} from '../login/actions';
+import {setUser} from '../../store/actions/userAction';
 
 const Loading = ({navigation}) => {
   const dispatch = useDispatch();

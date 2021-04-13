@@ -4,9 +4,12 @@ import {View} from 'react-native';
 import {Button, TextInput} from '../../../components/index';
 import {navigationName} from '../../../constants/navigation';
 import {translate} from '../../../constants/translate';
+import {useHooks} from '../hooks';
 import styles from './phone-login.style';
 
 const PhoneLogin = ({navigation}) => {
+  const {handlers} = useHooks({navigation});
+  const {signInWithPhoneNumber} = handlers;
   const [phoneNumber, setPhoneNumber] = useState('+84949709036');
 
   const checkPhoneNumber = () => {
@@ -16,17 +19,16 @@ const PhoneLogin = ({navigation}) => {
     return true;
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!checkPhoneNumber()) {
       return;
     }
-
-    navigation.navigate(navigationName.login.confirmCode, {
-      phoneNumber: phoneNumber,
-    });
+    await signInWithPhoneNumber(phoneNumber);
+    navigation.navigate(navigationName.login.confirmCode);
   };
 
-  const onValueChange = value => {
+  const onChangeText = value => {
+    console.log(value);
     setPhoneNumber(value);
   };
 
@@ -35,11 +37,11 @@ const PhoneLogin = ({navigation}) => {
       <TextInput
         value={phoneNumber}
         title={translate.phoneNumber}
-        onValueChange={onValueChange}
+        onChangeText={onChangeText}
       />
       <Button
         title={translate.continue}
-        onPress={handleSignIn}
+        onPress={() => handleSignIn()}
         containerStyle={styles.button}
         titleStyle={styles.buttonTitle}
       />
