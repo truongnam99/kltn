@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text as RNText, ScrollView} from 'react-native';
+import {View, Text as RNText, ScrollView, TouchableOpacity} from 'react-native';
 import {useHooks} from '../hooks';
 import moment from 'moment';
 
@@ -10,6 +10,8 @@ import {useState} from 'react';
 import DatePicker from 'react-native-datepicker';
 import HeaderAction from '../../../components/header-action/header-action';
 import {navigationName} from '../../../constants/navigation';
+import {uploadImageIntoFirebase} from '../../../utils/utils';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const CTextInput = ({...props}) => {
   return <TextInput {...props} containerStyle={styles.marginTop} />;
@@ -17,6 +19,7 @@ const CTextInput = ({...props}) => {
 
 const AdditionalInfo = ({navigation}) => {
   const {selectors, handlers} = useHooks({navigation});
+  const [isChangeAvatar, setIsChangeAvatar] = useState(false);
   const {createUser, handleSetUser} = handlers;
   const {userCredential} = selectors;
 
@@ -82,7 +85,46 @@ const AdditionalInfo = ({navigation}) => {
     });
   };
 
+  const pickerImageCallback = ({
+    didCancel,
+    errorMessage,
+    uri,
+    width,
+    height,
+    fileSize,
+    type,
+    fileName,
+  }) => {
+    if (didCancel) {
+      return;
+    }
+    if (errorMessage) {
+      return;
+    }
+    setUserInfo({
+      ...userInfo,
+      photoURL: uri,
+    });
+    setIsChangeAvatar(true);
+  };
+
+  const pickImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.3,
+        maxWidth: 100,
+      },
+      pickerImageCallback,
+    );
+  };
+
   const onSave = async () => {
+    if (isChangeAvatar) {
+      const result = await uploadImageIntoFirebase(userInfo.photoURL);
+      console.log(result);
+      userInfo.photoURL = await result.getDownloadURL();
+    }
     const user = await createUser(userInfo);
     handleSetUser(user);
     navigation.navigate(navigationName.findInn.findInn);
@@ -93,11 +135,13 @@ const AdditionalInfo = ({navigation}) => {
       <ScrollView style={styles.infoContainer}>
         <View style={styles.imageContainer}>
           <Avatar source={userInfo.photoURL} size="large" />
-          <Text
-            text={translate.changeAvatar}
-            types="italic,underline"
-            style={styles.changeAvatar}
-          />
+          <TouchableOpacity onPress={() => pickImage()}>
+            <Text
+              text={translate.changeAvatar}
+              types="italic,underline"
+              style={styles.changeAvatar}
+            />
+          </TouchableOpacity>
         </View>
         <CTextInput
           title={translate.name}

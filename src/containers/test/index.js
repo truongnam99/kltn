@@ -1,31 +1,20 @@
-import database from '@react-native-firebase/database';
 import React from 'react';
 import {View} from 'react-native';
-import {Button} from '../../components/index';
+import storage from '@react-native-firebase/storage';
+import ImagePicker from '../../components/ImagPicker/image-picker';
 
 export default function Test() {
-  const onCreateUser = () => {
-    database().ref('/users').push({
-      key: '123',
-      name: 'Truong Hoang Nam',
-      age: 22,
-    });
-  };
+  const file = storage().ref('/aaaaaa/ztlqpjby.jpg');
+  const log = async () => {
+    console.log('ssssssssss', await file.getMetadata());
 
-  const onUpdateUser = () => {
-    database().ref('/users/123').set({
-      name: 'Trương Hoàng Nam',
-    });
+    console.log('ssssssssss', await file.getDownloadURL());
   };
-
+  log();
   return (
     <View>
-      <Button title="Create user" onPress={onCreateUser} />
-      <Button
-        title="Update user"
-        onPress={onUpdateUser}
-        containerStyle={{marginTop: 10}}
-      />
+      {/* <ConfirmCode /> */}
+      {/* <ImagePicker /> */}
     </View>
   );
 }

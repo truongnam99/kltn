@@ -11,6 +11,7 @@ const translate = {
   homeTown: 'Quê quán',
   job: 'Nghề nghiệp',
   social: 'Mạng xã hội',
+  enterCode: 'Nhập mã xác thực',
 };
 
 export {translate};
