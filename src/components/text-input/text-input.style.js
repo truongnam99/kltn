@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     paddingStart: 8,
     color: '#000000',
     fontSize: 16,
+    paddingBottom: 0,
   },
   textInputOutline: {
     borderColor: lightTheme.primary,

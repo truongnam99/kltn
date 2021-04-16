@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import storage from '@react-native-firebase/storage';
-import ImagePicker from '../../components/ImagPicker/image-picker';
+// import ImagePicker from '../../components/ImagPicker/image-picker';
 
 export default function Test() {
   const file = storage().ref('/aaaaaa/ztlqpjby.jpg');
