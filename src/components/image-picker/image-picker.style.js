@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   imageListContainer: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: 'red',
     flexWrap: 'wrap',
   },
   imageContainer: {

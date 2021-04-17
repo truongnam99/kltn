@@ -1,26 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Image, Dimensions, StyleSheet} from 'react-native';
 
 import styles from './image-view.style';
 
+const screenWidth = Dimensions.get('window').width;
+
 const ImageView = ({images}) => {
-  const firstRowSize = (Dimensions.get('window').width - 60) / 2;
-  const anotherRowSize = (Dimensions.get('window').width - 60) / 3;
+  const [sizes, setSizes] = useState({
+    firstRowSize: screenWidth / 2 - 2,
+    anotherRowSize: screenWidth / 3 - 2,
+  });
+
+  const onLayout = event => {
+    const {width} = event.nativeEvent.layout;
+    setSizes({
+      firstRowSize: width / 2 - 2,
+      anotherRowSize: width / 3 - 2,
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        {images.map((file, index) => (
-          <Image
-            key={index}
-            source={{uri: file.uri}}
-            style={StyleSheet.flatten([
-              styles.imageItem,
-              images.length < 3 || index < 2
-                ? {width: firstRowSize, height: firstRowSize}
-                : {width: anotherRowSize, height: anotherRowSize},
-            ])}
-          />
+      <View style={styles.imageContainer} onLayout={event => onLayout(event)}>
+        {images.map((image, index) => (
+          <View key={index} style={styles.imageListContainer}>
+            <Image
+              source={{uri: image}}
+              style={StyleSheet.flatten([
+                styles.imageItem,
+                images.length < 3 || index < 2
+                  ? {width: sizes.firstRowSize, height: sizes.firstRowSize}
+                  : {width: sizes.anotherRowSize, height: sizes.anotherRowSize},
+              ])}
+            />
+          </View>
         ))}
       </View>
     </View>

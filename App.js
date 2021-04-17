@@ -8,7 +8,7 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {SafeAreaView, Text, useColorScheme, View} from 'react-native';
+import {Dimensions, SafeAreaView, useColorScheme} from 'react-native';
 import {applyMiddleware, compose, createStore} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import {Colors} from 'react-native/Libraries/NewAppScreen';

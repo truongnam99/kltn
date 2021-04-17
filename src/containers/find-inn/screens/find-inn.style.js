@@ -27,6 +27,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   itemContainer: {},
+  row: {
+    flex: 1,
+    justifyContent: 'space-around',
+  },
+  smallItemContainer: {
+    marginTop: 10,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    flex: 1,
+    margin: 4,
+    maxWidth: '50%',
+  },
 });
 
 export default styles;

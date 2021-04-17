@@ -1,7 +1,17 @@
-import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Touchable,
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+} from 'react-native';
 import Header from '../component/header';
 import LargeItem from '../component/large-item';
+import SmallItem from '../component/small-item';
 import styles from './find-inn.style';
 
 const data = [
@@ -579,7 +589,21 @@ const data = [
   },
 ];
 
-const FindInn = () => {
+const FindInn = ({navigation}) => {
+  const [typeOfItem, setTypeOfItem] = useState('large');
+  const onChangeView = () => {
+    console.log('cahnge:', typeOfItem);
+    if (typeOfItem === 'small') {
+      setTypeOfItem('large');
+    } else {
+      setTypeOfItem('small');
+    }
+  };
+
+  const onViewDetail = () => {
+    navigation.push('FindInnDetailFindInnDetail');
+  };
+
   return (
     <View style={styles.container}>
       <Header onPress={() => {}} />
@@ -587,26 +611,58 @@ const FindInn = () => {
         <View style={styles.filterContainer}>
           <Text style={styles.filter}>1000-2000,dsfasd</Text>
           <View style={styles.iconContainer}>
-            <Text>ddsf</Text>
+            <TouchableOpacity
+              onPress={() => {
+                onChangeView();
+              }}>
+              <Text>change</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <ScrollView>
-          <View style={styles.itemContainer}>
-            {data.map((item, index) => {
-              return (
+        {typeOfItem === 'large' ? (
+          <FlatList
+            key={1}
+            numColumns={1}
+            data={data}
+            keyExtractor={(item, index) => index}
+            renderItem={item => (
+              <TouchableOpacity
+                onPress={() => onViewDetail()}
+                activeOpacity={0.9}>
                 <LargeItem
-                  key={index}
-                  images={item.upload_room_images}
-                  room_name={item.room_name}
-                  room_price={item.room_price}
-                  electric_price={item.electric_price}
-                  water_price={item.water_price}
-                  exact_room_address={item.exact_room_address}
+                  images={item.item.upload_room_images}
+                  room_name={item.item.room_name}
+                  room_price={item.item.room_price}
+                  electric_price={item.item.electric_price}
+                  water_price={item.item.water_price}
+                  exact_room_address={item.item.exact_room_address}
                 />
-              );
-            })}
-          </View>
-        </ScrollView>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <FlatList
+            key={2}
+            numColumns={2}
+            data={data}
+            keyExtractor={(item, index) => index}
+            columnWrapperStyle={styles.row}
+            renderItem={item => (
+              <TouchableOpacity
+                onPress={() => onViewDetail()}
+                style={styles.smallItemContainer}>
+                <SmallItem
+                  images={item.item.upload_room_images}
+                  room_name={item.item.room_name}
+                  room_price={item.item.room_price}
+                  electric_price={item.item.electric_price}
+                  water_price={item.item.water_price}
+                  exact_room_address={item.item.exact_room_address}
+                />
+              </TouchableOpacity>
+            )}
+          />
+        )}
       </View>
     </View>
   );

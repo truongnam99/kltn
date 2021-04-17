@@ -12,6 +12,7 @@ const translate = {
   job: 'Nghề nghiệp',
   social: 'Mạng xã hội',
   enterCode: 'Nhập mã xác thực',
+  findInnDetail: 'Chi tiết trọ',
 };
 
 export {translate};
