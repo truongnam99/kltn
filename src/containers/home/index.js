@@ -6,7 +6,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../config/theme';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import LogisticContainer from '../logistic';
+import Roommate from '../roommate';
+import ChatContainer from '../chat';
+import {navigationName} from '../../constants/navigation';
 const Tab = createBottomTabNavigator();
 
 const Home = props => {
@@ -17,7 +20,7 @@ const Home = props => {
         activeBackgroundColor: '#f4f4f4',
       }}>
       <Tab.Screen
-        name="Home"
+        name={navigationName.home.inn}
         component={FinnInnContainer}
         options={{
           tabBarIcon: attributes => (
@@ -31,8 +34,8 @@ const Home = props => {
         }}
       />
       <Tab.Screen
-        name="shiping"
-        component={Profile}
+        name={navigationName.home.logistic}
+        component={LogisticContainer}
         options={{
           tabBarIcon: attributes => (
             <MaterialIcons
@@ -45,8 +48,8 @@ const Home = props => {
         }}
       />
       <Tab.Screen
-        name="find roommate"
-        component={Profile}
+        name={navigationName.home.roommate}
+        component={Roommate}
         options={{
           tabBarIcon: attributes => (
             <MaterialIcons
@@ -59,8 +62,8 @@ const Home = props => {
         }}
       />
       <Tab.Screen
-        name="speaker-notes"
-        component={Profile}
+        name={navigationName.home.chat}
+        component={ChatContainer}
         options={{
           tabBarIcon: attributes => (
             <MaterialIcons
@@ -73,7 +76,7 @@ const Home = props => {
         }}
       />
       <Tab.Screen
-        name="profile"
+        name={navigationName.home.profile}
         component={Profile}
         options={{
           tabBarIcon: attributes => (

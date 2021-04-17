@@ -1,7 +1,6 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Text, Image, Dimensions} from 'react-native';
+import React, {useRef} from 'react';
+import {View, Text, Image} from 'react-native';
 import styles from './small-item.style';
-import {ImageView} from '../../../components';
 
 const SmallItem = ({
   images,

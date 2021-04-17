@@ -11,4 +11,19 @@ export const navigationName = {
   findInn: {
     findInn: 'Find inn',
   },
+  logistic: {
+    logistic: 'logistic-logistic',
+    logisticDetail: 'logistic-logistic-detail',
+  },
+  chat: {
+    chat: 'chat-chat',
+    chatDetail: 'chat-detail',
+  },
+  home: {
+    chat: 'home-chat',
+    profile: 'home-profile',
+    roommate: 'home-roommate',
+    logistic: 'home-logistic',
+    inn: 'home-inn',
+  },
 };

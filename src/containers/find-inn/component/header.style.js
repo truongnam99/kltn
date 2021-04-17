@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   textInput: {
+    color: '#000000',
     borderRadius: 4,
     backgroundColor: 'white',
     width: '82%',

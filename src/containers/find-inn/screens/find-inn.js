@@ -1,14 +1,6 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Touchable,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Header from '../component/header';
 import LargeItem from '../component/large-item';
 import SmallItem from '../component/small-item';
@@ -614,8 +606,13 @@ const FindInn = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 onChangeView();
-              }}>
-              <Text>change</Text>
+              }}
+              activeOpacity={0.7}>
+              <MaterialIcons
+                name="filter-none"
+                size={24}
+                style={styles.changeView}
+              />
             </TouchableOpacity>
           </View>
         </View>

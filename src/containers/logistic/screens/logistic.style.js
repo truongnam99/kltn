@@ -1,9 +1,20 @@
 import {StyleSheet} from 'react-native';
+import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 90,
+  flatList: {
+    padding: 8,
+    marginBottom: 50,
+  },
+  cartItem: {
+    padding: 4,
+    width: '50%',
+  },
+  filterIcon: {
+    padding: 4,
+    backgroundColor: 'white',
+    borderRadius: 4,
+    color: lightTheme.primary,
   },
   main: {
     marginHorizontal: 15,
@@ -24,24 +35,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#c4c4c4',
-    borderRadius: 4,
-  },
-  itemContainer: {},
-  row: {
-    flex: 1,
-    justifyContent: 'space-around',
-  },
-  smallItemContainer: {
-    marginTop: 10,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    flex: 1,
-    margin: 4,
-    maxWidth: '50%',
-  },
-  changeView: {
-    padding: 4,
-    backgroundColor: 'white',
     borderRadius: 4,
   },
 });

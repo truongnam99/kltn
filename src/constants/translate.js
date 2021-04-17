@@ -13,6 +13,17 @@ const translate = {
   social: 'Mạng xã hội',
   enterCode: 'Nhập mã xác thực',
   findInnDetail: 'Chi tiết trọ',
+  seeMore: 'Xem thêm...',
+  logisticDetail: 'Chi tiết xe',
+  logistic: {
+    area: 'Khu vực:',
+    price: 'Giá vận chuyển:',
+    detail: 'Chi tiết:',
+    contact: 'Liên hệ:',
+  },
+  chat: {
+    chat: 'Chat',
+  },
 };
 
 export {translate};
