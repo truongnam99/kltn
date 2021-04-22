@@ -122,7 +122,6 @@ const AdditionalInfo = ({navigation}) => {
   const onSave = async () => {
     if (isChangeAvatar) {
       const result = await uploadImageIntoFirebase(userInfo.photoURL);
-      console.log(result);
       userInfo.photoURL = await result.getDownloadURL();
     }
     const user = await createUser(userInfo);

@@ -1,20 +1,29 @@
-import React from 'react';
-import {View} from 'react-native';
-import storage from '@react-native-firebase/storage';
-// import ImagePicker from '../../components/ImagPicker/image-picker';
+import React, {useEffect} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import useHooks from '../find-inn/hooks';
 
 export default function Test() {
-  const file = storage().ref('/aaaaaa/ztlqpjby.jpg');
-  const log = async () => {
-    console.log('ssssssssss', await file.getMetadata());
+  const {handlers, selectors} = useHooks();
+  const {handleFetchInn} = handlers;
+  const {isLoading} = selectors;
 
-    console.log('ssssssssss', await file.getDownloadURL());
-  };
-  log();
   return (
-    <View>
-      {/* <ConfirmCode /> */}
-      {/* <ImagePicker /> */}
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => handleFetchInn()} style={styles.c4}>
+        <Text>Test call saga</Text>
+        {isLoading && <Text>Loading</Text>}
+        {!isLoading && <Text>Not Loading</Text>}
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  c4: {
+    backgroundColor: '#C4C4C4',
+  },
+});

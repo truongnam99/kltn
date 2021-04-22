@@ -584,7 +584,6 @@ const data = [
 const FindInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
   const onChangeView = () => {
-    console.log('cahnge:', typeOfItem);
     if (typeOfItem === 'small') {
       setTypeOfItem('large');
     } else {

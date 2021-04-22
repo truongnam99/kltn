@@ -28,7 +28,6 @@ const PhoneLogin = ({navigation}) => {
   };
 
   const onChangeText = value => {
-    console.log(value);
     setPhoneNumber(value);
   };
 

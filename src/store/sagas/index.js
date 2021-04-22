@@ -1,7 +1,8 @@
-// import {all} from 'redux-saga';
+import {takeEvery, all, put, takeLatest} from 'redux-saga/effects';
 
-// import {setUser} from '../actions/index';
+import * as types from '../actions/types';
+import * as innSagas from './innSagas';
 
-// export default function* rootSaga() {
-//   yield all([setUser()]);
-// }
+export default function* rootSagas() {
+  yield all([takeEvery(types.FETCH_INN, innSagas.fetchInn)]);
+}
