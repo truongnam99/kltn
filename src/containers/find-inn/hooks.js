@@ -6,8 +6,32 @@ const useHooks = () => {
   const dispatch = useDispatch();
   const {inns, count, isLoading} = useSelector(state => state.innReducer);
 
-  const handleFetchInn = () => {
-    dispatch(fetchInn(count));
+  const handleFetchInn = ({
+    limit,
+    name,
+    minPrice,
+    maxPrice,
+    city,
+    district,
+    address,
+    reload,
+  }) => {
+    if (isLoading) {
+      return;
+    }
+
+    dispatch(
+      fetchInn({
+        limit,
+        name,
+        minPrice,
+        maxPrice,
+        city,
+        district,
+        address,
+        reload,
+      }),
+    );
   };
 
   return {

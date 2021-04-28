@@ -1,8 +1,8 @@
 import {FETCH_INN} from '../actions/types';
 
-export const fetchInn = offset => {
+export const fetchInn = payload => {
   return {
     type: FETCH_INN,
-    payload: offset,
+    payload: payload,
   };
 };

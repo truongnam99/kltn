@@ -4,7 +4,7 @@ import {lightTheme} from '../../config/theme';
 const styles = StyleSheet.create({
   container: {},
   title: {
-    fontSize: 16,
+    // fontSize: 16,
   },
   textInput: {
     borderColor: lightTheme.primary,

@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
 import {View, Text, Image} from 'react-native';
+import {numeralPrice} from '../../../utils/utils';
 import styles from './small-item.style';
 
 const SmallItem = ({
@@ -26,7 +27,7 @@ const SmallItem = ({
         <Text style={styles.textName}>{room_name}</Text>
         <Text>{exact_room_address}</Text>
         <View>
-          <Text>Giá: {room_price}đ</Text>
+          <Text>Giá: {numeralPrice(room_price)}đ</Text>
         </View>
       </View>
     </View>

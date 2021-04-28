@@ -1,0 +1,250 @@
+[
+    {
+        "exact_address": "71/15/8/10 Đường số 8, Phường Trường Thọ, Quận Thủ Đức, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
+        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 762,
+                "text": "Quận Thủ Đức",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 762,
+                "code": 26827,
+                "text": "Phường Trường Thọ"
+            },
+            "streetName": "Đường số 8",
+            "houseNumber": "71/15/8/10"
+        }
+    },
+    {
+        "exact_address": "203 Đặng Thùy trâm, Phường 13, Quận Bình Thạnh, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe2.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Dịch vụ vận chuyển trọ ưu đãi cho sinh viên. Liên hệ: 0949709036 để biết thêm chi tiết",
+        "price": "Giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 765,
+                "text": "Quận Bình Thạnh",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 765,
+                "code": 26905,
+                "text": "Phường 13"
+            },
+            "streetName": "Đặng Thùy trâm",
+            "houseNumber": "203"
+        }
+    },
+    {
+        "exact_address": "90 Phạm Văn bạch, Phường 15, Quận Tân Bình, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Xe nhanh, uy tính",
+        "price": "Giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 766,
+                "text": "Quận Tân Bình",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 766,
+                "code": 27007,
+                "text": "Phường 15"
+            },
+            "streetName": "Phạm Văn bạch",
+            "houseNumber": "90"
+        }
+    },
+    {
+        "exact_address": "119 Đường 26 tháng 3, Phường Bình Hưng Hòa, Quận Bình Tân, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Chất lượng, giá rẻ",
+        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 777,
+                "text": "Quận Bình Tân",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 777,
+                "code": 27436,
+                "text": "Phường Bình Hưng Hòa"
+            },
+            "streetName": "Đường 26 tháng 3",
+            "houseNumber": "119"
+        }
+    },
+    {
+        "exact_address": "15 Hoàng hoa thám, Phường 13, Quận Tân Bình, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Xe ba gác, nhỏ nhẹ. Nhận chuyển trọ cho sinh viên, người đi làm, người có nhu cầu chuyển trọ.",
+        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 766,
+                "text": "Quận Tân Bình",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 766,
+                "code": 26974,
+                "text": "Phường 13"
+            },
+            "streetName": "Hoàng hoa thám",
+            "houseNumber": "15"
+        }
+    },
+    {
+        "exact_address": "10 Núi thành, Phường 13, Quận Tân Bình, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
+        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 766,
+                "text": "Quận Tân Bình",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 766,
+                "code": 26974,
+                "text": "Phường 13"
+            },
+            "streetName": "Núi thành",
+            "houseNumber": "10"
+        }
+    },
+    {
+        "exact_address": "125 GÒ ô môi, Phường Phú Mỹ, Quận 7, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
+        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 778,
+                "text": "Quận 7",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 778,
+                "code": 27493,
+                "text": "Phường Phú Mỹ"
+            },
+            "streetName": "GÒ ô môi",
+            "houseNumber": "125"
+        }
+    },
+    {
+        "exact_address": "507-509 Trần xuân soạn, Phường Tân Kiểng, Quận 7, Hồ Chí Minh",
+        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "owner": {
+            "username": "Trần Đình Lợi",
+            "phoneNumber": "+84949709035",
+            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
+            "social": "Facebook",
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        },
+        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
+        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
+        "full_address_object": {
+            "city": {
+                "code": "HCM",
+                "text": "Hồ Chí Minh"
+            },
+            "district": {
+                "code": 778,
+                "text": "Quận 7",
+                "cityCode": "HCM"
+            },
+            "ward": {
+                "districtCode": 778,
+                "code": 27472,
+                "text": "Phường Tân Kiểng"
+            },
+            "streetName": "Trần xuân soạn",
+            "houseNumber": "507-509"
+        }
+    }
+]

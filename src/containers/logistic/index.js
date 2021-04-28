@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  CardStyleInterpolators,
-  createStackNavigator,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import Logistic from './screens/logistic';
 import LogisticDetail from './screens/logistic-detail';

@@ -12,9 +12,9 @@ import {SafeAreaView, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
-
 import Test from './src/containers/test';
 import configureStore from './src/store';
+import Navigation from './src/navigation';
 
 const store = configureStore();
 const App: () => Node = () => {
@@ -27,8 +27,8 @@ const App: () => Node = () => {
   return (
     <Provider store={store}>
       <SafeAreaView style={backgroundStyle}>
-        <Test />
-        {/* <Navigation /> */}
+        {/* <Test /> */}
+        <Navigation />
       </SafeAreaView>
     </Provider>
   );

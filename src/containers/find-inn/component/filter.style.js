@@ -1,0 +1,25 @@
+import {StyleSheet} from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    elevation: 10,
+    position: 'absolute',
+    backgroundColor: 'white',
+    marginTop: 95,
+    alignSelf: 'flex-end',
+    end: 10,
+    borderRadius: 10,
+    padding: 8,
+  },
+  sliderContainer: {
+    height: 30,
+  },
+  priceStyle: {
+    fontWeight: 'bold',
+  },
+  buttonApply: {
+    marginTop: 10,
+  },
+});
+
+export default styles;

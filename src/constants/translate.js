@@ -24,6 +24,10 @@ const translate = {
   chat: {
     chat: 'Chat',
   },
+  city: 'Thành phố',
+  district: 'Quận',
+  ward: 'Phường',
+  apply: 'Áp dụng',
 };
 
 export {translate};

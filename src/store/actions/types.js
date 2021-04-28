@@ -13,3 +13,11 @@ export const CREATE_USER = 'CREATE_USER';
 export const FETCH_INN = 'FETCH_INN';
 export const ADD_INN = 'ADD_INN';
 export const INN_SHOW_LOADING = 'INN_SHOW_LOADING';
+export const REMOVE_ALL_INN = 'REMOVE_ALL_INN';
+export const SET_IS_END = 'SET_IS_END';
+
+export const FETCH_LOGISTIC = 'FETCH_LOGISTIC';
+export const LOGISTIC_SET_END = 'LOGISTIC_SET_END';
+export const ADD_LOGISTIC = 'ADD_LOGISTIC';
+export const LOGISTIC_IS_LOADING = 'LOGISTIC_IS_LOADING';
+export const LOGISTIC_RELOAD_LIST = 'LOGISTIC_RELOAD_LIST';

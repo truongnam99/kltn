@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import styles from './large-item.style';
 import {ImageView} from '../../../components';
+import {numeralPrice} from '../../../utils/utils';
 
 const LargeItem = ({
   images,
@@ -27,9 +28,9 @@ const LargeItem = ({
         <Text style={styles.textName}>{room_name}</Text>
         <Text>{exact_room_address}</Text>
         <View>
-          <Text>Giá: {room_price}đ</Text>
-          <Text>Điện: {electric_price}đ</Text>
-          <Text>Nước: {water_price}đ</Text>
+          <Text>Giá: {numeralPrice(room_price)}đ</Text>
+          <Text>Điện: {numeralPrice(electric_price)}đ</Text>
+          <Text>Nước: {numeralPrice(water_price)}đ</Text>
         </View>
       </View>
     </View>

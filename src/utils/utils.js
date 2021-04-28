@@ -1,4 +1,5 @@
 import storage from '@react-native-firebase/storage';
+import numeral from 'numeral';
 
 export const generateId = () => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -16,4 +17,8 @@ export const uploadImageIntoFirebase = async image => {
   const reference = storage().ref(imageUpload);
   await reference.putFile(image);
   return reference;
+};
+
+export const numeralPrice = value => {
+  return numeral(value).format('0,000,000,000');
 };

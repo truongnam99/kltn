@@ -1,18 +1,22 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import useHooks from '../find-inn/hooks';
-
+import firestore from '@react-native-firebase/firestore';
+import logistics from './logistics.json';
 export default function Test() {
-  const {handlers, selectors} = useHooks();
-  const {handleFetchInn} = handlers;
-  const {isLoading} = selectors;
-
+  const uploadDataToFirestore = () => {
+    console.log('Upload fire');
+    // logistics.forEach(element => {
+    //   firestore()
+    //     .collection('Logistics')
+    //     .add({
+    //       ...element,
+    //     });
+    // });
+  };
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => handleFetchInn()} style={styles.c4}>
-        <Text>Test call saga</Text>
-        {isLoading && <Text>Loading</Text>}
-        {!isLoading && <Text>Not Loading</Text>}
+      <TouchableOpacity onPress={uploadDataToFirestore}>
+        <Text>Upload</Text>
       </TouchableOpacity>
     </View>
   );

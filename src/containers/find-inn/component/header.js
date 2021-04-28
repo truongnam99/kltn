@@ -5,10 +5,14 @@ import {lightTheme} from '../../../config/theme';
 
 import styles from './header.style';
 
-const Header = ({onPress}) => {
+const Header = ({onPress, onChangeText, value}) => {
   return (
     <View style={styles.container}>
-      <TextInput style={styles.textInput} />
+      <TextInput
+        style={styles.textInput}
+        onChangeText={onChangeText}
+        value={value}
+      />
       <View style={styles.searchButtonContainer}>
         <TouchableOpacity onPress={onPress}>
           <AntDesignIcon name="search1" color={lightTheme.primary} size={24} />
