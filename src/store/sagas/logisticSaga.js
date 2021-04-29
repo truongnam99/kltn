@@ -5,12 +5,13 @@ import {
   LOGISTIC_IS_LOADING,
   LOGISTIC_RELOAD_LIST,
   LOGISTIC_SET_END,
+  LOGISTIC_SET_LAST,
 } from '../actions/types';
 
 export function* fetchLogistic({type, payload}) {
   const {isLoading, isEnd} = yield select(state => state.logisticReducer);
 
-  if (isEnd || isLoading) {
+  if ((isEnd || isLoading) && !payload.reload) {
     return;
   }
   yield put({type: LOGISTIC_IS_LOADING, payload: true});
@@ -24,19 +25,27 @@ export function* fetchLogistic({type, payload}) {
   yield put({type: ADD_LOGISTIC, payload: data});
 }
 
-function* fetchDataFromFirebase({limit = 10}) {
-  const {logistics} = yield select(state => state.logisticReducer);
-  let lastId = null;
-  if (logistics.length) {
-    lastId = logistics[logistics.length - 1]._id;
-  }
+function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
+  const {last} = yield select(state => state.logisticReducer);
   let query = firestore().collection('Logistics');
 
-  const results = yield query
-    .orderBy('_id')
-    .startAfter(lastId)
-    .limit(limit)
-    .get();
-
+  if (last) {
+    query = query.startAfter(last);
+  }
+  // if (cityId) {
+  //   query = query.where('full_address_object.city.code', '==', cityId);
+  // }
+  if (districtId) {
+    query = query.where('full_address_object.district.code', '==', +districtId);
+  }
+  console.log('value', districtId, cityId);
+  console.log('query', query);
+  const results = yield query.limit(limit).get();
+  if (results.docs.length) {
+    yield put({
+      type: LOGISTIC_SET_LAST,
+      payload: results.docs[results.docs.length - 1],
+    });
+  }
   return results.docs.map(item => item.data());
 }

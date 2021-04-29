@@ -15,6 +15,7 @@ import {Provider} from 'react-redux';
 import Test from './src/containers/test';
 import configureStore from './src/store';
 import Navigation from './src/navigation';
+import auth from '@react-native-firebase/auth';
 
 const store = configureStore();
 const App: () => Node = () => {

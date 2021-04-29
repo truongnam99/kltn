@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import logistics from './logistics.json';
 export default function Test() {
   const uploadDataToFirestore = () => {
-    console.log('Upload fire');
+    console.log('Upload file');
     // logistics.forEach(element => {
     //   firestore()
     //     .collection('Logistics')

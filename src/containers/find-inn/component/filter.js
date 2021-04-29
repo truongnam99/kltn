@@ -8,7 +8,7 @@ import {translate} from '../../../constants/translate';
 import styles from './filter.style';
 import province from '../../../constants/provice.json';
 
-const Filter = ({styleContainer, callBack, isShow}) => {
+const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
   const [price, setPrice] = useState({
     minPrice: 0,
     maxPrice: 10000000,
@@ -68,21 +68,29 @@ const Filter = ({styleContainer, callBack, isShow}) => {
 
   return (
     <View style={StyleSheet.flatten([styles.container, styleContainer])}>
-      <Text>
-        Giá từ{' '}
-        <Text style={styles.priceStyle}>{numeralPrice(price.minPrice)}</Text>{' '}
-        đến{' '}
-        <Text style={styles.priceStyle}>{numeralPrice(price.maxPrice)}</Text>
-      </Text>
-      <Slider
-        min={0}
-        max={10000000}
-        allowOverlap={false}
-        values={[price.minPrice, price.maxPrice]}
-        onValuesChange={onPriceSelectChange}
-        containerStyle={styles.sliderContainer}
-        step={500000}
-      />
+      {showPricePicker && (
+        <View>
+          <Text>
+            Giá từ{' '}
+            <Text style={styles.priceStyle}>
+              {numeralPrice(price.minPrice)}
+            </Text>{' '}
+            đến{' '}
+            <Text style={styles.priceStyle}>
+              {numeralPrice(price.maxPrice)}
+            </Text>
+          </Text>
+          <Slider
+            min={0}
+            max={10000000}
+            allowOverlap={false}
+            values={[price.minPrice, price.maxPrice]}
+            onValuesChange={onPriceSelectChange}
+            containerStyle={styles.sliderContainer}
+            step={500000}
+          />
+        </View>
+      )}
       <Text>{translate.city}</Text>
       <Picker
         items={province.map(item => {

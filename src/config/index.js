@@ -5,6 +5,7 @@ export const headerOptions = {
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
   headerStyle: {
     backgroundColor: lightTheme.primary,
+    height: 44,
   },
   headerTitleAlign: 'center',
   headerTintColor: 'white',

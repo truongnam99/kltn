@@ -15,6 +15,7 @@ const translate = {
   findInnDetail: 'Chi tiết trọ',
   seeMore: 'Xem thêm...',
   logisticDetail: 'Chi tiết xe',
+  logisticService: 'Dịch vụ vận chuyển',
   logistic: {
     area: 'Khu vực:',
     price: 'Giá vận chuyển:',

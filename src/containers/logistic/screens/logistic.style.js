@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
+  container: {},
   flatList: {
     padding: 8,
     marginBottom: 50,
@@ -36,6 +37,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#c4c4c4',
     borderRadius: 4,
+  },
+  filterModelContainer: {
+    marginTop: 50,
   },
 });
 

@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     height: 30,
+    marginHorizontal: 10,
   },
   priceStyle: {
     fontWeight: 'bold',

@@ -1,100 +1,81 @@
-import React from 'react';
-import {FlatList, TouchableOpacity, View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  TouchableOpacity,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CartItem from '../compoinents/card-item';
 import Header from '../../find-inn/component/header';
 
 import styles from './logistic.style';
 import {navigationName} from '../../../constants/navigation';
-
-const data = [
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Namdfjslafsdlfasdfsfd',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Nam',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    image:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    userName: 'Truong Hoang Namdfjslafsdlfasdfsfd',
-    price: 300000,
-    userAvatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-];
+import {useHooks} from '../hooks';
+import {lightTheme} from '../../../config/theme';
+import Filter from '../../find-inn/component/filter';
 
 const Logistic = ({navigation}) => {
-  const onDetailClick = () => {
-    navigation.navigate(navigationName.logistic.logisticDetail);
+  const [isShowFilter, setIsShowFilter] = useState(false);
+  const [filter, setFilter] = useState(true);
+  const {handlers, selectors} = useHooks();
+  const {logistics, isLoading} = selectors;
+  const {handlerFetchLogistic} = handlers;
+
+  const onDetailClick = logistic => {
+    navigation.navigate(navigationName.logistic.logisticDetail, {logistic});
   };
+
+  const onFetchInn = (props = {}) => {
+    handlerFetchLogistic(props);
+  };
+
+  const filterCallBack = value => {
+    setIsShowFilter(false);
+    setFilter(value);
+  };
+
+  const onFilterButtonPress = () => {
+    setIsShowFilter(!isShowFilter);
+  };
+
+  const showFilter = () => {
+    let value = '';
+    if (filter?.city?.Name) {
+      if (value) {
+        value += '. ';
+      }
+      value += filter.city.Name;
+    }
+    if (filter?.district?.Name) {
+      if (value) {
+        value += '. ';
+      }
+      value += filter.district.Name;
+    }
+    return value;
+  };
+
+  useEffect(() => {
+    onFetchInn();
+  }, []);
+
+  useEffect(() => {
+    onFetchInn({
+      cityId: filter?.city?.Id,
+      districtId: filter?.district?.Id,
+      reload: true,
+    });
+  }, [filter]);
 
   return (
     <View style={styles.container}>
-      <Header onPress={() => {}} />
       <View style={styles.main}>
         <View style={styles.filterContainer}>
-          <Text style={styles.filter}></Text>
+          <Text style={styles.filter}>{showFilter()}</Text>
           <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
+            <TouchableOpacity onPress={onFilterButtonPress} activeOpacity={0.7}>
               <MaterialIcons
                 name="filter-alt"
                 size={24}
@@ -106,17 +87,28 @@ const Logistic = ({navigation}) => {
       </View>
       <FlatList
         style={styles.flatList}
-        data={data}
+        data={logistics}
         numColumns={2}
         keyExtractor={(item, index) => index}
+        onEndReached={onFetchInn}
+        onEndReachedThreshold={0}
         renderItem={item => (
           <TouchableOpacity
             style={styles.cartItem}
             activeOpacity={0.9}
-            onPress={() => onDetailClick()}>
+            onPress={() => onDetailClick(item.item)}>
             <CartItem {...item.item} />
           </TouchableOpacity>
         )}
+      />
+      {isLoading && (
+        <ActivityIndicator style={styles.loading} color={lightTheme.primary} />
+      )}
+      <Filter
+        isShow={isShowFilter}
+        callBack={filterCallBack}
+        showPricePicker={false}
+        styleContainer={styles.filterModelContainer}
       />
     </View>
   );

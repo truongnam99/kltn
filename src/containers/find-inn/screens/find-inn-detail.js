@@ -1,11 +1,17 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {ImageView} from '../../../components/index';
 import styles from './find-inn-detail.style';
-import {numeralPrice} from '../../../utils/utils';
+import {dial, numeralPrice} from '../../../utils/utils';
 
 const FindInnDetail = ({route}) => {
   const {inn} = route.params;
@@ -100,12 +106,16 @@ const FindInnDetail = ({route}) => {
                 color="#0E8DF1"
                 style={styles.me16}
               />
-              <MaterialIcons
-                name="call"
-                size={32}
-                color="#0E8DF1"
-                style={styles.me16}
-              />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => dial(phone_number)}>
+                <MaterialIcons
+                  name="call"
+                  size={32}
+                  color="#0E8DF1"
+                  style={styles.me16}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>

@@ -16,7 +16,8 @@ const LogisticContainer = () => {
         name={navigationName.logistic.logistic}
         component={Logistic}
         options={{
-          headerShown: false,
+          headerTitle: translate.logisticService,
+          headerLeft: null,
         }}
       />
       <LogisticStack.Screen
