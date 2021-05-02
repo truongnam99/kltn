@@ -3,21 +3,22 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 
 import styles from './message.style';
 
-const Message = ({isMe, avatar, name, message}) => {
+const Message = ({sendBy, photoUrl, text, uid}) => {
+  console.log('message', sendBy, photoUrl, text, uid);
   return (
     <View style={styles.container}>
-      {isMe && (
+      {uid === sendBy && (
         <View style={styles.leftContainer}>
-          <Image source={{uri: avatar}} style={styles.image} />
+          <Image source={{uri: photoUrl}} style={styles.image} />
           <Text style={StyleSheet.flatten([styles.text, styles.leftText])}>
-            {message}
+            {text}
           </Text>
         </View>
       )}
-      {!isMe && (
+      {uid !== sendBy && (
         <View style={styles.rightContainer}>
           <Text style={StyleSheet.flatten([styles.text, styles.rightText])}>
-            {message}
+            {text}
           </Text>
         </View>
       )}

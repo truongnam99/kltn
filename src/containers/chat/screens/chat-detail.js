@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import Message from '../components/message';
+import useHook from '../hooks';
 
 import styles from './chat-detail.style';
 
@@ -126,14 +127,17 @@ const data = [
 ];
 
 const ChatDetail = ({navigation, route, ...props}) => {
+  const {selectors, handlers} = useHook();
+  const {messages, uid} = selectors;
+  console.log('messages', messages.messages);
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={messages.messages}
         keyExtractor={(item, index) => index}
         renderItem={({item}) => (
           <View style={styles.messageItem}>
-            <Message {...item} />
+            <Message {...item} uid={uid} />
           </View>
         )}
         inverted

@@ -2,6 +2,7 @@ import React from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import {navigationName} from '../../../constants/navigation';
 import ChatItem from '../components/chat-item';
+import useHook from '../hooks';
 
 import styles from './chat.style';
 
@@ -58,21 +59,27 @@ const data = [
 ];
 
 const Chat = ({navigation}) => {
-  const goToChatDetail = title => {
+  const {selectors} = useHook();
+  const {lastMessages} = selectors;
+
+  const goToChatDetail = (title, id) => {
     navigation.push(navigationName.chat.chatDetail, {
       name: title,
+      id: id,
     });
   };
+
+  console.log(lastMessages);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={lastMessages}
         keyExtractor={(item, index) => index}
         renderItem={item => (
           <TouchableOpacity
             style={styles.itemContainer}
-            onPress={() => goToChatDetail(item.item.name)}
+            onPress={() => goToChatDetail(item.item.name, item.item)}
             activeOpacity={0.9}>
             <ChatItem {...item.item} />
           </TouchableOpacity>
