@@ -1,67 +1,92 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../find-inn/component/header';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-action-button';
 import CartItem from '../components/cart-item';
 import styles from './roommate.style';
-const data = [
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content:
-      'Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức, Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn',
-    name: 'Truong Hoang Nam',
-  },
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content:
-      'Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức, Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức, Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức',
-    name: 'Truong Hoang Nam',
-  },
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content:
-      'Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức, Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức, Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức',
-    name: 'Truong Hoang Nam',
-  },
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content: 'Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn V',
-    name: 'Truong Hoang Nam',
-  },
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content: 'Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường L',
-    name: 'Truong Hoang Nam',
-  },
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content:
-      'Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn Việt, Thủ Đức, Chào các bạn, mình đang cần tìm một bạn ở ghép ở đường Lê Văn ',
-    name: 'Truong Hoang Nam',
-  },
-  {
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-    content: 'Chào các bạn, mình đang cần tì',
-    name: 'Truong Hoang Nam',
-  },
-];
+import {navigationName} from '../../../constants/navigation';
+import useHook from '../hooks';
+import Filter from '../../find-inn/component/filter';
+import {lightTheme} from '../../../config/theme';
 
-const Roommate = ({...props}) => {
+const Roommate = ({navigation, ...props}) => {
+  const {selectors, handlers} = useHook();
+  const {roommates, userInfo, isLoading} = selectors;
+  const [isShowFilter, setIsShowFilter] = useState(false);
+  const [filter, setFilter] = useState();
+  const {handleFetchRoommate, handleFoundRoommate} = handlers;
+
+  const onOpenPost = () => {
+    navigation.navigate(navigationName.roommate.post);
+  };
+
+  const onFilterButtonPress = () => {
+    setIsShowFilter(!isShowFilter);
+  };
+
+  const filterCallBack = value => {
+    setIsShowFilter(false);
+    handleFetchRoommate({
+      reload: true,
+      cityId: value.city.Id,
+      districtId: value.district.Id,
+    });
+    setFilter(value);
+  };
+
+  const onGetPosted = () => {
+    handleFetchRoommate({reload: true, isMe: true});
+  };
+
+  useEffect(() => {
+    handleFetchRoommate();
+  }, []);
+
+  const onLoadmore = () => {
+    handleFetchRoommate({
+      cityId: filter?.city?.Id,
+      districtId: filter?.district?.Id,
+    });
+  };
+
+  const showFilter = () => {
+    let value = '';
+    if (filter?.city?.Name) {
+      if (value) {
+        value += '. ';
+      }
+      value += filter.city.Name;
+    }
+    if (filter?.district?.Name) {
+      if (value) {
+        value += '. ';
+      }
+      value += filter.district.Name;
+    }
+    return value;
+  };
+
+  const FooterListComponent = () => {
+    if (!isLoading) {
+      return null;
+    }
+    return <ActivityIndicator color={lightTheme.primary} />;
+  };
+
   return (
     <View style={styles.container}>
-      <Header onPress={() => {}} />
       <View style={styles.main}>
         <View style={styles.filterContainer}>
-          <Text style={styles.filter}></Text>
+          <Text style={styles.filter}>{showFilter()}</Text>
           <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
+            <TouchableOpacity onPress={onFilterButtonPress} activeOpacity={0.7}>
               <MaterialIcons
                 name="filter-alt"
                 size={24}
@@ -73,15 +98,37 @@ const Roommate = ({...props}) => {
       </View>
       <View style={styles.itemContainer}>
         <FlatList
-          data={data}
+          data={roommates}
           keyExtractor={(item, index) => index}
           renderItem={item => (
             <View style={styles.itemStyle}>
-              <CartItem {...item.item} />
+              <CartItem
+                {...item.item}
+                userInfo={userInfo}
+                onFoundRoommate={handleFoundRoommate}
+              />
             </View>
           )}
+          ListFooterComponent={FooterListComponent}
+          onEndReached={onLoadmore}
+          onEndReachedThreshold={100}
         />
       </View>
+      <ActionButton buttonColor="rgba(231,76,60,1)">
+        <ActionButton.Item title="New" onPress={onOpenPost}>
+          <Ionicons name="md-create" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item title="Posted" onPress={onGetPosted}>
+          <Ionicons name="list" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      </ActionButton>
+
+      <Filter
+        isShow={isShowFilter}
+        callBack={filterCallBack}
+        showPricePicker={false}
+        styleContainer={styles.filterModelContainer}
+      />
     </View>
   );
 };

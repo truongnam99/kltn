@@ -26,4 +26,8 @@ export const navigationName = {
     logistic: 'home-logistic',
     inn: 'home-inn',
   },
+  roommate: {
+    roommate: 'roommate-roommate',
+    post: 'roommate-post',
+  },
 };

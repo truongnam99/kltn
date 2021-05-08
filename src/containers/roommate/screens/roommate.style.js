@@ -2,7 +2,9 @@ import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   filterIcon: {
     padding: 4,
     backgroundColor: 'white',
@@ -29,7 +31,12 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     margin: 10,
-    marginBottom: 96,
+    flex: 1,
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
   },
 });
 

@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   name: {
     fontSize: 16,
     fontWeight: 'bold',

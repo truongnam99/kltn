@@ -25,7 +25,7 @@ const useHook = () => {
         const user = message.userInfos.find(ui => ui.id !== uid);
         return {
           ...user,
-          chatId: message.,
+          // chatId: message,
           ...message.messages[message.messages.length - 1],
         };
       }),

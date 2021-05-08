@@ -25,9 +25,27 @@ const translate = {
   chat: {
     chat: 'Chat',
   },
-  city: 'Thành phố',
-  district: 'Quận',
-  ward: 'Phường',
+  roommate: {
+    findRoommate: 'Tìm người ở ghép',
+    post: 'Đăng bài viết',
+    contentTitle: 'Nội dùng bài viết:',
+    foundRoommate: 'Đã tìm được người ở cùng',
+  },
+  post: {
+    innInfo: 'Thông tin phòng',
+    innName: 'Tên trọ',
+    innOwner: 'Chủ trọ',
+    innPrice: 'Giá phòng',
+    innAddress: 'Địa chỉ',
+    innWaterPrice: 'Giá nước',
+    innElectricPrice: 'Giá điện',
+    innArea: 'Diện tích',
+    innDeposit: 'Tiền cọc',
+    post: 'Đăng',
+  },
+  city: 'Tỉnh/Thành phố',
+  district: 'Quận/Huyện',
+  ward: 'Phường/Xã',
   apply: 'Áp dụng',
 };
 

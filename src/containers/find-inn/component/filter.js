@@ -25,8 +25,9 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
       return;
     }
 
-    setDistricts(
-      province
+    setDistricts([
+      {key: '', value: ''},
+      ...province
         .find(item => item.Id === city.Id)
         .Districts.map(dt => {
           return {
@@ -34,7 +35,7 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
             value: dt.Name,
           };
         }),
-    );
+    ]);
   }, [city]);
 
   if (!isShow) {
