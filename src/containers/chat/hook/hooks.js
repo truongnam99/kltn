@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeMessage} from '../../store/actions/messageAction';
+import {changeMessage} from '../../../store/actions/messageAction';
 
 const useHook = () => {
   const {message} = useSelector(state => state.messageReducer);
@@ -17,16 +17,17 @@ const useHook = () => {
       });
     return () => subscriber();
   }, []);
+
   return {
     handlers: {},
     selectors: {
       messages: Object.values(message),
-      lastMessages: Object.values(message).map(message => {
-        const user = message.userInfos.find(ui => ui.id !== uid);
+      lastMessages: Object.values(message).map(msg => {
+        const user = msg.userInfos.find(ui => ui.id !== uid);
         return {
           ...user,
-          // chatId: message,
-          ...message.messages[message.messages.length - 1],
+          id: msg.id,
+          ...msg.messages[msg.messages.length - 1],
         };
       }),
       uid,

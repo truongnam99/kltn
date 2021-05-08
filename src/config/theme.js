@@ -7,6 +7,7 @@ const lightTheme = {
   blue: '#2F80ED',
   text: '#000000',
   disabled: '#C4C4C4',
+  grayC4: '#C4C4C4',
 };
 
 export {lightTheme};

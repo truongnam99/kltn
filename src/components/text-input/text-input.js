@@ -1,5 +1,6 @@
 import React from 'react';
 import {TextInput as RNTextInput, View, Text, StyleSheet} from 'react-native';
+import {lightTheme} from '../../config/theme';
 import styles from './text-input.style';
 
 const TextInput = ({
@@ -23,6 +24,7 @@ const TextInput = ({
       <RNTextInput
         placeholder={placeholder}
         onChangeText={onChangeText}
+        placeholderTextColor={lightTheme.grayC4}
         style={StyleSheet.flatten([
           type === 'outline' ? styles.textInput : styles.textInputOutline,
           textInputStyle,

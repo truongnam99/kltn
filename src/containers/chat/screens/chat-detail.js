@@ -1,9 +1,12 @@
-import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
-import useHook from '../hooks';
+import {TextInput} from '../../../components';
 
 import styles from './chat-detail.style';
+import {lightTheme} from '../../../config/theme';
+import {useChatDetail} from '../hook/useChatDetail';
 
 const data = [
   {
@@ -127,21 +130,51 @@ const data = [
 ];
 
 const ChatDetail = ({navigation, route, ...props}) => {
-  const {selectors, handlers} = useHook();
+  const {selectors, handlers} = useChatDetail();
+  const [text, setText] = useState();
+  const flatList = useRef();
+  const {handleSendMessage} = handlers;
   const {messages, uid} = selectors;
-  console.log('messages', messages.messages);
+  const message = messages.find(item => item.id === route.params.id);
+
+  const onSendMessage = async () => {
+    await handleSendMessage({
+      text,
+      messageId: route.params.id,
+      destUser: route.params.destUser,
+    });
+    setText(null);
+    flatList.current.scrollToEnd({animated: true});
+  };
+
+  const onChangeText = text => {
+    setText(text);
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={messages.messages}
+        ref={flatList}
+        data={message.messages}
         keyExtractor={(item, index) => index}
         renderItem={({item}) => (
           <View style={styles.messageItem}>
-            <Message {...item} uid={uid} />
+            <Message {...item} uid={uid} photoUrl={route.params.photoUrl} />
           </View>
         )}
-        inverted
       />
+      <View style={styles.sendMessageContainer}>
+        <TextInput
+          placeholder="message..."
+          containerStyle={styles.textContainerStyle}
+          textInputStyle={styles.textInputStyle}
+          value={text}
+          onChangeText={onChangeText}
+        />
+        <TouchableOpacity activeOpacity={0.8} onPress={onSendMessage}>
+          <Ionicons name="send" size={32} color={lightTheme.primary} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
