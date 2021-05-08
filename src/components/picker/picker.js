@@ -27,7 +27,7 @@ const Picker = ({
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => setIsShowSelect(!isShowSelect)}>
-          <Text numberOfLines={1}>{value.value}</Text>
+          <Text numberOfLines={1}>{value?.value}</Text>
         </TouchableOpacity>
       </View>
       <Modal visible={isShowSelect} transparent={true}>

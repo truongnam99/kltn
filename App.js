@@ -16,6 +16,7 @@ import Test from './src/containers/test';
 import configureStore from './src/store';
 import Navigation from './src/navigation';
 import auth from '@react-native-firebase/auth';
+import {MenuProvider} from 'react-native-popup-menu';
 
 const store = configureStore();
 const App: () => Node = () => {
@@ -27,10 +28,12 @@ const App: () => Node = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={backgroundStyle}>
-        {/* <Test /> */}
-        <Navigation />
-      </SafeAreaView>
+      <MenuProvider>
+        <SafeAreaView style={backgroundStyle}>
+          {/* <Test /> */}
+          <Navigation />
+        </SafeAreaView>
+      </MenuProvider>
     </Provider>
   );
 };

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     backgroundColor: lightTheme.primary,
     borderRadius: 4,
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 8,
   },
   outlineContainer: {
     backgroundColor: 'transparent',
