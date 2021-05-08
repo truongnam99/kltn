@@ -8,127 +8,6 @@ import styles from './chat-detail.style';
 import {lightTheme} from '../../../config/theme';
 import {useChatDetail} from '../hook/useChatDetail';
 
-const data = [
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: false,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: false,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message:
-      'Chao anh, day la tin nhan mau cho viec test wrap noi dung trong tin nhan.',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: false,
-    name: 'truong hoang nam',
-    message:
-      'Chao anh, Cha Chao anh Chao anho anh Chao anh Chao anh Chao anh Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: false,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message: 'Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message:
-      'Chao anh, day la tin nhan mau cho viec test wrap noi dung trong tin nhan.',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: false,
-    name: 'truong hoang nam',
-    message:
-      'Chao anh, Cha Chao anh Chao anho anh Chao anh Chao anh Chao anh Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: true,
-    name: 'truong hoang nam',
-    message:
-      'Chao anh, day la tin nhan mau cho viec test wrap noi dung trong tin nhan.',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-  {
-    isMe: false,
-    name: 'truong hoang nam',
-    message:
-      'Chao anh, Cha Chao anh Chao anho anh Chao anh Chao anh Chao anh Chao anh',
-    avatar:
-      'https://bayleaf.s3.amazonaws.com/property-images%2F1573883947970_IMG_20191114_195457.jpg',
-  },
-];
-
 const ChatDetail = ({navigation, route, ...props}) => {
   const {selectors, handlers} = useChatDetail();
   const [text, setText] = useState();
@@ -144,7 +23,11 @@ const ChatDetail = ({navigation, route, ...props}) => {
       destUser: route.params.destUser,
     });
     setText(null);
-    flatList.current.scrollToEnd({animated: true});
+    flatListScrollToEnd();
+  };
+
+  const flatListScrollToEnd = () => {
+    flatList.current.scrollToEnd();
   };
 
   const onChangeText = text => {
@@ -155,6 +38,7 @@ const ChatDetail = ({navigation, route, ...props}) => {
     <View style={styles.container}>
       <FlatList
         ref={flatList}
+        onLayout={flatListScrollToEnd}
         data={message.messages}
         keyExtractor={(item, index) => index}
         renderItem={({item}) => (
