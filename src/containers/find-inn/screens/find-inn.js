@@ -7,7 +7,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-action-button';
 import {lightTheme} from '../../../config/theme';
+import {navigationName} from '../../../constants/navigation';
 
 import Header from '../component/header';
 import LargeItem from '../component/large-item';
@@ -18,6 +21,7 @@ import styles from './find-inn.style';
 // import {inns} from '../../../mookData/inns';
 import Filter from '../component/filter';
 import {numeralPrice} from '../../../utils/utils';
+import {translate} from '../../../constants/translate';
 
 const FindInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
@@ -50,9 +54,13 @@ const FindInn = ({navigation}) => {
   }, []);
 
   const onViewDetail = inn => {
-    navigation.push('FindInnDetailFindInnDetail', {
+    navigation.push(navigationName.findInn.innDetail, {
       inn,
     });
+  };
+
+  const onGotoCreateInn = () => {
+    navigation.push(navigationName.findInn.createInn);
   };
 
   const onHeaderChangeText = value => {
@@ -177,6 +185,16 @@ const FindInn = ({navigation}) => {
         )}
       </View>
       <Filter isShow={isShowFilter} callBack={filterCallBack} />
+      <ActionButton buttonColor="rgba(231,76,60,1)">
+        <ActionButton.Item title={translate.new} onPress={onGotoCreateInn}>
+          <Ionicons name="md-create" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          title={translate.inn.myInn}
+          onPress={() => console.log('need implement my inn')}>
+          <Ionicons name="list" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      </ActionButton>
     </View>
   );
 };

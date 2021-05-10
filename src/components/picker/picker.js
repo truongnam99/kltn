@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import {View, Text, Modal, TouchableOpacity, ScrollView} from 'react-native';
-import styles from './picker.style';
+import {styles} from './picker.style';
 
 const PickerItem = ({value}) => {
   return <Text style={styles.item}>{value}</Text>;

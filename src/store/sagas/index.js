@@ -1,4 +1,4 @@
-import {takeEvery, all, put, takeLatest} from 'redux-saga/effects';
+import {takeEvery, all} from 'redux-saga/effects';
 
 import * as types from '../actions/types';
 import * as innSagas from './innSagas';
@@ -12,5 +12,6 @@ export default function* rootSagas() {
     takeEvery(types.FETCH_LOGISTIC, logisticSagas.fetchLogistic),
     takeEvery(types.CHANGE_MESSAGE, messageSagas.watchMessage),
     takeEvery(types.FETCH_ROOMMATE, roommateSagas.fetchRoommate),
+    takeEvery(types.CREATE_INN, innSagas.createInn),
   ]);
 }

@@ -4,7 +4,7 @@ import {lightTheme} from '../../config/theme';
 const styles = StyleSheet.create({
   container: {},
   title: {
-    // fontSize: 16,
+    fontSize: 16,
   },
   textInput: {
     borderColor: lightTheme.primary,
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 6,
     paddingStart: 8,
+    paddingTop: 0,
     color: '#000000',
     fontSize: 16,
     paddingBottom: 0,
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 6,
     paddingStart: 8,
+    paddingTop: 0,
     color: '#000000',
     fontSize: 16,
   },

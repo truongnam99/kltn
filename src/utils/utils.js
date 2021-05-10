@@ -2,6 +2,8 @@ import storage from '@react-native-firebase/storage';
 import numeral from 'numeral';
 import {Linking, Alert} from 'react-native';
 
+import province from '../constants/provice.json';
+
 export const generateId = () => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
   let id = '';
@@ -47,4 +49,27 @@ export const openFacebook = async id => {
     Linking.openURL('fb://profile/fbid=100009127928095');
     // Alert.alert("Can't open facebook app");
   }
+};
+
+export const getCites = () => {
+  return province.map(item => {
+    return {value: item.Id, label: item.Name};
+  });
+};
+
+export const cities = getCites();
+
+export const getDistricts = cityId => {
+  return province
+    .find(p => p.Id === cityId)
+    ?.Districts.map(d => {
+      return {
+        value: d.Id,
+        label: d.Name,
+      };
+    });
+};
+
+export const getCity = cityId => {
+  return province.find(p => p.Id === cityId);
 };

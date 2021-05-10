@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
 import {TextInput} from '../../../components';

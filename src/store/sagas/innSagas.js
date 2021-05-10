@@ -74,3 +74,13 @@ function* fetchDataFromFirebase({
 
   return results.docs.map(item => item.data());
 }
+
+export function* createInn({type, payload}) {
+  yield put({type: INN_SHOW_LOADING, payload: true});
+  yield createInnInFirebase(payload);
+  yield put({type: INN_SHOW_LOADING, payload: false});
+}
+
+function* createInnInFirebase(data) {
+  yield firestore().collection('Inns').add(data);
+}

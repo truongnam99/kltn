@@ -9,7 +9,9 @@ export const navigationName = {
     additionalUserInfo: 'Additional user info',
   },
   findInn: {
-    findInn: 'Find inn',
+    findInn: 'inn-find-inn',
+    createInn: 'inn-create-inn',
+    innDetail: 'inn-inn-detail',
   },
   logistic: {
     logistic: 'logistic-logistic',

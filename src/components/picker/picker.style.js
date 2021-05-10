@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../config/theme';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {},
   selectedContainer: {
     borderWidth: 1,
@@ -33,4 +33,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export const dropdownStyles = StyleSheet.create({
+  container: {
+    borderRadius: 0,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: lightTheme.primary,
+    height: 40,
+    backgroundColor: 'transparent',
+  },
+  title: {
+    fontSize: 16,
+  },
+  modalContentContainerStyle: {
+    marginHorizontal: 50,
+    backgroundColor: 'white',
+    marginVertical: 200,
+  },
+  mvStatus: {
+    marginVertical: 300,
+  },
+});

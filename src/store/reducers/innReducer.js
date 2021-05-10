@@ -39,6 +39,7 @@ const innReducer = (
         count: 0,
         isEnd: true,
       };
+
     default:
       return state;
   }

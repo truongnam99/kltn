@@ -15,6 +15,7 @@ export const ADD_INN = 'ADD_INN';
 export const INN_SHOW_LOADING = 'INN_SHOW_LOADING';
 export const REMOVE_ALL_INN = 'REMOVE_ALL_INN';
 export const SET_IS_END = 'SET_IS_END';
+export const CREATE_INN = 'CREATE_INN';
 
 export const FETCH_LOGISTIC = 'FETCH_LOGISTIC';
 export const LOGISTIC_SET_END = 'LOGISTIC_SET_END';

@@ -72,6 +72,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: lightTheme.primary,
   },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
 });
 
 export default styles;
