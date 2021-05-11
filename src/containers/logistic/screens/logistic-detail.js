@@ -1,19 +1,20 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './logistic-detail.style';
 import {translate} from '../../../constants/translate';
 import {dial} from '../../../utils/utils';
+import FastImage from 'react-native-fast-image';
 
 const LogisticDetail = ({route, ...props}) => {
   const {logistic} = route.params;
   return (
     <View style={styles.container}>
-      <Image source={{uri: logistic.image}} style={styles.image} />
+      <FastImage source={{uri: logistic.image}} style={styles.image} />
       <View style={styles.infoContainer}>
         <View style={styles.userContainer}>
-          <Image
+          <FastImage
             source={{uri: logistic.owner.photoURL}}
             style={styles.userImage}
           />

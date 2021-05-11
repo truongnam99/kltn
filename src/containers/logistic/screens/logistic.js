@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CartItem from '../compoinents/card-item';
-import Header from '../../find-inn/component/header';
 
 import styles from './logistic.style';
 import {navigationName} from '../../../constants/navigation';
@@ -59,6 +58,7 @@ const Logistic = ({navigation}) => {
 
   useEffect(() => {
     onFetchInn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const Logistic = ({navigation}) => {
       districtId: filter?.district?.Id,
       reload: true,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   return (

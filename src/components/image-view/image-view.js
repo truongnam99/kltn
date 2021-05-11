@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Image, Dimensions, StyleSheet} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import styles from './image-view.style';
 
@@ -24,7 +25,7 @@ const ImageView = ({images}) => {
       <View style={styles.imageContainer} onLayout={event => onLayout(event)}>
         {images.map((image, index) => (
           <View key={index} style={styles.imageListContainer}>
-            <Image
+            <FastImage
               source={{uri: image}}
               style={StyleSheet.flatten([
                 styles.imageItem,

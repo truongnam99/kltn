@@ -22,6 +22,7 @@ import styles from './find-inn.style';
 import Filter from '../component/filter';
 import {numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
+import {FooterListComponent} from '../../../components';
 
 const FindInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
@@ -50,7 +51,8 @@ const FindInn = ({navigation}) => {
   };
 
   useEffect(() => {
-    // onFetchInn();
+    onFetchInn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onViewDetail = inn => {
@@ -136,6 +138,7 @@ const FindInn = ({navigation}) => {
             keyExtractor={(item, index) => index}
             onEndReached={onFetchInn}
             onEndReachedThreshold={0}
+            ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
             renderItem={item => (
               <TouchableOpacity
                 onPress={() => onViewDetail(item.item)}
@@ -161,6 +164,7 @@ const FindInn = ({navigation}) => {
             columnWrapperStyle={styles.row}
             onEndReached={onFetchInn}
             onEndReachedThreshold={0}
+            ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
             renderItem={item => (
               <TouchableOpacity
                 onPress={() => onViewDetail(item.item)}
@@ -175,12 +179,6 @@ const FindInn = ({navigation}) => {
                 />
               </TouchableOpacity>
             )}
-          />
-        )}
-        {isLoading && (
-          <ActivityIndicator
-            style={styles.loading}
-            color={lightTheme.primary}
           />
         )}
       </View>

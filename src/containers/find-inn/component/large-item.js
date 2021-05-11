@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text} from 'react-native';
 import styles from './large-item.style';
-import {ImageView} from '../../../components';
 import {numeralPrice} from '../../../utils/utils';
+import FastImage from 'react-native-fast-image';
 
 const LargeItem = ({
   images,
@@ -15,14 +15,14 @@ const LargeItem = ({
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {/* <ImageView images={images} /> */}
-        <Image
-          source={{
-            uri: images[0],
-            //'https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fccrdvvnk.jpg?alt=media',
-          }}
-          style={styles.image}
-        />
+        {images?.length && (
+          <FastImage
+            source={{
+              uri: images[0],
+            }}
+            style={styles.image}
+          />
+        )}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.textName}>{room_name}</Text>

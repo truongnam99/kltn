@@ -1,7 +1,8 @@
 import {
   ADD_INN,
+  INN_RELOAD_LIST,
+  INN_SET_lAST,
   INN_SHOW_LOADING,
-  REMOVE_ALL_INN,
   SET_IS_END,
 } from '../actions/types';
 
@@ -11,6 +12,7 @@ const innReducer = (
     count: 0,
     isLoading: false,
     isEnd: false,
+    last: null,
   },
   action,
 ) => {
@@ -32,14 +34,19 @@ const innReducer = (
         ...state,
         isLoading: action.payload,
       };
-    case REMOVE_ALL_INN:
+    case INN_SET_lAST:
       return {
         ...state,
-        inns: [],
-        count: 0,
-        isEnd: true,
+        last: action.payload,
       };
-
+    case INN_RELOAD_LIST:
+      return {
+        ...state,
+        logistics: [],
+        count: 0,
+        isEnd: false,
+        last: null,
+      };
     default:
       return state;
   }

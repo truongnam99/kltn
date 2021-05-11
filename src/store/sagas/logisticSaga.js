@@ -21,8 +21,9 @@ export function* fetchLogistic({type, payload}) {
   const data = yield call(fetchDataFromFirebase, payload);
   if (data.length === 0) {
     yield put({type: LOGISTIC_SET_END, payload: true});
+  } else {
+    yield put({type: ADD_LOGISTIC, payload: data});
   }
-  yield put({type: ADD_LOGISTIC, payload: data});
 }
 
 function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
@@ -38,8 +39,7 @@ function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
   if (districtId) {
     query = query.where('full_address_object.district.code', '==', +districtId);
   }
-  console.log('value', districtId, cityId);
-  console.log('query', query);
+
   const results = yield query.limit(limit).get();
   if (results.docs.length) {
     yield put({

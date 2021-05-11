@@ -1,12 +1,14 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCity} from '../../../utils/utils';
+import {getCity, uploadImageIntoFirebase} from '../../../utils/utils';
 import {createInn} from '../../../store/actions/innAction';
+import numeral from 'numeral';
 
 export const useCreateInn = () => {
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.innReducer.isLoading);
+  const [images, setImages] = useState([]);
   const [innName, setInnName] = useState();
   const [innOwner, setInnOwner] = useState(userInfo?.displayName);
   const [innStatus, setInnStatus] = useState(1);
@@ -32,6 +34,13 @@ export const useCreateInn = () => {
   const [roomRefrigerator, setRoomRefrigerator] = useState(false);
   const [roomAirConditioner, setRoomAirConditioner] = useState(false);
   const [roomWashingMachine, setRoomWashingMachine] = useState(false);
+
+  const handleChangeImages = useCallback(
+    value => {
+      setImages(value);
+    },
+    [setImages],
+  );
 
   const handleSetInnName = useCallback(
     value => {
@@ -196,20 +205,30 @@ export const useCreateInn = () => {
     [setRoomAirConditioner],
   );
 
-  const handleCreateInn = () => {
+  const uploadImage = async () => {
+    const img = [];
+    for (let i = 0; i < images.length; i++) {
+      const result = await uploadImageIntoFirebase(images[i].uri);
+      img.push(await result.getDownloadURL());
+    }
+    return img;
+  };
+
+  const handleCreateInn = async () => {
     const city = getCity(innCity);
+    const upload_room_images = await uploadImage();
     const district = city.Districts?.find(item => item.Id === innDistrict);
     const data = {
       room_name: innName,
       room_owner: innOwner,
       created_by: userInfo,
       available_status: innStatus,
-      room_price: innPrice,
+      room_price: numeral(innPrice).value(),
       exact_room_address: innAddress,
-      electric_price: innElectricPrice,
-      water_price: innWaterPrice,
-      room_area: innArea,
-      deposit: innDeposit,
+      electric_price: numeral(innElectricPrice).value(),
+      water_price: numeral(innWaterPrice).value(),
+      room_area: numeral(innArea).value(),
+      deposit: numeral(innDeposit).value(),
       room_wifi: innWifi,
       parking_situation: innGarage,
       full_address_object: {
@@ -223,7 +242,7 @@ export const useCreateInn = () => {
         },
       },
       phone_number: innContact,
-      max_roommate: innMaxRoommate,
+      max_roommate: numeral(innMaxRoommate).value(),
       attention: innAttention,
       notes: innNotes,
       room_bed: roomBed,
@@ -234,6 +253,7 @@ export const useCreateInn = () => {
       room_refrigerator: roomRefrigerator,
       air_conditioner: roomAirConditioner,
       room_washing_machine: roomWashingMachine,
+      upload_room_images,
     };
     dispatch(createInn(data));
   };
@@ -266,6 +286,7 @@ export const useCreateInn = () => {
       handleSetRoomWashingMachine,
       handleSetAirConditioner,
       handleCreateInn,
+      handleChangeImages,
     },
     selectors: {
       isLoading,

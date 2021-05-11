@@ -8,7 +8,8 @@ import Picker from './picker/picker';
 import CityPicker from './picker/city-picker';
 import DistrictPicker from './picker/district-picker';
 import StatusPicker from './picker/status-picker';
-
+import FooterListComponent from './FooterList';
+import ImagePicker from './image-picker/image-picker';
 export {
   Avatar,
   Button,
@@ -20,4 +21,6 @@ export {
   CityPicker,
   DistrictPicker,
   StatusPicker,
+  FooterListComponent,
+  ImagePicker,
 };

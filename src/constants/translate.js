@@ -24,6 +24,7 @@ const translate = {
   available: 'Còn trống',
   unavailable: 'Hết phòng',
   otherInfos: 'Thông tin khác',
+  image: 'Hình ảnh',
   inn: {
     myInn: 'Trọ của tôi',
     createInn: 'Đăng thông tin trọ',

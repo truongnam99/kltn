@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
@@ -14,7 +8,7 @@ import styles from './roommate.style';
 import {navigationName} from '../../../constants/navigation';
 import useHook from '../hooks';
 import Filter from '../../find-inn/component/filter';
-import {lightTheme} from '../../../config/theme';
+import {FooterListComponent} from '../../../components';
 
 const Roommate = ({navigation, ...props}) => {
   const {selectors, handlers} = useHook();
@@ -47,6 +41,7 @@ const Roommate = ({navigation, ...props}) => {
 
   useEffect(() => {
     handleFetchRoommate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onLoadmore = () => {
@@ -71,13 +66,6 @@ const Roommate = ({navigation, ...props}) => {
       value += filter.district.Name;
     }
     return value;
-  };
-
-  const FooterListComponent = () => {
-    if (!isLoading) {
-      return null;
-    }
-    return <ActivityIndicator color={lightTheme.primary} />;
   };
 
   return (
@@ -109,7 +97,7 @@ const Roommate = ({navigation, ...props}) => {
               />
             </View>
           )}
-          ListFooterComponent={FooterListComponent}
+          ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
           onEndReached={onLoadmore}
           onEndReachedThreshold={100}
         />

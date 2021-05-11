@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import baseStyles from './avatar.style';
 import {lightTheme} from '../../config/theme';
+import FastImage from 'react-native-fast-image';
 
 const Avatar = ({
   size = 'small',
@@ -37,7 +38,7 @@ const Avatar = ({
   return (
     <View style={!isShowDetail ? containerStyle : baseStyles.detailContainer}>
       <TouchableOpacity onPress={handlePress}>
-        <Image
+        <FastImage
           source={{
             uri: source,
           }}

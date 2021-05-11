@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, Text, FlatList, SafeAreaView} from 'react-native';
+import {View, ScrollView, Text} from 'react-native';
 
 import {
   Button,
@@ -8,6 +8,7 @@ import {
   DistrictPicker,
   StatusPicker,
   CheckBox,
+  ImagePicker,
 } from '../../../components';
 import {translate} from '../../../constants/translate';
 import {useCreateInn} from '../hooks/useCreateInn';
@@ -71,10 +72,13 @@ const CreateInn = ({}) => {
     handleSetRoomTivi,
     handleSetRoomWashingMachine,
     handleCreateInn,
+    handleChangeImages,
   } = handlers;
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.sectionHeader}>{translate.innInfo}</Text>
+      <Text>{translate.image}</Text>
+      <ImagePicker quality={0.2} onChangeImages={handleChangeImages} />
       <TextInput
         title={translate.post.innName}
         type="outline"

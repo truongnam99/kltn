@@ -43,10 +43,11 @@ const FindInnDetail = ({route}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View>
-          <ImageView images={upload_room_images} />
-        </View>
-
+        {upload_room_images?.length && (
+          <View>
+            <ImageView images={upload_room_images} />
+          </View>
+        )}
         <View style={styles.detailContainer}>
           <View style={styles.primaryContainer}>
             <Text style={styles.name}>{room_name}</Text>
@@ -96,12 +97,6 @@ const FindInnDetail = ({route}) => {
             <View style={styles.rowLayout}>
               <MaterialIcons
                 name="chat"
-                size={32}
-                color="#0E8DF1"
-                style={styles.me16}
-              />
-              <AntDesign
-                name="facebook-square"
                 size={32}
                 color="#0E8DF1"
                 style={styles.me16}

@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   imageItem: {
-    borderWidth: 2,
+    borderWidth: 0,
   },
   imageListContainer: {
     padding: 1,

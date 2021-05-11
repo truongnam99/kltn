@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './cart-item.style';
 import {translate} from '../../../constants/translate';
@@ -9,6 +9,7 @@ import {
   MenuTrigger,
   Menu,
 } from 'react-native-popup-menu';
+import FastImage from 'react-native-fast-image';
 
 const maxNumberOfLines = 5;
 
@@ -57,7 +58,7 @@ const CartItem = ({
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.userContainer}>
-          <Image source={{uri: owner.photoURL}} style={styles.avatar} />
+          <FastImage source={{uri: owner.photoURL}} style={styles.avatar} />
           <Text style={styles.name}>{owner.displayName}</Text>
         </View>
         {userInfo.uid === owner.uid && (
