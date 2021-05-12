@@ -5,14 +5,14 @@ import {translate} from '../../constants/translate';
 import {cities} from '../../utils/utils';
 import {dropdownStyles as styles} from './picker.style';
 
-const CityPicker = ({value, setValue}) => {
+const CityPicker = ({value, setValue, containerStyle}) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
   const onChangeValue = value => {
     setOpen(false);
   };
   return (
-    <View>
+    <View style={containerStyle}>
       <Text style={styles.title}>{translate.city}</Text>
       <Picker
         items={cities}

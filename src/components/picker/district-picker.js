@@ -5,7 +5,7 @@ import {translate} from '../../constants/translate';
 import {getDistricts} from '../../utils/utils';
 import {dropdownStyles as styles} from './picker.style';
 
-const DistrictPicker = ({value, setValue, cityId}) => {
+const DistrictPicker = ({value, setValue, cityId, containerStyle}) => {
   const [open, setOpen] = useState(false);
   const [districts, setDistricts] = useState([]);
   const onPress = () => setOpen(!open);
@@ -16,7 +16,7 @@ const DistrictPicker = ({value, setValue, cityId}) => {
   }, [cityId]);
 
   return (
-    <View>
+    <View style={containerStyle}>
       <Text style={styles.title}>{translate.district}</Text>
       <Picker
         items={districts}

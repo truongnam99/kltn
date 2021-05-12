@@ -1,15 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
-import {lightTheme} from '../../../config/theme';
 import {navigationName} from '../../../constants/navigation';
 
 import Header from '../component/header';
@@ -18,7 +11,6 @@ import SmallItem from '../component/small-item';
 import useHooks from '../hooks';
 import styles from './find-inn.style';
 
-// import {inns} from '../../../mookData/inns';
 import Filter from '../component/filter';
 import {numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
@@ -42,11 +34,14 @@ const FindInn = ({navigation}) => {
   };
 
   const onFetchInn = (props = {}) => {
+    console.log('headerText', headerText);
     handleFetchInn({
-      district: filter.district,
+      searchText: headerText,
+      district: filter.district?.Id,
+      city: filter.city?.Id,
       minPrice: filter.price?.minPrice,
       maxPrice: filter.price?.maxPrice,
-      reload: props.reload,
+      ...props,
     });
   };
 
@@ -78,18 +73,34 @@ const FindInn = ({navigation}) => {
     setFilter(value);
   };
 
+  useEffect(() => {
+    onFetchInn({reload: true});
+  }, [filter]);
+
   const showFilter = () => {
     let value = '';
     if (filter && filter.price) {
-      value += `${numeralPrice(filter.price.minPrice)}-${numeralPrice(
-        filter.price.maxPrice,
-      )}`;
+      const min = numeralPrice(filter.price.minPrice);
+      const max = numeralPrice(filter.price.maxPrice);
+      if (min !== '0' && max !== numeralPrice(10000000)) {
+        value += `${min}-${max}`;
+      } else if (min !== '0') {
+        value += `> ${min}`;
+      } else if (max !== numeralPrice(10000000)) {
+        value += `< ${max}`;
+      }
+    }
+    if (filter.city) {
+      if (value) {
+        value += '. ';
+      }
+      value += filter.city.Name;
     }
     if (filter.district) {
       if (value) {
         value += '. ';
       }
-      value += filter.district;
+      value += filter.district.Name;
     }
     return value;
   };

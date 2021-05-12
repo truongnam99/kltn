@@ -71,5 +71,8 @@ export const getDistricts = cityId => {
 };
 
 export const getCity = cityId => {
+  if (!cityId) {
+    return null;
+  }
   return province.find(p => p.Id === cityId);
 };

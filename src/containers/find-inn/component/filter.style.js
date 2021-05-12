@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
   buttonApply: {
     marginTop: 10,
   },
+  picker: {
+    width: 200,
+  },
 });
 
 export default styles;

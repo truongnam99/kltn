@@ -7,7 +7,7 @@ const useHooks = () => {
   const {inns, count, isLoading} = useSelector(state => state.innReducer);
 
   const handleFetchInn = ({
-    limit,
+    limit = 10,
     name,
     minPrice,
     maxPrice,
@@ -15,6 +15,7 @@ const useHooks = () => {
     district,
     address,
     reload,
+    searchText,
   }) => {
     if (isLoading) {
       return;
@@ -30,6 +31,7 @@ const useHooks = () => {
         district,
         address,
         reload,
+        searchText,
       }),
     );
   };

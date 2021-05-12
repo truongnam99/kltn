@@ -1,42 +1,34 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Slider from '@ptomasroos/react-native-multi-slider';
 
-import {Button, Picker} from '../../../components';
-import {numeralPrice} from '../../../utils/utils';
+import {Button, CityPicker, DistrictPicker} from '../../../components';
+import {getCity, numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
 import styles from './filter.style';
-import province from '../../../constants/provice.json';
 
 const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
   const [price, setPrice] = useState({
     minPrice: 0,
     maxPrice: 10000000,
   });
-  const [city, setCity] = useState({
-    Id: '79',
-    Name: 'Thành phố Hồ Chí Minh',
-  });
-  const [districts, setDistricts] = useState([]);
-  const [district, setDistrict] = useState({Id: '', Name: ''});
+  const [city, setCity] = useState('79');
+  const [district, setDistrict] = useState();
 
   useEffect(() => {
-    if (!city.Id) {
+    if (!city) {
       return;
     }
 
-    setDistricts([
-      {key: '', value: ''},
-      ...province
-        .find(item => item.Id === city.Id)
-        .Districts.map(dt => {
-          return {
-            key: dt.Id,
-            value: dt.Name,
-          };
-        }),
-    ]);
+    setDistrict();
   }, [city]);
+
+  const handleSetDistrict = useCallback(
+    value => {
+      setDistrict(value);
+    },
+    [setDistrict],
+  );
 
   if (!isShow) {
     return null;
@@ -48,23 +40,12 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
       maxPrice: values[1],
     });
   };
-
-  const onChangeCity = value => {
-    setCity({
-      Id: value.key,
-      Name: value.value,
-    });
-  };
-
-  const onChangeDistrict = value => {
-    setDistrict({
-      Id: value.key,
-      Name: value.value,
-    });
-  };
-
   const onApplyPress = () => {
-    callBack({price, district, city});
+    const selectCity = getCity(city);
+    const selectDistrict = selectCity?.Districts.find(
+      item => item.Id === district,
+    );
+    callBack({price, district: selectDistrict, city: selectCity});
   };
 
   return (
@@ -92,23 +73,16 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
           />
         </View>
       )}
-      <Text>{translate.city}</Text>
-      <Picker
-        items={province.map(item => {
-          return {
-            key: item.Id,
-            value: item.Name,
-          };
-        })}
-        value={{key: city.Id, value: city.Name}}
-        onChange={onChangeCity}
+      <CityPicker
+        value={city}
+        setValue={setCity}
+        containerStyle={styles.picker}
       />
-
-      <Text>{translate.district}</Text>
-      <Picker
-        items={districts}
-        value={{value: district.Name}}
-        onChange={onChangeDistrict}
+      <DistrictPicker
+        value={district}
+        setValue={handleSetDistrict}
+        containerStyle={styles.picker}
+        cityId={city}
       />
 
       <Button

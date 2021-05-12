@@ -21,6 +21,7 @@ const innReducer = (
       return {
         ...state,
         isEnd: action.payload,
+        isLoading: false,
       };
     case ADD_INN:
       return {
@@ -42,7 +43,7 @@ const innReducer = (
     case INN_RELOAD_LIST:
       return {
         ...state,
-        logistics: [],
+        inns: [],
         count: 0,
         isEnd: false,
         last: null,

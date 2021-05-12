@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import {call, put, select} from 'redux-saga/effects';
+import {clientIndex} from '../../config/algolia';
 import {
   ADD_INN,
   INN_SHOW_LOADING,
@@ -9,7 +10,7 @@ import {
 } from '../actions/types';
 
 export function* fetchInn({type, payload}) {
-  const {isLoading, isEnd} = yield select(state => state.innReducer);
+  const {isLoading, isEnd, count} = yield select(state => state.innReducer);
 
   if ((isEnd || isLoading) && !payload.reload) {
     return;
@@ -18,16 +19,61 @@ export function* fetchInn({type, payload}) {
   if (payload.reload) {
     yield put({type: INN_RELOAD_LIST});
   }
-  const data = yield call(fetchDataFromFirebase, payload);
-  if (data.length === 0) {
+  const data = !payload.searchText
+    ? yield call(fetchDataFromFirebase, {...payload, count})
+    : yield call(fetchDataFromAlgolia, payload);
+  if (!data || data.length === 0) {
     yield put({type: SET_IS_END, payload: true});
   } else {
     yield put({type: ADD_INN, payload: data});
+    if (data.length < payload.limit) {
+      yield put({type: SET_IS_END, payload: true});
+    }
   }
 }
 
+function* fetchDataFromAlgolia({
+  searchText,
+  limit = 10,
+  minPrice,
+  maxPrice,
+  city,
+  district,
+  count = 0,
+}) {
+  let filter = '';
+  let facetFilter = '';
+  if (minPrice || maxPrice) {
+    if (minPrice && maxPrice) {
+      filter += `room_price:${minPrice} TO ${maxPrice}`;
+    } else if (minPrice) {
+      filter += `room_price > ${minPrice}`;
+    } else {
+      filter += `room_price < ${maxPrice}`;
+    }
+  }
+  if (city) {
+    facetFilter += `full_address_object.city.code:${city}`;
+  }
+  if (district) {
+    if (facetFilter) {
+      facetFilter += ' AND ';
+    }
+    facetFilter += `full_address_object.district.code:${district}`;
+  }
+  const {hits} = yield clientIndex.search(searchText, {
+    hitsPerPage: limit,
+    cacheable: true,
+    page: Math.ceil(count / limit),
+    filters: filter,
+    facets: '*',
+    facetFilters: facetFilter,
+  });
+  return hits;
+}
+
 function* fetchDataFromFirebase({
-  limit = 100,
+  limit = 10,
   name,
   minPrice,
   maxPrice,
