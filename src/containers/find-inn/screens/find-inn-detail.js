@@ -7,13 +7,13 @@ import {
   View,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {ImageView} from '../../../components/index';
 import styles from './find-inn-detail.style';
 import {dial, numeralPrice} from '../../../utils/utils';
+import {navigationName} from '../../../constants/navigation';
 
-const FindInnDetail = ({route}) => {
+const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
   const {
     room_name,
@@ -39,7 +39,25 @@ const FindInnDetail = ({route}) => {
     room_closet,
     room_kitchen,
     window,
+    created_by,
   } = inn;
+
+  const onGotoChat = () => {
+    console.log('goto chat');
+    navigation.navigate(navigationName.home.chat, {
+      screen: navigationName.chat.chatDetail,
+      params: {
+        name: created_by.displayName,
+        photoUrl: created_by.photoURL,
+        destUser: {
+          id: created_by.uid,
+          displayName: created_by.displayName,
+          photoURL: created_by.photoURL,
+        },
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -95,12 +113,14 @@ const FindInnDetail = ({route}) => {
               Liên hệ
             </Text>
             <View style={styles.rowLayout}>
-              <MaterialIcons
-                name="chat"
-                size={32}
-                color="#0E8DF1"
-                style={styles.me16}
-              />
+              <TouchableOpacity activeOpacity={0.8} onPress={onGotoChat}>
+                <MaterialIcons
+                  name="chat"
+                  size={32}
+                  color="#0E8DF1"
+                  style={styles.me16}
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => dial(phone_number)}>

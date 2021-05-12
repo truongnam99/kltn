@@ -1,15 +1,17 @@
 import React from 'react';
 import firestore from '@react-native-firebase/firestore';
-import {useDispatch, useSelector} from 'react-redux';
-import {changeMessage} from '../../../store/actions/messageAction';
+import {useSelector} from 'react-redux';
 
 export const useChatDetail = () => {
   const {message} = useSelector(state => state.messageReducer);
   const {uid} = useSelector(state => state.userReducer.userCredential);
   const userInfo = useSelector(state => state.userReducer.userInfo);
-  const dispatch = useDispatch();
-
-  const handleSendMessage = async ({text, messageId, destUser}) => {
+  const handleSendMessage = async ({
+    text,
+    messageId,
+    destUser,
+    setMessageId,
+  }) => {
     if (!text) {
       return;
     }
@@ -25,12 +27,12 @@ export const useChatDetail = () => {
           }),
         });
     } else {
-      return await firestore()
-        .collection()
+      const result = await firestore()
+        .collection('Messages')
         .add({
           messages: [
             {
-              sendAt: firestore.FieldValue.serverTimestamp,
+              sendAt: firestore.Timestamp.now(),
               sendBy: uid,
               text,
             },
@@ -38,7 +40,7 @@ export const useChatDetail = () => {
           users: [uid, destUser.id],
           userInfos: [
             {
-              id: userInfo.id,
+              id: userInfo.uid,
               name: userInfo.displayName,
               photoUrl: userInfo.photoURL,
             },
@@ -49,6 +51,8 @@ export const useChatDetail = () => {
             },
           ],
         });
+      setMessageId(result.id);
+      return result;
     }
   };
 

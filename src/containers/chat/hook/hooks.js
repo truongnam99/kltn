@@ -1,22 +1,8 @@
-import {useEffect} from 'react';
-import firestore from '@react-native-firebase/firestore';
-import {useDispatch, useSelector} from 'react-redux';
-import {changeMessage} from '../../../store/actions/messageAction';
+import {useSelector} from 'react-redux';
 
 const useHook = () => {
   const {message} = useSelector(state => state.messageReducer);
   const {uid} = useSelector(state => state.userReducer.userCredential);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('Messages')
-      .where('users', 'array-contains', 'aJbsn5oTk4RDBj99htsG7jtboFE2')
-      .onSnapshot(documentSnapshot => {
-        dispatch(changeMessage(documentSnapshot.docChanges()));
-      });
-    return () => subscriber();
-  }, []);
 
   return {
     handlers: {},

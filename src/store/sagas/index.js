@@ -13,5 +13,6 @@ export default function* rootSagas() {
     takeEvery(types.CHANGE_MESSAGE, messageSagas.watchMessage),
     takeEvery(types.FETCH_ROOMMATE, roommateSagas.fetchRoommate),
     takeEvery(types.CREATE_INN, innSagas.createInn),
+    takeEvery(types.FETCH_MY_INN, innSagas.fetchMyInn),
   ]);
 }

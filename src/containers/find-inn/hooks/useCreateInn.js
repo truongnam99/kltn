@@ -4,37 +4,50 @@ import {getCity, uploadImageIntoFirebase} from '../../../utils/utils';
 import {createInn} from '../../../store/actions/innAction';
 import numeral from 'numeral';
 
-export const useCreateInn = () => {
+export const useCreateInn = ({data = {}}) => {
   const userInfo = useSelector(state => state.userReducer.userInfo);
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.innReducer.isLoading);
-  const [images, setImages] = useState([]);
-  const [innName, setInnName] = useState();
+  const [images, setImages] = useState(
+    data.upload_room_images?.map(item => ({uri: item})) || [],
+  );
+  const [innName, setInnName] = useState(data.room_name);
   const [innOwner, setInnOwner] = useState(userInfo?.displayName);
-  const [innStatus, setInnStatus] = useState(1);
-  const [innPrice, setInnPrice] = useState();
-  const [innAddress, setInnAddress] = useState();
-  const [innElectricPrice, setInnElectricPrice] = useState();
-  const [innWaterPrice, setInnWaterPrice] = useState();
-  const [innArea, setInnArea] = useState();
-  const [innDeposit, setInnDeposit] = useState();
-  const [innWifi, setInnWifi] = useState();
-  const [innGarage, setInnGarage] = useState();
-  const [innDistrict, setInnDistrict] = useState();
-  const [innCity, setInnCity] = useState();
-  const [innContact, setInnContact] = useState(userInfo?.phoneNumber);
-  const [innMaxRoommate, setMaxRoommate] = useState();
-  const [innAttention, setInnAttention] = useState();
-  const [innNotes, setInnNotes] = useState();
-  const [roomBed, setRoomBed] = useState(false);
-  const [roomCloset, setRoomCloset] = useState(false);
-  const [roomKetchen, setRoomKetchen] = useState(false);
-  const [roomPetsAllowed, setRoomPetsAllowed] = useState(false);
-  const [roomTivi, setRoomTivi] = useState(false);
-  const [roomRefrigerator, setRoomRefrigerator] = useState(false);
-  const [roomAirConditioner, setRoomAirConditioner] = useState(false);
-  const [roomWashingMachine, setRoomWashingMachine] = useState(false);
-
+  const [innStatus, setInnStatus] = useState(data.available_status || 1);
+  const [innPrice, setInnPrice] = useState(data.room_price);
+  const [innAddress, setInnAddress] = useState(data.exact_room_address);
+  const [innElectricPrice, setInnElectricPrice] = useState(data.electric_price);
+  const [innWaterPrice, setInnWaterPrice] = useState(data.water_price);
+  const [innArea, setInnArea] = useState(data.room_area);
+  const [innDeposit, setInnDeposit] = useState(data.deposit);
+  const [innWifi, setInnWifi] = useState(data.room_wifi);
+  const [innGarage, setInnGarage] = useState(data.parking_situation);
+  const [innDistrict, setInnDistrict] = useState(
+    data.full_address_object?.district.code,
+  );
+  const [innCity, setInnCity] = useState(data.full_address_object?.city.code);
+  const [innContact, setInnContact] = useState(
+    data.phone_number || userInfo?.phoneNumber,
+  );
+  const [innMaxRoommate, setMaxRoommate] = useState(data.max_roommate);
+  const [innAttention, setInnAttention] = useState(data.attention);
+  const [innNotes, setInnNotes] = useState(data.notes);
+  const [roomBed, setRoomBed] = useState(data.room_bed || false);
+  const [roomCloset, setRoomCloset] = useState(data.room_closet || false);
+  const [roomKetchen, setRoomKetchen] = useState(data.room_ketchen || false);
+  const [roomPetsAllowed, setRoomPetsAllowed] = useState(
+    data.room_pets_allowed || false,
+  );
+  const [roomTivi, setRoomTivi] = useState(data.room_tivi || false);
+  const [roomRefrigerator, setRoomRefrigerator] = useState(
+    data.room_refrigerator || false,
+  );
+  const [roomAirConditioner, setRoomAirConditioner] = useState(
+    data.air_conditioner || false,
+  );
+  const [roomWashingMachine, setRoomWashingMachine] = useState(
+    data.room_washing_machine || false,
+  );
   const handleChangeImages = useCallback(
     value => {
       setImages(value);
@@ -208,6 +221,10 @@ export const useCreateInn = () => {
   const uploadImage = async () => {
     const img = [];
     for (let i = 0; i < images.length; i++) {
+      if (images[i].uri.startsWith('http')) {
+        img.push(images[i].uri);
+        continue;
+      }
       const result = await uploadImageIntoFirebase(images[i].uri);
       img.push(await result.getDownloadURL());
     }
@@ -218,10 +235,11 @@ export const useCreateInn = () => {
     const city = getCity(innCity);
     const upload_room_images = await uploadImage();
     const district = city.Districts?.find(item => item.Id === innDistrict);
-    const data = {
+    const payload = {
+      ...data,
       room_name: innName,
       room_owner: innOwner,
-      created_by: userInfo,
+      created_by: userInfo || data.created_by,
       available_status: innStatus,
       room_price: numeral(innPrice).value(),
       exact_room_address: innAddress,
@@ -255,7 +273,7 @@ export const useCreateInn = () => {
       room_washing_machine: roomWashingMachine,
       upload_room_images,
     };
-    dispatch(createInn(data));
+    dispatch(createInn(payload));
   };
 
   return {
@@ -289,6 +307,7 @@ export const useCreateInn = () => {
       handleChangeImages,
     },
     selectors: {
+      images,
       isLoading,
       innName,
       innOwner,

@@ -7,6 +7,7 @@ import {
   INN_RELOAD_LIST,
   SET_IS_END,
   INN_SET_lAST,
+  ADD_MY_INN,
 } from '../actions/types';
 
 export function* fetchInn({type, payload}) {
@@ -114,6 +115,7 @@ function* fetchDataFromFirebase({
   if (last) {
     query = query.startAfter(last);
   }
+
   const results = yield query.limit(limit).get();
 
   if (results.docs.length) {
@@ -126,14 +128,47 @@ function* fetchDataFromFirebase({
   return results.docs.map(item => item.data());
 }
 
+export function* fetchMyInn({type, payload}) {
+  const {uid} = yield select(state => state.userReducer.userCredential);
+  const results = yield firestore()
+    .collection('Inns')
+    .where('created_by.uid', '==', uid)
+    .get();
+  const data = results.docs.map(item => {
+    return {uid: item.id, ...item.data()};
+  });
+  yield put({type: ADD_MY_INN, payload: data});
+}
+
 export function* createInn({type, payload}) {
   yield put({type: INN_SHOW_LOADING, payload: true});
-  yield createInnInFirebase(payload);
+  if (payload.uid) {
+    yield updateInnInFirebase(payload);
+    yield updateInnInAlgolia(payload);
+  } else {
+    const {id} = yield createInnInFirebase(payload);
+    yield createInnInAlgolia({objectID: id, ...payload});
+  }
   yield put({type: INN_SHOW_LOADING, payload: false});
 }
 
-function* createInnInFirebase(data) {
-  yield firestore()
+function* createInnInFirebase({isUpdate, ...data}) {
+  return yield firestore()
     .collection('Inns')
     .add({...data, created_at: firestore.FieldValue.serverTimestamp()});
+}
+
+function* updateInnInFirebase({isUpdate, ...data}) {
+  yield firestore()
+    .collection('Inns')
+    .doc(data.uid)
+    .update({...data, update_at: firestore.FieldValue.serverTimestamp()});
+}
+
+function* createInnInAlgolia({isUpdate, ...data}) {
+  yield clientIndex.saveObject({...data});
+}
+
+function* updateInnInAlgolia({isUpdate, uid, ...data}) {
+  yield clientIndex.saveObject({objectID: uid, ...data});
 }

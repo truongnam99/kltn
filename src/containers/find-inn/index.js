@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import FindInn from './screens/find-inn';
 import FindInnDetail from './screens/find-inn-detail';
+import MyInn from './screens/my-inn';
 import CreateInn from './screens/create-inn';
 import {translate} from '../../constants/translate';
 import {headerOptions} from '../../config/index';
@@ -31,6 +32,13 @@ export default function FinnInnContainer() {
         component={CreateInn}
         options={{
           headerTitle: translate.inn.createInn,
+        }}
+      />
+      <HomeStack.Screen
+        name={navigationName.findInn.myInn}
+        component={MyInn}
+        options={{
+          headerTitle: translate.inn.myInn,
         }}
       />
     </HomeStack.Navigator>

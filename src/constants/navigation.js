@@ -12,6 +12,7 @@ export const navigationName = {
     findInn: 'inn-find-inn',
     createInn: 'inn-create-inn',
     innDetail: 'inn-inn-detail',
+    myInn: 'inn-my-inn',
   },
   logistic: {
     logistic: 'logistic-logistic',

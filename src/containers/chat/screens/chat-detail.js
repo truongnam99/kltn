@@ -10,17 +10,19 @@ import {useChatDetail} from '../hook/useChatDetail';
 
 const ChatDetail = ({navigation, route, ...props}) => {
   const {selectors, handlers} = useChatDetail();
+  const [messageId, setMessageId] = useState(route.params.id);
   const [text, setText] = useState();
   const flatList = useRef();
   const {handleSendMessage} = handlers;
   const {messages, uid} = selectors;
-  const message = messages.find(item => item.id === route.params.id);
+  const message = messages.find(item => item.id === messageId);
 
   const onSendMessage = async () => {
     await handleSendMessage({
       text,
-      messageId: route.params.id,
+      messageId: messageId,
       destUser: route.params.destUser,
+      setMessageId,
     });
     setText(null);
     flatListScrollToEnd();
@@ -39,7 +41,7 @@ const ChatDetail = ({navigation, route, ...props}) => {
       <FlatList
         ref={flatList}
         onLayout={flatListScrollToEnd}
-        data={message.messages}
+        data={message?.messages || []}
         keyExtractor={(item, index) => index}
         renderItem={({item}) => (
           <View style={styles.messageItem}>

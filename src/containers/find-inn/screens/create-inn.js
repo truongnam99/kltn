@@ -14,9 +14,10 @@ import {translate} from '../../../constants/translate';
 import {useCreateInn} from '../hooks/useCreateInn';
 import {styles} from './create-inn.style';
 
-const CreateInn = ({}) => {
-  const {selectors, handlers} = useCreateInn();
+const CreateInn = ({route, navigation}) => {
+  const {selectors, handlers} = useCreateInn({...route.params?.data});
   const {
+    images,
     isLoading,
     innName,
     innOwner,
@@ -74,11 +75,20 @@ const CreateInn = ({}) => {
     handleCreateInn,
     handleChangeImages,
   } = handlers;
+
+  const onCreateInn = async () => {
+    await handleCreateInn();
+    navigation.goBack();
+  };
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.sectionHeader}>{translate.innInfo}</Text>
       <Text>{translate.image}</Text>
-      <ImagePicker quality={0.2} onChangeImages={handleChangeImages} />
+      <ImagePicker
+        quality={0.2}
+        onChangeImages={handleChangeImages}
+        defaultImages={images}
+      />
       <TextInput
         title={translate.post.innName}
         type="outline"
@@ -234,7 +244,7 @@ const CreateInn = ({}) => {
           title={translate.save}
           containerStyle={styles.buttonContainer}
           type="outline"
-          onPress={handleCreateInn}
+          onPress={onCreateInn}
         />
       </View>
     </ScrollView>

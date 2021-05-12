@@ -17,6 +17,8 @@ export const SET_IS_END = 'SET_IS_END';
 export const CREATE_INN = 'CREATE_INN';
 export const INN_SET_lAST = 'INN_SET_lAST';
 export const INN_RELOAD_LIST = 'INN_RELOAD_LIST';
+export const FETCH_MY_INN = 'FETCH_MY_INN';
+export const ADD_MY_INN = 'ADD_MY_INN';
 
 export const FETCH_LOGISTIC = 'FETCH_LOGISTIC';
 export const LOGISTIC_SET_END = 'LOGISTIC_SET_END';

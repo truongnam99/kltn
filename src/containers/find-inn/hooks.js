@@ -1,10 +1,24 @@
 import {useDispatch, useSelector} from 'react-redux';
-
+import {useEffect} from 'react';
+import firestore from '@react-native-firebase/firestore';
+import {changeMessage} from '../../store/actions/messageAction';
 import {fetchInn} from '../../store/actions/innAction';
 
 const useHooks = () => {
+  const {uid} = useSelector(state => state.userReducer.userInfo);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Messages')
+      .where('users', 'array-contains', uid)
+      .onSnapshot(documentSnapshot => {
+        dispatch(changeMessage(documentSnapshot.docChanges()));
+      });
+    return () => subscriber();
+  }, []);
   const {inns, count, isLoading} = useSelector(state => state.innReducer);
+  const {role} = useSelector(state => state.userReducer.userInfo) || {};
 
   const handleFetchInn = ({
     limit = 10,
@@ -44,6 +58,7 @@ const useHooks = () => {
     selectors: {
       inns,
       count,
+      role,
       isLoading,
     },
   };

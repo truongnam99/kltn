@@ -22,7 +22,7 @@ const FindInn = ({navigation}) => {
   const [headerText, setHeaderText] = useState('');
   const [filter, setFilter] = useState({});
   const {handlers, selectors} = useHooks();
-  const {isLoading, inns} = selectors;
+  const {isLoading, inns, role} = selectors;
   const {handleFetchInn} = handlers;
 
   const onChangeView = () => {
@@ -34,7 +34,6 @@ const FindInn = ({navigation}) => {
   };
 
   const onFetchInn = (props = {}) => {
-    console.log('headerText', headerText);
     handleFetchInn({
       searchText: headerText,
       district: filter.district?.Id,
@@ -51,13 +50,17 @@ const FindInn = ({navigation}) => {
   }, []);
 
   const onViewDetail = inn => {
-    navigation.push(navigationName.findInn.innDetail, {
+    navigation.navigate(navigationName.findInn.innDetail, {
       inn,
     });
   };
 
   const onGotoCreateInn = () => {
-    navigation.push(navigationName.findInn.createInn);
+    navigation.navigate(navigationName.findInn.createInn);
+  };
+
+  const onGotoMyInn = () => {
+    navigation.navigate(navigationName.findInn.myInn);
   };
 
   const onHeaderChangeText = value => {
@@ -194,16 +197,16 @@ const FindInn = ({navigation}) => {
         )}
       </View>
       <Filter isShow={isShowFilter} callBack={filterCallBack} />
-      <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButton.Item title={translate.new} onPress={onGotoCreateInn}>
-          <Ionicons name="md-create" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          title={translate.inn.myInn}
-          onPress={() => console.log('need implement my inn')}>
-          <Ionicons name="list" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      </ActionButton>
+      {role === 'supplier' && (
+        <ActionButton buttonColor="rgba(231,76,60,1)">
+          <ActionButton.Item title={translate.new} onPress={onGotoCreateInn}>
+            <Ionicons name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item title={translate.inn.myInn} onPress={onGotoMyInn}>
+            <Ionicons name="list" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+      )}
     </View>
   );
 };

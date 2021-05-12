@@ -1,5 +1,6 @@
 import {
   ADD_INN,
+  ADD_MY_INN,
   INN_RELOAD_LIST,
   INN_SET_lAST,
   INN_SHOW_LOADING,
@@ -47,6 +48,11 @@ const innReducer = (
         count: 0,
         isEnd: false,
         last: null,
+      };
+    case ADD_MY_INN:
+      return {
+        ...state,
+        myInns: action.payload,
       };
     default:
       return state;
