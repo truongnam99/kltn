@@ -4,6 +4,7 @@ import {
   LOGISTIC_SET_END,
   LOGISTIC_SET_LAST,
   LOGISTIC_RELOAD_LIST,
+  ADD_MY_LOGISTIC,
 } from '../actions/types';
 
 const logisticReducer = (
@@ -27,6 +28,7 @@ const logisticReducer = (
     case LOGISTIC_SET_END:
       return {
         ...state,
+        isLoading: false,
         isEnd: action.payload,
       };
     case LOGISTIC_SET_LAST:
@@ -46,6 +48,11 @@ const logisticReducer = (
         count: 0,
         isEnd: false,
         last: null,
+      };
+    case ADD_MY_LOGISTIC:
+      return {
+        ...state,
+        myLogistics: action.payload,
       };
     default:
       return state;

@@ -5,6 +5,7 @@ export const useHooks = () => {
   const dispatch = useDispatch();
   const logistics = useSelector(state => state.logisticReducer.logistics);
   const {isLoading, count} = useSelector(state => state.logisticReducer);
+  const {role} = useSelector(state => state.userReducer.userInfo) || {};
 
   const handlerFetchLogistic = (props = {reload: false}) => {
     if (isLoading) {
@@ -18,6 +19,6 @@ export const useHooks = () => {
     handlers: {
       handlerFetchLogistic,
     },
-    selectors: {logistics, isLoading, count},
+    selectors: {logistics, isLoading, count, role},
   };
 };

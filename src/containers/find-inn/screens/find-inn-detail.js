@@ -43,7 +43,6 @@ const FindInnDetail = ({route, navigation}) => {
   } = inn;
 
   const onGotoChat = () => {
-    console.log('goto chat');
     navigation.navigate(navigationName.home.chat, {
       screen: navigationName.chat.chatDetail,
       params: {

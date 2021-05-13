@@ -34,10 +34,6 @@ export default function Navigation() {
           component={Home}
         />
         <RootStack.Screen
-          name={navigationName.findInn.findInn}
-          component={Home}
-        />
-        <RootStack.Screen
           name={navigationName.login.confirmCode}
           component={ConfirmCode}
         />

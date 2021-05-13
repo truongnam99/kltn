@@ -14,5 +14,7 @@ export default function* rootSagas() {
     takeEvery(types.FETCH_ROOMMATE, roommateSagas.fetchRoommate),
     takeEvery(types.CREATE_INN, innSagas.createInn),
     takeEvery(types.FETCH_MY_INN, innSagas.fetchMyInn),
+    takeEvery(types.CREATE_LOGISTIC, logisticSagas.createLogistic),
+    takeEvery(types.FETCH_MY_LOGISTIC, logisticSagas.fetchMyLogistic),
   ]);
 }

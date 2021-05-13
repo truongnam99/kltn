@@ -6,9 +6,30 @@ import styles from './logistic-detail.style';
 import {translate} from '../../../constants/translate';
 import {dial} from '../../../utils/utils';
 import FastImage from 'react-native-fast-image';
+import {navigationName} from '../../../constants/navigation';
 
-const LogisticDetail = ({route, ...props}) => {
+const LogisticDetail = ({route, navigation, ...props}) => {
   const {logistic} = route.params;
+  const {owner} = logistic;
+
+  const onGotoChat = () => {
+    if (!owner) {
+      return;
+    }
+    navigation.navigate(navigationName.home.chat, {
+      screen: navigationName.chat.chatDetail,
+      params: {
+        name: owner.ownerName || owner.displayName || owner.username,
+        photoUrl: owner.photoURL,
+        destUser: {
+          id: owner.uid,
+          displayName: owner.ownerName || owner.displayName || owner.username,
+          photoURL: owner.photoURL,
+        },
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <FastImage source={{uri: logistic.image}} style={styles.image} />
@@ -35,9 +56,7 @@ const LogisticDetail = ({route, ...props}) => {
         <View style={styles.contentContainer}>
           <Text style={styles.contentTitle}>{translate.logistic.contact}</Text>
           <View style={styles.rowLayout}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => console.log('You need to setup onpress')}>
+            <TouchableOpacity activeOpacity={0.8} onPress={onGotoChat}>
               <MaterialIcons
                 name="chat"
                 size={32}

@@ -12,7 +12,6 @@ export function* fetchRoommate({type, payload}) {
   const {isLoading, isEnd} = yield select(state => state.roommateReducer);
 
   if ((isEnd || isLoading) && !payload.reload) {
-    console.log(payload.reload);
     return;
   }
   yield put({type: ROOMMATE_IS_LOADING, payload: true});

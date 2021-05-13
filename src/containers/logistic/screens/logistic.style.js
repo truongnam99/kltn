@@ -2,10 +2,11 @@ import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   flatList: {
     padding: 8,
-    marginBottom: 50,
   },
   cartItem: {
     padding: 4,
@@ -40,6 +41,11 @@ const styles = StyleSheet.create({
   },
   filterModelContainer: {
     marginTop: 50,
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
   },
 });
 

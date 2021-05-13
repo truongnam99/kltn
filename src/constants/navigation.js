@@ -17,6 +17,8 @@ export const navigationName = {
   logistic: {
     logistic: 'logistic-logistic',
     logisticDetail: 'logistic-logistic-detail',
+    createLogistic: 'logistic-create-logistic',
+    myLogistic: 'logistic-my-logistic',
   },
   chat: {
     chat: 'chat-chat',

@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
@@ -46,6 +52,18 @@ const FindInn = ({navigation}) => {
 
   useEffect(() => {
     onFetchInn();
+
+    const backAction = () => {
+      BackHandler.exitApp();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -85,11 +103,11 @@ const FindInn = ({navigation}) => {
     if (filter && filter.price) {
       const min = numeralPrice(filter.price.minPrice);
       const max = numeralPrice(filter.price.maxPrice);
-      if (min !== '0' && max !== numeralPrice(10000000)) {
+      if (filter.price.minPrice && filter.price.maxPrice) {
         value += `${min}-${max}`;
-      } else if (min !== '0') {
+      } else if (filter.price.minPrice) {
         value += `> ${min}`;
-      } else if (max !== numeralPrice(10000000)) {
+      } else if (filter.price.maxPrice) {
         value += `< ${max}`;
       }
     }

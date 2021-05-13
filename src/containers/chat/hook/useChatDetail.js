@@ -15,10 +15,20 @@ export const useChatDetail = () => {
     if (!text) {
       return;
     }
-    if (messageId) {
+    let tempMessageId = null;
+    if (!messageId && !message) {
+      for (const property in message) {
+        if (message[property].users.find(item => item === destUser.id)) {
+          tempMessageId = property;
+        }
+        break;
+      }
+    }
+
+    if (messageId || tempMessageId) {
       return await firestore()
         .collection('Messages')
-        .doc(messageId)
+        .doc(messageId || tempMessageId)
         .update({
           messages: firestore.FieldValue.arrayUnion({
             sendAt: firestore.Timestamp.now(),

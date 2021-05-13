@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CartItem from '../compoinents/card-item';
 
 import styles from './logistic.style';
@@ -14,12 +15,14 @@ import {navigationName} from '../../../constants/navigation';
 import {useHooks} from '../hooks';
 import {lightTheme} from '../../../config/theme';
 import Filter from '../../find-inn/component/filter';
+import ActionButton from 'react-native-action-button';
+import {translate} from '../../../constants/translate';
 
 const Logistic = ({navigation}) => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [filter, setFilter] = useState(true);
   const {handlers, selectors} = useHooks();
-  const {logistics, isLoading} = selectors;
+  const {logistics, isLoading, role} = selectors;
   const {handlerFetchLogistic} = handlers;
 
   const onDetailClick = logistic => {
@@ -54,6 +57,13 @@ const Logistic = ({navigation}) => {
       value += filter.district.Name;
     }
     return value;
+  };
+
+  const onGotoCreateLogistic = () => {
+    navigation.navigate(navigationName.logistic.createLogistic);
+  };
+  const onGotoMyLogistic = () => {
+    navigation.navigate(navigationName.logistic.myLogistic);
   };
 
   useEffect(() => {
@@ -109,8 +119,22 @@ const Logistic = ({navigation}) => {
         isShow={isShowFilter}
         callBack={filterCallBack}
         showPricePicker={false}
-        styleContainer={styles.filterModelContainer}
+        // styleContainer={styles.filterModelContainer}
       />
+      {role === 'supplier' && (
+        <ActionButton buttonColor="rgba(231,76,60,1)">
+          <ActionButton.Item
+            title={translate.new}
+            onPress={onGotoCreateLogistic}>
+            <Ionicons name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item
+            title={translate.logistic.myLogistic}
+            onPress={onGotoMyLogistic}>
+            <Ionicons name="list" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+      )}
     </View>
   );
 };

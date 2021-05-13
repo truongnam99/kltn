@@ -6,6 +6,8 @@ import LogisticDetail from './screens/logistic-detail';
 import {translate} from '../../constants/translate';
 import {navigationName} from '../../constants/navigation';
 import {headerOptions} from '../../config/index';
+import CreateLogistic from './screens/create-logistic';
+import MyLogistic from './screens/my-logistic';
 
 const LogisticContainer = () => {
   const LogisticStack = createStackNavigator();
@@ -25,6 +27,20 @@ const LogisticContainer = () => {
         component={LogisticDetail}
         options={{
           headerTitle: translate.logisticDetail,
+        }}
+      />
+      <LogisticStack.Screen
+        name={navigationName.logistic.createLogistic}
+        component={CreateLogistic}
+        options={{
+          headerTitle: translate.logisticDetail,
+        }}
+      />
+      <LogisticStack.Screen
+        name={navigationName.logistic.myLogistic}
+        component={MyLogistic}
+        options={{
+          headerTitle: translate.logisticService,
         }}
       />
     </LogisticStack.Navigator>

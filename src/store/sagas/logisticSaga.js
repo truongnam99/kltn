@@ -2,6 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import {call, put, select} from 'redux-saga/effects';
 import {
   ADD_LOGISTIC,
+  ADD_MY_LOGISTIC,
   LOGISTIC_IS_LOADING,
   LOGISTIC_RELOAD_LIST,
   LOGISTIC_SET_END,
@@ -33,9 +34,9 @@ function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
   if (last) {
     query = query.startAfter(last);
   }
-  // if (cityId) {
-  //   query = query.where('full_address_object.city.code', '==', cityId);
-  // }
+  if (cityId) {
+    query = query.where('full_address_object.city.code', '==', cityId);
+  }
   if (districtId) {
     query = query.where('full_address_object.district.code', '==', +districtId);
   }
@@ -48,4 +49,51 @@ function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
     });
   }
   return results.docs.map(item => item.data());
+}
+
+export function* createLogistic({type, payload}) {
+  yield put({type: LOGISTIC_IS_LOADING, payload: true});
+  if (payload.id) {
+    yield updateLogisticInFirestore(payload);
+  } else {
+    yield createLogisticInFirestore(payload);
+  }
+  yield put({type: LOGISTIC_IS_LOADING, payload: false});
+}
+
+function* createLogisticInFirestore({id, ...payload}) {
+  return yield firestore()
+    .collection('Logistics')
+    .add({
+      ...payload,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
+}
+
+function* updateLogisticInFirestore({id, ...payload}) {
+  return yield firestore()
+    .collection('Logistics')
+    .doc(id)
+    .update({
+      ...payload,
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+    });
+}
+
+export function* fetchMyLogistic() {
+  yield put({type: LOGISTIC_IS_LOADING, payload: true});
+  const {uid} = yield select(state => state.userReducer.userCredential) || {};
+  if (uid) {
+    const result = yield firestore()
+      .collection('Logistics')
+      .where('owner.uid', '==', uid)
+      .get();
+    yield put({
+      type: ADD_MY_LOGISTIC,
+      payload: result.docs.map(item => {
+        return {id: item.id, ...item.data()};
+      }),
+    });
+  }
+  yield put({type: LOGISTIC_IS_LOADING, payload: false});
 }

@@ -26,7 +26,7 @@ const translate = {
   otherInfos: 'Thông tin khác',
   image: 'Hình ảnh',
   inn: {
-    myInn: 'Trọ của tôi',
+    myInn: 'Trọ của đã đăng',
     createInn: 'Đăng thông tin trọ',
   },
   logistic: {
@@ -34,6 +34,7 @@ const translate = {
     price: 'Giá vận chuyển:',
     detail: 'Chi tiết:',
     contact: 'Liên hệ:',
+    myLogistic: 'Dịch vụ của đã đăng',
   },
   chat: {
     chat: 'Chat',
@@ -72,6 +73,14 @@ const translate = {
     roomRefrigerator: 'Tủ lạnh',
     roomWashingMachine: 'Máy giặt',
     window: 'Cửa sổ',
+    logisticName: 'Tên dịch vụ vận chuyển',
+    logisticInfo: 'Thông tin dịch vụ vận chuyển',
+    logisticPrice: 'Giá',
+    logisticOnwerInfo: 'Thông tin chủ xe',
+    carOwner: 'Chủ xe',
+    logisticArea: 'Khu vực hoạt động',
+    pricePlaceholder: '1000000',
+    areaPlaceholder: 'Bình Thạnh, Thủ Đức',
   },
   city: 'Tỉnh/Thành phố',
   district: 'Quận/Huyện',

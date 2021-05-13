@@ -45,7 +45,14 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
     const selectDistrict = selectCity?.Districts.find(
       item => item.Id === district,
     );
-    callBack({price, district: selectDistrict, city: selectCity});
+    callBack({
+      price: {
+        minPrice: price.minPrice === 0 ? null : price.minPrice,
+        maxPrice: price.maxPrice === 10000000 ? null : price.maxPrice,
+      },
+      district: selectDistrict,
+      city: selectCity,
+    });
   };
 
   return (

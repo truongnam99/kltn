@@ -99,10 +99,10 @@ function* fetchDataFromFirebase({
       address.toLocaleLowerCase(),
     );
   }
-  if (maxPrice && maxPrice < 10000000) {
+  if (maxPrice) {
     query = query.where('room_price', '<=', maxPrice);
   }
-  if (minPrice && minPrice > 0) {
+  if (minPrice) {
     query = query.where('room_price', '>=', minPrice);
   }
   if (city) {

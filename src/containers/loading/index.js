@@ -21,13 +21,13 @@ const Loading = ({navigation}) => {
         const user = data.toJSON();
         if (user) {
           dispatch(setUser(user));
-          navigation.navigate(navigationName.findInn.findInn);
+          navigation.navigate(navigationName.homeContainer);
         } else {
           navigation.navigate(navigationName.login.additionalUserInfo);
         }
       });
     }
-  }, []);
+  });
 
   return (
     <View style={styles.container}>

@@ -13,7 +13,7 @@ const DistrictPicker = ({value, setValue, cityId, containerStyle}) => {
     if (cityId) {
       setDistricts(getDistricts(cityId));
     }
-  }, [cityId]);
+  }, [!cityId]);
 
   return (
     <View style={containerStyle}>
