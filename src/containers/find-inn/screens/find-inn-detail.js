@@ -43,6 +43,9 @@ const FindInnDetail = ({route, navigation}) => {
   } = inn;
 
   const onGotoChat = () => {
+    if (!created_by) {
+      return;
+    }
     navigation.navigate(navigationName.home.chat, {
       screen: navigationName.chat.chatDetail,
       params: {

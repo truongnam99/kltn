@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
@@ -16,6 +16,20 @@ const ChatDetail = ({navigation, route, ...props}) => {
   const {handleSendMessage} = handlers;
   const {messages, uid} = selectors;
   const message = messages.find(item => item.id === messageId);
+
+  useEffect(() => {
+    let tempMessageId = null;
+    if (!messageId && messages) {
+      for (const msg of messages) {
+        if (msg.users.find(item => item === route.params.destUser.id)) {
+          tempMessageId = msg.id;
+        }
+        break;
+      }
+      setMessageId(tempMessageId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSendMessage = async () => {
     await handleSendMessage({

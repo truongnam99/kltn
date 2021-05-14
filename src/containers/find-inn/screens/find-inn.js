@@ -52,18 +52,6 @@ const FindInn = ({navigation}) => {
 
   useEffect(() => {
     onFetchInn();
-
-    const backAction = () => {
-      BackHandler.exitApp();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

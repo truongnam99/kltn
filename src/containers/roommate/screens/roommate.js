@@ -29,8 +29,8 @@ const Roommate = ({navigation, ...props}) => {
     setIsShowFilter(false);
     handleFetchRoommate({
       reload: true,
-      cityId: value.city.Id,
-      districtId: value.district.Id,
+      cityId: value.city?.Id,
+      districtId: value.district?.Id,
     });
     setFilter(value);
   };

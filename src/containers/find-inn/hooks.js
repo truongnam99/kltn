@@ -5,7 +5,9 @@ import {changeMessage} from '../../store/actions/messageAction';
 import {fetchInn} from '../../store/actions/innAction';
 
 const useHooks = () => {
-  const {uid} = useSelector(state => state.userReducer.userInfo);
+  const {uid} =
+    useSelector(state => state.userReducer.userInfo) ||
+    useSelector(state => state.userReducer.userCredential);
   const dispatch = useDispatch();
 
   useEffect(() => {

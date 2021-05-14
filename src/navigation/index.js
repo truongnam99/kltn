@@ -24,15 +24,15 @@ export default function Navigation() {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
         <RootStack.Screen name={navigationName.loading} component={Loading} />
-        <RootStack.Screen name={navigationName.login.login} component={Login} />
-        <RootStack.Screen
-          name={navigationName.login.loginWithPhoneNumber}
-          component={PhoneLogin}
-        />
         <RootStack.Screen
           name={navigationName.homeContainer}
           component={Home}
         />
+        <RootStack.Screen
+          name={navigationName.login.loginWithPhoneNumber}
+          component={PhoneLogin}
+        />
+        <RootStack.Screen name={navigationName.login.login} component={Login} />
         <RootStack.Screen
           name={navigationName.login.confirmCode}
           component={ConfirmCode}
