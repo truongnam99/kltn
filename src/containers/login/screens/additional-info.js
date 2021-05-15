@@ -126,11 +126,6 @@ const AdditionalInfo = ({navigation}) => {
       const result = await uploadImageIntoFirebase(userInfo.photoURL);
       photoURL = await result.getDownloadURL();
     }
-    console.log({
-      ...userInfo,
-      photoURL,
-      phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
-    });
     const user = await createUser({
       ...userInfo,
       photoURL,

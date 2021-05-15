@@ -81,7 +81,6 @@ const useHooks = ({navigation}) => {
         navigation.navigate(navigationName.login.additionalUserInfo);
       } else {
         redirectToAdditionalIfNotHaveUser(pUserCredential.user.uid);
-        navigation.navigate(navigationName.findInn.findInn);
       }
     } catch (error) {
       Alert.alert(translate.errorCode);
@@ -95,7 +94,7 @@ const useHooks = ({navigation}) => {
       const user = data.toJSON();
       if (user) {
         dispatch(setUser(user));
-        navigation.navigate(navigationName.findInn.findInn);
+        navigation.replace(navigationName.homeContainer);
       } else {
         navigation.navigate(navigationName.login.additionalUserInfo);
       }

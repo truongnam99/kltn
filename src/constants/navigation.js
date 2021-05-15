@@ -1,12 +1,12 @@
 export const navigationName = {
-  loading: 'Loading',
-  homeContainer: 'Home container',
-  loginContainer: 'Login container',
+  loading: 'loading',
+  homeContainer: 'home-container',
+  loginContainer: 'login-container',
   login: {
-    login: 'Login',
-    loginWithPhoneNumber: 'Login with phone number',
-    confirmCode: 'Confirm code',
-    additionalUserInfo: 'Additional user info',
+    login: 'login-login',
+    loginWithPhoneNumber: 'login-with-phonenumber',
+    confirmCode: 'confirm-code',
+    additionalUserInfo: 'additional-user-info',
   },
   findInn: {
     findInn: 'inn-find-inn',

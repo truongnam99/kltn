@@ -42,6 +42,10 @@ const Profile = ({navigation, route}) => {
     );
   };
 
+  const onSignOut = () => {
+    auth().signOut();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -110,7 +114,7 @@ const Profile = ({navigation, route}) => {
       )}
       {!profile && (
         <View style={styles.mt8}>
-          <Button title="Logout" onPress={() => auth().signOut()} />
+          <Button title="Logout" onPress={onSignOut} />
         </View>
       )}
     </View>
