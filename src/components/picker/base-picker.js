@@ -11,6 +11,7 @@ const BasePicker = ({
   searchable = false,
   items,
   pickerContainerStype,
+  required,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -19,7 +20,10 @@ const BasePicker = ({
   };
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>
+        {title}
+        {required && <Text style={styles.required}>*</Text>}
+      </Text>
       <Picker
         items={items}
         open={open}

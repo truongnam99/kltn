@@ -5,7 +5,17 @@ import {translate} from '../../constants/translate';
 import {getDistricts} from '../../utils/utils';
 import {dropdownStyles as styles} from './picker.style';
 
-const DistrictPicker = ({value, setValue, cityId, containerStyle}) => {
+const DistrictPicker = ({
+  value,
+  setValue,
+  cityId,
+  containerStyle,
+  required,
+  hint = 'Không được bỏ trống',
+  error,
+  showHint,
+  validate,
+}) => {
   const [open, setOpen] = useState(false);
   const [districts, setDistricts] = useState([]);
   const onPress = () => setOpen(!open);
@@ -17,15 +27,32 @@ const DistrictPicker = ({value, setValue, cityId, containerStyle}) => {
 
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>{translate.district}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>
+          {translate.district}
+          {required && <Text style={styles.required}>*</Text>}
+        </Text>
+        {showHint && hint && (
+          <View style={styles.hintContainer}>
+            <Text style={styles.hintStyle}>{hint}</Text>
+          </View>
+        )}
+      </View>
       <Picker
         items={districts}
         open={open}
         onPress={onPress}
-        style={styles.container}
+        style={[styles.container, error && styles.borderError]}
         translation={translate.districtPicker}
         value={value}
-        setValue={setValue}
+        setValue={
+          validate
+            ? v => {
+                validate(v());
+                setValue(v);
+              }
+            : setValue
+        }
         onChangeValue={() => setOpen(false)}
         onClose={() => setOpen(false)}
         listMode="MODAL"

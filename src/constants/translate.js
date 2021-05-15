@@ -127,6 +127,12 @@ const translate = {
     requireName: 'Tên không được để trống',
     requirePhoneNumber: 'Số điện thoại không được để trống',
   },
+  placeholder: {
+    phone: '0949 725 725',
+    price: '1,000,000',
+    area: 25,
+    maxRoommate: 4,
+  },
 };
 
 export {translate};

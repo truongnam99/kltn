@@ -1,338 +1,448 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCity, uploadImageIntoFirebase} from '../../../utils/utils';
-import {createInn} from '../../../store/actions/innAction';
+import {
+  formatString,
+  getCity,
+  isPhoneNumber,
+  unFormatString,
+  uploadImageIntoFirebase,
+} from '../../../utils/utils';
+import {createInn, setLoading} from '../../../store/actions/innAction';
 import numeral from 'numeral';
 
 export const useCreateInn = ({data = {}}) => {
-  const userInfo = useSelector(state => state.userReducer.userInfo);
   const dispatch = useDispatch();
+  const userInfo = useSelector(state => state.userReducer.userInfo);
   const isLoading = useSelector(state => state.innReducer.isLoading);
-  const [images, setImages] = useState(
-    data.upload_room_images?.map(item => ({uri: item})) || [],
-  );
-  const [innName, setInnName] = useState(data.room_name);
-  const [innOwner, setInnOwner] = useState(userInfo?.displayName);
-  const [innStatus, setInnStatus] = useState(data.available_status || 1);
-  const [innPrice, setInnPrice] = useState(data.room_price);
-  const [innAddress, setInnAddress] = useState(data.exact_room_address);
-  const [innElectricPrice, setInnElectricPrice] = useState(data.electric_price);
-  const [innWaterPrice, setInnWaterPrice] = useState(data.water_price);
-  const [innArea, setInnArea] = useState(data.room_area);
-  const [innDeposit, setInnDeposit] = useState(data.deposit);
-  const [innWifi, setInnWifi] = useState(data.room_wifi);
-  const [innGarage, setInnGarage] = useState(data.parking_situation);
-  const [innDistrict, setInnDistrict] = useState(
-    data.full_address_object?.district.code,
-  );
-  const [innCity, setInnCity] = useState(data.full_address_object?.city.code);
-  const [innContact, setInnContact] = useState(
-    data.phone_number || userInfo?.phoneNumber,
-  );
-  const [innMaxRoommate, setMaxRoommate] = useState(data.max_roommate);
-  const [innAttention, setInnAttention] = useState(data.attention);
-  const [innNotes, setInnNotes] = useState(data.notes);
-  const [roomBed, setRoomBed] = useState(data.room_bed || false);
-  const [roomCloset, setRoomCloset] = useState(data.room_closet || false);
-  const [roomKetchen, setRoomKetchen] = useState(data.room_ketchen || false);
-  const [roomPetsAllowed, setRoomPetsAllowed] = useState(
-    data.room_pets_allowed || false,
-  );
-  const [roomTivi, setRoomTivi] = useState(data.room_tivi || false);
-  const [roomRefrigerator, setRoomRefrigerator] = useState(
-    data.room_refrigerator || false,
-  );
-  const [roomAirConditioner, setRoomAirConditioner] = useState(
-    data.air_conditioner || false,
-  );
-  const [roomWashingMachine, setRoomWashingMachine] = useState(
-    data.room_washing_machine || false,
-  );
-  const handleChangeImages = useCallback(
-    value => {
-      setImages(value);
+  const [inn, setInn] = useState({
+    images: data.upload_room_images?.map(item => ({uri: item})) || [],
+    innName: data.room_name,
+    innOwner: userInfo?.displayName,
+    innStatus: data.available_status || 1,
+    innPrice: formatString(data.room_price, 'currency'),
+    innAddress: data.exact_room_address,
+    innElectricPrice: formatString(data.electric_price, 'currency'),
+    innWaterPrice: formatString(data.water_price, 'currency'),
+    innArea: data.room_area,
+    innDeposit: data.deposit,
+    innWifi: data.room_wifi,
+    innGarage: data.parking_situation,
+    innDistrict: data.full_address_object?.district.code,
+    innCity: data.full_address_object?.city.code || '79',
+    innContact: formatString(
+      data.phone_number || userInfo?.phoneNumber,
+      'phoneNumber',
+    ),
+    innMaxRoommate: data.max_roommate,
+    innAttention: data.attention,
+    innNotes: data.notes,
+    roomBed: data.room_bed || false,
+    roomCloset: data.room_closet || false,
+    roomKetchen: data.room_ketchen || false,
+    roomPetsAllowed: data.room_pets_allowed || false,
+    roomTivi: data.room_tivi || false,
+    roomRefrigerator: data.room_refrigerator || false,
+    roomWashingMachine: data.room_washing_machine || false,
+    roomAirConditioner: data.air_conditioner || false,
+  });
+
+  const [validation, setValidation] = useState({
+    name: {
+      required: true,
+      hint: 'Tên không được trống',
+      showHint: false,
+      inputRef: useRef(),
+      error: false,
     },
-    [setImages],
-  );
-  const handleSetInnName = useCallback(
-    value => {
-      setInnName(value);
+    city: {
+      required: true,
+      error: false,
     },
-    [setInnName],
+    district: {
+      required: true,
+      error: false,
+    },
+    address: {
+      required: true,
+      error: false,
+      hint: 'Địa chỉ không được trống',
+      showHint: false,
+      inputRef: useRef(),
+    },
+    price: {
+      required: true,
+      error: false,
+      hint: 'Giá không được trống',
+      showHint: false,
+      inputRef: useRef(),
+    },
+    phoneNumber: {
+      error: false,
+      hint: 'Số điện thoại không đúng',
+      inputRef: useRef(),
+    },
+  });
+
+  const validateField = useCallback(
+    (value, field) => {
+      const check =
+        field !== 'phoneNumber'
+          ? !!value
+          : !!isPhoneNumber(unFormatString(value, 'phoneNumber'));
+      if (check) {
+        setValidation(preState => {
+          const newValidation = {
+            ...preState,
+            [field]: {
+              ...preState[field],
+              showHint: false,
+              error: false,
+            },
+          };
+          return {...newValidation};
+        });
+      } else {
+        setValidation(preState => {
+          const newValidation = {
+            ...preState,
+            [field]: {
+              ...preState[field],
+              showHint: true,
+              error: true,
+            },
+          };
+          return {...newValidation};
+        });
+      }
+    },
+    [setValidation],
   );
 
-  const handleSetInnOwner = value => {
-    setInnOwner(value);
+  const validateData = () => {
+    const errors = [];
+    if (!inn.innName) {
+      errors.push('name');
+    }
+    if (!inn.innDistrict) {
+      errors.push('district');
+    }
+    if (!inn.innAddress) {
+      errors.push('address');
+    }
+    if (!inn.innPrice) {
+      errors.push('price');
+    }
+    if (!isPhoneNumber(unFormatString(inn.innContact, 'phoneNumber'))) {
+      errors.push('phoneNumber');
+    }
+
+    setValidation(preState => {
+      const newValidation = {...preState};
+      let focused = false;
+      Object.keys(newValidation).forEach(item => {
+        newValidation[item] = {
+          ...newValidation[item],
+          showHint: false,
+          error: false,
+        };
+      });
+      errors.forEach(error => {
+        newValidation[error] = {
+          ...newValidation[error],
+          showHint: true,
+          error: true,
+          validate: value => validateField(value, error),
+        };
+        if (focused && newValidation[error]?.inputRef?.current) {
+          focused = true;
+          newValidation[error]?.inputRef?.current.focus();
+        }
+      });
+      return {...newValidation};
+    });
+    return !errors.length;
   };
 
-  const handleSetInnStatus = useCallback(
-    value => {
-      setInnStatus(value);
+  const hanleChangeInn = useCallback(
+    (value, field) => {
+      setInn(preState => ({
+        ...preState,
+        [field]: value,
+      }));
     },
-    [setInnStatus],
+    [setInn],
   );
 
-  const handleSetInnPrice = useCallback(
+  const onChangeName = useCallback(
     value => {
-      setInnPrice(value);
+      hanleChangeInn(value, 'innName');
     },
-    [setInnPrice],
+    [hanleChangeInn],
   );
 
-  const handleSetInnAddress = useCallback(
+  const onChangeAddress = useCallback(
     value => {
-      setInnAddress(value);
+      hanleChangeInn(value, 'innAddress');
     },
-    [setInnAddress],
+    [hanleChangeInn],
   );
 
-  const handleSetInnElectricPrice = useCallback(
+  const onChangeImages = useCallback(
     value => {
-      setInnElectricPrice(value);
+      hanleChangeInn(value, 'images');
     },
-    [setInnElectricPrice],
+    [hanleChangeInn],
   );
-
-  const handleSetInnWaterPrice = useCallback(
+  const onChangeCity = useCallback(
     value => {
-      setInnWaterPrice(value);
+      hanleChangeInn(value(), 'innCity');
     },
-    [setInnWaterPrice],
+    [hanleChangeInn],
   );
-
-  const handleSetInnArea = useCallback(
+  const onChangeDistrict = useCallback(
     value => {
-      setInnArea(value);
+      hanleChangeInn(value(), 'innDistrict');
     },
-    [setInnArea],
+    [hanleChangeInn],
   );
-
-  const handleSetInnDeposit = useCallback(
+  const onChangeStatus = useCallback(
     value => {
-      setInnDeposit(value);
+      hanleChangeInn(value, 'innStatus');
     },
-    [setInnDeposit],
+    [hanleChangeInn],
   );
-
-  const handleSetInnWifi = useCallback(
+  const onChangePrice = useCallback(
     value => {
-      setInnWifi(value);
+      hanleChangeInn(formatString(value, 'currency'), 'innPrice');
     },
-    [setInnWifi],
+    [hanleChangeInn],
   );
-
-  const handleSetInnGarage = useCallback(
+  const onChangeElectricPrice = useCallback(
     value => {
-      setInnGarage(value);
+      hanleChangeInn(formatString(value, 'currency'), 'innElectricPrice');
     },
-    [setInnGarage],
+    [hanleChangeInn],
   );
-
-  const handleSetInnDistrict = useCallback(
+  const onChangeWaterPrice = useCallback(
     value => {
-      setInnDistrict(value);
+      hanleChangeInn(
+        hanleChangeInn(formatString(value, 'currency'), 'innWaterPrice'),
+      );
     },
-    [setInnDistrict],
+    [hanleChangeInn],
   );
-
-  const handleSetInnCity = value => {
-    setInnCity(value);
-  };
-
-  const handleSetInnContact = useCallback(
+  const onChangeArea = useCallback(
     value => {
-      setInnContact(value);
+      hanleChangeInn(value, 'innArea');
     },
-    [setInnContact],
+    [hanleChangeInn],
   );
-
-  const handleSetMaxRoommate = useCallback(
+  const onChangeDeposit = useCallback(
     value => {
-      setMaxRoommate(value);
+      hanleChangeInn(formatString(value, 'currency'), 'innDeposit');
     },
-    [setMaxRoommate],
+    [hanleChangeInn],
   );
-
-  const handleSetInnAttention = useCallback(
+  const onChangeMaxRoommate = useCallback(
     value => {
-      setInnAttention(value);
+      hanleChangeInn(value, 'innMaxRoommate');
     },
-    [setInnAttention],
+    [hanleChangeInn],
   );
-
-  const handleSetInnNotes = useCallback(
+  const onChangeOwner = useCallback(
     value => {
-      setInnNotes(value);
+      hanleChangeInn(value, 'innOwner');
     },
-    [setInnNotes],
+    [hanleChangeInn],
   );
-
-  const handleSetRoomBed = useCallback(
+  const onChangeContact = useCallback(
     value => {
-      setRoomBed(value);
+      hanleChangeInn(formatString(value, 'phoneNumber'), 'innContact');
     },
-    [setRoomBed],
+    [hanleChangeInn],
   );
-
-  const handleSetRoomCloset = useCallback(
+  const onChangeWifi = useCallback(
     value => {
-      setRoomCloset(value);
+      hanleChangeInn(value, 'innWifi');
     },
-    [setRoomCloset],
+    [hanleChangeInn],
   );
-  const handleSetRoomKetchen = useCallback(
+  const onChangeGarage = useCallback(
     value => {
-      setRoomKetchen(value);
+      hanleChangeInn(value, 'innGarage');
     },
-    [setRoomKetchen],
+    [hanleChangeInn],
   );
-  const handleSetRoomPetsAllowed = useCallback(
+  const onChangeRoomBed = useCallback(
     value => {
-      setRoomPetsAllowed(value);
+      hanleChangeInn(value, 'roomBed');
     },
-    [setRoomPetsAllowed],
+    [hanleChangeInn],
   );
-  const handleSetRoomRefrigerator = useCallback(
+  const onChangeRoomCloset = useCallback(
     value => {
-      setRoomRefrigerator(value);
+      hanleChangeInn(value, 'roomCloset');
     },
-    [setRoomRefrigerator],
+    [hanleChangeInn],
   );
-  const handleSetRoomTivi = useCallback(
+  const onChangeRoomKetchen = useCallback(
     value => {
-      setRoomTivi(value);
+      hanleChangeInn(value, 'roomKetchen');
     },
-    [setRoomTivi],
+    [hanleChangeInn],
   );
-  const handleSetRoomWashingMachine = useCallback(
+  const onChangeRoomPetsAllowed = useCallback(
     value => {
-      setRoomWashingMachine(value);
+      hanleChangeInn(value, 'roomPetsAllowed');
     },
-    [setRoomWashingMachine],
+    [hanleChangeInn],
   );
-  const handleSetAirConditioner = useCallback(
+  const onChangeRoomRefrigerator = useCallback(
     value => {
-      setRoomAirConditioner(value);
+      hanleChangeInn(value, 'roomRefrigerator');
     },
-    [setRoomAirConditioner],
+    [hanleChangeInn],
+  );
+  const onChangeRoomAirConditioner = useCallback(
+    value => {
+      hanleChangeInn(value, 'roomAirConditioner');
+    },
+    [hanleChangeInn],
+  );
+  const onChangeRoomTivi = useCallback(
+    value => {
+      hanleChangeInn(value, 'roomTivi');
+    },
+    [hanleChangeInn],
+  );
+  const onChangeRoomWashingMachine = useCallback(
+    value => {
+      hanleChangeInn(value, 'roomWashingMachine');
+    },
+    [hanleChangeInn],
+  );
+  const onChangeAttention = useCallback(
+    value => {
+      hanleChangeInn(value, 'innAttention');
+    },
+    [hanleChangeInn],
+  );
+  const onChangeNotes = useCallback(
+    value => {
+      hanleChangeInn(value, 'innNotes');
+    },
+    [hanleChangeInn],
   );
 
   const uploadImage = async () => {
     const img = [];
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].uri.startsWith('http')) {
-        img.push(images[i].uri);
+    for (let i = 0; i < inn.images.length; i++) {
+      if (inn.images[i].uri.startsWith('http')) {
+        img.push(inn.images[i].uri);
         continue;
       }
-      const result = await uploadImageIntoFirebase(images[i].uri);
+      const result = await uploadImageIntoFirebase(inn.images[i].uri);
       img.push(await result.getDownloadURL());
     }
     return img;
   };
 
   const handleCreateInn = async () => {
-    const city = getCity(innCity);
-    const upload_room_images = await uploadImage();
-    const district = city.Districts?.find(item => item.Id === innDistrict);
-    const payload = {
-      ...data,
-      room_name: innName,
-      room_owner: innOwner,
-      created_by: userInfo || data.created_by,
-      available_status: innStatus,
-      room_price: numeral(innPrice).value(),
-      exact_room_address: innAddress,
-      electric_price: numeral(innElectricPrice).value(),
-      water_price: numeral(innWaterPrice).value(),
-      room_area: numeral(innArea).value(),
-      deposit: numeral(innDeposit).value(),
-      room_wifi: innWifi,
-      parking_situation: innGarage,
-      full_address_object: {
-        city: {
-          code: city.Id,
-          text: city.Name,
+    if (!validateData()) {
+      return false;
+    }
+    try {
+      dispatch(setLoading(true));
+      const city = getCity(inn.innCity);
+      const upload_room_images = await uploadImage();
+      const district = city.Districts?.find(
+        item => item.Id === inn.innDistrict,
+      );
+      const payload = {
+        ...data,
+        room_name: inn.innName,
+        room_owner: inn.innOwner,
+        created_by: userInfo || data.created_by,
+        available_status: inn.innStatus,
+        room_price: numeral(unFormatString(inn.innPrice, 'currency')).value(),
+        exact_room_address: inn.innAddress,
+        electric_price: numeral(
+          unFormatString(inn.innElectricPrice, 'currency'),
+        ).value(),
+        water_price: numeral(
+          unFormatString(inn.innWaterPrice, 'currency'),
+        ).value(),
+        room_area: numeral(inn.innArea).value(),
+        deposit: numeral(inn.innDeposit).value(),
+        room_wifi: inn.innWifi,
+        parking_situation: inn.innGarage,
+        full_address_object: {
+          city: {
+            code: city.Id,
+            text: city.Name,
+          },
+          district: {
+            code: district.Id,
+            text: district.Name,
+          },
         },
-        district: {
-          code: district.Id,
-          text: district.Name,
-        },
-      },
-      phone_number: innContact,
-      max_roommate: numeral(innMaxRoommate).value(),
-      attention: innAttention,
-      notes: innNotes,
-      room_bed: roomBed,
-      room_closet: roomCloset,
-      room_ketchen: roomKetchen,
-      room_pets_allowed: roomPetsAllowed,
-      room_tivi: roomTivi,
-      room_refrigerator: roomRefrigerator,
-      air_conditioner: roomAirConditioner,
-      room_washing_machine: roomWashingMachine,
-      upload_room_images,
-    };
-    dispatch(createInn(payload));
+        phone_number: unFormatString(inn.innContact, 'phoneNumber'),
+        max_roommate: numeral(inn.innMaxRoommate).value(),
+        attention: inn.innAttention,
+        notes: inn.innNotes,
+        room_bed: inn.roomBed,
+        room_closet: inn.roomCloset,
+        room_ketchen: inn.roomKetchen,
+        room_pets_allowed: inn.roomPetsAllowed,
+        room_tivi: inn.roomTivi,
+        room_refrigerator: inn.roomRefrigerator,
+        air_conditioner: inn.roomAirConditioner,
+        room_washing_machine: inn.roomWashingMachine,
+        upload_room_images,
+      };
+      dispatch(createInn(payload));
+    } catch (error) {
+      console.log('need handle error at handleCreateInn', error);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return {
     handlers: {
-      handleSetInnName,
-      handleSetInnOwner,
-      handleSetInnStatus,
-      handleSetInnPrice,
-      handleSetInnAddress,
-      handleSetInnElectricPrice,
-      handleSetInnWaterPrice,
-      handleSetInnArea,
-      handleSetInnDeposit,
-      handleSetInnWifi,
-      handleSetInnGarage,
-      handleSetInnDistrict,
-      handleSetInnCity,
-      handleSetInnContact,
-      handleSetMaxRoommate,
-      handleSetInnAttention,
-      handleSetInnNotes,
-      handleSetRoomBed,
-      handleSetRoomCloset,
-      handleSetRoomKetchen,
-      handleSetRoomPetsAllowed,
-      handleSetRoomRefrigerator,
-      handleSetRoomTivi,
-      handleSetRoomWashingMachine,
-      handleSetAirConditioner,
       handleCreateInn,
-      handleChangeImages,
+      hanleChangeInn,
+      onChangeName,
+      onChangeAddress,
+      onChangeImages,
+      onChangeCity,
+      onChangeDistrict,
+      onChangeStatus,
+      onChangePrice,
+      onChangeElectricPrice,
+      onChangeWaterPrice,
+      onChangeArea,
+      onChangeDeposit,
+      onChangeMaxRoommate,
+      onChangeOwner,
+      onChangeContact,
+      onChangeWifi,
+      onChangeGarage,
+      onChangeRoomBed,
+      onChangeRoomCloset,
+      onChangeRoomKetchen,
+      onChangeRoomPetsAllowed,
+      onChangeRoomRefrigerator,
+      onChangeRoomAirConditioner,
+      onChangeRoomTivi,
+      onChangeRoomWashingMachine,
+      onChangeAttention,
+      onChangeNotes,
     },
     selectors: {
-      images,
-      isLoading,
-      innName,
-      innOwner,
-      innStatus,
-      innPrice,
-      innAddress,
-      innElectricPrice,
-      innWaterPrice,
-      innArea,
-      innDeposit,
-      innWifi,
-      innGarage,
-      innDistrict,
-      innCity,
-      innContact,
-      innMaxRoommate,
-      innAttention,
-      innNotes,
-      roomBed,
-      roomCloset,
-      roomKetchen,
-      roomPetsAllowed,
-      roomTivi,
-      roomRefrigerator,
-      roomWashingMachine,
-      roomAirConditioner,
+      inn,
+      isLoading: isLoading,
+      validation,
     },
   };
 };

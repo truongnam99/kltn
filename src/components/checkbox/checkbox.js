@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import RNCCheckBox from '@react-native-community/checkbox';
 import Text from '../text/text';
@@ -31,4 +31,4 @@ const CheckBox = ({
   );
 };
 
-export default CheckBox;
+export default memo(CheckBox);

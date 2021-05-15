@@ -42,6 +42,9 @@ export const dropdownStyles = StyleSheet.create({
     height: 40,
     backgroundColor: 'transparent',
   },
+  borderError: {
+    borderColor: 'red',
+  },
   title: {
     fontSize: 16,
   },
@@ -52,5 +55,20 @@ export const dropdownStyles = StyleSheet.create({
   },
   mvStatus: {
     marginVertical: 300,
+  },
+  required: {
+    color: 'red',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+  },
+  hintStyle: {
+    fontStyle: 'italic',
+  },
+  hintContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
   },
 });

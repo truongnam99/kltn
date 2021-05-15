@@ -13,6 +13,7 @@ import {
 import {styles} from './post.style';
 import province from '../../../constants/provice.json';
 import usePostHook from '../hooks/usePostHook';
+import {formatString, unFormatString} from '../../../utils/utils';
 
 const Post = ({navigation}) => {
   const [showInnInfo, setShowInnInfo] = useState(false);
@@ -55,7 +56,7 @@ const Post = ({navigation}) => {
   };
   const onInnPriceChange = text => {
     if (text !== '') {
-      setInnPrice(+text);
+      setInnPrice(formatString(text, 'currency'));
     } else {
       setInnPrice(null);
     }
@@ -65,28 +66,28 @@ const Post = ({navigation}) => {
   };
   const onInnWaterPriceChange = text => {
     if (text !== '') {
-      setInnWaterPrice(+text);
+      setInnWaterPrice(formatString(text, 'currency'));
     } else {
       setInnWaterPrice(null);
     }
   };
   const onInnElectricPriceChange = text => {
     if (text !== '') {
-      setInnElectricPrice(+text);
+      setInnElectricPrice(formatString(text, 'currency'));
     } else {
       setInnElectricPrice(null);
     }
   };
   const onInnAreaChange = text => {
     if (text !== '') {
-      setInnArea(+text);
+      setInnArea(formatString(text, 'currency'));
     } else {
       setInnArea(null);
     }
   };
   const onInnDepositChange = text => {
     if (text !== '') {
-      setInnDeposit(+text);
+      setInnDeposit(formatString(text, 'currency'));
     } else {
       setInnDeposit(null);
     }
@@ -106,12 +107,12 @@ const Post = ({navigation}) => {
         ...data,
         innName: innName,
         innOwner: innOwner,
-        innPrice: innPrice,
+        innPrice: unFormatString(innPrice, 'currency'),
         innAddress: innAddress,
-        innWaterPrice: innWaterPrice,
-        innElectricPrice: innElectricPrice,
+        innWaterPrice: unFormatString(innWaterPrice, 'currency'),
+        innElectricPrice: unFormatString(innElectricPrice, 'currency'),
         innArea: innArea,
-        innDeposit: innDeposit,
+        innDeposit: unFormatString(innDeposit, 'currency'),
       };
     }
     await handlePost(data);

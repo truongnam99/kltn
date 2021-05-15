@@ -3,7 +3,6 @@ import {call, put, select} from 'redux-saga/effects';
 import {clientIndex} from '../../config/algolia';
 import {
   ADD_INN,
-  INN_SHOW_LOADING,
   INN_RELOAD_LIST,
   SET_IS_END,
   INN_SET_lAST,
@@ -18,16 +17,13 @@ export function* fetchInn({type, payload}) {
   if ((isEnd || isLoading) && !payload.reload) {
     return;
   }
-  yield put({type: INN_SHOW_LOADING, payload: true});
   if (payload.reload) {
     yield put({type: INN_RELOAD_LIST});
   }
   const data = !payload.searchText
     ? yield call(fetchDataFromFirebase, {...payload, count})
     : yield call(fetchDataFromAlgolia, payload);
-  if (!data || data.length === 0) {
-    yield put({type: SET_IS_END, payload: true});
-  } else {
+  if (data && data.length) {
     yield put({type: ADD_INN, payload: data});
     if (data.length < payload.limit) {
       yield put({type: SET_IS_END, payload: true});
@@ -143,7 +139,6 @@ export function* fetchMyInn({type, payload}) {
 }
 
 export function* createInn({type, payload}) {
-  yield put({type: INN_SHOW_LOADING, payload: true});
   const {inns, myInns} = yield select(state => state.innReducer);
   if (payload.uid) {
     yield updateInnInFirebase(payload);
@@ -174,7 +169,6 @@ export function* createInn({type, payload}) {
       payload: {data: {...payload, uid: result.id}, setToFirst: true},
     });
   }
-  yield put({type: INN_SHOW_LOADING, payload: false});
 }
 
 function* createInnInFirebase({isUpdate, ...data}) {

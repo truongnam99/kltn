@@ -15,7 +15,9 @@ const TextInput = ({
   inputRef,
   required = false,
   hint,
-  showHint = true,
+  error,
+  showHint = false,
+  validate,
   ...attributes
 }) => {
   return (
@@ -35,11 +37,19 @@ const TextInput = ({
       )}
       <RNTextInput
         placeholder={placeholder}
-        onChangeText={onChangeText}
+        onChangeText={
+          validate
+            ? value => {
+                validate(value);
+                onChangeText(value);
+              }
+            : onChangeText
+        }
         placeholderTextColor={lightTheme.grayC4}
         style={StyleSheet.flatten([
           type === 'outline' ? styles.textInput : styles.textInputOutline,
           textInputStyle,
+          error && {borderColor: 'red'},
         ])}
         ref={inputRef}
         {...attributes}

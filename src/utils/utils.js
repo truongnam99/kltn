@@ -115,8 +115,12 @@ export const unFormatString = (value, type) => {
       value = value.replace(/ /g, '');
       return value;
     case 'currency':
-      return value.replace(/ /g, '');
+      return +value.replace(/,/g, '');
     default:
       break;
   }
+};
+
+export const isPhoneNumber = phoneNumber => {
+  return phoneNumber.match(/(84|0[3|5|7|8|9])+([0-9]{8,9})\b/g);
 };

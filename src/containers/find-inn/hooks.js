@@ -1,8 +1,9 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
+
 import {changeMessage} from '../../store/actions/messageAction';
-import {fetchInn} from '../../store/actions/innAction';
+import {fetchInn, setLoading} from '../../store/actions/innAction';
 
 const useHooks = () => {
   const {uid} =
@@ -36,20 +37,26 @@ const useHooks = () => {
     if (isLoading) {
       return;
     }
-
-    dispatch(
-      fetchInn({
-        limit,
-        name,
-        minPrice,
-        maxPrice,
-        city,
-        district,
-        address,
-        reload,
-        searchText,
-      }),
-    );
+    try {
+      dispatch(setLoading(true));
+      dispatch(
+        fetchInn({
+          limit,
+          name,
+          minPrice,
+          maxPrice,
+          city,
+          district,
+          address,
+          reload,
+          searchText,
+        }),
+      );
+    } catch (error) {
+      console.log('need handle error at handleFetchInn', error);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return {

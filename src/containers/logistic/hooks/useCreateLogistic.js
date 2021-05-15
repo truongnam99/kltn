@@ -1,7 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {createLogistic} from '../../../store/actions/logisticAction';
-import {getCity, uploadImageIntoFirebase} from '../../../utils/utils';
+import {
+  formatString,
+  getCity,
+  uploadImageIntoFirebase,
+  unFormatString,
+} from '../../../utils/utils';
 
 export const useCreateLogistic = (data = {}) => {
   const userInfo = useSelector(state => state.userReducer.userInfo);
@@ -14,11 +19,11 @@ export const useCreateLogistic = (data = {}) => {
     images: data.image ? [{uri: data.image}] : [],
     area: data.area,
     exactAddress: data.exact_address,
-    price: data.price,
+    price: formatString(data.price, 'currency'),
     city: data.full_address_object?.city.Id || '79',
     district: data.full_address_object?.district.Id,
     ownerName: data.ownerName || userInfo.displayName,
-    contact: data.contact || userInfo.phoneNumber,
+    contact: formatString(data.contact || userInfo.phoneNumber, 'phoneNumber'),
     notes: data.notes,
   });
 
@@ -82,10 +87,12 @@ export const useCreateLogistic = (data = {}) => {
         image: image[0],
         owner: {
           displayName: userInfo.displayName,
-          phoneNumber: userInfo.phoneNumber,
+          phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
           photoURL: userInfo.photoURL,
           uid: userInfo.uid,
         },
+        contact: unFormatString(data.contact, 'phoneNumber'),
+        price: unFormatString(data.price, 'currency'),
       }),
     );
   };

@@ -10,6 +10,8 @@ const CityPicker = ({
   setValue,
   containerStyle,
   pickerContainerStype,
+  required,
+  validate,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -18,7 +20,10 @@ const CityPicker = ({
   };
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>{translate.city}</Text>
+      <Text style={styles.title}>
+        {translate.city}
+        {required && <Text style={styles.required}>*</Text>}
+      </Text>
       <Picker
         items={cities}
         open={open}
@@ -26,7 +31,14 @@ const CityPicker = ({
         style={[styles.container, pickerContainerStype]}
         translation={translate.cityPicker}
         value={value}
-        setValue={setValue}
+        setValue={
+          validate
+            ? v => {
+                validate(v());
+                setValue(v);
+              }
+            : setValue
+        }
         onChangeValue={onChangeValue}
         onClose={() => setOpen(false)}
         listMode="MODAL"

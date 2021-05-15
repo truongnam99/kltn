@@ -60,14 +60,14 @@ const CreateLogistic = ({route, navigation}) => {
         type="outline"
         value={logistic.price}
         onChangeText={value => handleSetLogistic('price', value)}
-        placeholder={translate.post.pricePlaceholder}
+        placeholder={translate.placeholder.price}
       />
       <TextInput
         title={translate.post.logisticArea}
         type="outline"
         value={logistic.area}
         onChangeText={value => handleSetLogistic('area', value)}
-        placeholder={translate.post.areaPlaceholder}
+        placeholder={translate.placeholder.price}
       />
 
       <TextInput
@@ -95,6 +95,7 @@ const CreateLogistic = ({route, navigation}) => {
         value={logistic.contact}
         keyboardType="numeric"
         onChangeText={value => handleSetLogistic('contact', value)}
+        placeholder={translate.placeholder.phone}
       />
 
       <View style={styles.buttonWrapper}>
