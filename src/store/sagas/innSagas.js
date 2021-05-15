@@ -8,6 +8,8 @@ import {
   SET_IS_END,
   INN_SET_lAST,
   ADD_MY_INN,
+  UPDATE_INNS,
+  UPDATE_MY_INNS,
 } from '../actions/types';
 
 export function* fetchInn({type, payload}) {
@@ -142,12 +144,35 @@ export function* fetchMyInn({type, payload}) {
 
 export function* createInn({type, payload}) {
   yield put({type: INN_SHOW_LOADING, payload: true});
+  const {inns, myInns} = yield select(state => state.innReducer);
   if (payload.uid) {
     yield updateInnInFirebase(payload);
     yield updateInnInAlgolia(payload);
+
+    if (inns && inns.length) {
+      const index = inns.findIndex(item => item.uid === payload.uid);
+      if (index !== -1) {
+        inns.splice(index, 1, {...payload});
+        yield put({type: UPDATE_INNS, payload: [...inns]});
+      }
+    }
+    if (myInns && myInns.length) {
+      const index = myInns.findIndex(item => item.uid === payload.uid);
+      if (index !== -1) {
+        myInns.splice(index, 1, {...payload});
+        yield put({
+          type: UPDATE_MY_INNS,
+          payload: [...myInns],
+        });
+      }
+    }
   } else {
-    const {id} = yield createInnInFirebase(payload);
-    yield createInnInAlgolia({objectID: id, ...payload});
+    const result = yield createInnInFirebase(payload);
+    yield createInnInAlgolia({objectID: result.id, ...payload});
+    yield put({
+      type: ADD_INN,
+      payload: {data: {...payload, uid: result.id}, setToFirst: true},
+    });
   }
   yield put({type: INN_SHOW_LOADING, payload: false});
 }
@@ -159,16 +184,16 @@ function* createInnInFirebase({isUpdate, ...data}) {
 }
 
 function* updateInnInFirebase({isUpdate, ...data}) {
-  yield firestore()
+  return yield firestore()
     .collection('Inns')
     .doc(data.uid)
     .update({...data, update_at: firestore.FieldValue.serverTimestamp()});
 }
 
 function* createInnInAlgolia({isUpdate, ...data}) {
-  yield clientIndex.saveObject({...data});
+  return yield clientIndex.saveObject({...data});
 }
 
 function* updateInnInAlgolia({isUpdate, uid, ...data}) {
-  yield clientIndex.saveObject({objectID: uid, ...data});
+  return yield clientIndex.saveObject({objectID: uid, ...data});
 }

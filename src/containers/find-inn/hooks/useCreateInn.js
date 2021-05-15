@@ -54,7 +54,6 @@ export const useCreateInn = ({data = {}}) => {
     },
     [setImages],
   );
-
   const handleSetInnName = useCallback(
     value => {
       setInnName(value);

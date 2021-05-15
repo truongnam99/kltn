@@ -23,7 +23,13 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  nameContainer: {
     marginLeft: 6,
+    flexDirection: 'column',
+  },
+  activeText: {
+    fontSize: 10,
   },
   content: {
     marginTop: 8,

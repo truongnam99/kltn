@@ -16,5 +16,8 @@ export default function* rootSagas() {
     takeEvery(types.FETCH_MY_INN, innSagas.fetchMyInn),
     takeEvery(types.CREATE_LOGISTIC, logisticSagas.createLogistic),
     takeEvery(types.FETCH_MY_LOGISTIC, logisticSagas.fetchMyLogistic),
+    takeEvery(types.FETCH_MY_POST, roommateSagas.fetchMyPost),
+    takeEvery(types.POST_UPDATE_STATUS, roommateSagas.activedPost),
+    takeEvery(types.ROOMMATE_CREATE_POST, roommateSagas.watchCreatePost),
   ]);
 }

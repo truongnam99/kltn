@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  BackHandler,
-} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
@@ -84,6 +78,7 @@ const FindInn = ({navigation}) => {
 
   useEffect(() => {
     onFetchInn({reload: true});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   const showFilter = () => {
@@ -173,6 +168,7 @@ const FindInn = ({navigation}) => {
                 />
               </TouchableOpacity>
             )}
+            ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
           />
         ) : (
           <FlatList
@@ -199,6 +195,7 @@ const FindInn = ({navigation}) => {
                 />
               </TouchableOpacity>
             )}
+            ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
           />
         )}
       </View>

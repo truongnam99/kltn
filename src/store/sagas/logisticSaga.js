@@ -7,6 +7,8 @@ import {
   LOGISTIC_RELOAD_LIST,
   LOGISTIC_SET_END,
   LOGISTIC_SET_LAST,
+  UPDATE_LOGISTIC,
+  UPDATE_MY_LOGISTIC,
 } from '../actions/types';
 
 export function* fetchLogistic({type, payload}) {
@@ -55,8 +57,29 @@ export function* createLogistic({type, payload}) {
   yield put({type: LOGISTIC_IS_LOADING, payload: true});
   if (payload.id) {
     yield updateLogisticInFirestore(payload);
+    const {logistics, myLogistics} = yield select(
+      state => state.logisticReducer,
+    );
+    if (logistics && logistics.length) {
+      const index = logistics.findIndex(item => item.id === payload.id);
+      if (index !== -1) {
+        logistics.splice(index, 1, {...payload});
+        yield put({type: UPDATE_LOGISTIC, payload: logistics});
+      }
+    }
+    if (myLogistics && myLogistics.length) {
+      const index = myLogistics.findIndex(item => item.id === payload.id);
+      if (index !== -1) {
+        myLogistics.splice(index, 1, {...payload});
+        yield put({type: UPDATE_LOGISTIC, payload: myLogistics});
+      }
+    }
   } else {
-    yield createLogisticInFirestore(payload);
+    const result = yield createLogisticInFirestore(payload);
+    yield put({
+      type: ADD_LOGISTIC,
+      payload: {data: {id: result.id, ...payload}, setToFirst: true},
+    });
   }
   yield put({type: LOGISTIC_IS_LOADING, payload: false});
 }

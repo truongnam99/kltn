@@ -1,15 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Text, ScrollView, TextInput, View} from 'react-native';
+import Slider from '@ptomasroos/react-native-multi-slider';
 import {translate} from '../../../constants/translate';
+import {gender, jobs} from '../../../constants/constants';
 import {
   Button,
   CheckBox,
   TextInput as CustomTextInput,
   Picker,
+  BasePicker,
 } from '../../../components';
 import {styles} from './post.style';
-import useHook from '../hooks';
 import province from '../../../constants/provice.json';
+import usePostHook from '../hooks/usePostHook';
 
 const Post = ({navigation}) => {
   const [showInnInfo, setShowInnInfo] = useState(false);
@@ -28,8 +31,13 @@ const Post = ({navigation}) => {
   });
   const [districts, setDistricts] = useState([]);
   const [district, setDistrict] = useState({Id: '', Name: ''});
-
-  const {handlers} = useHook();
+  const [additionalInfo, setAdditionalInfo] = useState({
+    job: 0,
+    gender: 0,
+    age: [20, 30],
+  });
+  const {handlers, selectors} = usePostHook();
+  const {isLoading} = selectors;
   const {handlePost} = handlers;
 
   const onChangeShowInnInfo = () => {
@@ -91,6 +99,7 @@ const Post = ({navigation}) => {
       isActive: true,
       district,
       city,
+      ...additionalInfo,
     };
     if (showInnInfo) {
       data = {
@@ -121,6 +130,27 @@ const Post = ({navigation}) => {
       Id: value.key,
       Name: value.value,
     });
+  };
+
+  const onSelectJob = value => {
+    setAdditionalInfo(pre => ({
+      ...pre,
+      job: value,
+    }));
+  };
+
+  const onSelectGender = value => {
+    setAdditionalInfo(pre => ({
+      ...pre,
+      gender: value,
+    }));
+  };
+
+  const onAgeChange = values => {
+    setAdditionalInfo(pre => ({
+      ...pre,
+      age: values,
+    }));
   };
 
   useEffect(() => {
@@ -173,6 +203,32 @@ const Post = ({navigation}) => {
         value={{value: district.Name}}
         onChange={onChangeDistrict}
       />
+      <BasePicker
+        items={jobs}
+        value={additionalInfo.job}
+        setValue={onSelectJob}
+      />
+      <BasePicker
+        items={gender}
+        value={additionalInfo.gender}
+        setValue={onSelectGender}
+        title={translate.gender}
+      />
+      <Text>{translate.age}</Text>
+      <Text>
+        Tuổi từ <Text style={styles.priceStyle}>{additionalInfo.age[0]}</Text>{' '}
+        đến <Text style={styles.priceStyle}>{additionalInfo.age[1]}</Text>
+      </Text>
+      <Slider
+        min={14}
+        max={50}
+        allowOverlap={false}
+        values={[additionalInfo.age[0], additionalInfo.age[1]]}
+        onValuesChange={onAgeChange}
+        containerStyle={styles.sliderContainer}
+        step={1}
+      />
+
       <CheckBox
         types=""
         checked={showInnInfo}
@@ -221,6 +277,7 @@ const Post = ({navigation}) => {
         </View>
       )}
       <Button
+        loading={isLoading}
         containerStyle={styles.button}
         title={translate.post.post}
         onPress={onPost}

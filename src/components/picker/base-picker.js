@@ -1,32 +1,32 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useState} from 'react';
 import {View, Text} from 'react-native';
 import Picker from 'react-native-dropdown-picker';
-import {translate} from '../../constants/translate';
-import {getDistricts} from '../../utils/utils';
 import {dropdownStyles as styles} from './picker.style';
 
-const DistrictPicker = ({value, setValue, cityId, containerStyle}) => {
+const BasePicker = ({
+  value,
+  setValue,
+  containerStyle,
+  title,
+  searchable = false,
+  items,
+}) => {
   const [open, setOpen] = useState(false);
-  const [districts, setDistricts] = useState([]);
   const onPress = () => setOpen(!open);
-  useEffect(() => {
-    if (cityId) {
-      setDistricts(getDistricts(cityId));
-    }
-  }, [cityId]);
-
+  const onChangeValue = value => {
+    setOpen(false);
+  };
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>{translate.district}</Text>
+      <Text style={styles.title}>{title}</Text>
       <Picker
-        items={districts}
+        items={items}
         open={open}
         onPress={onPress}
         style={styles.container}
-        translation={translate.districtPicker}
         value={value}
-        setValue={setValue}
-        onChangeValue={() => setOpen(false)}
+        setValue={cb => setValue(cb())}
+        onChangeValue={onChangeValue}
         onClose={() => setOpen(false)}
         listMode="MODAL"
         modalProps={{
@@ -37,10 +37,11 @@ const DistrictPicker = ({value, setValue, cityId, containerStyle}) => {
             alignItems: 'center',
           },
         }}
+        searchable={searchable}
         modalContentContainerStyle={styles.modalContentContainerStyle}
       />
     </View>
   );
 };
 
-export default memo(DistrictPicker);
+export default memo(BasePicker);

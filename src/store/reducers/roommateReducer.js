@@ -4,6 +4,9 @@ import {
   ROOMMATE_SET_END,
   ROOMMATE_SET_LAST,
   ROOMMATE_RELOAD_LIST,
+  ADD_MY_POST,
+  UPDATE_MY_POST,
+  UPDATE_POST,
 } from '../actions/types';
 
 const roommateReducer = (
@@ -47,6 +50,21 @@ const roommateReducer = (
         count: 0,
         isEnd: false,
         last: null,
+      };
+    case ADD_MY_POST:
+      return {
+        ...state,
+        myPost: action.payload,
+      };
+    case UPDATE_MY_POST:
+      return {
+        ...state,
+        myPost: [...action.payload],
+      };
+    case UPDATE_POST:
+      return {
+        ...state,
+        roommates: [...action.payload],
       };
     default:
       return state;

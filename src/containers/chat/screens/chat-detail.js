@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, FlatList, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
 import {TextInput} from '../../../components';
@@ -7,6 +7,7 @@ import {TextInput} from '../../../components';
 import styles from './chat-detail.style';
 import {lightTheme} from '../../../config/theme';
 import {useChatDetail} from '../hook/useChatDetail';
+import {translate} from '../../../constants/translate';
 
 const ChatDetail = ({navigation, route, ...props}) => {
   const {selectors, handlers} = useChatDetail();
@@ -46,8 +47,8 @@ const ChatDetail = ({navigation, route, ...props}) => {
     flatList.current.scrollToEnd();
   };
 
-  const onChangeText = text => {
-    setText(text);
+  const onChangeText = value => {
+    setText(value);
   };
 
   return (
@@ -62,6 +63,7 @@ const ChatDetail = ({navigation, route, ...props}) => {
             <Message {...item} uid={uid} photoUrl={route.params.photoUrl} />
           </View>
         )}
+        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
       />
       <View style={styles.sendMessageContainer}>
         <TextInput

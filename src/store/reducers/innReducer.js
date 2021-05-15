@@ -5,6 +5,8 @@ import {
   INN_SET_lAST,
   INN_SHOW_LOADING,
   SET_IS_END,
+  UPDATE_INNS,
+  UPDATE_MY_INNS,
 } from '../actions/types';
 
 const innReducer = (
@@ -28,7 +30,9 @@ const innReducer = (
       return {
         ...state,
         count: state.count + action.payload?.length,
-        inns: [...state.inns, ...action.payload],
+        inns: action.payload.setToFirst
+          ? [action.payload.data, ...state.inns]
+          : [...state.inns, ...action.payload],
         isLoading: false,
       };
     case INN_SHOW_LOADING:
@@ -53,6 +57,16 @@ const innReducer = (
       return {
         ...state,
         myInns: action.payload,
+      };
+    case UPDATE_INNS:
+      return {
+        ...state,
+        inns: [...action.payload],
+      };
+    case UPDATE_MY_INNS:
+      return {
+        ...state,
+        myInns: [...action.payload],
       };
     default:
       return state;

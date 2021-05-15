@@ -34,5 +34,6 @@ export const navigationName = {
   roommate: {
     roommate: 'roommate-roommate',
     post: 'roommate-post',
+    myPost: 'roommate-my-post',
   },
 };

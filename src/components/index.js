@@ -7,6 +7,7 @@ import ImageView from './image-view/image-view';
 import Picker from './picker/picker';
 import CityPicker from './picker/city-picker';
 import DistrictPicker from './picker/district-picker';
+import BasePicker from './picker/base-picker';
 import StatusPicker from './picker/status-picker';
 import FooterListComponent from './FooterList';
 import ImagePicker from './image-picker/image-picker';
@@ -23,4 +24,5 @@ export {
   StatusPicker,
   FooterListComponent,
   ImagePicker,
+  BasePicker,
 };

@@ -9,6 +9,7 @@ import {navigationName} from '../../../constants/navigation';
 import useHook from '../hooks';
 import Filter from '../../find-inn/component/filter';
 import {FooterListComponent} from '../../../components';
+import {translate} from '../../../constants/translate';
 
 const Roommate = ({navigation, ...props}) => {
   const {selectors, handlers} = useHook();
@@ -36,7 +37,7 @@ const Roommate = ({navigation, ...props}) => {
   };
 
   const onGetPosted = () => {
-    handleFetchRoommate({reload: true, isMe: true});
+    navigation.navigate(navigationName.roommate.myPost);
   };
 
   useEffect(() => {
@@ -100,6 +101,7 @@ const Roommate = ({navigation, ...props}) => {
           ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
           onEndReached={onLoadmore}
           onEndReachedThreshold={100}
+          ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
         />
       </View>
       <ActionButton buttonColor="rgba(231,76,60,1)">

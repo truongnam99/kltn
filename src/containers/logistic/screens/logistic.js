@@ -111,6 +111,7 @@ const Logistic = ({navigation}) => {
             <CartItem {...item.item} />
           </TouchableOpacity>
         )}
+        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
       />
       {isLoading && (
         <ActivityIndicator style={styles.loading} color={lightTheme.primary} />

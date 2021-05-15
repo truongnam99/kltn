@@ -5,6 +5,7 @@ import {navigationName} from '../../constants/navigation';
 import {translate} from '../../constants/translate';
 import Roommate from './screens/roommate';
 import Post from './screens/post';
+import {MyPost} from './screens/my-post';
 
 const RoommateStack = createStackNavigator();
 
@@ -24,6 +25,13 @@ export default function RoommateContainer() {
         component={Post}
         options={{
           headerTitle: translate.roommate.post,
+        }}
+      />
+      <RoommateStack.Screen
+        name={navigationName.roommate.myPost}
+        component={MyPost}
+        options={{
+          headerTitle: translate.roommate.myPost,
         }}
       />
     </RoommateStack.Navigator>

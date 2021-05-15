@@ -20,7 +20,7 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
       return;
     }
 
-    setDistrict();
+    setDistrict(null);
   }, [city]);
 
   const handleSetDistrict = useCallback(

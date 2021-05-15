@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import CartItem from '../compoinents/card-item';
 
@@ -11,6 +12,7 @@ import styles from './logistic.style';
 import {navigationName} from '../../../constants/navigation';
 import {lightTheme} from '../../../config/theme';
 import {useMyLogistic} from '../hooks/useMyLogistic';
+import {translate} from '../../../constants/translate';
 
 const MyLogistic = ({navigation}) => {
   const {handlers, selectors} = useMyLogistic();
@@ -43,6 +45,7 @@ const MyLogistic = ({navigation}) => {
             <CartItem {...item.item} />
           </TouchableOpacity>
         )}
+        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
       />
       {isLoading && (
         <ActivityIndicator style={styles.loading} color={lightTheme.primary} />

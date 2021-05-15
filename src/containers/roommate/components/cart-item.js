@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import styles from './cart-item.style';
-import {translate} from '../../../constants/translate';
 import {
   MenuOption,
   MenuOptions,
@@ -10,6 +8,10 @@ import {
   Menu,
 } from 'react-native-popup-menu';
 import FastImage from 'react-native-fast-image';
+
+import styles from './cart-item.style';
+import {translate} from '../../../constants/translate';
+import {getGender, getJob} from '../../../constants/constants';
 
 const maxNumberOfLines = 5;
 
@@ -19,6 +21,8 @@ const CartItem = ({
   content,
   userInfo,
   onFoundRoommate,
+  isActive,
+  showIsActive = false,
   ...props
 }) => {
   const [state, setState] = useState({
@@ -59,7 +63,16 @@ const CartItem = ({
       <View style={styles.headerContainer}>
         <View style={styles.userContainer}>
           <FastImage source={{uri: owner.photoURL}} style={styles.avatar} />
-          <Text style={styles.name}>{owner.displayName}</Text>
+          <View style={styles.nameContainer}>
+            <Text style={styles.name}>{owner.displayName}</Text>
+            {showIsActive && (
+              <Text style={styles.activeText}>
+                {isActive
+                  ? translate.roommate.finding
+                  : translate.roommate.found}
+              </Text>
+            )}
+          </View>
         </View>
         {userInfo.uid === owner.uid && (
           <Menu>
@@ -80,6 +93,13 @@ const CartItem = ({
         numberOfLines={state.numberOfLines}
         onTextLayout={onTextLayout}>
         {content}
+        {props.job && <Text>{`\nNghề nghiệp: ${getJob(props.job)}`}</Text>}
+        {props.gender && (
+          <Text>{`\nGiới tính: ${getGender(props.gender)}`}</Text>
+        )}
+        {props.age && props.age.length && (
+          <Text>{`\nTuổi từ: ${props.age[0]} - ${props.age[1]}`}</Text>
+        )}
         {props.haveInnContent && (
           <Text>
             {props.innName && <Text>{'\nTên trọ: ' + props.innName}</Text>}

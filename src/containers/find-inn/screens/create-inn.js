@@ -112,42 +112,42 @@ const CreateInn = ({route, navigation}) => {
       <TextInput
         title={translate.post.innPrice}
         type="outline"
-        value={innPrice}
+        value={`${innPrice ?? ''}`}
         onChangeText={handleSetInnPrice}
         keyboardType="numeric"
       />
       <TextInput
         title={translate.post.innElectricPrice}
         type="outline"
-        value={innElectricPrice}
+        value={`${innElectricPrice ?? ''}`}
         onChangeText={handleSetInnElectricPrice}
         keyboardType="numeric"
       />
       <TextInput
         title={translate.post.innWaterPrice}
         type="outline"
-        value={innWaterPrice}
+        value={`${innWaterPrice ?? ''}`}
         onChangeText={handleSetInnWaterPrice}
         keyboardType="numeric"
       />
       <TextInput
         title={translate.post.innArea}
         type="outline"
-        value={innArea}
+        value={`${innArea ?? ''}`}
         onChangeText={handleSetInnArea}
         keyboardType="numeric"
       />
       <TextInput
         title={translate.post.innDeposit}
         type="outline"
-        value={innDeposit}
+        value={`${innDeposit ?? ''}`}
         onChangeText={handleSetInnDeposit}
         keyboardType="numeric"
       />
       <TextInput
         title={translate.post.maxRoommate}
         type="outline"
-        value={innMaxRoommate}
+        value={`${innMaxRoommate ?? ''}`}
         onChangeText={handleSetMaxRoommate}
         keyboardType="numeric"
       />

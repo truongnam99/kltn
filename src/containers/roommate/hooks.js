@@ -1,28 +1,14 @@
-import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchRoommate} from '../../store/actions/roommateAction';
+import {POST_UPDATE_STATUS} from '../../store/actions/types';
 
 const useHook = () => {
   const dispatch = useDispatch();
   const {roommates, isLoading} = useSelector(state => state.roommateReducer);
   const {userInfo} = useSelector(state => state.userReducer);
 
-  const handlePost = async data => {
-    await firestore()
-      .collection('Roommates')
-      .add({
-        ...data,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        owner: {
-          ...userInfo,
-        },
-      });
-  };
-
-  const handleFoundRoommate = async id => {
-    await firestore().collection('Roommates').doc(id).update({
-      isActive: false,
-    });
+  const handleFoundRoommate = id => {
+    dispatch({type: POST_UPDATE_STATUS, payload: id});
   };
 
   const handleFetchRoommate = (props = {reload: false}) => {
@@ -33,7 +19,7 @@ const useHook = () => {
     dispatch(fetchRoommate(props));
   };
   return {
-    handlers: {handlePost, handleFetchRoommate, handleFoundRoommate},
+    handlers: {handleFetchRoommate, handleFoundRoommate},
     selectors: {
       roommates,
       userInfo,

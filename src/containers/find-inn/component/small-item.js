@@ -1,6 +1,7 @@
 import React, {useRef} from 'react';
 import {View, Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {noImage} from '../../../constants/string';
 import {numeralPrice} from '../../../utils/utils';
 import styles from './small-item.style';
 
@@ -17,14 +18,12 @@ const SmallItem = ({
   return (
     <View style={styles.container} ref={stageCanvasRef}>
       <View style={styles.imageContainer}>
-        {images?.length && (
-          <FastImage
-            source={{
-              uri: images[0],
-            }}
-            style={styles.image}
-          />
-        )}
+        <FastImage
+          source={{
+            uri: images?.length ? images[0] : noImage,
+          }}
+          style={styles.image}
+        />
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.textName}>{room_name}</Text>
