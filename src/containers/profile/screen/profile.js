@@ -1,31 +1,28 @@
+import auth from '@react-native-firebase/auth';
 import moment from 'moment';
 import React from 'react';
 import {TouchableOpacity, View, Text as RNText} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {Avatar, Text, TextInput} from '../../../components';
+import {Avatar, Button, Text, TextInput} from '../../../components';
+import {getGender, getProfileJobs} from '../../../constants/constants';
 import {translate} from '../../../constants/translate';
+import {formatString, getCity} from '../../../utils/utils';
 import useHooks from '../hooks';
 import styles from './profile.style';
+import {Contact} from '../../roommate/components/contact';
 
 const CTextInput = ({...props}) => {
   return <TextInput {...props} containerStyle={styles.marginTop} />;
 };
 
-const Profile = () => {
-  const {handlers, selectors} = useHooks();
-  const {user} = selectors;
+const Profile = ({navigation, route}) => {
+  const profile = route.params?.profile;
+  console.log('route', profile);
+  const {selectors} = useHooks();
+  const user = profile ?? selectors.user;
 
-  const pickerImageCallback = ({
-    didCancel,
-    errorMessage,
-    uri,
-    width,
-    height,
-    fileSize,
-    type,
-    fileName,
-  }) => {
+  const pickerImageCallback = ({didCancel, errorMessage, uri}) => {
     if (didCancel) {
       return;
     }
@@ -53,13 +50,15 @@ const Profile = () => {
           size="large"
           isShowDetailFullScreen={false}
         />
-        <TouchableOpacity onPress={() => pickImage()}>
-          <Text
-            text={translate.changeAvatar}
-            types="italic,underline"
-            style={styles.changeAvatar}
-          />
-        </TouchableOpacity>
+        {!profile && (
+          <TouchableOpacity onPress={() => pickImage()}>
+            <Text
+              text={translate.changeAvatar}
+              types="italic,underline"
+              style={styles.changeAvatar}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <CTextInput
         defaultValue={user.displayName}
@@ -67,7 +66,7 @@ const Profile = () => {
         type="outline"
       />
       <CTextInput
-        defaultValue={user.phoneNumber}
+        defaultValue={formatString(user.phoneNumber, 'phoneNumber')}
         title={translate.phoneNumber}
         type="outline"
       />
@@ -89,20 +88,31 @@ const Profile = () => {
         style={styles.dateTouchBody}
       />
       <CTextInput
-        defaultValue={user.homeTown}
+        defaultValue={getCity(user.homeTown)?.Name}
         title={translate.homeTown}
         type="outline"
       />
       <CTextInput
-        defaultValue={user.job}
-        title={translate.job}
+        defaultValue={getGender(user.gender)}
+        title={translate.gender}
         type="outline"
       />
       <CTextInput
-        defaultValue={user.social}
-        title={translate.social}
+        defaultValue={getProfileJobs(user.job)}
+        title={translate.job}
         type="outline"
       />
+      {profile && (
+        <View>
+          <Text text={translate.logistic.contact} />
+          <Contact navigation={navigation} owner={user} />
+        </View>
+      )}
+      {!profile && (
+        <View style={styles.mt8}>
+          <Button title="Logout" onPress={() => auth().signOut()} />
+        </View>
+      )}
     </View>
   );
 };

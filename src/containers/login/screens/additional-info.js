@@ -1,41 +1,78 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {View, Text as RNText, ScrollView, TouchableOpacity} from 'react-native';
-import {useHooks} from '../hooks';
-import moment from 'moment';
-
-import {TextInput, Avatar, Text} from '../../../components';
-import {translate} from '../../../constants/translate';
-import styles from './additional-info.style';
-import {useState} from 'react';
 import DatePicker from 'react-native-datepicker';
-import HeaderAction from '../../../components/header-action/header-action';
-import {navigationName} from '../../../constants/navigation';
-import {uploadImageIntoFirebase} from '../../../utils/utils';
+import moment from 'moment';
 import {launchImageLibrary} from 'react-native-image-picker';
 
+import {useHooks} from '../hooks';
+import {TextInput, Avatar, Text, BasePicker} from '../../../components';
+import {translate} from '../../../constants/translate';
+import styles from './additional-info.style';
+import HeaderAction from '../../../components/header-action/header-action';
+import {navigationName} from '../../../constants/navigation';
+import {
+  cities,
+  formatString,
+  unFormatString,
+  uploadImageIntoFirebase,
+} from '../../../utils/utils';
+import {gender, profileJobs, role} from '../../../constants/constants';
+import {ModalLoading} from '../../../components/modal-loading';
+
 const CTextInput = ({...props}) => {
-  return <TextInput {...props} containerStyle={styles.marginTop} />;
+  return (
+    <TextInput
+      {...props}
+      containerStyle={styles.marginTop}
+      textInputStyle={styles.textInputStyle}
+    />
+  );
 };
 
 const AdditionalInfo = ({navigation}) => {
   const {selectors, handlers} = useHooks({navigation});
-  const [isChangeAvatar, setIsChangeAvatar] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const {createUser, handleSetUser} = handlers;
   const {userCredential} = selectors;
+  const nameRef = useRef();
+  const phoneNumberRef = useRef();
 
   const [userInfo, setUserInfo] = useState({
     uid: userCredential.uid,
     photoURL: userCredential.photoURL,
     displayName: userCredential.displayName,
-    phoneNumber: userCredential.phoneNumber,
+    phoneNumber: formatString(userCredential.phoneNumber, 'phoneNumber'),
     email: userCredential.email,
     birthday: userCredential.birthday
       ? moment(userCredential.birthday).format('DD/MM/YYYY')
       : moment().format('DD/MM/YYYY'),
-    homeTown: userCredential.homeTown,
-    job: userCredential.job,
-    social: userCredential.social,
+    homeTown: '79',
+    role: 0,
+    gender: 0,
+    job: 1,
   });
+
+  const validateData = () => {
+    const errors = [];
+    if (!userInfo.displayName) {
+      errors.push({ref: nameRef});
+    }
+    if (!userInfo.phoneNumber) {
+      errors.push({ref: phoneNumberRef});
+    }
+    return errors;
+  };
+
+  const handleValidate = () => {
+    const errors = validateData();
+    if (!errors.length) {
+      return true;
+    }
+    errors[0].ref.current.focus();
+    setShowHint(true);
+    return false;
+  };
 
   const onDateChange = (dateStr, date) => {
     setUserInfo({
@@ -44,57 +81,18 @@ const AdditionalInfo = ({navigation}) => {
     });
   };
 
-  const onDisplayNameChange = value => {
+  const onUpdateUserInfo = (value, field) => {
+    let updateValue = value;
+    if (field === 'phoneNumber') {
+      updateValue = formatString(value, 'phoneNumber');
+    }
     setUserInfo({
       ...userInfo,
-      displayName: value,
+      [field]: updateValue,
     });
   };
 
-  const onPhoneNumberChange = value => {
-    setUserInfo({
-      ...userInfo,
-      phoneNumber: value,
-    });
-  };
-
-  const onEmailChange = value => {
-    setUserInfo({
-      ...userInfo,
-      email: value,
-    });
-  };
-
-  const onHomeTownChange = value => {
-    setUserInfo({
-      ...userInfo,
-      homeTown: value,
-    });
-  };
-
-  const onJobChange = value => {
-    setUserInfo({
-      ...userInfo,
-      job: value,
-    });
-  };
-  const onSocialChange = value => {
-    setUserInfo({
-      ...userInfo,
-      social: value,
-    });
-  };
-
-  const pickerImageCallback = ({
-    didCancel,
-    errorMessage,
-    uri,
-    width,
-    height,
-    fileSize,
-    type,
-    fileName,
-  }) => {
+  const pickerImageCallback = ({didCancel, errorMessage, uri}) => {
     if (didCancel) {
       return;
     }
@@ -105,7 +103,6 @@ const AdditionalInfo = ({navigation}) => {
       ...userInfo,
       photoURL: uri,
     });
-    setIsChangeAvatar(true);
   };
 
   const pickImage = () => {
@@ -120,13 +117,28 @@ const AdditionalInfo = ({navigation}) => {
   };
 
   const onSave = async () => {
-    if (isChangeAvatar) {
-      const result = await uploadImageIntoFirebase(userInfo.photoURL);
-      userInfo.photoURL = await result.getDownloadURL();
+    if (!handleValidate()) {
+      return;
     }
-    const user = await createUser(userInfo);
+    setIsLoading(true);
+    let photoURL = userInfo.photoURL;
+    if (userInfo.photoURL && !userInfo.photoURL?.startsWith('http')) {
+      const result = await uploadImageIntoFirebase(userInfo.photoURL);
+      photoURL = await result.getDownloadURL();
+    }
+    console.log({
+      ...userInfo,
+      photoURL,
+      phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
+    });
+    const user = await createUser({
+      ...userInfo,
+      photoURL,
+      phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
+    });
     handleSetUser(user);
-    navigation.navigate(navigationName.findInn.findInn);
+    navigation.replace(navigationName.homeContainer);
+    setIsLoading(false);
   };
 
   return (
@@ -145,17 +157,28 @@ const AdditionalInfo = ({navigation}) => {
         <CTextInput
           title={translate.name}
           defaultValue={userInfo.displayName}
-          onChangeText={onDisplayNameChange}
+          onChangeText={value => onUpdateUserInfo(value, 'displayName')}
+          required={true}
+          hint={translate.validation.requireName}
+          showHint={showHint}
+          inputRef={nameRef}
+          autoCapitalize="words"
         />
         <CTextInput
           title={translate.phoneNumber}
           defaultValue={userInfo.phoneNumber}
-          onChangeText={onPhoneNumberChange}
+          onChangeText={value => onUpdateUserInfo(value, 'phoneNumber')}
+          keyboardType="phone-pad"
+          required={true}
+          hint={translate.validation.requirePhoneNumber}
+          showHint={showHint}
+          inputRef={phoneNumberRef}
         />
         <CTextInput
           title={translate.email}
           defaultValue={userInfo.email}
-          onChangeText={onEmailChange}
+          onChangeText={value => onUpdateUserInfo(value, 'email')}
+          keyboardType="email-address"
         />
         <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
         <DatePicker
@@ -170,14 +193,37 @@ const AdditionalInfo = ({navigation}) => {
           style={styles.dateTouchBody}
           onDateChange={(dateStr, date) => onDateChange(dateStr, date)}
         />
-        <CTextInput
-          title={translate.homeTown}
-          onChangeText={onHomeTownChange}
+        <BasePicker
+          items={gender}
+          value={userInfo.gender}
+          setValue={value => onUpdateUserInfo(value, 'gender')}
+          title={translate.gender}
+          pickerContainerStype={styles.pickerContainerStype}
         />
-        <CTextInput title={translate.job} onChangeText={onJobChange} />
-        <CTextInput title={translate.social} onChangeText={onSocialChange} />
+        <BasePicker
+          value={userInfo.homeTown}
+          items={cities}
+          title={translate.homeTown}
+          setValue={value => onUpdateUserInfo(value, 'homeTown')}
+          pickerContainerStype={styles.pickerContainerStype}
+        />
+        <BasePicker
+          title={translate.job}
+          items={profileJobs}
+          value={userInfo.job}
+          pickerContainerStype={styles.pickerContainerStype}
+          setValue={value => onUpdateUserInfo(value, 'job')}
+        />
+        <BasePicker
+          title={translate.role}
+          items={role}
+          value={userInfo.role}
+          pickerContainerStype={styles.pickerContainerStype}
+          setValue={value => onUpdateUserInfo(value, 'role')}
+        />
       </ScrollView>
       <HeaderAction isShowClose={false} onCheck={() => onSave()} />
+      <ModalLoading isShow={isLoading} />
     </View>
   );
 };

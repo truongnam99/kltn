@@ -12,14 +12,26 @@ const TextInput = ({
   titleStyle,
   textInputStyle,
   marginTop,
+  inputRef,
+  required = false,
+  hint,
+  showHint = true,
   ...attributes
 }) => {
   return (
     <View style={StyleSheet.flatten([styles.container, containerStyle])}>
       {title && (
-        <Text style={StyleSheet.flatten([styles.title, titleStyle])}>
-          {title}
-        </Text>
+        <View style={styles.titleContainer}>
+          <Text style={StyleSheet.flatten([styles.title, titleStyle])}>
+            {title}
+            {required && <Text style={styles.fieldRequire}>*</Text>}
+          </Text>
+          {showHint && hint && (
+            <View style={styles.hintContainer}>
+              <Text style={styles.hintStyle}>{hint}</Text>
+            </View>
+          )}
+        </View>
       )}
       <RNTextInput
         placeholder={placeholder}
@@ -29,6 +41,7 @@ const TextInput = ({
           type === 'outline' ? styles.textInput : styles.textInputOutline,
           textInputStyle,
         ])}
+        ref={inputRef}
         {...attributes}
       />
     </View>

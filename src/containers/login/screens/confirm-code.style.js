@@ -2,8 +2,8 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    marginTop: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
     backgroundColor: 'white',
   },
   titleContainer: {marginBottom: 6},
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 40,
     height: 40,
+    fontSize: 18,
   },
   buttonContainer: {
     marginTop: 16,

@@ -12,6 +12,8 @@ import FastImage from 'react-native-fast-image';
 import styles from './cart-item.style';
 import {translate} from '../../../constants/translate';
 import {getGender, getJob} from '../../../constants/constants';
+import {Contact} from './contact';
+import {navigationName} from '../../../constants/navigation';
 
 const maxNumberOfLines = 5;
 
@@ -58,23 +60,31 @@ const CartItem = ({
     });
   };
 
+  const onViewProfile = () => {
+    props?.navigation.navigate(navigationName.findInn.viewProfile, {
+      profile: owner,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <View style={styles.userContainer}>
-          <FastImage source={{uri: owner.photoURL}} style={styles.avatar} />
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{owner.displayName}</Text>
-            {showIsActive && (
-              <Text style={styles.activeText}>
-                {isActive
-                  ? translate.roommate.finding
-                  : translate.roommate.found}
-              </Text>
-            )}
+        <TouchableOpacity activeOpacity={0.8} onPress={onViewProfile}>
+          <View style={styles.userContainer}>
+            <FastImage source={{uri: owner.photoURL}} style={styles.avatar} />
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{owner.displayName}</Text>
+              {showIsActive && (
+                <Text style={styles.activeText}>
+                  {isActive
+                    ? translate.roommate.finding
+                    : translate.roommate.found}
+                </Text>
+              )}
+            </View>
           </View>
-        </View>
-        {userInfo.uid === owner.uid && (
+        </TouchableOpacity>
+        {userInfo.uid === owner.uid ? (
           <Menu>
             <MenuTrigger>
               <MaterialCommunityIcons name="dots-horizontal" size={24} />
@@ -86,6 +96,8 @@ const CartItem = ({
               />
             </MenuOptions>
           </Menu>
+        ) : (
+          <Contact navigation={props.navigation} owner={owner} />
         )}
       </View>
       <Text

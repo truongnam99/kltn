@@ -9,6 +9,8 @@ import {
   setUser,
 } from '../../store/actions/userAction';
 import {setConfirm as setConfirmAction} from '../../store/actions/loginAction';
+import {Alert} from 'react-native';
+import {translate} from '../../constants/translate';
 
 const useHooks = ({navigation}) => {
   const dispatch = useDispatch();
@@ -82,6 +84,7 @@ const useHooks = ({navigation}) => {
         navigation.navigate(navigationName.findInn.findInn);
       }
     } catch (error) {
+      Alert.alert(translate.errorCode);
       console.log(error);
     }
   };

@@ -12,6 +12,10 @@ const LogisticDetail = ({route, navigation, ...props}) => {
   const {logistic} = route.params;
   const {owner} = logistic;
 
+  const onViewProfile = () => {
+    navigation.navigate(navigationName.findInn.viewProfile, {profile: owner});
+  };
+
   const onGotoChat = () => {
     if (!owner) {
       return;
@@ -40,6 +44,9 @@ const LogisticDetail = ({route, navigation, ...props}) => {
             style={styles.userImage}
           />
           <Text style={styles.username}>{logistic.owner.username}</Text>
+          <TouchableOpacity activeOpacity={0.8} onPress={onViewProfile}>
+            <MaterialIcons name="info-outline" size={20} />
+          </TouchableOpacity>
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.contentTitle}>{translate.logistic.area}</Text>

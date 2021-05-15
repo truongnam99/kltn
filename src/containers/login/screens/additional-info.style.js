@@ -36,6 +36,14 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     fontSize: 16,
   },
+  pickerContainerStype: {
+    borderRadius: 6,
+    borderWidth: 1,
+  },
+  textInputStyle: {
+    textAlignVertical: 'center',
+    paddingTop: 3,
+  },
 });
 
 export default styles;

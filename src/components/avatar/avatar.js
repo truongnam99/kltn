@@ -12,6 +12,7 @@ const Avatar = ({
   containerStyle: passedContainedStyle,
   type = 'circle',
   isShowDetailFullScreen = false,
+  isAllowShowFullScreen = false,
 }) => {
   const [isShowDetail, setShowDetail] = useState(isShowDetailFullScreen);
 
@@ -25,13 +26,13 @@ const Avatar = ({
 
   const handlePress = evt => {
     if (isShowDetail) {
-      setShowDetail(false);
+      isAllowShowFullScreen && setShowDetail(false);
       return;
     }
     if (onPress) {
       onPress(evt);
     } else {
-      setShowDetail(true);
+      isAllowShowFullScreen && setShowDetail(true);
     }
   };
 

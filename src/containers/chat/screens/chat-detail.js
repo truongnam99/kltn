@@ -63,7 +63,6 @@ const ChatDetail = ({navigation, route, ...props}) => {
             <Message {...item} uid={uid} photoUrl={route.params.photoUrl} />
           </View>
         )}
-        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
       />
       <View style={styles.sendMessageContainer}>
         <TextInput

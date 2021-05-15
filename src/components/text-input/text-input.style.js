@@ -27,6 +27,21 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 16,
   },
+  fieldRequire: {
+    color: 'red',
+  },
+  hintStyle: {
+    fontStyle: 'italic',
+  },
+  hintContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+  },
 });
 
 export default styles;

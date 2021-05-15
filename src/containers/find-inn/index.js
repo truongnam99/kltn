@@ -7,6 +7,7 @@ import CreateInn from './screens/create-inn';
 import {translate} from '../../constants/translate';
 import {headerOptions} from '../../config/index';
 import {navigationName} from '../../constants/navigation';
+import Profile from '../profile/screen/profile';
 
 export default function FinnInnContainer() {
   const HomeStack = createStackNavigator();
@@ -40,6 +41,13 @@ export default function FinnInnContainer() {
         options={{
           headerTitle: translate.inn.myInn,
         }}
+      />
+      <HomeStack.Screen
+        name={navigationName.findInn.viewProfile}
+        component={Profile}
+        options={({route}) => ({
+          title: route.params.profile?.displayName || '',
+        })}
       />
     </HomeStack.Navigator>
   );

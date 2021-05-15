@@ -38,7 +38,7 @@ export const dropdownStyles = StyleSheet.create({
     borderRadius: 0,
     borderWidth: 0,
     borderBottomWidth: 1,
-    borderBottomColor: lightTheme.primary,
+    borderColor: lightTheme.primary,
     height: 40,
     backgroundColor: 'transparent',
   },

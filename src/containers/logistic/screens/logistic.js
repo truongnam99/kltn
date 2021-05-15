@@ -8,14 +8,14 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CartItem from '../compoinents/card-item';
 
+import {useHooks} from '../hooks';
+import ActionButton from 'react-native-action-button';
+import CartItem from '../compoinents/card-item';
+import Filter from '../../find-inn/component/filter';
 import styles from './logistic.style';
 import {navigationName} from '../../../constants/navigation';
-import {useHooks} from '../hooks';
 import {lightTheme} from '../../../config/theme';
-import Filter from '../../find-inn/component/filter';
-import ActionButton from 'react-native-action-button';
 import {translate} from '../../../constants/translate';
 
 const Logistic = ({navigation}) => {
@@ -120,9 +120,8 @@ const Logistic = ({navigation}) => {
         isShow={isShowFilter}
         callBack={filterCallBack}
         showPricePicker={false}
-        // styleContainer={styles.filterModelContainer}
       />
-      {role === 'supplier' && (
+      {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
           <ActionButton.Item
             title={translate.new}

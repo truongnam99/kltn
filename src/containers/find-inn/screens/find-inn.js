@@ -200,7 +200,7 @@ const FindInn = ({navigation}) => {
         )}
       </View>
       <Filter isShow={isShowFilter} callBack={filterCallBack} />
-      {role === 'supplier' && (
+      {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
           <ActionButton.Item title={translate.new} onPress={onGotoCreateInn}>
             <Ionicons name="md-create" style={styles.actionButtonIcon} />

@@ -5,7 +5,12 @@ import {translate} from '../../constants/translate';
 import {cities} from '../../utils/utils';
 import {dropdownStyles as styles} from './picker.style';
 
-const CityPicker = ({value, setValue, containerStyle}) => {
+const CityPicker = ({
+  value,
+  setValue,
+  containerStyle,
+  pickerContainerStype,
+}) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
   const onChangeValue = value => {
@@ -18,7 +23,7 @@ const CityPicker = ({value, setValue, containerStyle}) => {
         items={cities}
         open={open}
         onPress={onPress}
-        style={styles.container}
+        style={[styles.container, pickerContainerStype]}
         translation={translate.cityPicker}
         value={value}
         setValue={setValue}

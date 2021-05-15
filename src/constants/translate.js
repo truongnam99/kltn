@@ -8,14 +8,14 @@ const translate = {
   birthday: 'Ngày sinh',
   email: 'Email',
   changeAvatar: 'Thay đổi hình đại diện',
-  homeTown: 'Quê quán',
+  homeTown: 'Nơi ở',
   job: 'Nghề nghiệp',
   social: 'Mạng xã hội',
   enterCode: 'Nhập mã xác thực',
   findInnDetail: 'Chi tiết trọ',
   seeMore: 'Xem thêm...',
   logisticDetail: 'Chi tiết xe',
-  LogisticService: 'Dịch vụ vận chuyển',
+  logisticService: 'Dịch vụ vận chuyển',
   myLogisticService: 'Dịch vụ vận chuyển',
   new: 'Tạo',
   status: 'Trạng thái',
@@ -31,6 +31,11 @@ const translate = {
   male: 'Nam',
   female: 'Nữ',
   all: 'Tất cả',
+  role: 'Loại người dùng',
+  supplier: 'Người cung cấp dịch vụ',
+  lodger: 'Người tìm trọ',
+  errorCode: 'Mã code không chính xác',
+  others: 'Khác',
   inn: {
     myInn: 'Trọ của đã đăng',
     createInn: 'Đăng thông tin trọ',
@@ -118,6 +123,10 @@ const translate = {
     techer: 'Giáo viên',
   },
   noDataToShow: 'Không có dữ liệu để hiển thị',
+  validation: {
+    requireName: 'Tên không được để trống',
+    requirePhoneNumber: 'Số điện thoại không được để trống',
+  },
 };
 
 export {translate};

@@ -12,6 +12,8 @@ import {ImageView} from '../../../components/index';
 import styles from './find-inn-detail.style';
 import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
+import FastImage from 'react-native-fast-image';
+import {noImage} from '../../../constants/string';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
@@ -60,6 +62,12 @@ const FindInnDetail = ({route, navigation}) => {
     });
   };
 
+  const onViewProfile = () => {
+    navigation.navigate(navigationName.findInn.viewProfile, {
+      profile: created_by,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -69,6 +77,21 @@ const FindInnDetail = ({route, navigation}) => {
           </View>
         )}
         <View style={styles.detailContainer}>
+          <View style={[styles.primaryContainer, styles.row, styles.alignEnd]}>
+            <FastImage
+              source={{
+                uri: created_by?.photoURL ? created_by.photoURL : noImage,
+              }}
+              style={styles.avatar}
+            />
+            <Text style={[styles.fontSize16, styles.fz16, styles.ml6]}>
+              {created_by?.displayName}
+            </Text>
+            <TouchableOpacity activeOpacity={0.8} onPress={onViewProfile}>
+              <MaterialIcons name="info-outline" size={20} />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.primaryContainer}>
             <Text style={styles.name}>{room_name}</Text>
             <Text>{exact_room_address}</Text>

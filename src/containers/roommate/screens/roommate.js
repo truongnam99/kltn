@@ -95,6 +95,7 @@ const Roommate = ({navigation, ...props}) => {
                 {...item.item}
                 userInfo={userInfo}
                 onFoundRoommate={handleFoundRoommate}
+                navigation={navigation}
               />
             </View>
           )}
@@ -104,14 +105,16 @@ const Roommate = ({navigation, ...props}) => {
           ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
         />
       </View>
-      <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButton.Item title="New" onPress={onOpenPost}>
-          <Ionicons name="md-create" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item title="Posted" onPress={onGetPosted}>
-          <Ionicons name="list" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      </ActionButton>
+      {userInfo.role === 0 && (
+        <ActionButton buttonColor="rgba(231,76,60,1)">
+          <ActionButton.Item title="New" onPress={onOpenPost}>
+            <Ionicons name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item title="Posted" onPress={onGetPosted}>
+            <Ionicons name="list" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+      )}
 
       <Filter
         isShow={isShowFilter}

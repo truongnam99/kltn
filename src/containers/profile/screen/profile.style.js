@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     fontSize: 16,
   },
+  mt8: {
+    marginTop: 8,
+  },
 });
 
 export default styles;

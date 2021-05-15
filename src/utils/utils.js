@@ -5,9 +5,9 @@ import {Linking, Alert} from 'react-native';
 import province from '../constants/provice.json';
 
 export const generateId = () => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let id = '';
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 32; i++) {
     id += alphabet[Math.round(Math.random() * alphabet.length)];
   }
   return id;
@@ -18,7 +18,11 @@ export const uploadImageIntoFirebase = async image => {
   const imageUpload = `${'images'}/${generateId()}.${imageExtensionName}`;
 
   const reference = storage().ref(imageUpload);
-  await reference.putFile(image);
+  try {
+    await reference.putFile(image);
+  } catch (error) {
+    console.log(error);
+  }
   return reference;
 };
 
@@ -27,12 +31,13 @@ export const numeralPrice = value => {
 };
 
 export const dial = async phoneNumber => {
-  if (!phoneNumber) {
+  const pn = unFormatString(phoneNumber, 'phoneNumber');
+  if (!pn) {
     Alert.alert('No phone number');
   }
-  const canOpen = await Linking.canOpenURL(`tel:${phoneNumber}`);
+  const canOpen = await Linking.canOpenURL(`tel:${pn}`);
   if (canOpen) {
-    Linking.openURL(`tel:${phoneNumber}`);
+    Linking.openURL(`tel:${pn}`);
   } else {
     Alert.alert("Can't open dial");
   }
@@ -47,7 +52,6 @@ export const openFacebook = async id => {
     Linking.openURL(`fb://profile/${id}`);
   } else {
     Linking.openURL('fb://profile/fbid=100009127928095');
-    // Alert.alert("Can't open facebook app");
   }
 };
 
@@ -75,4 +79,44 @@ export const getCity = cityId => {
     return null;
   }
   return province.find(p => p.Id === cityId);
+};
+
+export const formatString = (value, type) => {
+  if (typeof value !== 'string') {
+    return value;
+  }
+  switch (type) {
+    case 'phoneNumber':
+      value = value.trim();
+      value = value.replace('+84', '0');
+      if (value[4] && value[4] !== ' ') {
+        value = `${value.slice(0, 4)} ${value.slice(4)}`;
+      }
+      if (value[8] && value[8] !== ' ') {
+        value = `${value.slice(0, 8)} ${value.slice(8)}`;
+      }
+      return value;
+    case 'currency':
+      return numeralPrice(value);
+    default:
+      return value;
+  }
+};
+
+export const unFormatString = (value, type) => {
+  if (typeof value !== 'string') {
+    return value;
+  }
+  switch (type) {
+    case 'phoneNumber':
+      if (value[0] === '0') {
+        value = `+84${value.slice(1)}`;
+      }
+      value = value.replace(/ /g, '');
+      return value;
+    case 'currency':
+      return value.replace(/ /g, '');
+    default:
+      break;
+  }
 };

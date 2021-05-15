@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 8,
   },
+  row: {
+    flexDirection: 'row',
+  },
+  alignEnd: {
+    alignItems: 'flex-end',
+  },
   detailContainer: {
     margin: 8,
   },
@@ -52,6 +58,18 @@ const styles = StyleSheet.create({
   },
   me16: {
     marginEnd: 16,
+  },
+  avatar: {
+    borderRadius: 32,
+    width: 40,
+    height: 40,
+    marginTop: 6,
+  },
+  fz16: {
+    fontSize: 16,
+  },
+  ml6: {
+    marginLeft: 6,
   },
 });
 

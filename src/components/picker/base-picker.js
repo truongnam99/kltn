@@ -10,6 +10,7 @@ const BasePicker = ({
   title,
   searchable = false,
   items,
+  pickerContainerStype,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -23,7 +24,7 @@ const BasePicker = ({
         items={items}
         open={open}
         onPress={onPress}
-        style={styles.container}
+        style={[styles.container, pickerContainerStype]}
         value={value}
         setValue={cb => setValue(cb())}
         onChangeValue={onChangeValue}
