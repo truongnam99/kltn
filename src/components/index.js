@@ -11,6 +11,7 @@ import BasePicker from './picker/base-picker';
 import StatusPicker from './picker/status-picker';
 import FooterListComponent from './FooterList';
 import ImagePicker from './image-picker/image-picker';
+import {ListEmptyComponent} from './ListEmptyComponent';
 export {
   Avatar,
   Button,
@@ -25,4 +26,5 @@ export {
   FooterListComponent,
   ImagePicker,
   BasePicker,
+  ListEmptyComponent,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, FlatList, TouchableOpacity, Text} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
+import {ListEmptyComponent} from '../../../components';
 import {navigationName} from '../../../constants/navigation';
-import {translate} from '../../../constants/translate';
 import ChatItem from '../components/chat-item';
 import useHook from '../hook/hooks';
 
@@ -34,7 +34,7 @@ const Chat = ({navigation}) => {
             <ChatItem {...item.item} />
           </TouchableOpacity>
         )}
-        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+        ListEmptyComponent={ListEmptyComponent}
       />
     </View>
   );

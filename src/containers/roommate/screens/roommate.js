@@ -8,8 +8,7 @@ import styles from './roommate.style';
 import {navigationName} from '../../../constants/navigation';
 import useHook from '../hooks';
 import Filter from '../../find-inn/component/filter';
-import {FooterListComponent} from '../../../components';
-import {translate} from '../../../constants/translate';
+import {FooterListComponent, ListEmptyComponent} from '../../../components';
 
 const Roommate = ({navigation, ...props}) => {
   const {selectors, handlers} = useHook();
@@ -102,7 +101,7 @@ const Roommate = ({navigation, ...props}) => {
           ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
           onEndReached={onLoadmore}
           onEndReachedThreshold={100}
-          ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+          ListEmptyComponent={ListEmptyComponent}
         />
       </View>
       {userInfo.role === 0 && (

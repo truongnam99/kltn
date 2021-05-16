@@ -12,6 +12,7 @@ const CityPicker = ({
   pickerContainerStype,
   required,
   validate,
+  inputRef,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -20,7 +21,7 @@ const CityPicker = ({
   };
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>
+      <Text style={styles.title} ref={inputRef}>
         {translate.city}
         {required && <Text style={styles.required}>*</Text>}
       </Text>

@@ -3,7 +3,6 @@ import {call, put, select} from 'redux-saga/effects';
 import {
   ADD_LOGISTIC,
   ADD_MY_LOGISTIC,
-  LOGISTIC_IS_LOADING,
   LOGISTIC_RELOAD_LIST,
   LOGISTIC_SET_END,
   LOGISTIC_SET_LAST,
@@ -17,7 +16,6 @@ export function* fetchLogistic({type, payload}) {
   if ((isEnd || isLoading) && !payload.reload) {
     return;
   }
-  yield put({type: LOGISTIC_IS_LOADING, payload: true});
   if (payload.reload) {
     yield put({type: LOGISTIC_RELOAD_LIST});
   }
@@ -54,7 +52,6 @@ function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
 }
 
 export function* createLogistic({type, payload}) {
-  yield put({type: LOGISTIC_IS_LOADING, payload: true});
   if (payload.id) {
     yield updateLogisticInFirestore(payload);
     const {logistics, myLogistics} = yield select(
@@ -71,7 +68,7 @@ export function* createLogistic({type, payload}) {
       const index = myLogistics.findIndex(item => item.id === payload.id);
       if (index !== -1) {
         myLogistics.splice(index, 1, {...payload});
-        yield put({type: UPDATE_LOGISTIC, payload: myLogistics});
+        yield put({type: UPDATE_MY_LOGISTIC, payload: myLogistics});
       }
     }
   } else {
@@ -81,7 +78,6 @@ export function* createLogistic({type, payload}) {
       payload: {data: {id: result.id, ...payload}, setToFirst: true},
     });
   }
-  yield put({type: LOGISTIC_IS_LOADING, payload: false});
 }
 
 function* createLogisticInFirestore({id, ...payload}) {
@@ -104,7 +100,6 @@ function* updateLogisticInFirestore({id, ...payload}) {
 }
 
 export function* fetchMyLogistic() {
-  yield put({type: LOGISTIC_IS_LOADING, payload: true});
   const {uid} = yield select(state => state.userReducer.userCredential) || {};
   if (uid) {
     const result = yield firestore()
@@ -118,5 +113,4 @@ export function* fetchMyLogistic() {
       }),
     });
   }
-  yield put({type: LOGISTIC_IS_LOADING, payload: false});
 }

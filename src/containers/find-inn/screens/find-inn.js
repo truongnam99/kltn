@@ -14,7 +14,7 @@ import styles from './find-inn.style';
 import Filter from '../component/filter';
 import {numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
-import {FooterListComponent} from '../../../components';
+import {FooterListComponent, ListEmptyComponent} from '../../../components';
 
 const FindInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
@@ -168,7 +168,7 @@ const FindInn = ({navigation}) => {
                 />
               </TouchableOpacity>
             )}
-            ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+            ListEmptyComponent={ListEmptyComponent}
           />
         ) : (
           <FlatList
@@ -195,7 +195,7 @@ const FindInn = ({navigation}) => {
                 />
               </TouchableOpacity>
             )}
-            ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+            ListEmptyComponent={ListEmptyComponent}
           />
         )}
       </View>

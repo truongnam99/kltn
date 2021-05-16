@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
-import {FlatList, Text, TouchableOpacity} from 'react-native';
-import {FooterListComponent} from '../../../components';
+import {FlatList, TouchableOpacity} from 'react-native';
+import {FooterListComponent, ListEmptyComponent} from '../../../components';
 import LargeItem from '../component/large-item';
 import {useMyInn} from '../hooks/useMyInn';
 import {navigationName} from '../../../constants/navigation';
 import {styles} from './my-inn.style';
-import {translate} from '../../../constants/translate';
 
 const MyInn = ({navigation}) => {
   const {seletors, handlers} = useMyInn();
@@ -44,7 +43,7 @@ const MyInn = ({navigation}) => {
           />
         </TouchableOpacity>
       )}
-      ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+      ListEmptyComponent={ListEmptyComponent}
     />
   );
 };

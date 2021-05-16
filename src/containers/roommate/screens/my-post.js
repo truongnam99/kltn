@@ -1,6 +1,6 @@
 import React from 'react';
-import {FlatList, Text, View} from 'react-native';
-import {translate} from '../../../constants/translate';
+import {FlatList, View} from 'react-native';
+import {ListEmptyComponent} from '../../../components';
 import CartItem from '../components/cart-item';
 import {useMyPost} from '../hooks/useMyPost';
 import styles from './roommate.style';
@@ -26,7 +26,7 @@ export const MyPost = ({}) => {
               />
             </View>
           )}
-          ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+          ListEmptyComponent={ListEmptyComponent}
         />
       </View>
     </View>

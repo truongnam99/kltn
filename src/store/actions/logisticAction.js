@@ -1,4 +1,8 @@
-import {CREATE_LOGISTIC, FETCH_LOGISTIC} from '../actions/types';
+import {
+  CREATE_LOGISTIC,
+  FETCH_LOGISTIC,
+  LOGISTIC_IS_LOADING,
+} from '../actions/types';
 
 export const fetchLogistic = payload => {
   return {
@@ -12,4 +16,8 @@ export const createLogistic = payload => {
     type: CREATE_LOGISTIC,
     payload,
   };
+};
+
+export const setLoading = payload => {
+  return {type: LOGISTIC_IS_LOADING, payload};
 };

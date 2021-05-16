@@ -8,15 +8,16 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-action-button';
 
 import {useHooks} from '../hooks';
-import ActionButton from 'react-native-action-button';
 import CartItem from '../compoinents/card-item';
 import Filter from '../../find-inn/component/filter';
 import styles from './logistic.style';
 import {navigationName} from '../../../constants/navigation';
 import {lightTheme} from '../../../config/theme';
 import {translate} from '../../../constants/translate';
+import {ListEmptyComponent} from '../../../components';
 
 const Logistic = ({navigation}) => {
   const [isShowFilter, setIsShowFilter] = useState(false);
@@ -111,7 +112,7 @@ const Logistic = ({navigation}) => {
             <CartItem {...item.item} />
           </TouchableOpacity>
         )}
-        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+        ListEmptyComponent={ListEmptyComponent}
       />
       {isLoading && (
         <ActivityIndicator style={styles.loading} color={lightTheme.primary} />

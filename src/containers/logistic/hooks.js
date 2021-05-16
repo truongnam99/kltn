@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchLogistic} from '../../store/actions/logisticAction';
+import {fetchLogistic, setLoading} from '../../store/actions/logisticAction';
 
 export const useHooks = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,9 @@ export const useHooks = () => {
       return;
     }
 
+    dispatch(setLoading(true));
     dispatch(fetchLogistic(props));
+    dispatch(setLoading(false));
   };
 
   return {

@@ -153,7 +153,7 @@ export const useCreateInn = ({data = {}}) => {
           error: true,
           validate: value => validateField(value, error),
         };
-        if (focused && newValidation[error]?.inputRef?.current) {
+        if (!focused && newValidation[error]?.inputRef?.current) {
           focused = true;
           newValidation[error]?.inputRef?.current.focus();
         }
@@ -348,6 +348,7 @@ export const useCreateInn = ({data = {}}) => {
   };
 
   const handleCreateInn = async () => {
+    let check = false;
     if (!validateData()) {
       return false;
     }
@@ -401,11 +402,14 @@ export const useCreateInn = ({data = {}}) => {
         upload_room_images,
       };
       dispatch(createInn(payload));
+      check = true;
     } catch (error) {
       console.log('need handle error at handleCreateInn', error);
+      check = false;
     } finally {
       dispatch(setLoading(false));
     }
+    return check;
   };
 
   return {

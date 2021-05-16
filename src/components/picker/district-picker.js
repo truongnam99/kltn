@@ -15,6 +15,7 @@ const DistrictPicker = ({
   error,
   showHint,
   validate,
+  inputRef,
 }) => {
   const [open, setOpen] = useState(false);
   const [districts, setDistricts] = useState([]);
@@ -27,7 +28,7 @@ const DistrictPicker = ({
 
   return (
     <View style={containerStyle}>
-      <View style={styles.titleContainer}>
+      <View style={styles.titleContainer} ref={inputRef}>
         <Text style={styles.title}>
           {translate.district}
           {required && <Text style={styles.required}>*</Text>}
