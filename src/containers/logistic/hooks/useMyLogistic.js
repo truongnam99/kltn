@@ -10,6 +10,9 @@ export const useMyLogistic = () => {
   );
 
   const handleFetchMyLogistic = () => {
+    if (isLoading) {
+      return;
+    }
     dispatch(setLoading(true));
     dispatch({type: FETCH_MY_LOGISTIC, payload: null});
     dispatch(setLoading(false));

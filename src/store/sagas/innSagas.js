@@ -12,9 +12,9 @@ import {
 } from '../actions/types';
 
 export function* fetchInn({type, payload}) {
-  const {isLoading, isEnd, count} = yield select(state => state.innReducer);
+  const {isEnd, count} = yield select(state => state.innReducer);
 
-  if ((isEnd || isLoading) && !payload.reload) {
+  if (isEnd && !payload.reload) {
     return;
   }
   if (payload.reload) {

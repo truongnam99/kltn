@@ -11,9 +11,9 @@ import {
 } from '../actions/types';
 
 export function* fetchLogistic({type, payload}) {
-  const {isLoading, isEnd} = yield select(state => state.logisticReducer);
+  const {isEnd} = yield select(state => state.logisticReducer);
 
-  if ((isEnd || isLoading) && !payload.reload) {
+  if (isEnd && !payload.reload) {
     return;
   }
   if (payload.reload) {

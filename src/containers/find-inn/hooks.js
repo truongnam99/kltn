@@ -34,7 +34,7 @@ const useHooks = () => {
     reload,
     searchText,
   }) => {
-    if (isLoading) {
+    if (isLoading && !reload) {
       return;
     }
     try {
