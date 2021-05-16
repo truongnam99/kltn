@@ -36,6 +36,10 @@ const translate = {
   lodger: 'Người tìm trọ',
   errorCode: 'Mã code không chính xác',
   others: 'Khác',
+  content: 'Nội dung',
+  description: 'Mô tả',
+  price: 'Giá',
+  addHouseware: 'Thêm món hàng.',
   inn: {
     myInn: 'Trọ của đã đăng',
     createInn: 'Đăng thông tin trọ',
@@ -132,6 +136,11 @@ const translate = {
     price: '1,000,000',
     area: 25,
     maxRoommate: 4,
+  },
+  houseware: {
+    houseware: 'Đồ gia dụng',
+    createHouseware: 'Tạo bài đăng',
+    myHouseware: 'Bài đã đăng',
   },
 };
 

@@ -29,6 +29,7 @@ export const navigationName = {
     chat: 'home-chat',
     profile: 'home-profile',
     roommate: 'home-roommate',
+    houseware: 'home-houseware',
     logistic: 'home-logistic',
     inn: 'home-inn',
   },
@@ -36,5 +37,10 @@ export const navigationName = {
     roommate: 'roommate-roommate',
     post: 'roommate-post',
     myPost: 'roommate-my-post',
+  },
+  houseware: {
+    houseware: 'houseware-houseware',
+    createHouseware: 'houseware-create-houseware',
+    myHouseware: 'houseware-my-houseware',
   },
 };

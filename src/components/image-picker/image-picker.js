@@ -11,6 +11,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 import styles from './image-picker.style';
 import FastImage from 'react-native-fast-image';
+import {multicastChannel} from '@redux-saga/core';
 
 const ImagePicker = ({
   maxFile = 5,
@@ -114,7 +115,9 @@ const ImagePicker = ({
                 source={{uri: file.uri}}
                 style={StyleSheet.flatten([
                   styles.imageItem,
-                  files.length < 3 || index < 2
+                  maxFile === 1
+                    ? {width: '100%', aspectRatio: 1}
+                    : files.length < 3 || index < 2
                     ? {width: sizes.firstRowSize, height: sizes.firstRowSize}
                     : {
                         width: sizes.anotherRowSize,
@@ -134,6 +137,7 @@ const ImagePicker = ({
                       width: sizes.anotherRowSize,
                       height: sizes.anotherRowSize,
                     },
+                maxFile === 1 && {width: '100%', aspectRatio: 1},
               ])}>
               <TouchableOpacity onPress={() => openImagePicker()}>
                 <MaterialIcons

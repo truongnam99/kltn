@@ -9,6 +9,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LogisticContainer from '../logistic';
 import Roommate from '../roommate';
 import ChatContainer from '../chat';
+import {HousewareContainer} from '../houseware';
 import {navigationName} from '../../constants/navigation';
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +55,20 @@ const Home = props => {
           tabBarIcon: attributes => (
             <MaterialIcons
               name="group-add"
+              {...attributes}
+              size={32}
+              color={lightTheme.primary}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={navigationName.home.houseware}
+        component={HousewareContainer}
+        options={{
+          tabBarIcon: attributes => (
+            <MaterialIcons
+              name="store"
               {...attributes}
               size={32}
               color={lightTheme.primary}
