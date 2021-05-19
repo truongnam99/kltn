@@ -55,8 +55,8 @@ export const HousewareItem = ({onChangeValue, index}) => {
           <ImagePicker
             maxFile={1}
             quality={0.2}
-            // defaultImages={item.image}
             onChangeImages={onChangeImages}
+            imageStyle={styles.image}
           />
         </View>
         <View style={styles.detail}>

@@ -11,14 +11,16 @@ import {translate} from '../../../constants/translate';
 
 export const Houseware = ({navigation}) => {
   const {selectors, handlers} = useHouseware({navigation});
-  const {posts, isLoading} = selectors;
-  const {onGotoCreateHouseware, onGotoMyPost} = handlers;
+  const {housewares, loading} = selectors;
+  const {onGotoCreateHouseware, onGotoMyPost, onFetchHouseware} = handlers;
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         style={styles.flatlist}
-        data={posts}
+        data={housewares}
         keyExtractor={(item, index) => index}
+        onEndReached={onFetchHouseware}
+        onEndReachedThreshold={0}
         renderItem={({item}) => (
           <CartItem
             {...item}
@@ -26,8 +28,8 @@ export const Houseware = ({navigation}) => {
             containerStyle={styles.itemStyle}
           />
         )}
-        ListEmptyComponent={ListEmptyComponent}
-        ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
+        ListEmptyComponent={<ListEmptyComponent loading={loading} />}
+        ListFooterComponent={<FooterListComponent isLoading={loading} />}
       />
       <ActionButton buttonColor="rgba(231,76,60,1)">
         <ActionButton.Item

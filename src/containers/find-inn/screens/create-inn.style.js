@@ -19,5 +19,6 @@ export const styles = StyleSheet.create({
   },
   textAlign: {
     textAlignVertical: 'top',
+    height: 150,
   },
 });

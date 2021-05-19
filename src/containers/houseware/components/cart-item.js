@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import {Contact} from '../../roommate/components/contact';
 import {styles} from './cart-item.style';
 
-const Owner = ({image, name, time, location}) => {
+const Owner = ({image, name, createdAt: time, location}) => {
   return (
     <View style={styles.row}>
       <FastImage source={{uri: image}} style={styles.avatar} />
@@ -26,8 +26,8 @@ const Item = ({image, price, discription, itemContainer}) => {
     <View style={[styles.row, itemContainer]}>
       <FastImage source={{uri: image}} style={styles.photo} />
       <View style={styles.itemDesciption}>
-        {price && <Text>Giá: {price}</Text>}
-        {discription && <Text>Mô tả: {discription}</Text>}
+        <Text>{`Giá: ${price}`}</Text>
+        <Text>{`Mô tả: ${discription}`}</Text>
       </View>
     </View>
   );

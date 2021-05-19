@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {ImageView} from '../../../components/index';
+import {Image, ImageView} from '../../../components/index';
 import styles from './find-inn-detail.style';
 import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
@@ -84,6 +84,7 @@ const FindInnDetail = ({route, navigation}) => {
               }}
               style={styles.avatar}
             />
+
             <Text style={[styles.fontSize16, styles.fz16, styles.ml6]}>
               {created_by?.displayName}
             </Text>

@@ -3,7 +3,7 @@ import {lightTheme} from '../../../config/theme';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: 6,
+    flex: 1,
   },
   flatlist: {
     paddingHorizontal: 6,
@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
   },
   content: {
     textAlignVertical: 'top',
+    height: 150,
   },
   row: {
     flexDirection: 'row',
@@ -28,5 +29,14 @@ export const styles = StyleSheet.create({
   },
   iconAddHouseware: {
     color: lightTheme.primary,
+  },
+  newItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 6,
+  },
+  cityContainerStyle: {
+    borderWidth: 1,
+    borderRadius: 6,
   },
 });

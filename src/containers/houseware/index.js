@@ -25,6 +25,9 @@ export const HousewareContainer = () => {
         component={CreateHouseware}
         options={{
           headerTitle: translate.houseware.createHouseware,
+          tabBar: null,
+          // options={({route, navigation}) => {
+          //   console.log(route, navigation);
         }}
       />
       <HousewareStack.Screen

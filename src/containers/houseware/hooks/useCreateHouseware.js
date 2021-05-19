@@ -1,10 +1,18 @@
-import {useCallback, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {status} from '../../../constants/constants';
 import {noImage} from '../../../constants/string';
+import {createHouseware} from '../../../store/actions/housewareAction';
+import {selectUserInfo} from '../../login/selectors';
+import {selectCreateHouseware} from '../selectors';
 
-export const useCreateHouseware = () => {
-  const userInfo = useSelector(state => state.userReducer.userInfo);
-  const [post, setPost] = useState({
+export const useCreateHouseware = ({navigation}) => {
+  const userInfo = useSelector(selectUserInfo);
+  const {status: statusCreateHouseware} = useSelector(selectCreateHouseware);
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const [houseware, setHouseware] = useState({
     owner: userInfo,
     items: [],
     content: '',
@@ -12,73 +20,88 @@ export const useCreateHouseware = () => {
     isActive: true,
   });
 
-  const handleSetPost = useCallback(
+  const handleSetHouseware = useCallback(
     (value, field) => {
-      setPost(pre => {
+      setHouseware(pre => {
         return {
           ...pre,
           [field]: value,
         };
       });
     },
-    [setPost],
+    [setHouseware],
   );
 
   const onChangeContent = useCallback(
     value => {
-      handleSetPost(value, 'content');
+      handleSetHouseware(value, 'content');
     },
-    [handleSetPost],
+    [handleSetHouseware],
   );
 
   const onChangeCity = useCallback(
     value => {
-      handleSetPost(value(), 'location');
+      handleSetHouseware(value(), 'location');
     },
-    [handleSetPost],
+    [handleSetHouseware],
   );
 
   const onChangeItems = useCallback(
     value => {
-      handleSetPost(value, 'items');
+      handleSetHouseware(value, 'items');
     },
-    [handleSetPost],
+    [handleSetHouseware],
   );
 
   const onItemChangeValue = useCallback(
     (value, index) => {
-      const newValue = [...post.items];
+      const newValue = [...houseware.items];
       newValue[index] = value;
       onChangeItems(newValue);
     },
-    [onChangeItems, post.items],
+    [onChangeItems, houseware.items],
   );
 
   const onRemoveItem = useCallback(
     index => {
-      const newValue = [...post.items];
+      const newValue = [...houseware.items];
       newValue.splice(index, 1);
       onChangeItems(newValue);
     },
-    [onChangeItems, post.items],
+    [onChangeItems, houseware.items],
   );
 
   const onAddNewItem = useCallback(() => {
     onChangeItems([
-      ...post.items,
+      ...houseware.items,
       {
         image: noImage,
         price: '',
         description: '',
       },
     ]);
-  }, [onChangeItems, post.items]);
-  const onPost = () => {
-    console.log(post);
+  }, [onChangeItems, houseware.items]);
+
+  useEffect(() => {
+    if (statusCreateHouseware === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+    if (statusCreateHouseware === status.SUCCESS) {
+      navigation.goBack();
+    }
+  }, [statusCreateHouseware]);
+
+  const onCreateHouseware = () => {
+    dispatch(createHouseware(houseware));
   };
 
   return {
-    selectors: {post},
+    selectors: {
+      houseware,
+      loading,
+    },
     handlers: {
       onChangeContent,
       onChangeCity,
@@ -86,7 +109,7 @@ export const useCreateHouseware = () => {
       onItemChangeValue,
       onAddNewItem,
       onRemoveItem,
-      onPost,
+      onCreateHouseware,
     },
   };
 };

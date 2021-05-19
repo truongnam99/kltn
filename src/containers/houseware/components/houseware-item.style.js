@@ -11,5 +11,9 @@ export const styles = StyleSheet.create({
   },
   detail: {
     flex: 1,
+    marginLeft: 6,
+  },
+  image: {
+    borderRadius: 6,
   },
 });

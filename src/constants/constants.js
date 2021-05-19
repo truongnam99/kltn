@@ -41,3 +41,9 @@ export const getProfileJobs = value => {
 export const getRole = value => {
   return role.find(item => item.value === value)?.label;
 };
+
+export const status = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAIL: 'FAIL',
+};

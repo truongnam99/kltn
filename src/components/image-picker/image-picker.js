@@ -11,13 +11,13 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 import styles from './image-picker.style';
 import FastImage from 'react-native-fast-image';
-import {multicastChannel} from '@redux-saga/core';
 
 const ImagePicker = ({
   maxFile = 5,
   quality = 0.4,
   onChangeImages,
   defaultImages,
+  imageStyle,
 }) => {
   const screenWidth = Dimensions.get('window').width;
   const [files, setFiles] = useState(defaultImages || []);
@@ -123,6 +123,7 @@ const ImagePicker = ({
                         width: sizes.anotherRowSize,
                         height: sizes.anotherRowSize,
                       },
+                  imageStyle,
                 ])}
               />
             </TouchableOpacity>
