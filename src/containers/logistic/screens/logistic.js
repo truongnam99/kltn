@@ -8,7 +8,10 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ActionButton from 'react-native-action-button';
+import {
+  ActionButton,
+  ActionButtonItem,
+} from '../../../components/action-button/action-button';
 
 import {useHooks} from '../hooks';
 import CartItem from '../compoinents/card-item';
@@ -124,16 +127,16 @@ const Logistic = ({navigation}) => {
       />
       {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item
+          <ActionButtonItem
             title={translate.new}
             onPress={onGotoCreateLogistic}>
             <Ionicons name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item
+          </ActionButtonItem>
+          <ActionButtonItem
             title={translate.logistic.myLogistic}
             onPress={onGotoMyLogistic}>
             <Ionicons name="list" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
+          </ActionButtonItem>
         </ActionButton>
       )}
     </View>

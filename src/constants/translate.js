@@ -99,6 +99,7 @@ const translate = {
     logisticArea: 'Khu vực hoạt động',
     pricePlaceholder: '1000000',
     areaPlaceholder: 'Bình Thạnh, Thủ Đức',
+    update: 'Cập nhật',
   },
   city: 'Tỉnh/Thành phố',
   district: 'Quận/Huyện',
@@ -141,6 +142,8 @@ const translate = {
     houseware: 'Đồ gia dụng',
     createHouseware: 'Tạo bài đăng',
     myHouseware: 'Bài đã đăng',
+    onSell: 'Đang bán',
+    selled: 'Đã bán',
   },
 };
 

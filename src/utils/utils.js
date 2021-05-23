@@ -124,3 +124,16 @@ export const unFormatString = (value, type) => {
 export const isPhoneNumber = phoneNumber => {
   return phoneNumber.match(/(84|0[3|5|7|8|9])+([0-9]{8,9})\b/g);
 };
+
+export const shortenCityName = value => {
+  if (typeof value !== 'string') {
+    return value;
+  }
+  if (value.startsWith('Tỉnh')) {
+    return value.slice(5);
+  }
+  if (value.startsWith('Thành phố')) {
+    return 'TP.' + value.slice(9);
+  }
+  return value;
+};

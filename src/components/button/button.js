@@ -1,13 +1,13 @@
 import React, {useCallback} from 'react';
 import {
   TouchableOpacity,
-  Text,
   ActivityIndicator,
   StyleSheet,
   View,
   Platform,
   TouchableNativeFeedback,
 } from 'react-native';
+import Text from '../text/text';
 import {lightTheme} from '../../config/theme';
 import baseStyles from './button.styles';
 

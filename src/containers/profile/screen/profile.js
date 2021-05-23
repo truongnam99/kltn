@@ -1,5 +1,5 @@
 import auth from '@react-native-firebase/auth';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React from 'react';
 import {TouchableOpacity, View, Text as RNText} from 'react-native';
 import DatePicker from 'react-native-datepicker';
@@ -56,11 +56,9 @@ const Profile = ({navigation, route}) => {
         />
         {!profile && (
           <TouchableOpacity onPress={() => pickImage()}>
-            <Text
-              text={translate.changeAvatar}
-              types="italic,underline"
-              style={styles.changeAvatar}
-            />
+            <Text types="italic,underline" style={styles.changeAvatar}>
+              {translate.changeAvatar}
+            </Text>
           </TouchableOpacity>
         )}
       </View>
@@ -82,7 +80,7 @@ const Profile = ({navigation, route}) => {
       <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
       <DatePicker
         mode="date"
-        date={moment(user.birthday, 'DD/MM/YYYY')}
+        date={dayjs(user.birthday, 'DD/MM/YYYY')}
         format="DD/MM/YYYY"
         androidMode="spinner"
         customStyles={{
@@ -108,7 +106,7 @@ const Profile = ({navigation, route}) => {
       />
       {profile && (
         <View>
-          <Text text={translate.logistic.contact} />
+          <Text>{translate.logistic.contact}</Text>
           <Contact navigation={navigation} owner={user} />
         </View>
       )}

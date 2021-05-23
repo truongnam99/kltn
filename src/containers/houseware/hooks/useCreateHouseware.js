@@ -2,22 +2,28 @@ import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {status} from '../../../constants/constants';
 import {noImage} from '../../../constants/string';
-import {createHouseware} from '../../../store/actions/housewareAction';
+import {
+  createHouseware,
+  resetCreateHousewareStatus,
+  resetUpdateHousewareStatus,
+  updateHouseware,
+} from '../../../store/actions/housewareAction';
 import {selectUserInfo} from '../../login/selectors';
-import {selectCreateHouseware} from '../selectors';
+import {selectCreateHouseware, selectUpdateHouseware} from '../selectors';
 
-export const useCreateHouseware = ({navigation}) => {
+export const useCreateHouseware = ({navigation, data = {}}) => {
   const userInfo = useSelector(selectUserInfo);
   const {status: statusCreateHouseware} = useSelector(selectCreateHouseware);
+  const {status: statusUpdateHouseware} = useSelector(selectUpdateHouseware);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const [houseware, setHouseware] = useState({
-    owner: userInfo,
-    items: [],
-    content: '',
-    location: '79',
-    isActive: true,
+    owner: data.owner ?? userInfo,
+    items: data.items ?? [],
+    content: data.content ?? '',
+    location: data.location ?? '79',
+    isActive: data.isActive ?? true,
   });
 
   const handleSetHouseware = useCallback(
@@ -82,19 +88,40 @@ export const useCreateHouseware = ({navigation}) => {
     ]);
   }, [onChangeItems, houseware.items]);
 
+  const onChangeStatus = useCallback(
+    value => {
+      console.log('value', value);
+      handleSetHouseware(value, 'isActive');
+    },
+    [handleSetHouseware],
+  );
+
   useEffect(() => {
-    if (statusCreateHouseware === status.PENDING) {
+    if (
+      statusCreateHouseware === status.PENDING ||
+      statusUpdateHouseware === status.PENDING
+    ) {
       setLoading(true);
     } else {
       setLoading(false);
     }
     if (statusCreateHouseware === status.SUCCESS) {
       navigation.goBack();
+      dispatch(resetCreateHousewareStatus());
     }
-  }, [statusCreateHouseware]);
+    if (statusUpdateHouseware === status.SUCCESS) {
+      navigation.goBack();
+      dispatch(resetUpdateHousewareStatus());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusCreateHouseware, statusUpdateHouseware]);
 
   const onCreateHouseware = () => {
-    dispatch(createHouseware(houseware));
+    if (data.id) {
+      dispatch(updateHouseware({id: data.id, ...houseware}));
+    } else {
+      dispatch(createHouseware(houseware));
+    }
   };
 
   return {
@@ -110,6 +137,7 @@ export const useCreateHouseware = ({navigation}) => {
       onAddNewItem,
       onRemoveItem,
       onCreateHouseware,
+      onChangeStatus,
     },
   };
 };

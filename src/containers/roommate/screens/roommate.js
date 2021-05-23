@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ActionButton from 'react-native-action-button';
+import {
+  ActionButton,
+  ActionButtonItem,
+} from '../../../components/action-button/action-button';
 import CartItem from '../components/cart-item';
 import styles from './roommate.style';
 import {navigationName} from '../../../constants/navigation';
@@ -106,12 +109,12 @@ const Roommate = ({navigation, ...props}) => {
       </View>
       {userInfo.role === 0 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item title="New" onPress={onOpenPost}>
+          <ActionButtonItem title="New" onPress={onOpenPost}>
             <Ionicons name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item title="Posted" onPress={onGetPosted}>
+          </ActionButtonItem>
+          <ActionButtonItem title="Posted" onPress={onGetPosted}>
             <Ionicons name="list" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
+          </ActionButtonItem>
         </ActionButton>
       )}
 

@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {lightTheme} from '../../../config/theme';
 
 export const styles = StyleSheet.create({
   row: {
@@ -20,7 +21,6 @@ export const styles = StyleSheet.create({
   },
   time: {fontSize: 12},
   photo: {
-    width: '50%',
     aspectRatio: 1,
     borderRadius: 4,
   },
@@ -41,5 +41,20 @@ export const styles = StyleSheet.create({
   itemDesciption: {
     marginLeft: 10,
     marginTop: 6,
+  },
+  bottomItemContainer: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    width: '100%',
+    start: 10,
+    bottom: 0,
+    paddingVertical: 5,
+  },
+  imageView: {
+    overflow: 'hidden',
+    width: '50%',
+  },
+  textBottomColor: {
+    color: lightTheme.secondary,
   },
 });

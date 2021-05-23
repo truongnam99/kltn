@@ -26,6 +26,11 @@ export const role = [
   {value: 1, label: translate.supplier},
 ];
 
+export const housewareStatus = [
+  {value: true, label: translate.houseware.onSell},
+  {value: false, label: translate.houseware.selled},
+];
+
 export const getGender = value => {
   return gender.find(item => item.value === value)?.label;
 };

@@ -6,7 +6,7 @@ import {navigationName} from '../../constants/navigation';
 import {translate} from '../../constants/translate';
 import {Houseware} from './screens/houseware';
 import {CreateHouseware} from './screens/create-houseware';
-import {MyPost} from './screens/my-post';
+import {MyHouseware} from './screens/my-houseware';
 
 export const HousewareContainer = () => {
   const HousewareStack = createStackNavigator();
@@ -26,13 +26,11 @@ export const HousewareContainer = () => {
         options={{
           headerTitle: translate.houseware.createHouseware,
           tabBar: null,
-          // options={({route, navigation}) => {
-          //   console.log(route, navigation);
         }}
       />
       <HousewareStack.Screen
         name={navigationName.houseware.myHouseware}
-        component={MyPost}
+        component={MyHouseware}
         options={{
           headerTitle: translate.houseware.myHouseware,
         }}

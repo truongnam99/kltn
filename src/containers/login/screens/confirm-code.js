@@ -34,7 +34,7 @@ const ConfirmCode = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text text={translate.enterCode} />
+        <Text>{translate.enterCode}</Text>
       </View>
       <View style={styles.codeContainer}>
         {codes.map((code, index) => (

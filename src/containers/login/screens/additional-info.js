@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {View, Text as RNText, ScrollView, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import {useHooks} from '../hooks';
@@ -45,8 +45,8 @@ const AdditionalInfo = ({navigation}) => {
     phoneNumber: formatString(userCredential.phoneNumber, 'phoneNumber'),
     email: userCredential.email,
     birthday: userCredential.birthday
-      ? moment(userCredential.birthday).format('DD/MM/YYYY')
-      : moment().format('DD/MM/YYYY'),
+      ? dayjs(userCredential.birthday).format('DD/MM/YYYY')
+      : dayjs().format('DD/MM/YYYY'),
     homeTown: '79',
     role: 0,
     gender: 0,
@@ -77,7 +77,7 @@ const AdditionalInfo = ({navigation}) => {
   const onDateChange = (dateStr, date) => {
     setUserInfo({
       ...userInfo,
-      birthday: moment(date).format('DD/MM/YYYY'),
+      birthday: dayjs(date).format('DD/MM/YYYY'),
     });
   };
 
@@ -142,11 +142,9 @@ const AdditionalInfo = ({navigation}) => {
         <View style={styles.imageContainer}>
           <Avatar source={userInfo.photoURL} size="large" />
           <TouchableOpacity onPress={() => pickImage()}>
-            <Text
-              text={translate.changeAvatar}
-              types="italic,underline"
-              style={styles.changeAvatar}
-            />
+            <Text types="italic,underline" style={styles.changeAvatar}>
+              {translate.changeAvatar}
+            </Text>
           </TouchableOpacity>
         </View>
         <CTextInput
@@ -178,7 +176,7 @@ const AdditionalInfo = ({navigation}) => {
         <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
         <DatePicker
           mode="date"
-          date={moment(userInfo.birthday, 'DD/MM/YYYY')}
+          date={dayjs(userInfo.birthday, 'DD/MM/YYYY')}
           format="DD/MM/YYYY"
           androidMode="spinner"
           customStyles={{

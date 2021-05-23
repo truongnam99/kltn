@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ActionButton from 'react-native-action-button';
+import {
+  ActionButton,
+  ActionButtonItem,
+} from '../../../components/action-button/action-button';
 import {navigationName} from '../../../constants/navigation';
 
 import Header from '../component/header';
@@ -202,12 +205,12 @@ const FindInn = ({navigation}) => {
       <Filter isShow={isShowFilter} callBack={filterCallBack} />
       {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item title={translate.new} onPress={onGotoCreateInn}>
+          <ActionButtonItem title={translate.new} onPress={onGotoCreateInn}>
             <Ionicons name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item title={translate.inn.myInn} onPress={onGotoMyInn}>
+          </ActionButtonItem>
+          <ActionButtonItem title={translate.inn.myInn} onPress={onGotoMyInn}>
             <Ionicons name="list" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
+          </ActionButtonItem>
         </ActionButton>
       )}
     </View>

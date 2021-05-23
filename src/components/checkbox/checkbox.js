@@ -22,11 +22,9 @@ const CheckBox = ({
         onValueChange={onChange}
         style={StyleSheet.flatten([checkboxStyle])}
       />
-      <Text
-        types={types}
-        text={text}
-        style={StyleSheet.flatten([styles.text, textStyle])}
-      />
+      <Text types={types} style={StyleSheet.flatten([styles.text, textStyle])}>
+        {text}
+      </Text>
     </View>
   );
 };
