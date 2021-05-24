@@ -90,7 +90,6 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
 
   const onChangeStatus = useCallback(
     value => {
-      console.log('value', value);
       handleSetHouseware(value, 'isActive');
     },
     [handleSetHouseware],

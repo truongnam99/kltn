@@ -9,7 +9,9 @@ export function createHouseware(payload) {
 }
 
 export const fetchHousewares = ({last, ...options}) => {
-  let query = firestore().collection(HousewaresCollection);
+  let query = firestore()
+    .collection(HousewaresCollection)
+    .where('isActive', '==', true);
   if (last) {
     query = query.startAfter(last);
   }

@@ -30,6 +30,17 @@ export const numeralPrice = value => {
   return numeral(value).format('0,000,000,000');
 };
 
+export const shortenPrice = value => {
+  switch (true) {
+    case value > 1000000:
+      return value / 1000000 + 'M';
+    case value > 1000:
+      return value / 1000 + 'K';
+    default:
+      return value;
+  }
+};
+
 export const dial = async phoneNumber => {
   const pn = unFormatString(phoneNumber, 'phoneNumber');
   if (!pn) {
@@ -136,4 +147,13 @@ export const shortenCityName = value => {
     return 'TP.' + value.slice(9);
   }
   return value;
+};
+
+export const shortenDistrictName = value => {
+  if (typeof value !== 'string') {
+    return value;
+  }
+  if (value.startsWith('Quận')) {
+    return 'Q. ' + value.slice(5);
+  }
 };
