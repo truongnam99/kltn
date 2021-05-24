@@ -156,4 +156,8 @@ export const shortenDistrictName = value => {
   if (value.startsWith('Quận')) {
     return 'Q. ' + value.slice(5);
   }
+  if (value.startsWith('Huyện')) {
+    return 'H. ' + value.slice(6);
+  }
+  return value;
 };

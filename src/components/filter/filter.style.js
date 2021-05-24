@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     minHeight: 34,
   },
   itemFilter: {
-    elevation: 1,
     backgroundColor: '#c4c4c4',
     marginHorizontal: 2,
     paddingVertical: 1,
@@ -27,14 +26,23 @@ export const styles = StyleSheet.create({
     marginLeft: 8,
   },
   modalView: {
+    width: '70%',
     backgroundColor: 'white',
     padding: 8,
     position: 'absolute',
     right: 10,
-    top: 40,
+    top: 90,
     borderRadius: 6,
+    elevation: 2,
   },
   sliderContainer: {
     paddingHorizontal: 6,
+  },
+  filterTouchable: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    right: 10,
+    top: 50,
   },
 });

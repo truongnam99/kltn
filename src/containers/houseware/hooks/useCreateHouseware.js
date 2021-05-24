@@ -22,7 +22,8 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
     owner: data.owner ?? userInfo,
     items: data.items ?? [],
     content: data.content ?? '',
-    location: data.location ?? '79',
+    city: data.city ?? '79',
+    district: data.district ?? '762',
     isActive: data.isActive ?? true,
   });
 
@@ -47,7 +48,14 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
 
   const onChangeCity = useCallback(
     value => {
-      handleSetHouseware(value(), 'location');
+      handleSetHouseware(value(), 'city');
+    },
+    [handleSetHouseware],
+  );
+
+  const onChangeDistrict = useCallback(
+    value => {
+      handleSetHouseware(value(), 'district');
     },
     [handleSetHouseware],
   );
@@ -137,6 +145,7 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
       onRemoveItem,
       onCreateHouseware,
       onChangeStatus,
+      onChangeDistrict,
     },
   };
 };

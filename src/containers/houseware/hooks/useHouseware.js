@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {status} from '../../../constants/constants';
 import {navigationName} from '../../../constants/navigation';
@@ -39,12 +39,21 @@ export const useHouseware = ({navigation}) => {
     dispatch(fetchHousewares({}));
   };
 
+  const handleApplyFilter = useCallback(value => {
+    if (loading) {
+      return;
+    }
+    console.log(value);
+    dispatch(fetchHousewares({}));
+  }, []);
+
   return {
     selectors: {housewares, loading},
     handlers: {
       onGotoCreateHouseware,
       onGotoMyPost,
       onFetchHouseware,
+      handleApplyFilter,
     },
   };
 };

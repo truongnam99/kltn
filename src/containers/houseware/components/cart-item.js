@@ -62,7 +62,8 @@ const CartItem = ({
   navigation,
   items,
   containerStyle,
-  location,
+  city,
+  district,
   createdAt,
   isActive,
   showContact = true,
@@ -70,7 +71,7 @@ const CartItem = ({
   onMarkSold,
 }) => {
   const [numberOfDisplays, setNumberOfDisplays] = useState(1);
-  const city = shortenCityName(getCity(location)?.Name);
+  const cityName = shortenCityName(getCity(city)?.Name);
 
   const BottomItem = useCallback(() => {
     if (items?.length <= 1) {
@@ -117,11 +118,11 @@ const CartItem = ({
         <Text style={styles.time}>
           {time}
           <Text style={styles.dot}> · </Text>
-          {city}
+          {cityName}
         </Text>
       );
     }
-  }, [isActive, city, isMe, createdAt]);
+  }, [isActive, cityName, isMe, createdAt]);
 
   return (
     <View style={[styles.container, containerStyle]}>

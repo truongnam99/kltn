@@ -39,4 +39,8 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
   },
+  filter: {
+    elevation: 500,
+    margin: 6,
+  },
 });

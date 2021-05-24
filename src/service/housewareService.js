@@ -8,7 +8,7 @@ export function createHouseware(payload) {
     .add({...payload, createdAt: firestore.FieldValue.serverTimestamp()});
 }
 
-export const fetchHousewares = ({last, ...options}) => {
+export const fetchHousewares = ({last, city, district, ...options}) => {
   let query = firestore()
     .collection(HousewaresCollection)
     .where('isActive', '==', true);

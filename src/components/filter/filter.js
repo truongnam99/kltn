@@ -1,5 +1,5 @@
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {Modal, ScrollView, TouchableOpacity, View} from 'react-native';
 import * as Amimatable from 'react-native-animatable';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {lightTheme} from '../../config/theme';
@@ -27,6 +27,7 @@ export const FilterModel = memo(
     pricePicker = true,
     filterValue,
     handleChangeFilter,
+    onCloseModel,
   }) => {
     const DURATION = 300;
     const modalViewRef = useRef(null);
@@ -72,57 +73,63 @@ export const FilterModel = memo(
       [handleChangeFilter],
     );
 
-    if (!isActive) {
-      return null;
-    }
-
     return (
-      <Amimatable.View
-        animation={fadeDownIn}
-        ref={modalViewRef}
-        style={styles.modalView}
-        duration={DURATION}>
-        {pricePicker && (
-          <View>
-            <Text>
-              Giá từ{' '}
-              <Text style={styles.priceStyle}>
-                {numeralPrice(filterValue.price.minPrice)}
-              </Text>{' '}
-              đến{' '}
-              <Text style={styles.priceStyle}>
-                {numeralPrice(filterValue.price.maxPrice)}
+      <Modal transparent={true} visible={isActive}>
+        <TouchableOpacity
+          style={styles.filterTouchable}
+          activeOpacity={0.9}
+          onPress={onCloseModel}
+        />
+        <Amimatable.View
+          animation={fadeDownIn}
+          ref={modalViewRef}
+          style={styles.modalView}
+          duration={DURATION}>
+          {pricePicker && (
+            <View>
+              <Text>
+                Giá từ{' '}
+                <Text style={styles.priceStyle}>
+                  {numeralPrice(filterValue.price.minPrice)}
+                </Text>{' '}
+                đến{' '}
+                <Text style={styles.priceStyle}>
+                  {numeralPrice(filterValue.price.maxPrice)}
+                </Text>
               </Text>
-            </Text>
-            <Slider
-              min={0}
-              max={10000000}
-              allowOverlap={false}
-              values={[filterValue.price.minPrice, filterValue.price.maxPrice]}
-              onValuesChange={onChangeChangePrice}
-              containerStyle={styles.sliderContainer}
-              step={500000}
-            />
-          </View>
-        )}
-        <CityPicker
-          value={filterValue.city}
-          setValue={onChangeCity}
-          containerStyle={styles.picker}
-        />
-        <DistrictPicker
-          value={filterValue.district}
-          setValue={onChangeDistrict}
-          containerStyle={styles.picker}
-          cityId={filterValue.city}
-        />
+              <Slider
+                min={0}
+                max={10000000}
+                allowOverlap={false}
+                values={[
+                  filterValue.price.minPrice,
+                  filterValue.price.maxPrice,
+                ]}
+                onValuesChange={onChangeChangePrice}
+                containerStyle={styles.sliderContainer}
+                step={500000}
+              />
+            </View>
+          )}
+          <CityPicker
+            value={filterValue.city}
+            setValue={onChangeCity}
+            containerStyle={styles.picker}
+          />
+          <DistrictPicker
+            value={filterValue.district}
+            setValue={onChangeDistrict}
+            containerStyle={styles.picker}
+            cityId={filterValue.city}
+          />
 
-        <Button
-          title={translate.apply}
-          containerStyle={styles.buttonApply}
-          onPress={onApplyPress}
-        />
-      </Amimatable.View>
+          <Button
+            title={translate.apply}
+            containerStyle={styles.buttonApply}
+            onPress={onApplyPress}
+          />
+        </Amimatable.View>
+      </Modal>
     );
   },
 );
@@ -143,8 +150,12 @@ export const Filter = memo(
         maxPrice: 10000000,
       },
     });
-    const _renderItemFilter = useCallback(value => {
-      return <Text style={styles.itemFilter}>{value}</Text>;
+    const _renderItemFilter = useCallback((value, key) => {
+      return (
+        <Text key={key} style={styles.itemFilter}>
+          {value}
+        </Text>
+      );
     }, []);
 
     const onChangeOpenModel = useCallback(() => {
@@ -196,9 +207,13 @@ export const Filter = memo(
           }
         }
       }
-      return filterItems.map(value => _renderItemFilter(value));
+      return filterItems.map((value, index) => _renderItemFilter(value, index));
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterValue]);
+
+    const onCloseModel = useCallback(() => {
+      setOpenModal(false);
+    }, [setOpenModal]);
 
     return (
       <View style={styles.container}>
@@ -219,6 +234,7 @@ export const Filter = memo(
           show={openModal}
           handleChangeFilter={handleChangeFilter}
           onApplyPress={onApplyPress}
+          onCloseModel={onCloseModel}
         />
       </View>
     );

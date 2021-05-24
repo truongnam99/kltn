@@ -13,6 +13,7 @@ import FooterListComponent from './FooterList';
 import ImagePicker from './image-picker/image-picker';
 import {ListEmptyComponent} from './ListEmptyComponent';
 import Image from './image/image';
+import {Filter} from './filter/filter';
 export {
   Avatar,
   Button,
@@ -29,4 +30,5 @@ export {
   BasePicker,
   ListEmptyComponent,
   Image,
+  Filter,
 };

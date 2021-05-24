@@ -9,16 +9,28 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {styles} from './houseware.style';
 import {useHouseware} from '../hooks/useHouseware';
 import CartItem from '../components/cart-item';
-import {ListEmptyComponent, FooterListComponent} from '../../../components';
+import {
+  ListEmptyComponent,
+  FooterListComponent,
+  Filter,
+} from '../../../components';
 import {translate} from '../../../constants/translate';
 
 export const Houseware = ({navigation}) => {
   const {selectors, handlers} = useHouseware({navigation});
   const {housewares, loading} = selectors;
-  const {onGotoCreateHouseware, onGotoMyPost, onFetchHouseware} = handlers;
+  const {
+    onGotoCreateHouseware,
+    onGotoMyPost,
+    onFetchHouseware,
+    handleApplyFilter,
+  } = handlers;
 
   return (
     <View style={styles.container}>
+      <View style={styles.filter} onStartShouldSetResponder={() => true}>
+        <Filter showPricePicker={false} onCallback={handleApplyFilter} />
+      </View>
       <FlatList
         style={styles.flatlist}
         data={housewares}
@@ -36,10 +48,14 @@ export const Houseware = ({navigation}) => {
         ListFooterComponent={<FooterListComponent isLoading={loading} />}
       />
       <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButtonItem title={translate.new} onPress={onGotoCreateHouseware}>
+        <ActionButtonItem
+          title={translate.new}
+          onPress={onGotoCreateHouseware}
+          key={0}>
           <Ionicons name="md-create" style={styles.actionButtonIcon} />
         </ActionButtonItem>
         <ActionButtonItem
+          key={1}
           title={translate.houseware.myHouseware}
           onPress={onGotoMyPost}>
           <Ionicons name="list" style={styles.actionButtonIcon} />

@@ -2,7 +2,13 @@ import React from 'react';
 import {Text, TouchableOpacity, ScrollView} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {BasePicker, Button, CityPicker, TextInput} from '../../../components';
+import {
+  BasePicker,
+  Button,
+  CityPicker,
+  DistrictPicker,
+  TextInput,
+} from '../../../components';
 import {housewareStatus} from '../../../constants/constants';
 import {translate} from '../../../constants/translate';
 import {HousewareItem} from '../components/houseware-item';
@@ -35,7 +41,13 @@ export const CreateHouseware = ({navigation, route}) => {
         required={true}
       />
       <CityPicker
-        value={houseware.location}
+        value={houseware.city}
+        required={true}
+        setValue={onChangeCity}
+        pickerContainerStype={styles.cityContainerStyle}
+      />
+      <DistrictPicker
+        value={houseware.district}
         required={true}
         setValue={onChangeCity}
         pickerContainerStype={styles.cityContainerStyle}
