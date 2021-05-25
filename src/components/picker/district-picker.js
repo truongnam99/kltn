@@ -17,6 +17,8 @@ const DistrictPicker = ({
   showHint,
   validate,
   inputRef,
+  listItemLabelStyle,
+  textStyle,
 }) => {
   const [open, setOpen] = useState(false);
   const [districts, setDistricts] = useState(getDistricts(cityId));
@@ -70,7 +72,10 @@ const DistrictPicker = ({
             alignItems: 'center',
           },
         }}
+        searchTextInputStyle={styles.searchTextInputStyle}
         modalContentContainerStyle={styles.modalContentContainerStyle}
+        listItemLabelStyle={[styles.listItemLabelStyle, listItemLabelStyle]}
+        textStyle={[styles.textStyle, textStyle]}
       />
     </View>
   );

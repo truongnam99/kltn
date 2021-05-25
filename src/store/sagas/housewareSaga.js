@@ -2,7 +2,6 @@ import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {
   createHouseware,
   fetchHousewares,
-  fetchHousewaresFromAlgolia,
   fetchMyHousewares,
   updateHouseware,
   updateHousewareIsActive,
@@ -32,7 +31,6 @@ import {
   updateHousewareSuccess,
 } from '../actions/housewareAction';
 import {status} from '../../constants/constants';
-import {firebase} from '@react-native-firebase/firestore';
 
 export function* createHousewareWatcher() {
   yield takeLatest(HOUSEWARE_CREATE_POST, createHousewareTask);
@@ -72,7 +70,7 @@ function* fetchHousewaresTask({payload}) {
     if (reload) {
       yield put(resetListHouseware());
     }
-    const {endOfHousewares, last, housewares} = yield select(
+    const {endOfHousewares, last} = yield select(
       state => state.housewareReducer,
     );
     if (endOfHousewares) {
@@ -85,44 +83,20 @@ function* fetchHousewaresTask({payload}) {
       return;
     }
 
-    if (options.searchText) {
-      options.page = Math.ceil(housewares.length / 10);
-      const results = yield call(fetchHousewaresFromAlgolia, options);
+    options.last = last;
+    const results = yield call(fetchHousewares, options);
 
-      if (results.hits.length) {
-        const data = results.hits.map(item => {
-          const {objectID, createdAt, ...rest} = item;
-          return {
-            id: objectID,
-            createdAt: createdAt
-              ? new firebase.firestore.Timestamp(
-                  createdAt.seconds,
-                  createdAt.nanoseconds,
-                )
-              : null,
-            ...rest,
-          };
-        });
-        yield put(fetchHousewaresSuccess(data));
-      } else {
-        yield put(setEndOfHousewares(true));
-      }
+    if (results.docs.length) {
+      const data = results.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      yield put(setLastHouseware(results.docs[results.docs.length - 1]));
+      yield put(fetchHousewaresSuccess(data));
     } else {
-      options.last = last;
-      const results = yield call(fetchHousewares, options);
-
-      if (results.docs.length) {
-        const data = results.docs.map(doc => {
-          return {
-            id: doc.id,
-            ...doc.data(),
-          };
-        });
-        yield put(setLastHouseware(results.docs[results.docs.length - 1]));
-        yield put(fetchHousewaresSuccess(data));
-      } else {
-        yield put(setEndOfHousewares(true));
-      }
+      yield put(setEndOfHousewares(true));
     }
   } catch (error) {
     console.error('error: ', error);

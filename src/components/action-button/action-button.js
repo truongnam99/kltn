@@ -3,6 +3,7 @@ import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 import {fadeIn, fadeOut, rotate, rotateReverse} from '../../assets/animation';
+import {activeOpacity} from '../shared';
 
 export const ActionButtonItem = ({
   title,
@@ -51,7 +52,7 @@ export const ActionButtonItem = ({
           styles.buttonActionItem,
           buttonColor && {backgroundColor: buttonColor},
         ]}>
-        <TouchableOpacity activeOpacity={0.9} onPress={handelOnPress}>
+        <TouchableOpacity activeOpacity={activeOpacity} onPress={handelOnPress}>
           {children}
         </TouchableOpacity>
       </View>
@@ -104,7 +105,9 @@ export const ActionButton = ({children, buttonColor, ...rest}) => {
           styles.buttonActionBase,
           buttonColor && {backgroundColor: buttonColor},
         ]}>
-        <TouchableOpacity activeOpacity={0.75} onPress={onActionButtonPress}>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onActionButtonPress}>
           <Animatable.View ref={rotateAnimationRef}>
             <Ionicons name="add" size={32} color="white" style={[styles.add]} />
           </Animatable.View>

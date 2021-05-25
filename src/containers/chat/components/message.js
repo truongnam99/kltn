@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {Image, Text} from '../../../components';
 
 import styles from './message.style';
 
@@ -8,7 +9,7 @@ const Message = ({sendBy, photoUrl, text, uid}) => {
     <View style={styles.container}>
       {uid !== sendBy && (
         <View style={styles.leftContainer}>
-          <Image source={{uri: photoUrl}} style={styles.image} />
+          <Image image={photoUrl} style={styles.image} isAvata={true} />
           <Text style={StyleSheet.flatten([styles.text, styles.leftText])}>
             {text}
           </Text>

@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View} from 'react-native';
+import validator from 'validator';
+import {showMessage} from 'react-native-flash-message';
 
 import {Button, TextInput} from '../../../components/index';
 import {navigationName} from '../../../constants/navigation';
@@ -13,9 +15,20 @@ const PhoneLogin = ({navigation}) => {
   const {signInWithPhoneNumber} = handlers;
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef(null);
 
   const checkPhoneNumber = () => {
-    if (!phoneNumber) {
+    if (
+      !validator.isMobilePhone(
+        unFormatString(phoneNumber, 'phoneNumber'),
+        'vi-VN',
+      )
+    ) {
+      showMessage({
+        message: 'Số điện thoại không đúng',
+        type: 'danger',
+        icon: 'danger',
+      });
       return false;
     }
     return true;
@@ -25,6 +38,7 @@ const PhoneLogin = ({navigation}) => {
     try {
       setIsLoading(true);
       if (!checkPhoneNumber()) {
+        setTimeout(() => inputRef?.current.focus(), 10);
         return;
       }
       await signInWithPhoneNumber(unFormatString(phoneNumber, 'phoneNumber'));
@@ -41,16 +55,21 @@ const PhoneLogin = ({navigation}) => {
   return (
     <View style={styles.container}>
       <TextInput
+        inputRef={inputRef}
         value={phoneNumber}
         title={translate.phoneNumber}
         onChangeText={onChangeText}
+        textContentType="telephoneNumber"
         keyboardType="phone-pad"
+        returnKeyType="next"
+        autoFocus={true}
+        onSubmitEditing={() => handleSignIn()}
+        placeholder="0369 369 369"
       />
       <Button
         title={translate.continue}
         onPress={() => handleSignIn()}
         containerStyle={styles.button}
-        titleStyle={styles.buttonTitle}
         loading={isLoading}
       />
     </View>

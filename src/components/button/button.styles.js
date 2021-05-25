@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../config/theme';
+import {boderRadius} from '../shared';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: lightTheme.primary,
-    borderRadius: 4,
+    borderRadius: boderRadius,
     paddingHorizontal: 8,
     paddingVertical: 8,
   },
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: lightTheme.primary,
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: boderRadius,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },

@@ -12,6 +12,8 @@ const BasePicker = ({
   items,
   pickerContainerStype,
   required,
+  listItemLabelStyle,
+  textStyle,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -42,8 +44,11 @@ const BasePicker = ({
             alignItems: 'center',
           },
         }}
+        searchTextInputStyle={styles.searchTextInputStyle}
         searchable={searchable}
         modalContentContainerStyle={styles.modalContentContainerStyle}
+        listItemLabelStyle={[styles.listItemLabelStyle, listItemLabelStyle]}
+        textStyle={[styles.textStyle, textStyle]}
       />
     </View>
   );

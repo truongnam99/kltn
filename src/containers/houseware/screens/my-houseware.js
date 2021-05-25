@@ -5,6 +5,7 @@ import {styles} from './houseware.style';
 import {useMyHouseware} from '../hooks/useMyHouseware';
 import CartItem from '../components/cart-item';
 import {ListEmptyComponent, FooterListComponent} from '../../../components';
+import {activeOpacity} from '../../../components/shared';
 
 export const MyHouseware = ({navigation}) => {
   const {selectors, handlers} = useMyHouseware({navigation});
@@ -19,7 +20,7 @@ export const MyHouseware = ({navigation}) => {
       renderItem={({item}) => (
         <TouchableOpacity
           onPress={() => onCartItemPress(item)}
-          activeOpacity={0.9}>
+          activeOpacity={activeOpacity}>
           <CartItem
             {...item}
             navigation={navigation}

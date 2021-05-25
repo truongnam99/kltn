@@ -1,15 +1,11 @@
 import firestore from '@react-native-firebase/firestore';
-import {housewareIndex} from '../config/algolia';
 
 const HousewaresCollection = 'Housewares';
 
-export async function createHouseware(payload) {
-  const result = await firestore()
+export function createHouseware(payload) {
+  return firestore()
     .collection(HousewaresCollection)
     .add({...payload, createdAt: firestore.FieldValue.serverTimestamp()});
-  const doc = await result.get();
-  housewareIndex.saveObject({objectID: result.id, ...doc.data()});
-  return result;
 }
 
 export const fetchHousewares = ({last, city, district, ...options}) => {
@@ -28,25 +24,6 @@ export const fetchHousewares = ({last, city, district, ...options}) => {
   return query.limit(10).get();
 };
 
-export const fetchHousewaresFromAlgolia = ({
-  city,
-  district,
-  searchText,
-  page,
-}) => {
-  let filterClause = 'city:79';
-  if (district) {
-    filterClause += ` AND district:${district}`;
-  }
-  return housewareIndex.search(searchText, {
-    hitsPerPage: 10,
-    cacheable: true,
-    page,
-    facets: '*',
-    facetFilters: filterClause,
-  });
-};
-
 export const fetchMyHousewares = ({ownerId, ...options}) => {
   return firestore()
     .collection(HousewaresCollection)
@@ -55,19 +32,11 @@ export const fetchMyHousewares = ({ownerId, ...options}) => {
 };
 
 export const updateHousewareIsActive = ({id, isActive}) => {
-  housewareIndex.partialUpdateObject({
-    objectID: id,
-    isActive,
-  });
   return firestore().collection(HousewaresCollection).doc(id).update({
     isActive,
   });
 };
 
 export const updateHouseware = ({id, ...payload}) => {
-  housewareIndex.partialUpdateObject({
-    objectID: id,
-    ...payload,
-  });
   return firestore().collection(HousewaresCollection).doc(id).update(payload);
 };

@@ -7,7 +7,7 @@ import FastImage from 'react-native-fast-image';
 const Avatar = ({
   size = 'small',
   outlined = false,
-  source = 'https://reactnative.dev/img/tiny_logo.png',
+  source = '',
   onPress,
   containerStyle: passedContainedStyle,
   type = 'circle',

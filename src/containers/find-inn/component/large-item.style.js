@@ -1,10 +1,12 @@
 import {StyleSheet} from 'react-native';
+import {space3} from '../../../components/shared';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginBottom: space3,
     backgroundColor: 'white',
     borderRadius: 8,
+    elevation: 1,
   },
   imageContainer: {
     borderTopLeftRadius: 8,

@@ -5,6 +5,7 @@ import LargeItem from '../component/large-item';
 import {useMyInn} from '../hooks/useMyInn';
 import {navigationName} from '../../../constants/navigation';
 import {styles} from './my-inn.style';
+import {activeOpacity} from '../../../components/shared';
 
 const MyInn = ({navigation}) => {
   const {seletors, handlers} = useMyInn();
@@ -32,7 +33,7 @@ const MyInn = ({navigation}) => {
       renderItem={item => (
         <TouchableOpacity
           onPress={() => onOpenCreateInnLikeUpdate({data: item.item})}
-          activeOpacity={0.9}>
+          activeOpacity={activeOpacity}>
           <LargeItem
             images={item.item.upload_room_images}
             room_name={item.item.room_name}

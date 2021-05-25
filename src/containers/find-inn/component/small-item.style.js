@@ -1,7 +1,12 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    borderRadius: 8,
+    backgroundColor: 'white',
+    elevation: 1,
+  },
   imageContainer: {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,

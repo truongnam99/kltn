@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
 
 import {Button, Text, TextInput} from '../../../components';
 import styles from './confirm-code.style';
@@ -24,6 +25,14 @@ const ConfirmCode = ({navigation}) => {
 
   const onConfirmCode = async () => {
     try {
+      if (codes.join('').length < 6) {
+        showMessage({
+          message: 'Mã xác thực không chính xác',
+          type: 'danger',
+          icon: 'danger',
+        });
+        return;
+      }
       setIsLoading(true);
       await confirmCode(codes.join(''));
     } finally {
@@ -48,6 +57,7 @@ const ConfirmCode = ({navigation}) => {
             inputRef={codeRefs[index]}
             selectTextOnFocus={true}
             blurOnSubmit={false}
+            onSubmitEditing={onConfirmCode}
           />
         ))}
       </View>

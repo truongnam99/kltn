@@ -1,31 +1,29 @@
 import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../config/theme';
+import {boderRadius, space1, space2} from '../shared';
 
 const styles = StyleSheet.create({
   container: {},
   title: {
     fontSize: 16,
+    marginBottom: space1,
+  },
+  textInputBase: {
+    borderColor: lightTheme.primary,
+    paddingHorizontal: 6,
+    paddingVertical: space2,
+    color: '#000000',
+    paddingStart: 8,
+    fontSize: 16,
   },
   textInput: {
-    borderColor: lightTheme.primary,
     borderWidth: 0,
     borderBottomWidth: 1,
-    padding: 6,
-    paddingStart: 8,
-    paddingTop: 0,
-    color: '#000000',
-    fontSize: 16,
     paddingBottom: 0,
   },
   textInputOutline: {
-    borderColor: lightTheme.primary,
     borderWidth: 1,
-    borderRadius: 6,
-    padding: 6,
-    paddingStart: 8,
-    paddingTop: 0,
-    color: '#000000',
-    fontSize: 16,
+    borderRadius: boderRadius,
   },
   fieldRequire: {
     color: 'red',

@@ -19,6 +19,7 @@ import {
 import {translate} from '../../constants/translate';
 import Button from '../button/button';
 import DistrictPicker from '../picker/district-picker';
+import {activeOpacity} from '../shared';
 
 export const FilterModel = memo(
   ({
@@ -77,7 +78,7 @@ export const FilterModel = memo(
       <Modal transparent={true} visible={isActive}>
         <TouchableOpacity
           style={styles.filterTouchable}
-          activeOpacity={0.9}
+          activeOpacity={activeOpacity}
           onPress={onCloseModel}
         />
         <Amimatable.View
@@ -219,7 +220,9 @@ export const Filter = memo(
         <ScrollView horizontal={true} style={styles.scroolView}>
           {_renderFilter()}
         </ScrollView>
-        <TouchableOpacity activeOpacity={0.8} onPress={onChangeOpenModel}>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onChangeOpenModel}>
           <MaterialIcons
             name="filter-alt"
             size={24}
@@ -239,3 +242,23 @@ export const Filter = memo(
     );
   },
 );
+
+export const ItemFilter = ({value, index}) => {
+  return (
+    <Text key={index} style={styles.itemFilter}>
+      {value}
+    </Text>
+  );
+};
+
+export const ItemFilterContainer = ({children, style, ...prop}) => {
+  return (
+    <ScrollView horizontal={true} style={[styles.scroolView, style]}>
+      {Array.isArray(children)
+        ? children.map((item, index) => (
+            <ItemFilter value={item.props.value} index={index} key={index} />
+          ))
+        : children}
+    </ScrollView>
+  );
+};

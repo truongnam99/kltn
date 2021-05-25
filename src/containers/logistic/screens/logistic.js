@@ -3,7 +3,6 @@ import {
   FlatList,
   TouchableOpacity,
   View,
-  Text,
   ActivityIndicator,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -21,6 +20,12 @@ import {navigationName} from '../../../constants/navigation';
 import {lightTheme} from '../../../config/theme';
 import {translate} from '../../../constants/translate';
 import {ListEmptyComponent} from '../../../components';
+import {
+  ItemFilter,
+  ItemFilterContainer,
+} from '../../../components/filter/filter';
+import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
+import {activeOpacity} from '../../../components/shared';
 
 const Logistic = ({navigation}) => {
   const [isShowFilter, setIsShowFilter] = useState(false);
@@ -47,20 +52,16 @@ const Logistic = ({navigation}) => {
   };
 
   const showFilter = () => {
-    let value = '';
+    const filterItems = [];
     if (filter?.city?.Name) {
-      if (value) {
-        value += '. ';
-      }
-      value += filter.city.Name;
+      filterItems.push(shortenCityName(filter.city.Name));
     }
     if (filter?.district?.Name) {
-      if (value) {
-        value += '. ';
-      }
-      value += filter.district.Name;
+      filterItems.push(shortenDistrictName(filter.district.Name));
     }
-    return value;
+    return filterItems.map((value, index) => (
+      <ItemFilter value={value} key={index} />
+    ));
   };
 
   const onGotoCreateLogistic = () => {
@@ -88,9 +89,13 @@ const Logistic = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.main}>
         <View style={styles.filterContainer}>
-          <Text style={styles.filter}>{showFilter()}</Text>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={onFilterButtonPress} activeOpacity={0.7}>
+          <ItemFilterContainer style={styles.itemFilterContainerStyle}>
+            {showFilter()}
+          </ItemFilterContainer>
+          <View>
+            <TouchableOpacity
+              onPress={onFilterButtonPress}
+              activeOpacity={activeOpacity}>
               <MaterialIcons
                 name="filter-alt"
                 size={24}
@@ -110,7 +115,7 @@ const Logistic = ({navigation}) => {
         renderItem={item => (
           <TouchableOpacity
             style={styles.cartItem}
-            activeOpacity={0.9}
+            activeOpacity={activeOpacity}
             onPress={() => onDetailClick(item.item)}>
             <CartItem {...item.item} />
           </TouchableOpacity>
@@ -121,6 +126,7 @@ const Logistic = ({navigation}) => {
         <ActivityIndicator style={styles.loading} color={lightTheme.primary} />
       )}
       <Filter
+        styleContainer={styles.styleContainer}
         isShow={isShowFilter}
         callBack={filterCallBack}
         showPricePicker={false}

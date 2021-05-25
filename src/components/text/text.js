@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text as RNText} from 'react-native';
 import styles from './text.style';
 
-const Text = ({children = '', style, types: passedTypes = 'h2'}) => {
+const Text = ({children = '', style, types: passedTypes = 'h1'}) => {
   const types = passedTypes.split(',');
   return (
     <RNText

@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import {View, Text, Modal, TouchableOpacity, ScrollView} from 'react-native';
+import {activeOpacity} from '../shared';
 import {styles} from './picker.style';
 
 const PickerItem = ({value}) => {
@@ -36,7 +37,7 @@ const Picker = ({
             {items.length &&
               items.map(item => (
                 <TouchableOpacity
-                  activeOpacity={0.5}
+                  activeOpacity={activeOpacity}
                   key={item.key}
                   onPress={() => handleOnChange(item)}>
                   <PickerItem value={item.value} />

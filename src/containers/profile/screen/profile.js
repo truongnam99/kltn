@@ -1,5 +1,4 @@
 import auth from '@react-native-firebase/auth';
-import dayjs from 'dayjs';
 import React from 'react';
 import {TouchableOpacity, View, Text as RNText} from 'react-native';
 import DatePicker from 'react-native-datepicker';
@@ -18,7 +17,6 @@ const CTextInput = ({...props}) => {
 
 const Profile = ({navigation, route}) => {
   const profile = route.params?.profile;
-  console.log('route', profile);
   const {selectors} = useHooks();
   const user = profile ?? selectors.user;
 
@@ -50,7 +48,7 @@ const Profile = ({navigation, route}) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Avatar
-          source={user.photoURL}
+          source={user.photoURL ?? profile?.photoURL}
           size="large"
           isShowDetailFullScreen={false}
         />
@@ -80,7 +78,7 @@ const Profile = ({navigation, route}) => {
       <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
       <DatePicker
         mode="date"
-        date={dayjs(user.birthday, 'DD/MM/YYYY')}
+        date={user.birthday}
         format="DD/MM/YYYY"
         androidMode="spinner"
         customStyles={{

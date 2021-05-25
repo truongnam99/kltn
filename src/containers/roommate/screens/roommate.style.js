@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {space3} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
@@ -6,13 +7,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   filterIcon: {
-    padding: 4,
+    padding: 5,
     backgroundColor: 'white',
     borderRadius: 4,
     color: lightTheme.primary,
+    elevation: 2,
   },
   main: {
-    marginHorizontal: 15,
+    marginHorizontal: space3,
   },
   filterContainer: {
     marginTop: 10,
@@ -21,22 +23,24 @@ const styles = StyleSheet.create({
   },
   filter: {
     paddingVertical: 6,
-    borderRadius: 4,
-    backgroundColor: 'white',
-    width: '85%',
-    paddingHorizontal: 4,
+    paddingHorizontal: 0,
+    marginRight: 6,
+    elevation: 1,
   },
   itemStyle: {
-    marginBottom: 8,
+    marginBottom: space3,
   },
-  itemContainer: {
-    margin: 10,
+  flastList: {
+    margin: space3,
     flex: 1,
   },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
     color: 'white',
+  },
+  filterModelContainer: {
+    top: -50,
   },
 });
 

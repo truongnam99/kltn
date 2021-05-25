@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import {ListEmptyComponent} from '../../../components';
+import {activeOpacity} from '../../../components/shared';
 import {navigationName} from '../../../constants/navigation';
 import ChatItem from '../components/chat-item';
 import useHook from '../hook/hooks';
@@ -30,7 +31,7 @@ const Chat = ({navigation}) => {
             onPress={() =>
               goToChatDetail(item.item.name, item.item.id, item.item.photoUrl)
             }
-            activeOpacity={0.9}>
+            activeOpacity={activeOpacity}>
             <ChatItem {...item.item} />
           </TouchableOpacity>
         )}

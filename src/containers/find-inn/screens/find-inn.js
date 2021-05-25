@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -15,9 +15,18 @@ import useHooks from '../hooks';
 import styles from './find-inn.style';
 
 import Filter from '../component/filter';
-import {numeralPrice} from '../../../utils/utils';
+import {
+  shortenCityName,
+  shortenDistrictName,
+  shortenPrice,
+} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
 import {FooterListComponent, ListEmptyComponent} from '../../../components';
+import {
+  ItemFilter,
+  ItemFilterContainer,
+} from '../../../components/filter/filter';
+import {activeOpacity} from '../../../components/shared';
 
 const FindInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
@@ -25,7 +34,7 @@ const FindInn = ({navigation}) => {
   const [headerText, setHeaderText] = useState('');
   const [filter, setFilter] = useState({});
   const {handlers, selectors} = useHooks();
-  const {isLoading, inns, role} = selectors;
+  const {loading, inns, role} = selectors;
   const {handleFetchInn} = handlers;
 
   const onChangeView = () => {
@@ -85,31 +94,27 @@ const FindInn = ({navigation}) => {
   }, [filter]);
 
   const showFilter = () => {
-    let value = '';
+    const filterItems = [];
     if (filter && filter.price) {
-      const min = numeralPrice(filter.price.minPrice);
-      const max = numeralPrice(filter.price.maxPrice);
+      const min = shortenPrice(filter.price.minPrice);
+      const max = shortenPrice(filter.price.maxPrice);
       if (filter.price.minPrice && filter.price.maxPrice) {
-        value += `${min}-${max}`;
+        filterItems.push(`${min}-${max}`);
       } else if (filter.price.minPrice) {
-        value += `> ${min}`;
+        filterItems.push(`> ${min}`);
       } else if (filter.price.maxPrice) {
-        value += `< ${max}`;
+        filterItems.push(`< ${max}`);
       }
     }
-    if (filter.city) {
-      if (value) {
-        value += '. ';
-      }
-      value += filter.city.Name;
+    if (filter?.city?.Name) {
+      filterItems.push(shortenCityName(filter.city.Name));
     }
-    if (filter.district) {
-      if (value) {
-        value += '. ';
-      }
-      value += filter.district.Name;
+    if (filter?.district?.Name) {
+      filterItems.push(shortenDistrictName(filter.district.Name));
     }
-    return value;
+    return filterItems.map((value, index) => (
+      <ItemFilter value={value} key={index} />
+    ));
   };
 
   return (
@@ -121,11 +126,13 @@ const FindInn = ({navigation}) => {
       />
       <View style={styles.main}>
         <View style={styles.filterContainer}>
-          <Text style={styles.filter} numberOfLines={1}>
+          <ItemFilterContainer style={styles.filter}>
             {showFilter()}
-          </Text>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={onOpenFilter} activeOpacity={0.7}>
+          </ItemFilterContainer>
+          <View style={styles.mr6}>
+            <TouchableOpacity
+              onPress={onOpenFilter}
+              activeOpacity={activeOpacity}>
               <MaterialIcons
                 name="filter-alt"
                 size={24}
@@ -138,7 +145,7 @@ const FindInn = ({navigation}) => {
               onPress={() => {
                 onChangeView();
               }}
-              activeOpacity={0.7}>
+              activeOpacity={activeOpacity}>
               <MaterialIcons
                 name="filter-none"
                 size={24}
@@ -149,18 +156,18 @@ const FindInn = ({navigation}) => {
         </View>
         {typeOfItem === 'large' ? (
           <FlatList
-            style={styles.flex1}
+            style={styles.flatList}
             key={1}
             numColumns={1}
             data={inns}
             keyExtractor={(item, index) => index}
             onEndReached={onFetchInn}
             onEndReachedThreshold={0}
-            ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
+            ListFooterComponent={<FooterListComponent isLoading={loading} />}
             renderItem={item => (
               <TouchableOpacity
                 onPress={() => onViewDetail(item.item)}
-                activeOpacity={0.9}>
+                activeOpacity={activeOpacity}>
                 <LargeItem
                   images={item.item.upload_room_images}
                   room_name={item.item.room_name}
@@ -176,14 +183,13 @@ const FindInn = ({navigation}) => {
         ) : (
           <FlatList
             key={2}
-            style={styles.flex1}
+            style={styles.flatListSmall}
             numColumns={2}
             data={inns}
             keyExtractor={(item, index) => index}
-            columnWrapperStyle={styles.row}
             onEndReached={onFetchInn}
             onEndReachedThreshold={0}
-            ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
+            ListFooterComponent={<FooterListComponent isLoading={loading} />}
             renderItem={item => (
               <TouchableOpacity
                 onPress={() => onViewDetail(item.item)}

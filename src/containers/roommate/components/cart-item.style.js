@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: 'white',
     borderRadius: 8,
+    elevation: 1,
   },
   avatar: {
     borderRadius: 32,

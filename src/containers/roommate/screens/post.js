@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, ScrollView, TextInput, View} from 'react-native';
+import {ScrollView, TextInput, View} from 'react-native';
 import Slider from '@ptomasroos/react-native-multi-slider';
 import {translate} from '../../../constants/translate';
 import {gender, jobs} from '../../../constants/constants';
@@ -9,6 +9,7 @@ import {
   TextInput as CustomTextInput,
   Picker,
   BasePicker,
+  Text,
 } from '../../../components';
 import {styles} from './post.style';
 import province from '../../../constants/provice.json';

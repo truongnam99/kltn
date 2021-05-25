@@ -49,7 +49,7 @@ export const HousewareItem = ({onChangeValue, index}) => {
   }, [item]);
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <View style={styles.container}>
         <View style={styles.photo}>
           <ImagePicker

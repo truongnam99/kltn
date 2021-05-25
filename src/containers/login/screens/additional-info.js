@@ -1,14 +1,13 @@
 import React, {useRef, useState} from 'react';
-import {View, Text as RNText, ScrollView, TouchableOpacity} from 'react-native';
+import {View, ScrollView, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import dayjs from 'dayjs';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import {useHooks} from '../hooks';
-import {TextInput, Avatar, Text, BasePicker} from '../../../components';
+import {TextInput, Avatar, Text, BasePicker, Button} from '../../../components';
 import {translate} from '../../../constants/translate';
 import styles from './additional-info.style';
-import HeaderAction from '../../../components/header-action/header-action';
 import {navigationName} from '../../../constants/navigation';
 import {
   cities,
@@ -137,7 +136,7 @@ const AdditionalInfo = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView style={styles.infoContainer}>
         <View style={styles.imageContainer}>
           <Avatar source={userInfo.photoURL} size="large" />
@@ -173,10 +172,13 @@ const AdditionalInfo = ({navigation}) => {
           onChangeText={value => onUpdateUserInfo(value, 'email')}
           keyboardType="email-address"
         />
-        <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
+        <Text style={styles.birthdayText}>
+          {translate.birthday}
+          <Text style={styles.require}>*</Text>
+        </Text>
         <DatePicker
           mode="date"
-          date={dayjs(userInfo.birthday, 'DD/MM/YYYY')}
+          date={userInfo.birthday ?? new Date()}
           format="DD/MM/YYYY"
           androidMode="spinner"
           customStyles={{
@@ -192,30 +194,39 @@ const AdditionalInfo = ({navigation}) => {
           setValue={value => onUpdateUserInfo(value, 'gender')}
           title={translate.gender}
           pickerContainerStype={styles.pickerContainerStype}
+          required={true}
         />
         <BasePicker
+          containerStyle={styles.marginTop}
           value={userInfo.homeTown}
           items={cities}
           title={translate.homeTown}
           setValue={value => onUpdateUserInfo(value, 'homeTown')}
           pickerContainerStype={styles.pickerContainerStype}
+          required={true}
         />
         <BasePicker
+          containerStyle={styles.marginTop}
           title={translate.job}
           items={profileJobs}
           value={userInfo.job}
           pickerContainerStype={styles.pickerContainerStype}
           setValue={value => onUpdateUserInfo(value, 'job')}
+          required={true}
         />
         <BasePicker
+          containerStyle={styles.marginTop}
           title={translate.role}
           items={role}
           value={userInfo.role}
           pickerContainerStype={styles.pickerContainerStype}
           setValue={value => onUpdateUserInfo(value, 'role')}
+          required={true}
         />
+        <View style={styles.scrollViewLastItem}>
+          <Button title="Lưu thông tin" onPress={onSave} />
+        </View>
       </ScrollView>
-      <HeaderAction isShowClose={false} onCheck={() => onSave()} />
       <ModalLoading isShow={isLoading} />
     </View>
   );

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
+import {View, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -12,6 +12,12 @@ import {navigationName} from '../../../constants/navigation';
 import useHook from '../hooks';
 import Filter from '../../find-inn/component/filter';
 import {FooterListComponent, ListEmptyComponent} from '../../../components';
+import {
+  ItemFilter,
+  ItemFilterContainer,
+} from '../../../components/filter/filter';
+import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
+import {activeOpacity} from '../../../components/shared';
 
 const Roommate = ({navigation, ...props}) => {
   const {selectors, handlers} = useHook();
@@ -55,29 +61,30 @@ const Roommate = ({navigation, ...props}) => {
   };
 
   const showFilter = () => {
-    let value = '';
+    const filterItems = [];
     if (filter?.city?.Name) {
-      if (value) {
-        value += '. ';
-      }
-      value += filter.city.Name;
+      filterItems.push(shortenCityName(filter.city.Name));
     }
     if (filter?.district?.Name) {
-      if (value) {
-        value += '. ';
-      }
-      value += filter.district.Name;
+      filterItems.push(shortenDistrictName(filter.district.Name));
     }
-    return value;
+    return filterItems.map((value, index) => (
+      <ItemFilter value={value} key={index} />
+    ));
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.main}>
         <View style={styles.filterContainer}>
-          <Text style={styles.filter}>{showFilter()}</Text>
-          <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={onFilterButtonPress} activeOpacity={0.7}>
+          <ItemFilterContainer style={styles.filter}>
+            {showFilter()}
+          </ItemFilterContainer>
+          <View>
+            <TouchableOpacity
+              style={styles.iconContainer}
+              onPress={onFilterButtonPress}
+              activeOpacity={activeOpacity}>
               <MaterialIcons
                 name="filter-alt"
                 size={24}
@@ -87,26 +94,25 @@ const Roommate = ({navigation, ...props}) => {
           </View>
         </View>
       </View>
-      <View style={styles.itemContainer}>
-        <FlatList
-          data={roommates}
-          keyExtractor={(item, index) => index}
-          renderItem={item => (
-            <View style={styles.itemStyle}>
-              <CartItem
-                {...item.item}
-                userInfo={userInfo}
-                onFoundRoommate={handleFoundRoommate}
-                navigation={navigation}
-              />
-            </View>
-          )}
-          ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
-          onEndReached={onLoadmore}
-          onEndReachedThreshold={100}
-          ListEmptyComponent={ListEmptyComponent}
-        />
-      </View>
+      <FlatList
+        style={styles.flastList}
+        data={roommates}
+        keyExtractor={(item, index) => index}
+        renderItem={item => (
+          <View style={styles.itemStyle}>
+            <CartItem
+              {...item.item}
+              userInfo={userInfo}
+              onFoundRoommate={handleFoundRoommate}
+              navigation={navigation}
+            />
+          </View>
+        )}
+        ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
+        onEndReached={onLoadmore}
+        onEndReachedThreshold={100}
+        ListEmptyComponent={ListEmptyComponent}
+      />
       {userInfo.role === 0 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
           <ActionButtonItem title="New" onPress={onOpenPost}>

@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import styles from './large-item.style';
 import {numeralPrice} from '../../../utils/utils';
-import {noImage} from '../../../constants/string';
-import FastImage from 'react-native-fast-image';
+import {Image, Text} from '../../../components';
 
 const LargeItem = ({
   images,
@@ -16,12 +15,7 @@ const LargeItem = ({
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <FastImage
-          source={{
-            uri: images?.length ? images[0] : noImage,
-          }}
-          style={styles.image}
-        />
+        <Image image={images && images[0]} style={styles.image} />
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.textName}>{room_name || ''}</Text>

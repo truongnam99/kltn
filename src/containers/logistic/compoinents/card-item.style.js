@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     backgroundColor: 'white',
+    elevation: 1,
   },
   image: {
     width: '100%',

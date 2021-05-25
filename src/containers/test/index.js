@@ -2,11 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import logistics from './logistics.json';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 import {
   ActionButton,
   ActionButtonItem,
 } from '../../components/action-button/action-button';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Button} from '../../components';
 export default function Test() {
   const uploadDataToFirestore = () => {
     console.log('Upload file');
@@ -21,17 +23,16 @@ export default function Test() {
   // return null;
   return (
     <View style={styles.container}>
-      <ActionButton buttonColor="rgba(231,76,60, 1)">
-        <ActionButtonItem title="new" onPress={() => console.log('111111')}>
-          <Ionicons name="md-create" style={styles.actionButtonIcon} />
-        </ActionButtonItem>
-        <ActionButtonItem
-          title="ljljljljkjklj yuih ioio fwefpeiwpri"
-          onPress={() => console.log('222')}
-          buttonColor="blue">
-          <Ionicons name="list" style={styles.actionButtonIcon} />
-        </ActionButtonItem>
-      </ActionButton>
+      <Button
+        title="click"
+        onPress={() =>
+          showMessage({
+            message: 'xin chao',
+            type: 'warning',
+            icon: 'info',
+          })
+        }
+      />
     </View>
   );
 }

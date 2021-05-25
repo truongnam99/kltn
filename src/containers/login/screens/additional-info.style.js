@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {boderRadius, space2, space3, space4} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
@@ -6,20 +7,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoContainer: {
-    marginTop: 22,
-  },
-  container: {
-    padding: 20,
+    paddingTop: 10,
+    paddingHorizontal: 20,
   },
   changeAvatar: {
     marginTop: 6,
   },
   marginTop: {
-    marginTop: 2,
+    marginTop: space3,
   },
   dateInput: {
     borderColor: lightTheme.primary,
-    borderRadius: 8,
+    borderRadius: boderRadius,
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
@@ -32,8 +31,8 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   birthdayText: {
-    marginTop: 8,
-    marginBottom: 2,
+    marginTop: space3,
+    marginBottom: space2,
     fontSize: 16,
   },
   pickerContainerStype: {
@@ -43,6 +42,13 @@ const styles = StyleSheet.create({
   textInputStyle: {
     textAlignVertical: 'center',
     paddingTop: 3,
+  },
+  scrollViewLastItem: {
+    marginTop: space4,
+    marginBottom: 20,
+  },
+  require: {
+    color: 'red',
   },
 });
 

@@ -99,6 +99,7 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
             onValuesChange={onPriceSelectChange}
             containerStyle={styles.sliderContainer}
             step={500000}
+            sliderLength={190}
           />
         </View>
       )}

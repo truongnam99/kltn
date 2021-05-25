@@ -47,6 +47,7 @@ const TextInput = ({
         }
         placeholderTextColor={lightTheme.grayC4}
         style={StyleSheet.flatten([
+          styles.textInputBase,
           type === 'outline' ? styles.textInput : styles.textInputOutline,
           textInputStyle,
           error && {borderColor: 'red'},

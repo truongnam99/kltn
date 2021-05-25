@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  wrapper: {
+    elevation: 1,
+  },
   container: {
     flexDirection: 'row',
   },

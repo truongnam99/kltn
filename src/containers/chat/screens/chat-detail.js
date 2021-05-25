@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, FlatList, TouchableOpacity, Text} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
 import {TextInput} from '../../../components';
@@ -7,7 +7,7 @@ import {TextInput} from '../../../components';
 import styles from './chat-detail.style';
 import {lightTheme} from '../../../config/theme';
 import {useChatDetail} from '../hook/useChatDetail';
-import {translate} from '../../../constants/translate';
+import {activeOpacity} from '../../../components/shared';
 
 const ChatDetail = ({navigation, route, ...props}) => {
   const {selectors, handlers} = useChatDetail();
@@ -72,7 +72,7 @@ const ChatDetail = ({navigation, route, ...props}) => {
           value={text}
           onChangeText={onChangeText}
         />
-        <TouchableOpacity activeOpacity={0.8} onPress={onSendMessage}>
+        <TouchableOpacity activeOpacity={activeOpacity} onPress={onSendMessage}>
           <Ionicons name="send" size={32} color={lightTheme.primary} />
         </TouchableOpacity>
       </View>

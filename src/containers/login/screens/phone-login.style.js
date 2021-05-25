@@ -6,9 +6,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 16,
   },
-  buttonTitle: {
-    paddingVertical: 6,
-  },
 });
 
 export default styles;

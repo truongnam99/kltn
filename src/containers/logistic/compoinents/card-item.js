@@ -1,19 +1,15 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import {View} from 'react-native';
 import styles from './card-item.style';
-import {noImage} from '../../../constants/string';
+import {Image, Text} from '../../../components';
 
 const CartItem = ({image, owner, price, ownerName}) => {
   return (
     <View style={styles.container}>
-      <FastImage source={{uri: image || noImage}} style={styles.image} />
+      <Image image={image} style={styles.image} />
       <View style={styles.infoContainer}>
         <View style={styles.userContainer}>
-          <FastImage
-            source={{uri: owner.photoURL || noImage}}
-            style={styles.userAvatar}
-          />
+          <Image image={owner.photoURL} style={styles.userAvatar} />
           <Text style={styles.username}>
             {ownerName || owner.displayName || owner.username}
           </Text>

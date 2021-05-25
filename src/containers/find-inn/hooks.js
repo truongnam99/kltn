@@ -1,14 +1,18 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import {changeMessage} from '../../store/actions/messageAction';
-import {fetchInn, setLoading} from '../../store/actions/innAction';
+import {
+  fetchInn,
+  setLoading as setLoadingAction,
+} from '../../store/actions/innAction';
+import {selectUserInfo} from '../login/selectors';
 
 const useHooks = () => {
-  const {uid} =
-    useSelector(state => state.userReducer.userInfo) ||
-    useSelector(state => state.userReducer.userCredential);
+  const [loading, setLoading] = useState(true);
+  const {uid, role} = useSelector(selectUserInfo) || {};
+  const {inns, count, isLoading} = useSelector(state => state.innReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,9 +23,12 @@ const useHooks = () => {
         dispatch(changeMessage(documentSnapshot.docChanges()));
       });
     return () => subscriber();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const {inns, count, isLoading} = useSelector(state => state.innReducer);
-  const {role} = useSelector(state => state.userReducer.userInfo) || {};
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
 
   const handleFetchInn = ({
     limit = 10,
@@ -38,7 +45,7 @@ const useHooks = () => {
       return;
     }
     try {
-      dispatch(setLoading(true));
+      dispatch(setLoadingAction(true));
       dispatch(
         fetchInn({
           limit,
@@ -55,7 +62,7 @@ const useHooks = () => {
     } catch (error) {
       console.log('need handle error at handleFetchInn', error);
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setLoadingAction(false));
     }
   };
 
@@ -68,7 +75,7 @@ const useHooks = () => {
       inns,
       count,
       role,
-      isLoading,
+      loading,
     },
   };
 };

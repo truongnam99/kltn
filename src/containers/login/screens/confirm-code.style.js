@@ -2,11 +2,12 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 20,
     backgroundColor: 'white',
   },
-  titleContainer: {marginBottom: 6},
+  titleContainer: {marginBottom: 4},
   codeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

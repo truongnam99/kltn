@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {space2} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   marginTop: {
-    marginTop: 4,
+    marginTop: space2,
   },
   dateInput: {
     borderColor: lightTheme.primary,

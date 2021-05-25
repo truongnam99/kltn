@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {lightTheme} from '../../config/theme';
+import {space2} from '../shared';
 
 export const styles = StyleSheet.create({
   container: {},
@@ -47,11 +48,14 @@ export const dropdownStyles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
+    marginBottom: space2,
   },
   modalContentContainerStyle: {
     marginHorizontal: 50,
     backgroundColor: 'white',
-    marginVertical: 200,
+    marginVertical: 250,
+    elevation: 3,
+    borderRadius: 6,
   },
   mvStatus: {
     marginVertical: 300,
@@ -70,5 +74,15 @@ export const dropdownStyles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     flexDirection: 'row',
+  },
+  searchTextInputStyle: {
+    borderRadius: 5,
+    borderColor: lightTheme.primary,
+  },
+  listItemLabelStyle: {
+    fontSize: 16,
+  },
+  textStyle: {
+    fontSize: 16,
   },
 });

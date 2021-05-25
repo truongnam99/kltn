@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   MenuOption,
@@ -7,13 +7,15 @@ import {
   MenuTrigger,
   Menu,
 } from 'react-native-popup-menu';
-import FastImage from 'react-native-fast-image';
 
 import styles from './cart-item.style';
 import {translate} from '../../../constants/translate';
 import {getGender, getJob} from '../../../constants/constants';
 import {Contact} from './contact';
 import {navigationName} from '../../../constants/navigation';
+import {activeOpacity} from '../../../components/shared';
+import Text from '../../../components/text/text';
+import {Image} from '../../../components';
 
 const maxNumberOfLines = 5;
 
@@ -69,9 +71,13 @@ const CartItem = ({
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity activeOpacity={0.8} onPress={onViewProfile}>
+        <TouchableOpacity activeOpacity={activeOpacity} onPress={onViewProfile}>
           <View style={styles.userContainer}>
-            <FastImage source={{uri: owner.photoURL}} style={styles.avatar} />
+            <Image
+              image={owner.photoURL}
+              style={styles.avatar}
+              isAvata={true}
+            />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{owner.displayName}</Text>
               {showIsActive && (

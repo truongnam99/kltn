@@ -13,6 +13,8 @@ const CityPicker = ({
   required,
   validate,
   inputRef,
+  listItemLabelStyle,
+  textStyle,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -32,6 +34,7 @@ const CityPicker = ({
         style={[styles.container, pickerContainerStype]}
         translation={translate.cityPicker}
         value={value}
+        searchable={false}
         setValue={
           validate
             ? v => {
@@ -51,7 +54,10 @@ const CityPicker = ({
             alignItems: 'center',
           },
         }}
+        searchTextInputStyle={styles.searchTextInputStyle}
         modalContentContainerStyle={styles.modalContentContainerStyle}
+        listItemLabelStyle={[styles.listItemLabelStyle, listItemLabelStyle]}
+        textStyle={[styles.textStyle, textStyle]}
       />
     </View>
   );

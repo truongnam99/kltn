@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 4,
     minHeight: 34,
+    elevation: 1,
   },
   itemFilter: {
     backgroundColor: '#c4c4c4',
@@ -24,6 +25,7 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 5,
     marginLeft: 8,
+    elevation: 1,
   },
   modalView: {
     width: '70%',

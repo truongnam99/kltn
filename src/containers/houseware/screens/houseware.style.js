@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {space3} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 
 export const styles = StyleSheet.create({
@@ -6,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   flatlist: {
-    paddingHorizontal: 6,
+    paddingHorizontal: space3,
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -14,7 +15,9 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   itemStyle: {
-    marginVertical: 6,
+    marginBottom: space3,
+    elevation: 1,
+    borderRadius: 8,
   },
   content: {
     textAlignVertical: 'top',

@@ -1,19 +1,14 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {Image, ImageView} from '../../../components/index';
+import {ImageView, Text} from '../../../components/index';
 import styles from './find-inn-detail.style';
 import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import FastImage from 'react-native-fast-image';
 import {noImage} from '../../../constants/string';
+import {activeOpacity} from '../../../components/shared';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
@@ -88,7 +83,9 @@ const FindInnDetail = ({route, navigation}) => {
             <Text style={[styles.fontSize16, styles.fz16, styles.ml6]}>
               {created_by?.displayName}
             </Text>
-            <TouchableOpacity activeOpacity={0.8} onPress={onViewProfile}>
+            <TouchableOpacity
+              activeOpacity={activeOpacity}
+              onPress={onViewProfile}>
               <MaterialIcons name="info-outline" size={20} />
             </TouchableOpacity>
           </View>
@@ -105,12 +102,12 @@ const FindInnDetail = ({route, navigation}) => {
           </View>
 
           <View style={styles.primaryContainer}>
-            <Text style={styles.fontSize16}>Mô tả</Text>
+            <Text types="bold,h2">Mô tả</Text>
             <Text>{notes}</Text>
           </View>
 
           <View style={styles.primaryContainer}>
-            <Text style={styles.fontSize16}>Tiện ích</Text>
+            <Text types="bold,h2">Tiện ích</Text>
             {air_conditioner && <Text>- Máy lạnh</Text>}
             {room_bathroom && <Text>- Phòng tắm</Text>}
             {parking_situation && <Text>- Chỗ đổ xe</Text>}
@@ -127,19 +124,19 @@ const FindInnDetail = ({route, navigation}) => {
           </View>
 
           <View style={styles.primaryContainer}>
-            <Text style={styles.fontSize16}>Chú ý</Text>
+            <Text types="bold,h2">Chú ý</Text>
             {curfew_situation && <Text>Giờ giới nghiêm</Text>}
           </View>
           <View style={styles.primaryContainer}>
             <Text
-              style={StyleSheet.flatten([
-                styles.fontSize16,
-                {marginBottom: 6},
-              ])}>
+              style={StyleSheet.flatten([{marginBottom: 6}])}
+              types="bold,h2">
               Liên hệ
             </Text>
             <View style={styles.rowLayout}>
-              <TouchableOpacity activeOpacity={0.8} onPress={onGotoChat}>
+              <TouchableOpacity
+                activeOpacity={activeOpacity}
+                onPress={onGotoChat}>
                 <MaterialIcons
                   name="chat"
                   size={32}
@@ -148,7 +145,7 @@ const FindInnDetail = ({route, navigation}) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                activeOpacity={0.8}
+                activeOpacity={activeOpacity}
                 onPress={() => dial(phone_number)}>
                 <MaterialIcons
                   name="call"

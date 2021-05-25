@@ -1,22 +1,22 @@
 import dayjs from 'dayjs';
 import React, {memo, useCallback, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import {TouchableOpacity, View} from 'react-native';
 import {
   Menu,
   MenuOption,
   MenuOptions,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import {getCity, shortenCityName} from '../../../utils/utils';
+import {getDistricts, shortenDistrictName} from '../../../utils/utils';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Contact} from '../../roommate/components/contact';
 import {styles} from './cart-item.style';
+import {Image, Text} from '../../../components';
 
 const Owner = ({image, name, belowOwner}) => {
   return (
     <View style={styles.row}>
-      <FastImage source={{uri: image}} style={styles.avatar} />
+      <Image image={image} style={styles.avatar} />
       <View style={styles.ownerView}>
         <Text style={styles.name}>{name}</Text>
         {belowOwner()}
@@ -29,7 +29,7 @@ const Item = ({image, price, discription, itemContainer}) => {
   return (
     <View style={[styles.row, itemContainer]}>
       <View style={styles.imageView}>
-        <FastImage source={{uri: image}} style={styles.photo} />
+        <Image Image={image} style={styles.photo} />
       </View>
       <View style={styles.itemDesciption}>
         <Text>{`Giá: ${price}`}</Text>
@@ -71,7 +71,9 @@ const CartItem = ({
   onMarkSold,
 }) => {
   const [numberOfDisplays, setNumberOfDisplays] = useState(1);
-  const cityName = shortenCityName(getCity(city)?.Name);
+  const cityName = shortenDistrictName(
+    getDistricts(city)?.find(item => item.value === district)?.label,
+  );
 
   const BottomItem = useCallback(() => {
     if (items?.length <= 1) {

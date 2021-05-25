@@ -13,6 +13,7 @@ import {navigationName} from '../../../constants/navigation';
 import {lightTheme} from '../../../config/theme';
 import {useMyLogistic} from '../hooks/useMyLogistic';
 import {translate} from '../../../constants/translate';
+import {activeOpacity} from '../../../components/shared';
 
 const MyLogistic = ({navigation}) => {
   const {handlers, selectors} = useMyLogistic();
@@ -40,7 +41,7 @@ const MyLogistic = ({navigation}) => {
         renderItem={item => (
           <TouchableOpacity
             style={styles.cartItem}
-            activeOpacity={0.9}
+            activeOpacity={activeOpacity}
             onPress={() => onGotoCreateLogistic(item.item)}>
             <CartItem {...item.item} />
           </TouchableOpacity>

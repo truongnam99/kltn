@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, ScrollView} from 'react-native';
+import {TouchableOpacity, ScrollView} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {
@@ -7,8 +7,10 @@ import {
   Button,
   CityPicker,
   DistrictPicker,
+  Text,
   TextInput,
 } from '../../../components';
+import {activeOpacity} from '../../../components/shared';
 import {housewareStatus} from '../../../constants/constants';
 import {translate} from '../../../constants/translate';
 import {HousewareItem} from '../components/houseware-item';
@@ -66,7 +68,7 @@ export const CreateHouseware = ({navigation, route}) => {
       {houseware.items.map((item, index) => (
         <>
           <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={activeOpacity}
             style={styles.row}
             onPress={onRemoveItem}>
             <MaterialIcons
@@ -83,7 +85,7 @@ export const CreateHouseware = ({navigation, route}) => {
         </>
       ))}
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={activeOpacity}
         style={styles.newItem}
         onPress={onAddNewItem}>
         <MaterialIcons name="add" size={32} style={styles.iconAddHouseware} />

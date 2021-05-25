@@ -3,7 +3,7 @@ import fonts from '../../config/font';
 
 const styles = StyleSheet.create({
   h1: {
-    fontSize: 12,
+    fontSize: 14,
   },
   h2: {
     fontSize: 16,

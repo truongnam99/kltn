@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {space2, space3} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
@@ -6,12 +7,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   main: {
-    marginHorizontal: 15,
     flex: 1,
-    marginBottom: 10,
   },
   filterContainer: {
-    marginTop: 10,
+    margin: space3,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -22,6 +21,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 4,
     marginRight: 10,
+    elevation: 1,
   },
   iconContainer: {
     justifyContent: 'center',
@@ -39,17 +39,9 @@ const styles = StyleSheet.create({
   itemContainer: {
     marginRight: 6,
   },
-  row: {
-    flex: 1,
-    justifyContent: 'space-around',
-  },
   smallItemContainer: {
-    marginTop: 10,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    flex: 1,
-    margin: 4,
-    maxWidth: '50%',
+    width: '50%',
+    padding: 4,
   },
   changeView: {
     padding: 4,
@@ -62,20 +54,26 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: 'transparent',
   },
-  flex1: {
-    flex: 1,
+  flatList: {
+    paddingHorizontal: space3,
   },
-
+  flatListSmall: {
+    paddingHorizontal: space2,
+  },
   filterIcon: {
-    padding: 4,
+    padding: 5,
     backgroundColor: 'white',
     borderRadius: 4,
     color: lightTheme.primary,
+    elevation: 2,
   },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
     color: 'white',
+  },
+  mr6: {
+    marginRight: space3,
   },
 });
 
