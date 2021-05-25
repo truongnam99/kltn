@@ -10,6 +10,7 @@ import {
   uploadImageIntoFirebase,
   unFormatString,
   isPhoneNumber,
+  showMessageFail,
 } from '../../../utils/utils';
 
 export const useCreateLogistic = (data = {}) => {
@@ -181,23 +182,27 @@ export const useCreateLogistic = (data = {}) => {
   };
 
   const uploadImage = async () => {
-    const img = [];
-    for (let i = 0; i < logistic.images.length; i++) {
-      if (logistic.images[i].uri.startsWith('http')) {
-        img.push(logistic.images[i].uri);
-        continue;
+    try {
+      const img = [];
+      for (let i = 0; i < logistic.images.length; i++) {
+        if (logistic.images[i].uri.startsWith('http')) {
+          img.push(logistic.images[i].uri);
+          continue;
+        }
+        const result = await uploadImageIntoFirebase(logistic.images[i].uri);
+        img.push(await result.getDownloadURL());
       }
-      const result = await uploadImageIntoFirebase(logistic.images[i].uri);
-      img.push(await result.getDownloadURL());
+      return img;
+    } catch (error) {
+      throw new Error('ERR_UPLOAD_IMAGE');
     }
-    return img;
   };
 
   const handlerCreateLogistic = async () => {
     let check = false;
     try {
       if (!validateData()) {
-        return false;
+        throw new Error('ERR_VALIDATE_DATA');
       }
       dispatch(setLoading(true));
       const {city, district} = getCityAndDistrict();
@@ -224,7 +229,17 @@ export const useCreateLogistic = (data = {}) => {
       );
       check = true;
     } catch (error) {
-      console.log('need to handle error at handlerCreateLogistic', error);
+      switch (error.message) {
+        case 'ERR_VALIDATE_DATA':
+          showMessageFail('Vui lòng nhập đầy đủ thông tin');
+          break;
+        case 'ERR_UPLOAD_IMAGE':
+          showMessageFail('Lỗi đăng hình ảnh.');
+          break;
+        default:
+          console.log('need to handle error at handlerCreateLogistic', error);
+          break;
+      }
       check = false;
     } finally {
       dispatch(setLoading(false));

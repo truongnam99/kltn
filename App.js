@@ -12,10 +12,8 @@ import {SafeAreaView, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
-import Test from './src/containers/test';
 import configureStore from './src/store';
 import Navigation from './src/navigation';
-import auth from '@react-native-firebase/auth';
 import {MenuProvider} from 'react-native-popup-menu';
 import FlashMessage from 'react-native-flash-message';
 
@@ -31,7 +29,6 @@ const App: () => Node = () => {
     <Provider store={store}>
       <MenuProvider>
         <SafeAreaView style={backgroundStyle}>
-          {/* <Test /> */}
           <Navigation />
           <FlashMessage position="top" />
         </SafeAreaView>

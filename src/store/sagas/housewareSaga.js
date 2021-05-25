@@ -31,6 +31,7 @@ import {
   updateHousewareSuccess,
 } from '../actions/housewareAction';
 import {status} from '../../constants/constants';
+import {showMessageFail, showMessageSuccess} from '../../utils/utils';
 
 export function* createHousewareWatcher() {
   yield takeLatest(HOUSEWARE_CREATE_POST, createHousewareTask);
@@ -54,9 +55,11 @@ function* createHousewareTask({payload}) {
     } else {
       yield put(createHousewareFail());
     }
+    showMessageSuccess('Tạo bài đăng bán thành công');
   } catch (error) {
     console.error(error);
     yield put(createHousewareFail());
+    showMessageFail('Lỗi đăng bài bán đồ dùng gia dụng');
   }
 }
 
@@ -99,8 +102,8 @@ function* fetchHousewaresTask({payload}) {
       yield put(setEndOfHousewares(true));
     }
   } catch (error) {
-    console.error('error: ', error);
-
+    showMessageFail('Lỗi khi tải dữ liệu');
+    console.error(error.message);
     yield put(fetchHousewaresFail(error.message));
   }
 }
@@ -124,6 +127,7 @@ function* fetchMyHousewaresTask({payload}) {
       ),
     );
   } catch (error) {
+    showMessageFail('Lỗi tải bài bán đồ dùng gia dụng');
     yield put(fetchMyHousewareFail(error.message));
     console.error(error);
   }
@@ -137,8 +141,10 @@ function* updateHousewareIsActiveTask({payload}) {
   try {
     yield call(updateHousewareIsActive, payload);
     yield put(updateHousewareIsActiveSuccess(payload));
+    showMessageSuccess('Cập nhật trạng thái thành công');
   } catch (error) {
     console.error(error);
+    showMessageFail('Không thể cập nhật trạng thái');
     yield put(updateHousewareIsActiveFail('Lỗi cập nhật trạng thái'));
   }
 }
@@ -151,7 +157,9 @@ function* updateHousewareTask({payload}) {
   try {
     yield call(updateHouseware, payload);
     yield put(updateHousewareSuccess(payload));
+    showMessageSuccess('Đã cập nhật bài viết');
   } catch (error) {
+    showMessageFail('Không thể cập nhật bài đăng');
     console.error(error);
     yield put(updateHousewareFail('Lỗi cập nhật trạng thái'));
   }

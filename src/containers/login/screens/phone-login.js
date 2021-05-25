@@ -1,12 +1,15 @@
 import React, {useRef, useState} from 'react';
 import {View} from 'react-native';
 import validator from 'validator';
-import {showMessage} from 'react-native-flash-message';
 
 import {Button, TextInput} from '../../../components/index';
 import {navigationName} from '../../../constants/navigation';
 import {translate} from '../../../constants/translate';
-import {formatString, unFormatString} from '../../../utils/utils';
+import {
+  formatString,
+  showMessageFail,
+  unFormatString,
+} from '../../../utils/utils';
 import {useHooks} from '../hooks';
 import styles from './phone-login.style';
 
@@ -24,11 +27,7 @@ const PhoneLogin = ({navigation}) => {
         'vi-VN',
       )
     ) {
-      showMessage({
-        message: 'Số điện thoại không đúng',
-        type: 'danger',
-        icon: 'danger',
-      });
+      showMessageFail('Số điện thoại không đúng');
       return false;
     }
     return true;

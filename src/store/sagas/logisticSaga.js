@@ -9,6 +9,7 @@ import {
   UPDATE_LOGISTIC,
   UPDATE_MY_LOGISTIC,
 } from '../actions/types';
+import {showMessageFail, showMessageSuccess} from '../../utils/utils';
 
 export function* fetchLogistic({type, payload}) {
   const {isEnd} = yield select(state => state.logisticReducer);
@@ -28,55 +29,73 @@ export function* fetchLogistic({type, payload}) {
 }
 
 function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
-  const {last} = yield select(state => state.logisticReducer);
-  let query = firestore().collection('Logistics');
+  try {
+    const {last} = yield select(state => state.logisticReducer);
+    let query = firestore().collection('Logistics');
 
-  if (last) {
-    query = query.startAfter(last);
-  }
-  if (cityId) {
-    query = query.where('full_address_object.city.code', '==', cityId);
-  }
-  if (districtId) {
-    query = query.where('full_address_object.district.code', '==', +districtId);
-  }
+    if (last) {
+      query = query.startAfter(last);
+    }
+    if (cityId) {
+      query = query.where('full_address_object.city.code', '==', cityId);
+    }
+    if (districtId) {
+      query = query.where(
+        'full_address_object.district.code',
+        '==',
+        +districtId,
+      );
+    }
 
-  const results = yield query.limit(limit).get();
-  if (results.docs.length) {
-    yield put({
-      type: LOGISTIC_SET_LAST,
-      payload: results.docs[results.docs.length - 1],
-    });
+    const results = yield query.limit(limit).get();
+    if (results.docs.length) {
+      yield put({
+        type: LOGISTIC_SET_LAST,
+        payload: results.docs[results.docs.length - 1],
+      });
+    }
+    return results.docs.map(item => item.data());
+  } catch (error) {
+    showMessageFail('Lỗi lấy dược dữ liệu dịch vụ vận chuyển.');
   }
-  return results.docs.map(item => item.data());
 }
 
 export function* createLogistic({type, payload}) {
   if (payload.id) {
-    yield updateLogisticInFirestore(payload);
-    const {logistics, myLogistics} = yield select(
-      state => state.logisticReducer,
-    );
-    if (logistics && logistics.length) {
-      const index = logistics.findIndex(item => item.id === payload.id);
-      if (index !== -1) {
-        logistics.splice(index, 1, {...payload});
-        yield put({type: UPDATE_LOGISTIC, payload: logistics});
+    try {
+      yield updateLogisticInFirestore(payload);
+      const {logistics, myLogistics} = yield select(
+        state => state.logisticReducer,
+      );
+      if (logistics && logistics.length) {
+        const index = logistics.findIndex(item => item.id === payload.id);
+        if (index !== -1) {
+          logistics.splice(index, 1, {...payload});
+          yield put({type: UPDATE_LOGISTIC, payload: logistics});
+        }
       }
-    }
-    if (myLogistics && myLogistics.length) {
-      const index = myLogistics.findIndex(item => item.id === payload.id);
-      if (index !== -1) {
-        myLogistics.splice(index, 1, {...payload});
-        yield put({type: UPDATE_MY_LOGISTIC, payload: myLogistics});
+      if (myLogistics && myLogistics.length) {
+        const index = myLogistics.findIndex(item => item.id === payload.id);
+        if (index !== -1) {
+          myLogistics.splice(index, 1, {...payload});
+          yield put({type: UPDATE_MY_LOGISTIC, payload: myLogistics});
+        }
       }
+      showMessageSuccess('Cập nhật thành công');
+    } catch (error) {
+      showMessageFail('Lỗi cập nhật được thông tin dịch vụ vận chuyển.');
     }
   } else {
-    const result = yield createLogisticInFirestore(payload);
-    yield put({
-      type: ADD_LOGISTIC,
-      payload: {data: {id: result.id, ...payload}, setToFirst: true},
-    });
+    try {
+      const result = yield createLogisticInFirestore(payload);
+      yield put({
+        type: ADD_LOGISTIC,
+        payload: {data: {id: result.id, ...payload}, setToFirst: true},
+      });
+      showMessageSuccess('Đã tạo dịch vụ vận chuyển');
+    } catch (error) {
+      showMessageFail('Lỗi tạo được dịch vụ vận chuyển.');
+    }
   }
 }
 
@@ -100,17 +119,21 @@ function* updateLogisticInFirestore({id, ...payload}) {
 }
 
 export function* fetchMyLogistic() {
-  const {uid} = yield select(state => state.userReducer.userCredential) || {};
-  if (uid) {
-    const result = yield firestore()
-      .collection('Logistics')
-      .where('owner.uid', '==', uid)
-      .get();
-    yield put({
-      type: ADD_MY_LOGISTIC,
-      payload: result.docs.map(item => {
-        return {id: item.id, ...item.data()};
-      }),
-    });
+  try {
+    const {uid} = yield select(state => state.userReducer.userCredential) || {};
+    if (uid) {
+      const result = yield firestore()
+        .collection('Logistics')
+        .where('owner.uid', '==', uid)
+        .get();
+      yield put({
+        type: ADD_MY_LOGISTIC,
+        payload: result.docs.map(item => {
+          return {id: item.id, ...item.data()};
+        }),
+      });
+    }
+  } catch (error) {
+    showMessageFail('Lỗi lấy được thông tin dịch vụ vận chuyển');
   }
 }

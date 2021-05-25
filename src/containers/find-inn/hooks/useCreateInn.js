@@ -4,6 +4,7 @@ import {
   formatString,
   getCity,
   isPhoneNumber,
+  showMessageFail,
   unFormatString,
   uploadImageIntoFirebase,
 } from '../../../utils/utils';
@@ -335,27 +336,32 @@ export const useCreateInn = ({data = {}}) => {
   );
 
   const uploadImage = async () => {
-    const img = [];
-    for (let i = 0; i < inn.images.length; i++) {
-      if (inn.images[i].uri.startsWith('http')) {
-        img.push(inn.images[i].uri);
-        continue;
+    try {
+      const img = [];
+      for (let i = 0; i < inn.images.length; i++) {
+        if (inn.images[i].uri.startsWith('http')) {
+          img.push(inn.images[i].uri);
+          continue;
+        }
+        const result = await uploadImageIntoFirebase(inn.images[i].uri);
+        img.push(await result.getDownloadURL());
       }
-      const result = await uploadImageIntoFirebase(inn.images[i].uri);
-      img.push(await result.getDownloadURL());
+      return img;
+    } catch (error) {
+      throw new Error('ERR_UPLOAD_IMAGE');
     }
-    return img;
   };
 
   const handleCreateInn = async () => {
     let check = false;
-    if (!validateData()) {
-      return false;
-    }
     try {
+      if (!validateData()) {
+        throw new Error('ERR_VALIDATE_DATA');
+      }
       dispatch(setLoading(true));
       const city = getCity(inn.innCity);
       const upload_room_images = await uploadImage();
+
       const district = city.Districts?.find(
         item => item.Id === inn.innDistrict,
       );
@@ -404,12 +410,23 @@ export const useCreateInn = ({data = {}}) => {
       dispatch(createInn(payload));
       check = true;
     } catch (error) {
-      console.log('need handle error at handleCreateInn', error);
+      switch (error.message) {
+        case 'ERR_UPLOAD_IMAGE':
+          showMessageFail('Lỗi đăng hình ảnh.');
+          break;
+
+        case 'ERR_VALIDATE_DATA':
+          showMessageFail('Vui lòng điền đầy đủ thông tin.');
+          break;
+        default:
+          console.log('need handle error at handleCreateInn', error);
+          break;
+      }
       check = false;
     } finally {
       dispatch(setLoading(false));
+      return check;
     }
-    return check;
   };
 
   return {

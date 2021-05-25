@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
 import {View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
 
 import {Button, Text, TextInput} from '../../../components';
 import styles from './confirm-code.style';
 import {translate} from '../../../constants/translate';
 import {useHooks} from '../hooks';
+import {showMessageFail} from '../../../utils/utils';
 
 const ConfirmCode = ({navigation}) => {
   const {handlers} = useHooks({navigation});
@@ -26,11 +26,7 @@ const ConfirmCode = ({navigation}) => {
   const onConfirmCode = async () => {
     try {
       if (codes.join('').length < 6) {
-        showMessage({
-          message: 'Mã xác thực không chính xác',
-          type: 'danger',
-          icon: 'danger',
-        });
+        showMessageFail('Mã xác thực không chính xác');
         return;
       }
       setIsLoading(true);

@@ -2,7 +2,6 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {useDispatch, useSelector} from 'react-redux';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
-import {showMessage} from 'react-native-flash-message';
 
 import {navigationName} from '../../constants/navigation';
 import {
@@ -10,6 +9,7 @@ import {
   setUser,
 } from '../../store/actions/userAction';
 import {setConfirm as setConfirmAction} from '../../store/actions/loginAction';
+import {showMessageFail} from '../../utils/utils';
 
 const useHooks = ({navigation}) => {
   const dispatch = useDispatch();
@@ -82,11 +82,7 @@ const useHooks = ({navigation}) => {
         redirectToAdditionalIfNotHaveUser(pUserCredential.user.uid);
       }
     } catch (error) {
-      showMessage({
-        message: 'Mã xác thực không chính xác',
-        type: 'danger',
-        icon: 'danger',
-      });
+      showMessageFail('Mã xác thực không chính xác');
     }
   };
 

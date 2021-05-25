@@ -1,6 +1,7 @@
 import storage from '@react-native-firebase/storage';
 import numeral from 'numeral';
 import {Linking, Alert} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
 
 import province from '../constants/provice.json';
 
@@ -164,4 +165,30 @@ export const shortenDistrictName = value => {
     return 'H. ' + value.slice(6);
   }
   return value;
+};
+
+export const showMessageFail = (message, options = {}) => {
+  showMessage({
+    message,
+    type: 'danger',
+    icon: 'danger',
+    ...options,
+  });
+};
+
+export const showMessageSuccess = (message, options = {}) => {
+  showMessage({
+    message,
+    type: 'success',
+    icon: 'success',
+    ...options,
+  });
+};
+
+export const showMessageInfo = (message, options = {}) => {
+  showMessage({
+    message,
+    type: 'warning',
+    icon: 'info',
+  });
 };
