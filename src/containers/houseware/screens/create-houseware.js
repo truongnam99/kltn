@@ -20,7 +20,7 @@ import {styles} from './create-houseware.style';
 export const CreateHouseware = ({navigation, route}) => {
   const {data} = route.params ?? {};
   const {selectors, handlers} = useCreateHouseware({navigation, data});
-  const {houseware, loading} = selectors;
+  const {houseware, loading, validation} = selectors;
 
   const {
     onChangeContent,
@@ -42,6 +42,8 @@ export const CreateHouseware = ({navigation, route}) => {
         value={houseware.content}
         onChangeText={onChangeContent}
         required={true}
+        {...validation.content}
+        showHint={true}
       />
       <CityPicker
         value={houseware.city}
@@ -55,6 +57,9 @@ export const CreateHouseware = ({navigation, route}) => {
         setValue={onChangeDistrict}
         pickerContainerStype={styles.cityContainerStyle}
         cityId={houseware.city}
+        error={validation.district.error}
+        hint={validation.district.hint}
+        showHint={true}
       />
       {data && (
         <BasePicker

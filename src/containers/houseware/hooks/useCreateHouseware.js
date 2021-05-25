@@ -8,6 +8,7 @@ import {
   resetUpdateHousewareStatus,
   updateHouseware,
 } from '../../../store/actions/housewareAction';
+import {showMessageFail} from '../../../utils/utils';
 import {selectUserInfo} from '../../login/selectors';
 import {selectCreateHouseware, selectUpdateHouseware} from '../selectors';
 
@@ -26,6 +27,16 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
     district: data.district ?? '762',
     isActive: data.isActive ?? true,
   });
+  const [validation, setValidation] = useState({
+    content: {
+      error: false,
+      hint: ' ',
+    },
+    district: {
+      error: false,
+      hint: ' ',
+    },
+  });
 
   const handleSetHouseware = useCallback(
     (value, field) => {
@@ -39,8 +50,35 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
     [setHouseware],
   );
 
+  const handleCheckContent = value => {
+    if (!value) {
+      setValidation(preState => {
+        return {
+          ...preState,
+          content: {
+            error: true,
+            hint: 'Nội dung không được để trống',
+          },
+        };
+      });
+      return false;
+    } else {
+      setValidation(preState => {
+        return {
+          ...preState,
+          content: {
+            error: false,
+            hint: ' ',
+          },
+        };
+      });
+      return true;
+    }
+  };
+
   const onChangeContent = useCallback(
     value => {
+      handleCheckContent(value);
       handleSetHouseware(value, 'content');
     },
     [handleSetHouseware],
@@ -53,9 +91,37 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
     [handleSetHouseware],
   );
 
+  const handleCheckDistrict = district => {
+    if (!district) {
+      setValidation(preState => {
+        return {
+          ...preState,
+          district: {
+            error: true,
+            hint: 'Cần chọn quận/huyền',
+          },
+        };
+      });
+      return false;
+    } else {
+      setValidation(preState => {
+        return {
+          ...preState,
+          district: {
+            error: false,
+            hint: ' ',
+          },
+        };
+      });
+      return true;
+    }
+  };
+
   const onChangeDistrict = useCallback(
     value => {
-      handleSetHouseware(value(), 'district');
+      const district = value();
+      handleCheckDistrict(district);
+      handleSetHouseware(district, 'district');
     },
     [handleSetHouseware],
   );
@@ -124,6 +190,13 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
   }, [statusCreateHouseware, statusUpdateHouseware]);
 
   const onCreateHouseware = () => {
+    if (
+      !handleCheckContent(houseware.content) ||
+      !handleCheckDistrict(houseware.district)
+    ) {
+      showMessageFail('Vui lòng điền đầy đủ thông tin');
+      return;
+    }
     if (data.id) {
       dispatch(updateHouseware({id: data.id, ...houseware}));
     } else {
@@ -135,6 +208,7 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
     selectors: {
       houseware,
       loading,
+      validation,
     },
     handlers: {
       onChangeContent,

@@ -102,7 +102,12 @@ const CartItem = ({
 
   const _renderAction = useCallback(() => {
     if (isMe) {
-      return <PopupAction onMarkSold={() => onMarkSold(id, !isActive)} />;
+      return (
+        <PopupAction
+          onMarkSold={() => onMarkSold(id, !isActive)}
+          isActive={isActive}
+        />
+      );
     }
     return (
       showContact && owner && <Contact owner={owner} navigation={navigation} />
