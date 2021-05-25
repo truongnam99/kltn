@@ -165,8 +165,7 @@ export const Filter = memo(
     const onApplyPress = useCallback(() => {
       onCallback(filterValue);
       setOpenModal(false);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setOpenModal]);
+    }, [setOpenModal, filterValue, onCallback]);
 
     const handleChangeFilter = useCallback(
       (value, field) => {

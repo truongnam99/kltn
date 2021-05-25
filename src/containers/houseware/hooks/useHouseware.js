@@ -8,6 +8,10 @@ import {selectFetchHousewares, selectHousewares} from '../selectors';
 export const useHouseware = ({navigation}) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState({
+    searchText: '',
+    city: '79',
+  });
   const housewares = useSelector(selectHousewares);
   const {status: statusFetchHousewares} = useSelector(selectFetchHousewares);
 
@@ -28,7 +32,7 @@ export const useHouseware = ({navigation}) => {
   }, [statusFetchHousewares]);
 
   useEffect(() => {
-    dispatch(fetchHousewares({}));
+    dispatch(fetchHousewares(filter));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,16 +40,22 @@ export const useHouseware = ({navigation}) => {
     if (loading) {
       return;
     }
-    dispatch(fetchHousewares({}));
+    dispatch(fetchHousewares(filter));
   };
 
-  const handleApplyFilter = useCallback(value => {
-    if (loading) {
-      return;
-    }
-    console.log(value);
-    dispatch(fetchHousewares({}));
-  }, []);
+  const handleApplyFilter = useCallback(
+    value => {
+      if (loading) {
+        return;
+      }
+      const {price, ...newFilter} = value;
+      setFilter(preState => {
+        return {...preState, ...newFilter};
+      });
+      dispatch(fetchHousewares({reload: true, ...newFilter}));
+    },
+    [setFilter, dispatch, loading],
+  );
 
   return {
     selectors: {housewares, loading},

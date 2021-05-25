@@ -75,14 +75,18 @@ export const getCites = () => {
 export const cities = getCites();
 
 export const getDistricts = cityId => {
-  return province
-    .find(p => p.Id === cityId)
-    ?.Districts.map(d => {
-      return {
-        value: d.Id,
-        label: d.Name,
-      };
-    });
+  return [
+    {value: '', label: 'Chọn Quận/Huyện'},
+    ...province
+      .find(p => p.Id === cityId)
+      ?.Districts.map(d => {
+        return {
+          value: d.Id,
+          label: d.Name,
+        };
+      })
+      .sort((a, b) => (a.label > b.label ? 1 : -1)),
+  ];
 };
 
 export const getCity = cityId => {

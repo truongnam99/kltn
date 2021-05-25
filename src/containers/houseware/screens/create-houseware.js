@@ -28,6 +28,7 @@ export const CreateHouseware = ({navigation, route}) => {
     onRemoveItem,
     onCreateHouseware,
     onChangeStatus,
+    onChangeDistrict,
   } = handlers;
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -49,8 +50,9 @@ export const CreateHouseware = ({navigation, route}) => {
       <DistrictPicker
         value={houseware.district}
         required={true}
-        setValue={onChangeCity}
+        setValue={onChangeDistrict}
         pickerContainerStype={styles.cityContainerStyle}
+        cityId={houseware.city}
       />
       {data && (
         <BasePicker

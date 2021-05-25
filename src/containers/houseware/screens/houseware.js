@@ -1,11 +1,11 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {
   ActionButton,
   ActionButtonItem,
 } from '../../../components/action-button/action-button';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import {styles} from './houseware.style';
 import {useHouseware} from '../hooks/useHouseware';
 import CartItem from '../components/cart-item';

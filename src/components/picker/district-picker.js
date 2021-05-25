@@ -10,6 +10,7 @@ const DistrictPicker = ({
   setValue,
   cityId,
   containerStyle,
+  pickerContainerStype,
   required,
   hint = 'Không được bỏ trống',
   error,
@@ -18,7 +19,7 @@ const DistrictPicker = ({
   inputRef,
 }) => {
   const [open, setOpen] = useState(false);
-  const [districts, setDistricts] = useState([]);
+  const [districts, setDistricts] = useState(getDistricts(cityId));
   const onPress = () => setOpen(!open);
   useEffect(() => {
     if (cityId) {
@@ -43,7 +44,11 @@ const DistrictPicker = ({
         items={districts}
         open={open}
         onPress={onPress}
-        style={[styles.container, error && styles.borderError]}
+        style={[
+          styles.container,
+          error && styles.borderError,
+          pickerContainerStype,
+        ]}
         translation={translate.districtPicker}
         value={value}
         setValue={
