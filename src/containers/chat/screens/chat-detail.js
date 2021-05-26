@@ -33,6 +33,9 @@ const ChatDetail = ({navigation, route, ...props}) => {
   }, []);
 
   const onSendMessage = async () => {
+    if (!text) {
+      return;
+    }
     await handleSendMessage({
       text,
       messageId: messageId,
@@ -71,6 +74,8 @@ const ChatDetail = ({navigation, route, ...props}) => {
           textInputStyle={styles.textInputStyle}
           value={text}
           onChangeText={onChangeText}
+          returnKeyType="send"
+          onSubmitEditing={onSendMessage}
         />
         <TouchableOpacity activeOpacity={activeOpacity} onPress={onSendMessage}>
           <Ionicons name="send" size={32} color={lightTheme.primary} />

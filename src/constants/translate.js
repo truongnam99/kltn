@@ -57,7 +57,7 @@ const translate = {
   roommate: {
     findRoommate: 'Tìm người ở ghép',
     post: 'Đăng bài viết',
-    contentTitle: 'Nội dùng bài viết:',
+    contentTitle: 'Nội dung bài viết:',
     foundRoommate: 'Đã tìm được người ở cùng',
     myPost: 'Bài đã đăng',
     found: 'Đã tìm được',
