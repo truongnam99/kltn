@@ -22,7 +22,7 @@ export const uploadImageIntoFirebase = async image => {
   try {
     await reference.putFile(image);
   } catch (error) {
-    console.log(error);
+    showMessageFail('Lỗi upload hình ảnh');
   }
   return reference;
 };

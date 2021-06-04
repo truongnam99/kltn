@@ -2,6 +2,9 @@ import {StyleSheet} from 'react-native';
 import fonts from '../../config/font';
 
 const styles = StyleSheet.create({
+  h0: {
+    fontSize: 12,
+  },
   h1: {
     fontSize: 14,
   },

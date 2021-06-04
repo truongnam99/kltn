@@ -1,19 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {
   ActionButton,
   ActionButtonItem,
 } from '../../../components/action-button/action-button';
-import {navigationName} from '../../../constants/navigation';
-
 import Header from '../component/header';
 import LargeItem from '../component/large-item';
 import SmallItem from '../component/small-item';
-import useHooks from '../hooks';
+import MapInn from '../component/map-inn';
 import styles from './find-inn.style';
-
 import Filter from '../component/filter';
 import {
   shortenCityName,
@@ -27,71 +25,30 @@ import {
   ItemFilterContainer,
 } from '../../../components/filter/filter';
 import {activeOpacity} from '../../../components/shared';
+import {useInn} from '../hooks/useInn';
+import {lightTheme} from '../../../config/theme';
 
 const FindInn = ({navigation}) => {
-  const [typeOfItem, setTypeOfItem] = useState('large');
-  const [isShowFilter, setIsShowFilter] = useState(false);
-  const [headerText, setHeaderText] = useState('');
-  const [filter, setFilter] = useState({});
-  const {handlers, selectors} = useHooks();
-  const {loading, inns, role} = selectors;
-  const {handleFetchInn} = handlers;
-
-  const onChangeView = () => {
-    if (typeOfItem === 'small') {
-      setTypeOfItem('large');
-    } else {
-      setTypeOfItem('small');
-    }
-  };
-
-  const onFetchInn = (props = {}) => {
-    handleFetchInn({
-      searchText: headerText,
-      district: filter.district?.Id,
-      city: filter.city?.Id,
-      minPrice: filter.price?.minPrice,
-      maxPrice: filter.price?.maxPrice,
-      ...props,
-    });
-  };
-
-  useEffect(() => {
-    onFetchInn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onViewDetail = inn => {
-    navigation.navigate(navigationName.findInn.innDetail, {
-      inn,
-    });
-  };
-
-  const onGotoCreateInn = () => {
-    navigation.navigate(navigationName.findInn.createInn);
-  };
-
-  const onGotoMyInn = () => {
-    navigation.navigate(navigationName.findInn.myInn);
-  };
-
-  const onHeaderChangeText = value => {
-    setHeaderText(value);
-  };
-
-  const onOpenFilter = () => {
-    setIsShowFilter(!isShowFilter);
-  };
-
-  const filterCallBack = value => {
-    setIsShowFilter(false);
-    setFilter(value);
-  };
-
-  useEffect(() => {
-    onFetchInn({reload: true});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  const {handlers, selectors} = useInn({navigation});
+  const {
+    loading,
+    inns,
+    role,
+    filter,
+    typeOfItem,
+    headerText,
+    isShowFilter,
+  } = selectors;
+  const {
+    onChangeView,
+    onFetchInn,
+    onHeaderChangeText,
+    onOpenFilter,
+    filterCallBack,
+    onViewDetail,
+    onGotoCreateInn,
+    onGotoMyInn,
+  } = handlers;
 
   const showFilter = () => {
     const filterItems = [];
@@ -117,6 +74,107 @@ const FindInn = ({navigation}) => {
     ));
   };
 
+  const _renderLargeType = useCallback(() => {
+    return (
+      <FlatList
+        style={styles.flatList}
+        key={1}
+        numColumns={1}
+        data={inns}
+        keyExtractor={(item, index) => index}
+        onEndReached={onFetchInn}
+        onEndReachedThreshold={0}
+        ListFooterComponent={<FooterListComponent isLoading={loading} />}
+        renderItem={item => (
+          <TouchableOpacity
+            onPress={() => onViewDetail(item.item)}
+            activeOpacity={activeOpacity}>
+            <LargeItem
+              images={item.item.upload_room_images}
+              room_name={item.item.room_name}
+              room_price={item.item.room_price}
+              electric_price={item.item.electric_price}
+              water_price={item.item.water_price}
+              exact_room_address={item.item.exact_room_address}
+            />
+          </TouchableOpacity>
+        )}
+        ListEmptyComponent={ListEmptyComponent}
+      />
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inns, loading]);
+
+  const _renderSmallType = useCallback(() => {
+    return (
+      <FlatList
+        key={2}
+        style={styles.flatListSmall}
+        numColumns={2}
+        data={inns}
+        keyExtractor={(item, index) => index}
+        onEndReached={onFetchInn}
+        onEndReachedThreshold={0}
+        ListFooterComponent={<FooterListComponent isLoading={loading} />}
+        renderItem={item => (
+          <TouchableOpacity
+            onPress={() => onViewDetail(item.item)}
+            style={styles.smallItemContainer}>
+            <SmallItem
+              images={item.item.upload_room_images}
+              room_name={item.item.room_name}
+              room_price={item.item.room_price}
+              electric_price={item.item.electric_price}
+              water_price={item.item.water_price}
+              exact_room_address={item.item.exact_room_address}
+            />
+          </TouchableOpacity>
+        )}
+        ListEmptyComponent={ListEmptyComponent}
+      />
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inns, loading]);
+
+  const _renderMap = useCallback(() => {
+    return <MapInn inns={inns} onViewDetail={onViewDetail} />;
+  }, [inns, onViewDetail]);
+
+  const _renderItem = useCallback(() => {
+    switch (typeOfItem) {
+      case 'small':
+        return _renderSmallType();
+      case 'map':
+        return _renderMap();
+      default:
+        return _renderLargeType();
+    }
+  }, [typeOfItem, _renderSmallType, _renderLargeType, _renderMap]);
+
+  const _renderIconChange = useCallback(() => {
+    switch (typeOfItem) {
+      case 'small':
+        return <MaterialIcons name="map" size={24} style={styles.filterIcon} />;
+      case 'map':
+        return (
+          <MaterialIcons
+            name="view-list"
+            size={24}
+            style={styles.filterIcon}
+            color={lightTheme.primary}
+          />
+        );
+      default:
+        return (
+          <MaterialIcons
+            name="filter-none"
+            size={24}
+            style={styles.filterIcon}
+          />
+        );
+    }
+  }, [typeOfItem]);
+
   return (
     <View style={styles.container}>
       <Header
@@ -136,7 +194,7 @@ const FindInn = ({navigation}) => {
               <MaterialIcons
                 name="filter-alt"
                 size={24}
-                style={styles.filterIcon}
+                style={styles.changeView}
               />
             </TouchableOpacity>
           </View>
@@ -146,67 +204,11 @@ const FindInn = ({navigation}) => {
                 onChangeView();
               }}
               activeOpacity={activeOpacity}>
-              <MaterialIcons
-                name="filter-none"
-                size={24}
-                style={styles.changeView}
-              />
+              {_renderIconChange()}
             </TouchableOpacity>
           </View>
         </View>
-        {typeOfItem === 'large' ? (
-          <FlatList
-            style={styles.flatList}
-            key={1}
-            numColumns={1}
-            data={inns}
-            keyExtractor={(item, index) => index}
-            onEndReached={onFetchInn}
-            onEndReachedThreshold={0}
-            ListFooterComponent={<FooterListComponent isLoading={loading} />}
-            renderItem={item => (
-              <TouchableOpacity
-                onPress={() => onViewDetail(item.item)}
-                activeOpacity={activeOpacity}>
-                <LargeItem
-                  images={item.item.upload_room_images}
-                  room_name={item.item.room_name}
-                  room_price={item.item.room_price}
-                  electric_price={item.item.electric_price}
-                  water_price={item.item.water_price}
-                  exact_room_address={item.item.exact_room_address}
-                />
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={ListEmptyComponent}
-          />
-        ) : (
-          <FlatList
-            key={2}
-            style={styles.flatListSmall}
-            numColumns={2}
-            data={inns}
-            keyExtractor={(item, index) => index}
-            onEndReached={onFetchInn}
-            onEndReachedThreshold={0}
-            ListFooterComponent={<FooterListComponent isLoading={loading} />}
-            renderItem={item => (
-              <TouchableOpacity
-                onPress={() => onViewDetail(item.item)}
-                style={styles.smallItemContainer}>
-                <SmallItem
-                  images={item.item.upload_room_images}
-                  room_name={item.item.room_name}
-                  room_price={item.item.room_price}
-                  electric_price={item.item.electric_price}
-                  water_price={item.item.water_price}
-                  exact_room_address={item.item.exact_room_address}
-                />
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={ListEmptyComponent}
-          />
-        )}
+        {_renderItem()}
       </View>
       <Filter isShow={isShowFilter} callBack={filterCallBack} />
       {role === 1 && (

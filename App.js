@@ -16,6 +16,7 @@ import configureStore from './src/store';
 import Navigation from './src/navigation';
 import {MenuProvider} from 'react-native-popup-menu';
 import FlashMessage from 'react-native-flash-message';
+import Test from './src/containers/test';
 
 const store = configureStore();
 const App: () => Node = () => {
@@ -30,6 +31,7 @@ const App: () => Node = () => {
       <MenuProvider>
         <SafeAreaView style={backgroundStyle}>
           <Navigation />
+          {/* <Test /> */}
           <FlashMessage position="top" />
         </SafeAreaView>
       </MenuProvider>

@@ -2,7 +2,12 @@ import React from 'react';
 import {StyleSheet, Text as RNText} from 'react-native';
 import styles from './text.style';
 
-const Text = ({children = '', style, types: passedTypes = 'h1'}) => {
+const Text = ({
+  children = '',
+  style,
+  types: passedTypes = 'h1',
+  ...attributes
+}) => {
   const types = passedTypes.split(',');
   return (
     <RNText
@@ -18,7 +23,8 @@ const Text = ({children = '', style, types: passedTypes = 'h1'}) => {
           return mapStyle;
         })(),
         style,
-      ])}>
+      ])}
+      {...attributes}>
       {children}
     </RNText>
   );

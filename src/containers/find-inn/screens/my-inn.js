@@ -1,26 +1,15 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {FlatList, TouchableOpacity} from 'react-native';
 import {FooterListComponent, ListEmptyComponent} from '../../../components';
 import LargeItem from '../component/large-item';
 import {useMyInn} from '../hooks/useMyInn';
-import {navigationName} from '../../../constants/navigation';
 import {styles} from './my-inn.style';
 import {activeOpacity} from '../../../components/shared';
 
 const MyInn = ({navigation}) => {
-  const {seletors, handlers} = useMyInn();
+  const {seletors, handlers} = useMyInn({navigation});
   const {myInns} = seletors;
-  const {handleFetchMyInn} = handlers;
-  const onOpenCreateInnLikeUpdate = data => {
-    navigation.navigate(navigationName.findInn.createInn, {
-      data: {...data, isUpdate: true},
-    });
-  };
-
-  useEffect(() => {
-    handleFetchMyInn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {onOpenCreateInnLikeUpdate} = handlers;
 
   return (
     <FlatList

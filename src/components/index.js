@@ -14,6 +14,7 @@ import ImagePicker from './image-picker/image-picker';
 import {ListEmptyComponent} from './ListEmptyComponent';
 import Image from './image/image';
 import {Filter} from './filter/filter';
+import Marker from './map/marker';
 export {
   Avatar,
   Button,
@@ -31,4 +32,5 @@ export {
   ListEmptyComponent,
   Image,
   Filter,
+  Marker,
 };
