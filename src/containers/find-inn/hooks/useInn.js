@@ -2,18 +2,15 @@ import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import {changeMessage} from '../../../store/actions/messageAction';
-import {
-  fetchInn,
-  setLoading as setLoadingAction,
-} from '../../../store/actions/innAction';
+import {fetchInn} from '../../../store/actions/innAction';
 import {selectUserInfo} from '../../../containers/login/selectors';
 import {navigationName} from '../../../constants/navigation';
-import {selectInns, selectCount, selectIsLoading} from '../selectors';
-import {showMessageFail} from '../../../utils/utils';
+import {selectInns, selectCount, selectFetchInnStatus} from '../selectors';
+import {status} from '../../../constants/constants';
 
 export const useInn = ({navigation}) => {
-  const [loading, setLoading] = useState(true);
   const [typeOfItem, setTypeOfItem] = useState('large');
+  const [loading, setLoading] = useState(true);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [headerText, setHeaderText] = useState('');
   const [filter, setFilter] = useState({});
@@ -21,7 +18,7 @@ export const useInn = ({navigation}) => {
   const {uid, role} = useSelector(selectUserInfo) || {};
   const inns = useSelector(selectInns);
   const count = useSelector(selectCount);
-  const isLoading = useSelector(selectIsLoading);
+  const {status: fetchInnStatus} = useSelector(selectFetchInnStatus);
   const dispatch = useDispatch();
 
   const onFetchInn = useCallback(
@@ -32,12 +29,18 @@ export const useInn = ({navigation}) => {
         city: filter.city?.Id,
         minPrice: filter.price?.minPrice,
         maxPrice: filter.price?.maxPrice,
+        minAge: filter.age ? filter.age[0] : null,
+        maxAge: filter.age ? filter.age[1] : null,
+        minArea: filter.area ? filter.area[0] : null,
+        maxArea: filter.area ? filter.area[1] : null,
+        kitchen: filter.kitchen,
+        garage: filter.garage,
         ...props,
       });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filter, headerText],
+    [filter, headerText, handleFetchInn],
   );
+
   const onViewDetail = inn => {
     navigation.navigate(navigationName.findInn.innDetail, {
       inn,
@@ -60,50 +63,17 @@ export const useInn = ({navigation}) => {
     setIsShowFilter(!isShowFilter);
   }, [isShowFilter]);
 
-  const handleFetchInn = ({
-    limit = 10,
-    name,
-    minPrice,
-    maxPrice,
-    city,
-    district,
-    address,
-    reload,
-    searchText,
-  }) => {
-    if (isLoading && !reload) {
-      return;
-    }
-    try {
-      dispatch(setLoadingAction(true));
-      dispatch(
-        fetchInn({
-          limit,
-          name,
-          minPrice,
-          maxPrice,
-          city,
-          district,
-          address,
-          reload,
-          searchText,
-        }),
-      );
-    } catch (error) {
-      showMessageFail('Không lấy được dữ liệu nhà trọ');
-    } finally {
-      dispatch(setLoadingAction(false));
-    }
-  };
+  const handleFetchInn = useCallback(
+    props => {
+      dispatch(fetchInn(props));
+    },
+    [dispatch],
+  );
 
   const filterCallBack = useCallback(value => {
     setIsShowFilter(false);
     setFilter(value);
   }, []);
-
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
 
   useEffect(() => {
     onFetchInn();
@@ -121,6 +91,14 @@ export const useInn = ({navigation}) => {
     onFetchInn({reload: true});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+
+  useEffect(() => {
+    if (fetchInnStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [fetchInnStatus]);
 
   const onChangeView = useCallback(() => {
     if (typeOfItem === 'large') {

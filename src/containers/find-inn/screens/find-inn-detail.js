@@ -1,57 +1,31 @@
 import React from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FastImage from 'react-native-fast-image';
 
 import {ImageView, Text} from '../../../components/index';
-import styles from './find-inn-detail.style';
 import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
-import FastImage from 'react-native-fast-image';
 import {noImage} from '../../../constants/string';
 import {activeOpacity} from '../../../components/shared';
+import styles from './find-inn-detail.style';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
-  const {
-    room_name,
-    room_price,
-    room_area,
-    electric_price,
-    water_price,
-    exact_room_address,
-    phone_number,
-    notes,
-    upload_room_images,
-    air_conditioner,
-    room_bathroom,
-    parking_situation,
-    room_wifi,
-    curfew_situation,
-    room_refrigerator,
-    room_washing_machine,
-    security_guard,
-    room_bed,
-    room_tivi,
-    room_pets_allowed,
-    room_closet,
-    room_kitchen,
-    window,
-    created_by,
-  } = inn;
 
   const onGotoChat = () => {
-    if (!created_by) {
+    if (!inn.created_by) {
       return;
     }
     navigation.navigate(navigationName.home.chat, {
       screen: navigationName.chat.chatDetail,
       params: {
-        name: created_by.displayName,
-        photoUrl: created_by.photoURL,
+        name: inn.created_by.displayName,
+        photoUrl: inn.created_by.photoURL,
         destUser: {
-          id: created_by.uid,
-          displayName: created_by.displayName,
-          photoURL: created_by.photoURL,
+          id: inn.created_by.uid,
+          displayName: inn.created_by.displayName,
+          photoURL: inn.created_by.photoURL,
         },
       },
     });
@@ -59,29 +33,31 @@ const FindInnDetail = ({route, navigation}) => {
 
   const onViewProfile = () => {
     navigation.navigate(navigationName.findInn.viewProfile, {
-      profile: created_by,
+      profile: inn.created_by,
     });
   };
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        {upload_room_images?.length && (
+        {inn.upload_room_images?.length && (
           <View>
-            <ImageView images={upload_room_images} />
+            <ImageView images={inn.upload_room_images} />
           </View>
         )}
         <View style={styles.detailContainer}>
           <View style={[styles.primaryContainer, styles.row, styles.alignEnd]}>
             <FastImage
               source={{
-                uri: created_by?.photoURL ? created_by.photoURL : noImage,
+                uri: inn.created_by?.photoURL
+                  ? inn.created_by.photoURL
+                  : noImage,
               }}
               style={styles.avatar}
             />
 
             <Text style={[styles.fontSize16, styles.fz16, styles.ml6]}>
-              {created_by?.displayName}
+              {inn.created_by?.displayName}
             </Text>
             <TouchableOpacity
               activeOpacity={activeOpacity}
@@ -91,41 +67,41 @@ const FindInnDetail = ({route, navigation}) => {
           </View>
 
           <View style={styles.primaryContainer}>
-            <Text style={styles.name}>{room_name}</Text>
-            <Text>{exact_room_address}</Text>
-            <Text>Số điện thoại: {phone_number}</Text>
-            <Text>Giá: {numeralPrice(room_price)}đ</Text>
-            <Text>Diện tích phòng: {room_area}m2</Text>
-            <Text>Điện: {numeralPrice(electric_price)}k/kw</Text>
-            <Text>Cộc: {}đ</Text>
-            <Text>Nước: {numeralPrice(water_price)}k/người</Text>
+            <Text style={styles.name}>{inn.room_name}</Text>
+            <Text>Địa chỉ: {inn.exact_room_address}</Text>
+            <Text>Số điện thoại: {inn.phone_number}</Text>
+            <Text>Giá: {numeralPrice(inn.room_price)} đ</Text>
+            <Text>Diện tích: {inn.room_area} m2</Text>
+            <Text>Điện: {numeralPrice(inn.electric_price)} k/kw</Text>
+            <Text>Cộc: {numeralPrice(inn.deposit)} đ</Text>
+            <Text>Nước: {numeralPrice(inn.water_price)} k/m3</Text>
           </View>
 
           <View style={styles.primaryContainer}>
             <Text types="bold,h2">Mô tả</Text>
-            <Text>{notes}</Text>
+            <Text>{inn.notes}</Text>
           </View>
 
           <View style={styles.primaryContainer}>
             <Text types="bold,h2">Tiện ích</Text>
-            {air_conditioner && <Text>- Máy lạnh</Text>}
-            {room_bathroom && <Text>- Phòng tắm</Text>}
-            {parking_situation && <Text>- Chỗ đổ xe</Text>}
-            {room_wifi && <Text>- Wifi</Text>}
-            {room_refrigerator && <Text>- Tủ lạnh</Text>}
-            {room_washing_machine && <Text>- Máy rửa chén</Text>}
-            {security_guard && <Text>- Bảo vệ</Text>}
-            {room_bed && <Text>- Phòng ngủ</Text>}
-            {room_tivi && <Text>- Tivi</Text>}
-            {room_pets_allowed && <Text>- Cho phép nuôi thú cưng</Text>}
-            {room_closet && <Text>- Rèm cửa</Text>}
-            {room_kitchen && <Text>- Nhà bếp</Text>}
-            {window && <Text>- Cửa số</Text>}
+            {inn.air_conditioner && <Text>- Máy lạnh</Text>}
+            {inn.room_bathroom && <Text>- Phòng tắm</Text>}
+            {inn.parking_situation && <Text>- Chỗ đổ xe</Text>}
+            {inn.room_wifi && <Text>- Wifi</Text>}
+            {inn.room_refrigerator && <Text>- Tủ lạnh</Text>}
+            {inn.room_washing_machine && <Text>- Máy rửa chén</Text>}
+            {inn.security_guard && <Text>- Bảo vệ</Text>}
+            {inn.room_bed && <Text>- Phòng ngủ</Text>}
+            {inn.room_tivi && <Text>- Tivi</Text>}
+            {inn.room_pets_allowed && <Text>- Cho phép nuôi thú cưng</Text>}
+            {inn.room_closet && <Text>- Rèm cửa</Text>}
+            {inn.room_kitchen && <Text>- Nhà bếp</Text>}
+            {inn.window && <Text>- Cửa số</Text>}
           </View>
 
           <View style={styles.primaryContainer}>
             <Text types="bold,h2">Chú ý</Text>
-            {curfew_situation && <Text>Giờ giới nghiêm</Text>}
+            {inn.attention && <Text>{inn.attention}</Text>}
           </View>
           <View style={styles.primaryContainer}>
             <Text
@@ -146,7 +122,7 @@ const FindInnDetail = ({route, navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={activeOpacity}
-                onPress={() => dial(phone_number)}>
+                onPress={() => dial(inn.phone_number)}>
                 <MaterialIcons
                   name="call"
                   size={32}

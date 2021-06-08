@@ -1,16 +1,17 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import LogisticContainer from '../logistic';
+import RoommateContainer from '../roommate';
+import ChatContainer from '../chat';
+import HousewareContainer from '../houseware';
 import FinnInnContainer from '../find-inn';
 import Profile from '../profile/screen/profile';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {StyleSheet} from 'react-native';
-import {lightTheme} from '../../config/theme';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import LogisticContainer from '../logistic';
-import Roommate from '../roommate';
-import ChatContainer from '../chat';
-import {HousewareContainer} from '../houseware';
 import {navigationName} from '../../constants/navigation';
+import {lightTheme} from '../../config/theme';
+
 const Tab = createBottomTabNavigator();
 
 const Home = props => {
@@ -50,7 +51,7 @@ const Home = props => {
       />
       <Tab.Screen
         name={navigationName.home.roommate}
-        component={Roommate}
+        component={RoommateContainer}
         options={{
           tabBarIcon: attributes => (
             <MaterialIcons
@@ -109,5 +110,3 @@ const Home = props => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({});

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, Text} from 'react-native';
+import {View, ScrollView} from 'react-native';
 
 import {
   Button,
@@ -9,19 +9,44 @@ import {
   StatusPicker,
   CheckBox,
   ImagePicker,
+  Text,
+  MapPicker,
 } from '../../../components';
 import {translate} from '../../../constants/translate';
 import {useCreateInn} from '../hooks/useCreateInn';
 import {styles} from './create-inn.style';
+import {DeleteConfirm} from '../../../components/delete-confirm/delete-confirm';
+
+const CustomInput = props => {
+  return (
+    <TextInput
+      type="outline"
+      textInputStyle={styles.textInputStyle}
+      titleStyle={styles.titleStyle}
+      containerStyle={styles.containerStyle}
+      {...props}
+    />
+  );
+};
 
 const CreateInn = ({route, navigation}) => {
   const {selectors, handlers} = useCreateInn({
     ...route.params?.data,
+    navigation,
   });
-  const {inn, isLoading, validation} = selectors;
+  const {
+    inn,
+    loading,
+    validation,
+    deleteLoading,
+    showDeleteConfirmModal,
+  } = selectors;
 
   const {
-    handleCreateInn,
+    onCloseDeleteConfirmModal,
+    onConfirmDelete,
+    onCreateInn,
+    onDeleteInn,
     onChangeName,
     onChangeAddress,
     onChangeImages,
@@ -48,109 +73,106 @@ const CreateInn = ({route, navigation}) => {
     onChangeRoomWashingMachine,
     onChangeAttention,
     onChangeNotes,
+    onChangeCoordinate,
   } = handlers;
 
-  const onCreateInn = async () => {
-    const result = await handleCreateInn();
-    if (result) {
-      navigation.goBack();
-    }
-  };
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.sectionHeader}>{translate.innInfo}</Text>
-      <Text>{translate.image}</Text>
+      <Text types="h2">{translate.image}</Text>
       <ImagePicker
         quality={0.2}
         onChangeImages={onChangeImages}
         defaultImages={inn.images}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innName}
-        type="outline"
         value={inn.innName}
         onChangeText={onChangeName}
         {...validation.name}
       />
       <CityPicker
+        titleStyle={styles.titleStyle}
+        containerStyle={styles.containerStyle}
+        textStyle={styles.fontSize}
         value={inn.innCity}
         setValue={onChangeCity}
         required={true}
         {...validation.city}
       />
       <DistrictPicker
+        titleStyle={styles.titleStyle}
+        containerStyle={styles.containerStyle}
+        textStyle={styles.fontSize}
         value={inn.innDistrict}
         setValue={onChangeDistrict}
         cityId={inn.innCity}
         {...validation.district}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innAddress}
-        type="outline"
         value={inn.innAddress}
         placeholder={translate.post.addressPlaceholder}
         onChangeText={onChangeAddress}
         {...validation.address}
       />
-      <StatusPicker value={inn.innStatus} setValue={onChangeStatus} />
-      <TextInput
+      <StatusPicker
+        titleStyle={styles.titleStyle}
+        containerStyle={styles.containerStyle}
+        textStyle={styles.fontSize}
+        value={inn.innStatus}
+        setValue={onChangeStatus}
+      />
+      <CustomInput
         title={translate.post.innPrice}
-        type="outline"
         value={`${inn.innPrice ?? ''}`}
         onChangeText={onChangePrice}
         keyboardType="numeric"
         placeholder={translate.placeholder.price}
         {...validation.price}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innElectricPrice}
-        type="outline"
         value={`${inn.innElectricPrice ?? ''}`}
         onChangeText={onChangeElectricPrice}
         keyboardType="numeric"
         placeholder={translate.placeholder.price}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innWaterPrice}
-        type="outline"
         value={`${inn.innWaterPrice ?? ''}`}
         onChangeText={onChangeWaterPrice}
         keyboardType="numeric"
         placeholder={translate.placeholder.price}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innArea}
-        type="outline"
         value={`${inn.innArea ?? ''}`}
         onChangeText={onChangeArea}
         keyboardType="numeric"
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innDeposit}
-        type="outline"
         value={`${inn.innDeposit ?? ''}`}
         onChangeText={onChangeDeposit}
         keyboardType="numeric"
         placeholder={translate.placeholder.price}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.maxRoommate}
-        type="outline"
         value={`${inn.innMaxRoommate ?? ''}`}
         onChangeText={onChangeMaxRoommate}
         keyboardType="numeric"
       />
 
       <Text style={styles.sectionHeader}>{translate.ownerInfo}</Text>
-      <TextInput
+      <CustomInput
         title={translate.post.innOwner}
-        type="outline"
         value={inn.innOwner}
         onChangeText={onChangeOwner}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.innContact}
-        type="outline"
         value={inn.innContact}
         keyboardType="numeric"
         onChangeText={onChangeContact}
@@ -211,33 +233,58 @@ const CreateInn = ({route, navigation}) => {
       />
 
       <Text style={styles.sectionHeader}>{translate.otherInfos}</Text>
-      <TextInput
+      <CustomInput
         title={translate.post.attention}
-        type="outline"
         value={inn.innAttention}
         onChangeText={onChangeAttention}
         numberOfLines={5}
         multiline
         textInputStyle={styles.textAlign}
       />
-      <TextInput
+      <CustomInput
         title={translate.post.notes}
-        type="outline"
         value={inn.innNotes}
         onChangeText={onChangeNotes}
         numberOfLines={5}
         multiline
         textInputStyle={styles.textAlign}
       />
+      <View>
+        <Text types="h2">Chọn vị trí</Text>
+        <MapPicker
+          mapStyle={styles.mapStyle}
+          defaultValue={inn.coordinate}
+          onPickPoint={onChangeCoordinate}
+        />
+      </View>
       <View style={styles.buttonWrapper}>
         <Button
-          loading={isLoading}
+          loading={loading}
           title={translate.save}
           containerStyle={styles.buttonContainer}
           type="outline"
+          disabled={deleteLoading}
           onPress={onCreateInn}
         />
+        {route.params?.data && (
+          <Button
+            loading={deleteLoading}
+            title="Xóa"
+            containerStyle={styles.buttonDelete}
+            titleStyle={styles.buttonDeleteTitle}
+            buttonStyle={styles.buttonDeleteStyle}
+            type="outline"
+            onPress={onDeleteInn}
+          />
+        )}
       </View>
+      <DeleteConfirm
+        visible={showDeleteConfirmModal}
+        onCancel={onCloseDeleteConfirmModal}
+        onConfirm={onConfirmDelete}
+        title="Bạn có chắc chắn xóa dữ liệu nhà trọ?"
+        description="Dữ liệu sẽ bị xóa và không thể phục hồi"
+      />
     </ScrollView>
   );
 };

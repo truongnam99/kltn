@@ -1,5 +1,6 @@
-import React, {useCallback, useRef, useState} from 'react';
+import {useCallback, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+
 import {
   createLogistic,
   setLoading,
@@ -12,10 +13,12 @@ import {
   isPhoneNumber,
   showMessageFail,
 } from '../../../utils/utils';
+import {selectUserInfo} from '../../login/selectors';
+import {selectIsLoading} from '../selectors';
 
-export const useCreateLogistic = (data = {}) => {
-  const userInfo = useSelector(state => state.userReducer.userInfo);
-  const isLoading = useSelector(state => state.logisticReducer.isLoading);
+export const useCreateLogistic = ({data = {}, navigation}) => {
+  const userInfo = useSelector(selectUserInfo);
+  const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
   const [logistic, setLogistic] = useState({
     id: data.id,
@@ -198,7 +201,7 @@ export const useCreateLogistic = (data = {}) => {
     }
   };
 
-  const handlerCreateLogistic = async () => {
+  const handleCreateLogistic = async () => {
     let check = false;
     try {
       if (!validateData()) {
@@ -206,11 +209,11 @@ export const useCreateLogistic = (data = {}) => {
       }
       dispatch(setLoading(true));
       const {city, district} = getCityAndDistrict();
-      const {exactAddress, images, ...data} = logistic;
+      const {exactAddress, images, ...rest} = logistic;
       const image = await uploadImage();
       dispatch(
         createLogistic({
-          ...data,
+          ...rest,
           exact_address: exactAddress,
           full_address_object: {
             city,
@@ -223,8 +226,8 @@ export const useCreateLogistic = (data = {}) => {
             photoURL: userInfo.photoURL,
             uid: userInfo.uid,
           },
-          contact: unFormatString(data.contact, 'phoneNumber'),
-          price: unFormatString(data.price, 'currency'),
+          contact: unFormatString(rest.contact, 'phoneNumber'),
+          price: unFormatString(rest.price, 'currency'),
         }),
       );
       check = true;
@@ -237,7 +240,7 @@ export const useCreateLogistic = (data = {}) => {
           showMessageFail('Lỗi đăng hình ảnh.');
           break;
         default:
-          console.log('need to handle error at handlerCreateLogistic', error);
+          console.log('need to handle error at handleCreateLogistic', error);
           break;
       }
       check = false;
@@ -247,8 +250,16 @@ export const useCreateLogistic = (data = {}) => {
     return check;
   };
 
+  const onCreateLogistic = useCallback(async () => {
+    const result = await handleCreateLogistic();
+    if (result) {
+      navigation.goBack();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation]);
+
   return {
-    handlers: {handleSetLogistic, handlerCreateLogistic},
+    handlers: {handleSetLogistic, handleCreateLogistic, onCreateLogistic},
     selectors: {
       logistic,
       isLoading,

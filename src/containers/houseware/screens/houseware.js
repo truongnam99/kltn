@@ -6,7 +6,6 @@ import {
   ActionButton,
   ActionButtonItem,
 } from '../../../components/action-button/action-button';
-import {styles} from './houseware.style';
 import {useHouseware} from '../hooks/useHouseware';
 import CartItem from '../components/cart-item';
 import {
@@ -15,6 +14,7 @@ import {
   Filter,
 } from '../../../components';
 import {translate} from '../../../constants/translate';
+import {styles} from './houseware.style';
 
 export const Houseware = ({navigation}) => {
   const {selectors, handlers} = useHouseware({navigation});

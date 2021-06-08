@@ -3,30 +3,30 @@ import {View, FlatList, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {
-  ActionButton,
-  ActionButtonItem,
-} from '../../../components/action-button/action-button';
 import Header from '../component/header';
 import LargeItem from '../component/large-item';
 import SmallItem from '../component/small-item';
 import MapInn from '../component/map-inn';
 import styles from './find-inn.style';
 import Filter from '../component/filter';
+import {translate} from '../../../constants/translate';
+import {FooterListComponent, ListEmptyComponent} from '../../../components';
+import {activeOpacity} from '../../../components/shared';
+import {useInn} from '../hooks/useInn';
+import {lightTheme} from '../../../config/theme';
 import {
   shortenCityName,
   shortenDistrictName,
   shortenPrice,
 } from '../../../utils/utils';
-import {translate} from '../../../constants/translate';
-import {FooterListComponent, ListEmptyComponent} from '../../../components';
+import {
+  ActionButton,
+  ActionButtonItem,
+} from '../../../components/action-button/action-button';
 import {
   ItemFilter,
   ItemFilterContainer,
 } from '../../../components/filter/filter';
-import {activeOpacity} from '../../../components/shared';
-import {useInn} from '../hooks/useInn';
-import {lightTheme} from '../../../config/theme';
 
 const FindInn = ({navigation}) => {
   const {handlers, selectors} = useInn({navigation});
@@ -50,24 +50,44 @@ const FindInn = ({navigation}) => {
     onGotoMyInn,
   } = handlers;
 
-  const showFilter = () => {
+  const _renderFilter = () => {
+    if (!filter) {
+      return null;
+    }
     const filterItems = [];
-    if (filter && filter.price) {
-      const min = shortenPrice(filter.price.minPrice);
-      const max = shortenPrice(filter.price.maxPrice);
-      if (filter.price.minPrice && filter.price.maxPrice) {
+    const {price, district, city, area, kitchen, garage} = filter;
+    if (city?.Name) {
+      filterItems.push(shortenCityName(city.Name));
+    }
+    if (district?.Name) {
+      filterItems.push(shortenDistrictName(district.Name));
+    }
+    if (price) {
+      const min = shortenPrice(price.minPrice);
+      const max = shortenPrice(price.maxPrice);
+      if (price.minPrice && price.maxPrice) {
         filterItems.push(`${min}-${max}`);
-      } else if (filter.price.minPrice) {
+      } else if (price.minPrice) {
         filterItems.push(`> ${min}`);
-      } else if (filter.price.maxPrice) {
+      } else if (price.maxPrice) {
         filterItems.push(`< ${max}`);
       }
     }
-    if (filter?.city?.Name) {
-      filterItems.push(shortenCityName(filter.city.Name));
+
+    if (area) {
+      if (area[0] && area[1]) {
+        filterItems.push(`${area[0]}-${area[1]}m2`);
+      } else if (area[0]) {
+        filterItems.push(`> ${area[0]}m2`);
+      } else if (area[1]) {
+        filterItems.push(`< ${area[1]}m2`);
+      }
     }
-    if (filter?.district?.Name) {
-      filterItems.push(shortenDistrictName(filter.district.Name));
+    if (kitchen) {
+      filterItems.push('Có bếp');
+    }
+    if (garage) {
+      filterItems.push('Có chỗ gửi xe');
     }
     return filterItems.map((value, index) => (
       <ItemFilter value={value} key={index} />
@@ -99,7 +119,7 @@ const FindInn = ({navigation}) => {
             />
           </TouchableOpacity>
         )}
-        ListEmptyComponent={ListEmptyComponent}
+        ListEmptyComponent={<ListEmptyComponent loading={loading} />}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,11 +150,10 @@ const FindInn = ({navigation}) => {
             />
           </TouchableOpacity>
         )}
-        ListEmptyComponent={ListEmptyComponent}
+        ListEmptyComponent={<ListEmptyComponent loading={loading} />}
       />
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inns, loading]);
+  }, [inns, loading, onFetchInn, onViewDetail]);
 
   const _renderMap = useCallback(() => {
     return <MapInn inns={inns} onViewDetail={onViewDetail} />;
@@ -185,7 +204,7 @@ const FindInn = ({navigation}) => {
       <View style={styles.main}>
         <View style={styles.filterContainer}>
           <ItemFilterContainer style={styles.filter}>
-            {showFilter()}
+            {_renderFilter()}
           </ItemFilterContainer>
           <View style={styles.mr6}>
             <TouchableOpacity
@@ -211,7 +230,7 @@ const FindInn = ({navigation}) => {
         {_renderItem()}
       </View>
       <Filter isShow={isShowFilter} callBack={filterCallBack} />
-      {role === 1 && (
+      {role === 0 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
           <ActionButtonItem title={translate.new} onPress={onGotoCreateInn}>
             <Ionicons name="md-create" style={styles.actionButtonIcon} />

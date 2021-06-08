@@ -19,6 +19,7 @@ const DistrictPicker = ({
   inputRef,
   listItemLabelStyle,
   textStyle,
+  titleStyle,
 }) => {
   const [open, setOpen] = useState(false);
   const [districts, setDistricts] = useState(getDistricts(cityId));
@@ -32,7 +33,7 @@ const DistrictPicker = ({
   return (
     <View style={containerStyle}>
       <View style={styles.titleContainer} ref={inputRef}>
-        <Text style={styles.title}>
+        <Text style={[styles.title, titleStyle]}>
           {translate.district}
           {required && <Text style={styles.required}>*</Text>}
         </Text>

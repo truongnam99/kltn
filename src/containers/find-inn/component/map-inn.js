@@ -6,8 +6,8 @@ import * as Animatable from 'react-native-animatable';
 
 import {shortenPrice} from '../../../utils/utils';
 import {Image, Marker, Text} from '../../../components';
-import {styles} from './map-inn.style';
 import {activeOpacity} from '../../../components/shared';
+import {styles} from './map-inn.style';
 
 const MapInn = ({inns, onViewDetail, ...props}) => {
   const [inn, setInn] = useState(null);
@@ -64,15 +64,12 @@ const MapInn = ({inns, onViewDetail, ...props}) => {
     return (
       <>
         {inns
-          .filter(item => item.geocodingApi)
+          .filter(item => item.coordinate)
           .map((item, index) => {
             return (
               <Marker
                 key={index}
-                coordinate={{
-                  latitude: item.geocodingApi.location.lat,
-                  longitude: item.geocodingApi.location.lng,
-                }}
+                coordinate={item.coordinate}
                 title={item.room_name}
                 description={shortenPrice(item.room_price)}
                 onPress={() => onMakerPress(item)}

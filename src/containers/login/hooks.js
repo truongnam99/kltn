@@ -10,12 +10,13 @@ import {
 } from '../../store/actions/userAction';
 import {setConfirm as setConfirmAction} from '../../store/actions/loginAction';
 import {showMessageFail} from '../../utils/utils';
+import {selectConfirm, selectUserCredetial, selectUserInfo} from './selectors';
 
 const useHooks = ({navigation}) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.userReducer.userInfo);
-  const userCredential = useSelector(state => state.userReducer.userCredential);
-  const confirm = useSelector(state => state.loginReducer.confirm);
+  const user = useSelector(selectUserInfo);
+  const userCredential = useSelector(selectUserCredetial);
+  const confirm = useSelector(selectConfirm);
 
   const createUser = async user => {
     await database()

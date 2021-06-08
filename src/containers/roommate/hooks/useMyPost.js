@@ -1,11 +1,13 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FETCH_MY_POST, POST_UPDATE_STATUS} from '../../../store/actions/types';
+import {selectMyPosts} from '../selectors';
+import {selectUserInfo} from '../../login/selectors';
 
 export const useMyPost = () => {
-  const posts = useSelector(state => state.roommateReducer.myPost);
-  const userInfo = useSelector(state => state.userReducer.userInfo);
   const dispatch = useDispatch();
+  const posts = useSelector(selectMyPosts);
+  const userInfo = useSelector(selectUserInfo);
 
   useEffect(() => {
     dispatch({type: FETCH_MY_POST, payload: null});

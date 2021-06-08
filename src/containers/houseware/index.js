@@ -8,7 +8,7 @@ import {Houseware} from './screens/houseware';
 import {CreateHouseware} from './screens/create-houseware';
 import {MyHouseware} from './screens/my-houseware';
 
-export const HousewareContainer = () => {
+const HousewareContainer = () => {
   const HousewareStack = createStackNavigator();
   return (
     <HousewareStack.Navigator screenOptions={headerOptions}>
@@ -38,3 +38,5 @@ export const HousewareContainer = () => {
     </HousewareStack.Navigator>
   );
 };
+
+export default HousewareContainer;

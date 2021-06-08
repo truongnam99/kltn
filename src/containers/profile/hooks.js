@@ -1,8 +1,8 @@
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {selectUserInfo} from '../login/selectors';
 
 const useHooks = () => {
-  const user = useSelector(state => state.userReducer.userInfo);
-  const dispatch = useDispatch();
+  const user = useSelector(selectUserInfo);
 
   return {
     selectors: {user},

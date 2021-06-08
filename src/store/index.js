@@ -1,10 +1,10 @@
-import {all} from '@redux-saga/core/effects';
 import {createStore, compose, applyMiddleware} from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
 import allReducers from './reducers';
 import sagas from './sagas';
 import * as housewareSagas from './sagas/housewareSaga';
+import * as innSagas from './sagas/innSagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,14 +18,14 @@ const configureStore = () => {
   return store;
 };
 
-const houseware = {
+const saga = {
   ...housewareSagas,
+  ...innSagas,
 };
 
-for (let a in houseware) {
-  sagaMiddleware.run(houseware[a]);
+for (let a in saga) {
+  sagaMiddleware.run(saga[a]);
 }
-
 sagaMiddleware.run(sagas);
 
 export default configureStore;

@@ -4,7 +4,14 @@ import Picker from 'react-native-dropdown-picker';
 import {translate} from '../../constants/translate';
 import {dropdownStyles as styles} from './picker.style';
 
-const StatusPicker = ({value, setValue, required}) => {
+const StatusPicker = ({
+  value,
+  setValue,
+  required,
+  titleStyle,
+  containerStyle,
+  textStyle,
+}) => {
   const status = [
     {value: 1, label: translate.available},
     {value: 0, label: translate.unavailable},
@@ -12,8 +19,8 @@ const StatusPicker = ({value, setValue, required}) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
   return (
-    <View>
-      <Text style={styles.title}>
+    <View style={containerStyle}>
+      <Text style={[styles.title, titleStyle]}>
         {translate.status} {required && <Text style={styles.required}>*</Text>}
       </Text>
       <Picker
@@ -40,6 +47,7 @@ const StatusPicker = ({value, setValue, required}) => {
           styles.modalContentContainerStyle,
           styles.mvStatus,
         ]}
+        textStyle={[styles.textStyle, textStyle]}
       />
     </View>
   );

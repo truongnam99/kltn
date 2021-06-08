@@ -71,7 +71,7 @@ const translate = {
     innAddress: 'Địa chỉ',
     innWaterPrice: 'Giá nước(đ/m3)',
     innElectricPrice: 'Giá điện(đ/kW)',
-    innArea: 'Diện tích(đ/m3)',
+    innArea: 'Diện tích(m2)',
     innDeposit: 'Tiền cọc(đ)',
     post: 'Đăng',
     innWifi: 'Wifi',

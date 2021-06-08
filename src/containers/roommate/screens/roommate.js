@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,8 +8,7 @@ import {
 } from '../../../components/action-button/action-button';
 import CartItem from '../components/cart-item';
 import styles from './roommate.style';
-import {navigationName} from '../../../constants/navigation';
-import useHook from '../hooks';
+import useRoommate from '../hooks/useRoommate';
 import Filter from '../../find-inn/component/filter';
 import {FooterListComponent, ListEmptyComponent} from '../../../components';
 import {
@@ -19,48 +18,19 @@ import {
 import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
 import {activeOpacity} from '../../../components/shared';
 
-const Roommate = ({navigation, ...props}) => {
-  const {selectors, handlers} = useHook();
-  const {roommates, userInfo, isLoading} = selectors;
-  const [isShowFilter, setIsShowFilter] = useState(false);
-  const [filter, setFilter] = useState();
-  const {handleFetchRoommate, handleFoundRoommate} = handlers;
+const Roommate = ({navigation}) => {
+  const {selectors, handlers} = useRoommate({navigation});
+  const {roommates, userInfo, isLoading, isShowFilter, filter} = selectors;
+  const {
+    onFilterButtonPress,
+    onLoadmore,
+    onOpenPost,
+    onGetPosted,
+    filterCallBack,
+    handleFoundRoommate,
+  } = handlers;
 
-  const onOpenPost = () => {
-    navigation.navigate(navigationName.roommate.post);
-  };
-
-  const onFilterButtonPress = () => {
-    setIsShowFilter(!isShowFilter);
-  };
-
-  const filterCallBack = value => {
-    setIsShowFilter(false);
-    handleFetchRoommate({
-      reload: true,
-      cityId: value.city?.Id,
-      districtId: value.district?.Id,
-    });
-    setFilter(value);
-  };
-
-  const onGetPosted = () => {
-    navigation.navigate(navigationName.roommate.myPost);
-  };
-
-  useEffect(() => {
-    handleFetchRoommate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onLoadmore = () => {
-    handleFetchRoommate({
-      cityId: filter?.city?.Id,
-      districtId: filter?.district?.Id,
-    });
-  };
-
-  const showFilter = () => {
+  const _renderFilter = () => {
     const filterItems = [];
     if (filter?.city?.Name) {
       filterItems.push(shortenCityName(filter.city.Name));
@@ -78,7 +48,7 @@ const Roommate = ({navigation, ...props}) => {
       <View style={styles.main}>
         <View style={styles.filterContainer}>
           <ItemFilterContainer style={styles.filter}>
-            {showFilter()}
+            {_renderFilter()}
           </ItemFilterContainer>
           <View>
             <TouchableOpacity

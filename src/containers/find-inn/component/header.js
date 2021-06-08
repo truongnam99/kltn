@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import {lightTheme} from '../../../config/theme';
 
+import {lightTheme} from '../../../config/theme';
 import styles from './header.style';
 
 const Header = ({onPress, onChangeText, value}) => {

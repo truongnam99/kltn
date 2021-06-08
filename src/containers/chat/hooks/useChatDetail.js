@@ -1,11 +1,12 @@
-import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux';
+import {selectUid, selectUserInfo} from '../../login/selectors';
+import {selectMessage} from '../selectors';
 
 export const useChatDetail = () => {
-  const {message} = useSelector(state => state.messageReducer);
-  const {uid} = useSelector(state => state.userReducer.userCredential);
-  const userInfo = useSelector(state => state.userReducer.userInfo);
+  const message = useSelector(selectMessage);
+  const uid = useSelector(selectUid);
+  const userInfo = useSelector(selectUserInfo);
   const handleSendMessage = async ({
     text,
     messageId,

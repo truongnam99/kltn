@@ -1,13 +1,14 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+
 import FindInn from './screens/find-inn';
 import FindInnDetail from './screens/find-inn-detail';
 import MyInn from './screens/my-inn';
 import CreateInn from './screens/create-inn';
+import Profile from '../profile/screen/profile';
+import {navigationName} from '../../constants/navigation';
 import {translate} from '../../constants/translate';
 import {headerOptions} from '../../config/index';
-import {navigationName} from '../../constants/navigation';
-import Profile from '../profile/screen/profile';
 
 export default function FinnInnContainer() {
   const HomeStack = createStackNavigator();

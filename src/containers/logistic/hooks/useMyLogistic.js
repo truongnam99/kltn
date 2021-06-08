@@ -1,13 +1,12 @@
-import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLoading} from '../../../store/actions/logisticAction';
 import {FETCH_MY_LOGISTIC} from '../../../store/actions/types';
+import {selectIsLoading, selectMyLogistics} from '../selectors';
 
 export const useMyLogistic = () => {
   const dispatch = useDispatch();
-  const {myLogistics: logistics, isLoading} = useSelector(
-    state => state.logisticReducer,
-  );
+  const logistics = useSelector(selectMyLogistics);
+  const isLoading = useSelector(selectIsLoading);
 
   const handleFetchMyLogistic = () => {
     if (isLoading) {

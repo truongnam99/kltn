@@ -1,6 +1,6 @@
 const lightTheme = {
   primary: '#3F8973',
-  secondary: '#E48257',
+  secondary: '#ff4136',
   backgroundColor: '#F5F5F5',
   while: '#FFFFFF',
   black: '#000000',

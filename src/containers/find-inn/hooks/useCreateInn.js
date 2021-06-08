@@ -1,20 +1,28 @@
-import React, {useCallback, useState, useRef} from 'react';
+import {useCallback, useState, useRef, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import numeral from 'numeral';
+
+import {createInn, deleteInn} from '../../../store/actions/innAction';
 import {
   formatString,
   getCity,
   isPhoneNumber,
   showMessageFail,
   unFormatString,
-  uploadImageIntoFirebase,
 } from '../../../utils/utils';
-import {createInn, setLoading} from '../../../store/actions/innAction';
-import numeral from 'numeral';
+import {selectCreateInnStatus, selectDeleteInnStatus} from '../selectors';
+import {selectUserInfo} from '../../login/selectors';
+import {uploadImagesToFirebase} from '../../../service/firebaseService';
+import {status} from '../../../constants/constants';
 
-export const useCreateInn = ({data = {}}) => {
+export const useCreateInn = ({data = {}, navigation}) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector(state => state.userReducer.userInfo);
-  const isLoading = useSelector(state => state.innReducer.isLoading);
+  const userInfo = useSelector(selectUserInfo);
+  const {status: createInnStatus} = useSelector(selectCreateInnStatus);
+  const {status: deleteInnStatus} = useSelector(selectDeleteInnStatus);
+  const [loading, setLoading] = useState(false);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [inn, setInn] = useState({
     images: data.upload_room_images?.map(item => ({uri: item})) || [],
     innName: data.room_name,
@@ -25,7 +33,7 @@ export const useCreateInn = ({data = {}}) => {
     innElectricPrice: formatString(data.electric_price, 'currency'),
     innWaterPrice: formatString(data.water_price, 'currency'),
     innArea: data.room_area,
-    innDeposit: data.deposit,
+    innDeposit: formatString(data.deposit, 'currency'),
     innWifi: data.room_wifi,
     innGarage: data.parking_situation,
     innDistrict: data.full_address_object?.district.code,
@@ -45,6 +53,7 @@ export const useCreateInn = ({data = {}}) => {
     roomRefrigerator: data.room_refrigerator || false,
     roomWashingMachine: data.room_washing_machine || false,
     roomAirConditioner: data.air_conditioner || false,
+    coordinate: data.coordinate || null,
   });
 
   const [validation, setValidation] = useState({
@@ -174,6 +183,13 @@ export const useCreateInn = ({data = {}}) => {
     [setInn],
   );
 
+  const onCreateInn = async () => {
+    const result = await handleCreateInn();
+    if (result) {
+      navigation.goBack();
+    }
+  };
+
   const onChangeName = useCallback(
     value => {
       hanleChangeInn(value, 'innName');
@@ -194,36 +210,42 @@ export const useCreateInn = ({data = {}}) => {
     },
     [hanleChangeInn],
   );
+
   const onChangeCity = useCallback(
     value => {
       hanleChangeInn(value(), 'innCity');
     },
     [hanleChangeInn],
   );
+
   const onChangeDistrict = useCallback(
     value => {
       hanleChangeInn(value(), 'innDistrict');
     },
     [hanleChangeInn],
   );
+
   const onChangeStatus = useCallback(
     value => {
-      hanleChangeInn(value, 'innStatus');
+      hanleChangeInn(value(), 'innStatus');
     },
     [hanleChangeInn],
   );
+
   const onChangePrice = useCallback(
     value => {
       hanleChangeInn(formatString(value, 'currency'), 'innPrice');
     },
     [hanleChangeInn],
   );
+
   const onChangeElectricPrice = useCallback(
     value => {
       hanleChangeInn(formatString(value, 'currency'), 'innElectricPrice');
     },
     [hanleChangeInn],
   );
+
   const onChangeWaterPrice = useCallback(
     value => {
       hanleChangeInn(
@@ -232,102 +254,119 @@ export const useCreateInn = ({data = {}}) => {
     },
     [hanleChangeInn],
   );
+
   const onChangeArea = useCallback(
     value => {
       hanleChangeInn(value, 'innArea');
     },
     [hanleChangeInn],
   );
+
   const onChangeDeposit = useCallback(
     value => {
       hanleChangeInn(formatString(value, 'currency'), 'innDeposit');
     },
     [hanleChangeInn],
   );
+
   const onChangeMaxRoommate = useCallback(
     value => {
       hanleChangeInn(value, 'innMaxRoommate');
     },
     [hanleChangeInn],
   );
+
   const onChangeOwner = useCallback(
     value => {
       hanleChangeInn(value, 'innOwner');
     },
     [hanleChangeInn],
   );
+
   const onChangeContact = useCallback(
     value => {
       hanleChangeInn(formatString(value, 'phoneNumber'), 'innContact');
     },
     [hanleChangeInn],
   );
+
   const onChangeWifi = useCallback(
     value => {
       hanleChangeInn(value, 'innWifi');
     },
     [hanleChangeInn],
   );
+
   const onChangeGarage = useCallback(
     value => {
       hanleChangeInn(value, 'innGarage');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomBed = useCallback(
     value => {
       hanleChangeInn(value, 'roomBed');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomCloset = useCallback(
     value => {
       hanleChangeInn(value, 'roomCloset');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomKetchen = useCallback(
     value => {
       hanleChangeInn(value, 'roomKetchen');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomPetsAllowed = useCallback(
     value => {
       hanleChangeInn(value, 'roomPetsAllowed');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomRefrigerator = useCallback(
     value => {
       hanleChangeInn(value, 'roomRefrigerator');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomAirConditioner = useCallback(
     value => {
       hanleChangeInn(value, 'roomAirConditioner');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomTivi = useCallback(
     value => {
       hanleChangeInn(value, 'roomTivi');
     },
     [hanleChangeInn],
   );
+
   const onChangeRoomWashingMachine = useCallback(
     value => {
       hanleChangeInn(value, 'roomWashingMachine');
     },
     [hanleChangeInn],
   );
+
   const onChangeAttention = useCallback(
     value => {
       hanleChangeInn(value, 'innAttention');
     },
     [hanleChangeInn],
   );
+
   const onChangeNotes = useCallback(
     value => {
       hanleChangeInn(value, 'innNotes');
@@ -335,18 +374,16 @@ export const useCreateInn = ({data = {}}) => {
     [hanleChangeInn],
   );
 
+  const onChangeCoordinate = useCallback(
+    value => {
+      hanleChangeInn(value, 'coordinate');
+    },
+    [hanleChangeInn],
+  );
+
   const uploadImage = async () => {
     try {
-      const img = [];
-      for (let i = 0; i < inn.images.length; i++) {
-        if (inn.images[i].uri.startsWith('http')) {
-          img.push(inn.images[i].uri);
-          continue;
-        }
-        const result = await uploadImageIntoFirebase(inn.images[i].uri);
-        img.push(await result.getDownloadURL());
-      }
-      return img;
+      return await uploadImagesToFirebase(inn.images.map(image => image.uri));
     } catch (error) {
       throw new Error('ERR_UPLOAD_IMAGE');
     }
@@ -358,9 +395,9 @@ export const useCreateInn = ({data = {}}) => {
       if (!validateData()) {
         throw new Error('ERR_VALIDATE_DATA');
       }
-      dispatch(setLoading(true));
       const city = getCity(inn.innCity);
       const upload_room_images = await uploadImage();
+      console.log('upload_room_images: ', upload_room_images);
 
       const district = city.Districts?.find(
         item => item.Id === inn.innDistrict,
@@ -371,16 +408,12 @@ export const useCreateInn = ({data = {}}) => {
         room_owner: inn.innOwner,
         created_by: userInfo || data.created_by,
         available_status: inn.innStatus,
-        room_price: numeral(unFormatString(inn.innPrice, 'currency')).value(),
+        room_price: unFormatString(inn.innPrice, 'currency'),
         exact_room_address: inn.innAddress,
-        electric_price: numeral(
-          unFormatString(inn.innElectricPrice, 'currency'),
-        ).value(),
-        water_price: numeral(
-          unFormatString(inn.innWaterPrice, 'currency'),
-        ).value(),
+        electric_price: unFormatString(inn.innElectricPrice, 'currency'),
+        water_price: unFormatString(inn.innWaterPrice, 'currency'),
         room_area: numeral(inn.innArea).value(),
-        deposit: numeral(inn.innDeposit).value(),
+        deposit: unFormatString(inn.innDeposit, 'currency'),
         room_wifi: inn.innWifi,
         parking_situation: inn.innGarage,
         full_address_object: {
@@ -406,6 +439,7 @@ export const useCreateInn = ({data = {}}) => {
         air_conditioner: inn.roomAirConditioner,
         room_washing_machine: inn.roomWashingMachine,
         upload_room_images,
+        coordinate: inn.coordinate,
       };
       dispatch(createInn(payload));
       check = true;
@@ -424,13 +458,48 @@ export const useCreateInn = ({data = {}}) => {
       }
       check = false;
     } finally {
-      dispatch(setLoading(false));
       return check;
     }
   };
 
+  const onDeleteInn = useCallback(() => {
+    setShowDeleteConfirmModal(true);
+  }, []);
+
+  const onCloseDeleteConfirmModal = useCallback(() => {
+    setShowDeleteConfirmModal(false);
+  }, []);
+
+  const onConfirmDelete = useCallback(() => {
+    try {
+      setShowDeleteConfirmModal(false);
+      dispatch(deleteInn(data.uid));
+    } finally {
+      navigation.goBack();
+    }
+  }, [dispatch, data, navigation]);
+  useEffect(() => {
+    if (createInnStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [createInnStatus]);
+
+  useEffect(() => {
+    if (deleteInnStatus === status.PENDING) {
+      setDeleteLoading(true);
+    } else {
+      setDeleteLoading(false);
+    }
+  }, [deleteInnStatus]);
+
   return {
     handlers: {
+      onCreateInn,
+      onDeleteInn,
+      onCloseDeleteConfirmModal,
+      onConfirmDelete,
       handleCreateInn,
       hanleChangeInn,
       onChangeName,
@@ -459,11 +528,14 @@ export const useCreateInn = ({data = {}}) => {
       onChangeRoomWashingMachine,
       onChangeAttention,
       onChangeNotes,
+      onChangeCoordinate,
     },
     selectors: {
       inn,
-      isLoading: isLoading,
+      loading,
+      deleteLoading,
       validation,
+      showDeleteConfirmModal,
     },
   };
 };

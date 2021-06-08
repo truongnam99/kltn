@@ -1,17 +1,18 @@
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {useDispatch, useSelector} from 'react-redux';
 
-import styles from './loading.style';
 import {lightTheme} from '../../config/theme';
 import {navigationName} from '../../constants/navigation';
 import {setUser} from '../../store/actions/userAction';
+import styles from './loading.style';
+import {selectUserInfo} from '../login/selectors';
 
 const Loading = ({navigation}) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector(state => state.userReducer.userInfo);
+  const userInfo = useSelector(selectUserInfo);
 
   useEffect(() => {
     const currentUser = auth().currentUser;

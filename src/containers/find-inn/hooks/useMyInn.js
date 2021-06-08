@@ -1,11 +1,14 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {status} from '../../../constants/constants';
 import {navigationName} from '../../../constants/navigation';
 import {fecthMyInn} from '../../../store/actions/innAction';
+import {selectFetchMyInnStatus, selectMyInns} from '../selectors';
 export const useMyInn = ({navigation}) => {
   const dispatch = useDispatch();
-  const myInns = useSelector(state => state.innReducer.myInns);
-
+  const myInns = useSelector(selectMyInns);
+  const {status: createMyInnStatus} = useSelector(selectFetchMyInnStatus);
+  const [loading, setLoading] = useState(true);
   const onOpenCreateInnLikeUpdate = useCallback(
     data => {
       navigation.navigate(navigationName.findInn.createInn, {
@@ -27,8 +30,16 @@ export const useMyInn = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (createMyInnStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [createMyInnStatus]);
+
   return {
     handlers: {handleFetchMyInn, onOpenCreateInnLikeUpdate},
-    seletors: {myInns},
+    seletors: {myInns, loading},
   };
 };

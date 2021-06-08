@@ -11,17 +11,29 @@ export const CREATE_USER = 'user/CREATE_USER';
 
 // inn
 export const FETCH_INN = 'inn/FETCH_INN';
-export const ADD_INN = 'inn/ADD_INN';
+export const FETCH_INN_SUCCESS = 'inn/FETCH_INN_SUCCESS';
+export const FETCH_INN_FAIL = 'inn/FETCH_INN_FAIL';
+
+export const FETCH_MY_INN = 'inn/FETCH_MY_INN';
+export const FETCH_MY_INN_SUCCESS = 'inn/FETCH_MY_INN_SUCCESS';
+export const FETCH_MY_INN_FAIL = 'inn/FETCH_MY_INN_FAIL';
+
+export const CREATE_INN = 'inn/CREATE_INN';
+export const CREATE_INN_SUCCESS = 'inn/CREATE_INN_SUCCESS';
+export const CREATE_INN_FAIL = 'inn/CREATE_INN_FAIL';
+
+export const DELETE_INN = 'inn/DELETE_INN';
+export const DELETE_INN_SUCCESS = 'inn/DELETE_INN_SUCCESS';
+export const DELETE_INN_FAIL = 'inn/DELETE_INN_FAIL';
+
 export const INN_SHOW_LOADING = 'inn/INN_SHOW_LOADING';
 export const SET_IS_END = 'inn/SET_IS_END';
-export const CREATE_INN = 'inn/CREATE_INN';
-export const INN_SET_lAST = 'inn/INN_SET_lAST';
+export const INN_SET_lAST = 'inn/INN_SET_LAST';
 export const INN_RELOAD_LIST = 'inn/INN_RELOAD_LIST';
-export const FETCH_MY_INN = 'inn/FETCH_MY_INN';
-export const ADD_MY_INN = 'inn/ADD_MY_INN';
 export const UPDATE_INNS = 'inn/UPDATE_INNS';
 export const UPDATE_MY_INNS = 'inn/UPDATE_MY_INNS';
 
+// logistic
 export const FETCH_LOGISTIC = 'logistic/FETCH_LOGISTIC';
 export const LOGISTIC_SET_END = 'logistic/LOGISTIC_SET_END';
 export const ADD_LOGISTIC = 'logistic/ADD_LOGISTIC';

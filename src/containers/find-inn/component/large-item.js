@@ -1,8 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
-import styles from './large-item.style';
+
 import {numeralPrice} from '../../../utils/utils';
 import {Image, Text} from '../../../components';
+import styles from './large-item.style';
 
 const LargeItem = ({
   images,

@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
 import {View} from 'react-native';
+
 import {Image, Text} from '../../../components';
 import {numeralPrice} from '../../../utils/utils';
 import styles from './small-item.style';

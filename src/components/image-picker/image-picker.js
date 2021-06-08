@@ -107,50 +107,48 @@ const ImagePicker = ({
 
   return (
     <View style={styles.container}>
-      {maxFile >= files.length && (
-        <View style={styles.imageContainer} onLayout={event => onLayout(event)}>
-          {files.map((file, index) => (
-            <TouchableOpacity onPress={() => rePickerImage(index)} key={index}>
-              <FastImage
-                source={{uri: file.uri}}
-                style={StyleSheet.flatten([
-                  styles.imageItem,
-                  maxFile === 1
-                    ? {width: '100%', aspectRatio: 1}
-                    : files.length < 3 || index < 2
-                    ? {width: sizes.firstRowSize, height: sizes.firstRowSize}
-                    : {
-                        width: sizes.anotherRowSize,
-                        height: sizes.anotherRowSize,
-                      },
-                  imageStyle,
-                ])}
-              />
-            </TouchableOpacity>
-          ))}
-          {maxFile !== files.length && (
-            <View
+      <View style={styles.imageContainer} onLayout={event => onLayout(event)}>
+        {files.map((file, index) => (
+          <TouchableOpacity onPress={() => rePickerImage(index)} key={index}>
+            <FastImage
+              source={{uri: file.uri}}
               style={StyleSheet.flatten([
-                styles.addIconContainer,
-                files.length < 2
+                styles.imageItem,
+                maxFile === 1
+                  ? {width: '100%', aspectRatio: 1}
+                  : files.length < 3 || index < 2
                   ? {width: sizes.firstRowSize, height: sizes.firstRowSize}
                   : {
                       width: sizes.anotherRowSize,
                       height: sizes.anotherRowSize,
                     },
-                maxFile === 1 && {width: '100%', aspectRatio: 1},
-              ])}>
-              <TouchableOpacity onPress={() => openImagePicker()}>
-                <MaterialIcons
-                  name="add-photo-alternate"
-                  size={64}
-                  style={styles.addIcon}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      )}
+                imageStyle,
+              ])}
+            />
+          </TouchableOpacity>
+        ))}
+        {maxFile > files.length && (
+          <View
+            style={StyleSheet.flatten([
+              styles.addIconContainer,
+              files.length < 2
+                ? {width: sizes.firstRowSize, height: sizes.firstRowSize}
+                : {
+                    width: sizes.anotherRowSize,
+                    height: sizes.anotherRowSize,
+                  },
+              maxFile === 1 && {width: '100%', aspectRatio: 1},
+            ])}>
+            <TouchableOpacity onPress={() => openImagePicker()}>
+              <MaterialIcons
+                name="add-photo-alternate"
+                size={64}
+                style={styles.addIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </View>
   );
 };

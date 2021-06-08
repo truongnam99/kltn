@@ -5,12 +5,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './logistic-detail.style';
 import {translate} from '../../../constants/translate';
 import {dial} from '../../../utils/utils';
-import FastImage from 'react-native-fast-image';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import {Image, Text} from '../../../components';
 
-const LogisticDetail = ({route, navigation, ...props}) => {
+const LogisticDetail = ({route, navigation}) => {
   const {logistic} = route.params;
   const {owner} = logistic;
 

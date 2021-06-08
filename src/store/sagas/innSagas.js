@@ -1,213 +1,166 @@
-import firestore from '@react-native-firebase/firestore';
-import {call, put, select} from 'redux-saga/effects';
-import {clientIndex} from '../../config/algolia';
+import {produce} from 'immer';
+import {call, put, select, takeLatest} from 'redux-saga/effects';
+import {
+  createInnInAlgolia,
+  createInnInFirebase,
+  updateInnInAlgolia,
+  updateInnInFirebase,
+  fetchDataFromFirebase,
+  fetchDataFromAlgolia,
+  fetchMyInn as fetchMyInnService,
+  deleteInnInFirebase,
+  deleteInnInAlgolia,
+} from '../../service/innService';
 import {showMessageFail, showMessageSuccess} from '../../utils/utils';
 import {
-  ADD_INN,
-  INN_RELOAD_LIST,
-  SET_IS_END,
-  INN_SET_lAST,
-  ADD_MY_INN,
-  UPDATE_INNS,
-  UPDATE_MY_INNS,
+  createInnFail,
+  createInnSuccess,
+  fetchInnFail,
+  fetchInnSuccess,
+  reloadInn,
+  setEnd,
+  setLast,
+  fecthMyInnFail,
+  fecthMyInnSuccess,
+  updateInns,
+  updateMyInns,
+  deleteInnSuccess,
+  deleteInnFail,
+} from '../actions/innAction';
+import {
+  CREATE_INN,
+  DELETE_INN,
+  FETCH_INN,
+  FETCH_MY_INN,
 } from '../actions/types';
 
-export function* fetchInn({type, payload}) {
+export function* fetchInnWatcher() {
+  yield takeLatest(FETCH_INN, fetchInnTask);
+}
+
+function* fetchInnTask({type, payload}) {
   try {
-    const {isEnd, count} = yield select(state => state.innReducer);
+    const {isEnd, count, last} = yield select(state => state.innReducer);
 
     if (isEnd && !payload.reload) {
+      yield put(fetchInnSuccess([]));
       return;
     }
     if (payload.reload) {
-      yield put({type: INN_RELOAD_LIST});
+      yield put(reloadInn());
     }
-    const data = !payload.searchText
-      ? yield call(fetchDataFromFirebase, {...payload, count})
-      : yield call(fetchDataFromAlgolia, payload);
-    if (data && data.length) {
-      yield put({type: ADD_INN, payload: data});
-      if (data.length < payload.limit) {
-        yield put({type: SET_IS_END, payload: true});
+    let data = null;
+    if (payload.searchText || payload.minArea || payload.maxArea) {
+      const {hits} = yield call(fetchDataFromAlgolia, {...payload, count});
+      data = hits;
+    } else {
+      const result = yield call(fetchDataFromFirebase, {...payload, last});
+      if (result.docs.length) {
+        yield put(setLast(result.docs[result.docs.length - 1]));
       }
+      data = result.docs.map(item => ({
+        uid: item.id,
+        ...item.data(),
+      }));
+    }
+    yield put(fetchInnSuccess(data));
+    if (data.length < payload.limit) {
+      yield put(setEnd(true));
     }
   } catch (error) {
+    console.log('error: ', error);
+
+    yield put(fetchInnFail('Lỗi lấy dữ liệu phòng trọ'));
     showMessageFail('Lỗi lấy dữ liệu phòng trọ');
   }
 }
 
-function* fetchDataFromAlgolia({
-  searchText,
-  limit = 10,
-  minPrice,
-  maxPrice,
-  city,
-  district,
-  count = 0,
-}) {
-  let filter = '';
-  let facetFilter = '';
-  if (minPrice || maxPrice) {
-    if (minPrice && maxPrice) {
-      filter += `room_price:${minPrice} TO ${maxPrice}`;
-    } else if (minPrice) {
-      filter += `room_price > ${minPrice}`;
-    } else {
-      filter += `room_price < ${maxPrice}`;
-    }
-  }
-  if (city) {
-    facetFilter += `full_address_object.city.code:${city}`;
-  }
-  if (district) {
-    if (facetFilter) {
-      facetFilter += ' AND ';
-    }
-    facetFilter += `full_address_object.district.code:${district}`;
-  }
-  const {hits} = yield clientIndex.search(searchText, {
-    hitsPerPage: limit,
-    cacheable: true,
-    page: Math.ceil(count / limit),
-    filters: filter,
-    facets: '*',
-    facetFilters: facetFilter,
-  });
-  return hits;
+export function* fetchMyInnWatcher() {
+  yield takeLatest(FETCH_MY_INN, fetchMyInnTask);
 }
 
-function* fetchDataFromFirebase({
-  limit = 10,
-  name,
-  minPrice,
-  maxPrice,
-  city,
-  district,
-  address,
-}) {
-  const {last} = yield select(state => state.innReducer);
-  let query = firestore().collection('Inns');
-
-  if (name) {
-    query = query.where(
-      'room_name',
-      'array-contains',
-      name.toLocaleLowerCase(),
-    );
-  }
-  if (address) {
-    query = query.where(
-      'exact_room_address',
-      'array-contains',
-      address.toLocaleLowerCase(),
-    );
-  }
-  if (maxPrice) {
-    query = query.where('room_price', '<=', maxPrice);
-  }
-  if (minPrice) {
-    query = query.where('room_price', '>=', minPrice);
-  }
-  if (city) {
-    query = query.where('full_address_object.city.code', '==', city);
-  }
-  if (district) {
-    query = query.where('full_address_object.district.code', '==', district);
-  }
-  query = query.orderBy('room_price');
-  if (last) {
-    query = query.startAfter(last);
-  }
-
-  const results = yield query.limit(limit).get();
-
-  if (results.docs.length) {
-    yield put({
-      type: INN_SET_lAST,
-      payload: results.docs[results.docs.length - 1],
-    });
-  }
-
-  return results.docs.map(item => item.data());
-}
-
-export function* fetchMyInn({type, payload}) {
+function* fetchMyInnTask() {
   try {
     const {uid} = yield select(state => state.userReducer.userCredential);
-    const results = yield firestore()
-      .collection('Inns')
-      .where('created_by.uid', '==', uid)
-      .get();
-    const data = results.docs.map(item => {
-      return {uid: item.id, ...item.data()};
-    });
-    yield put({type: ADD_MY_INN, payload: data});
+    const results = yield call(fetchMyInnService, {uid});
+    const data = results.docs.map(item => ({uid: item.id, ...item.data()}));
+    yield put(fecthMyInnSuccess(data));
   } catch (error) {
+    yield put(fecthMyInnFail(error.message));
+    console.log(error);
     showMessageFail('Lỗi lấy dữ liệu phòng trọ của bạn');
-    console.error(error);
   }
 }
 
-export function* createInn({type, payload}) {
+export function* createInnWatcher() {
+  yield takeLatest(CREATE_INN, createInnTask);
+}
+
+function* createInnTask({payload}) {
   const {inns, myInns} = yield select(state => state.innReducer);
   if (payload.uid) {
     try {
-      yield updateInnInFirebase(payload);
-      yield updateInnInAlgolia(payload);
+      yield call(updateInnInFirebase, payload);
+      yield call(updateInnInAlgolia, payload);
 
       if (inns && inns.length) {
         const index = inns.findIndex(item => item.uid === payload.uid);
         if (index !== -1) {
-          inns.splice(index, 1, {...payload});
-          yield put({type: UPDATE_INNS, payload: [...inns]});
+          yield put(
+            updateInns(
+              produce(inns, draft => {
+                draft[index] = {...payload};
+              }),
+            ),
+          );
         }
       }
       if (myInns && myInns.length) {
-        const index = myInns.findIndex(item => item.uid === payload.uid);
-        if (index !== -1) {
-          myInns.splice(index, 1, {...payload});
-          yield put({
-            type: UPDATE_MY_INNS,
-            payload: [...myInns],
-          });
+        const indexInn = myInns.findIndex(item => item.uid === payload.uid);
+        if (indexInn !== -1) {
+          yield put(
+            updateMyInns(
+              produce(myInns, draft => {
+                draft[indexInn] = {...payload};
+              }),
+            ),
+          );
         }
       }
       showMessageSuccess('Cập nhật thông tin phòng thành công');
     } catch (error) {
-      showMessageFail('Cập nhật được thông tin phòng.');
+      put(createInnFail('Lỗi cập nhật thông tin phòng.'));
+      showMessageFail('Lỗi cập nhật được thông tin phòng.');
     }
   } else {
     try {
-      const result = yield createInnInFirebase(payload);
-      yield createInnInAlgolia({objectID: result.id, ...payload});
-      yield put({
-        type: ADD_INN,
-        payload: {data: {...payload, uid: result.id}, setToFirst: true},
-      });
+      const result = yield call(createInnInFirebase, payload);
+      yield call(createInnInAlgolia, {objectID: result.id, ...payload});
+      yield put(createInnSuccess({...payload, uid: result.id}));
       showMessageSuccess('Tạo thông tin phòng thành công');
     } catch (error) {
+      yield put(createInnFail('Lỗi tạo thông tin phòng.'));
       showMessageFail('Lỗi tạo thông tin phòng.');
     }
   }
 }
 
-function* createInnInFirebase({isUpdate, ...data}) {
-  return yield firestore()
-    .collection('Inns')
-    .add({...data, created_at: firestore.FieldValue.serverTimestamp()});
+export function* deleteInn() {
+  yield takeLatest(DELETE_INN, deleteInnTask);
 }
 
-function* updateInnInFirebase({isUpdate, ...data}) {
-  return yield firestore()
-    .collection('Inns')
-    .doc(data.uid)
-    .update({...data, update_at: firestore.FieldValue.serverTimestamp()});
-}
-
-function* createInnInAlgolia({isUpdate, ...data}) {
-  return yield clientIndex.saveObject({...data});
-}
-
-function* updateInnInAlgolia({isUpdate, uid, ...data}) {
-  return yield clientIndex.saveObject({objectID: uid, ...data});
+function* deleteInnTask({payload}) {
+  try {
+    if (!payload) {
+      throw new Error('ERR_ID_NOT_NULL');
+    }
+    yield call(deleteInnInFirebase, payload);
+    yield call(deleteInnInAlgolia, payload);
+    yield put(deleteInnSuccess(payload));
+    showMessageSuccess('Đã xóa trọ');
+  } catch (error) {
+    console.log(error);
+    yield put(deleteInnFail(error));
+    showMessageFail('Xóa không thành công, vui lòng thử lại sau!');
+  }
 }

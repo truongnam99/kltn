@@ -32,6 +32,9 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#c2c2c2',
   },
+  flex1: {
+    flex: 1,
+  },
 });
 
 export const dropdownStyles = StyleSheet.create({
@@ -40,15 +43,15 @@ export const dropdownStyles = StyleSheet.create({
     borderWidth: 0,
     borderBottomWidth: 1,
     borderColor: lightTheme.primary,
-    height: 40,
     backgroundColor: 'transparent',
+    height: null,
+    paddingVertical: 3,
   },
   borderError: {
     borderColor: 'red',
   },
   title: {
-    fontSize: 16,
-    marginBottom: space2,
+    fontSize: 14,
   },
   modalContentContainerStyle: {
     marginHorizontal: 50,
@@ -80,9 +83,9 @@ export const dropdownStyles = StyleSheet.create({
     borderColor: lightTheme.primary,
   },
   listItemLabelStyle: {
-    fontSize: 16,
+    fontSize: 14,
   },
   textStyle: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });

@@ -1,24 +1,16 @@
 import React from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
+
 import {ListEmptyComponent} from '../../../components';
 import {activeOpacity} from '../../../components/shared';
-import {navigationName} from '../../../constants/navigation';
 import ChatItem from '../components/chat-item';
-import useHook from '../hook/hooks';
-
+import useChat from '../hooks/useChat';
 import styles from './chat.style';
 
 const Chat = ({navigation}) => {
-  const {selectors} = useHook();
+  const {selectors, handlers} = useChat({navigation});
   const {lastMessages} = selectors;
-
-  const goToChatDetail = (title, id, photoUrl) => {
-    navigation.push(navigationName.chat.chatDetail, {
-      name: title,
-      id,
-      photoUrl,
-    });
-  };
+  const {goToChatDetail} = handlers;
 
   return (
     <View style={styles.container}>

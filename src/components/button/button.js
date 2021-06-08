@@ -43,6 +43,8 @@ const Button = ({
     {
       color: type === 'solid' ? 'white' : lightTheme.primary,
     },
+    disabled && type === 'solid' && {backgroundColor: lightTheme.disabled},
+    disabled && type === 'outline' && {color: lightTheme.disabled},
     passedTitleStyle,
   ]);
 
@@ -55,11 +57,11 @@ const Button = ({
             type === 'solid'
               ? baseStyles.container
               : baseStyles.outlineContainer,
+            buttonStyle,
             disabled &&
               type === 'solid' && {backgroundColor: lightTheme.disabled},
             disabled &&
               type === 'outline' && {borderColor: lightTheme.disabled},
-            buttonStyle,
             disabledStyle,
           ])}>
           {loading && (

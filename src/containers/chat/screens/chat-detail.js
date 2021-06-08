@@ -4,10 +4,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
 import {TextInput} from '../../../components';
 
-import styles from './chat-detail.style';
 import {lightTheme} from '../../../config/theme';
-import {useChatDetail} from '../hook/useChatDetail';
+import {useChatDetail} from '../hooks/useChatDetail';
 import {activeOpacity} from '../../../components/shared';
+import styles from './chat-detail.style';
 
 const ChatDetail = ({navigation, route, ...props}) => {
   const {selectors, handlers} = useChatDetail();

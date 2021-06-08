@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   FlatList,
   TouchableOpacity,
@@ -7,51 +7,38 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {
   ActionButton,
   ActionButtonItem,
 } from '../../../components/action-button/action-button';
-
-import {useHooks} from '../hooks';
 import CartItem from '../compoinents/card-item';
 import Filter from '../../find-inn/component/filter';
-import styles from './logistic.style';
-import {navigationName} from '../../../constants/navigation';
-import {lightTheme} from '../../../config/theme';
-import {translate} from '../../../constants/translate';
 import {ListEmptyComponent} from '../../../components';
 import {
   ItemFilter,
   ItemFilterContainer,
 } from '../../../components/filter/filter';
+import {useLogistic} from '../hooks/useLogistic';
+import {lightTheme} from '../../../config/theme';
+import {translate} from '../../../constants/translate';
 import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
 import {activeOpacity} from '../../../components/shared';
+import styles from './logistic.style';
 
 const Logistic = ({navigation}) => {
-  const [isShowFilter, setIsShowFilter] = useState(false);
-  const [filter, setFilter] = useState(true);
-  const {handlers, selectors} = useHooks();
-  const {logistics, isLoading, role} = selectors;
-  const {handlerFetchLogistic} = handlers;
+  const {handlers, selectors} = useLogistic({navigation});
+  const {logistics, isLoading, role, isShowFilter, filter} = selectors;
+  const {
+    filterCallBack,
+    onDetailClick,
+    onFilterButtonPress,
+    onGotoCreateLogistic,
+    onGotoMyLogistic,
+    onFetchInn,
+  } = handlers;
 
-  const onDetailClick = logistic => {
-    navigation.navigate(navigationName.logistic.logisticDetail, {logistic});
-  };
-
-  const onFetchInn = (props = {}) => {
-    handlerFetchLogistic(props);
-  };
-
-  const filterCallBack = value => {
-    setIsShowFilter(false);
-    setFilter(value);
-  };
-
-  const onFilterButtonPress = () => {
-    setIsShowFilter(!isShowFilter);
-  };
-
-  const showFilter = () => {
+  const _renderFilter = () => {
     const filterItems = [];
     if (filter?.city?.Name) {
       filterItems.push(shortenCityName(filter.city.Name));
@@ -64,33 +51,12 @@ const Logistic = ({navigation}) => {
     ));
   };
 
-  const onGotoCreateLogistic = () => {
-    navigation.navigate(navigationName.logistic.createLogistic);
-  };
-  const onGotoMyLogistic = () => {
-    navigation.navigate(navigationName.logistic.myLogistic);
-  };
-
-  useEffect(() => {
-    onFetchInn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    onFetchInn({
-      cityId: filter?.city?.Id,
-      districtId: filter?.district?.Id,
-      reload: true,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
-
   return (
     <View style={styles.container}>
       <View style={styles.main}>
         <View style={styles.filterContainer}>
           <ItemFilterContainer style={styles.itemFilterContainerStyle}>
-            {showFilter()}
+            {_renderFilter()}
           </ItemFilterContainer>
           <View>
             <TouchableOpacity

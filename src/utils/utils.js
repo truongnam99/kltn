@@ -98,6 +98,9 @@ export const getCity = cityId => {
 };
 
 export const formatString = (value, type) => {
+  if (typeof value === 'number') {
+    value = `${value}`;
+  }
   if (typeof value !== 'string') {
     return value;
   }

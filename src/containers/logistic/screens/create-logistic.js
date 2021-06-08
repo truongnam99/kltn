@@ -13,17 +13,13 @@ import {useCreateLogistic} from '../hooks/useCreateLogistic';
 import {styles} from './create-logistic.style';
 
 const CreateLogistic = ({route, navigation}) => {
-  const {selectors, handlers} = useCreateLogistic({...route.params?.data});
+  const {selectors, handlers} = useCreateLogistic({
+    data: {...route.params?.data},
+    navigation,
+  });
   const {logistic, isLoading, validation} = selectors;
 
-  const {handleSetLogistic, handlerCreateLogistic} = handlers;
-
-  const onCreateLogistic = async () => {
-    const result = await handlerCreateLogistic();
-    if (result) {
-      navigation.goBack();
-    }
-  };
+  const {handleSetLogistic, onCreateLogistic} = handlers;
 
   return (
     <ScrollView style={styles.container}>
