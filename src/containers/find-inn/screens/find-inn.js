@@ -38,6 +38,7 @@ const FindInn = ({navigation}) => {
     typeOfItem,
     headerText,
     isShowFilter,
+    location,
   } = selectors;
   const {
     onChangeView,
@@ -48,6 +49,7 @@ const FindInn = ({navigation}) => {
     onViewDetail,
     onGotoCreateInn,
     onGotoMyInn,
+    onChangeLocation,
   } = handlers;
 
   const _renderFilter = () => {
@@ -156,8 +158,16 @@ const FindInn = ({navigation}) => {
   }, [inns, loading, onFetchInn, onViewDetail]);
 
   const _renderMap = useCallback(() => {
-    return <MapInn inns={inns} onViewDetail={onViewDetail} />;
-  }, [inns, onViewDetail]);
+    return (
+      <MapInn
+        inns={inns}
+        onViewDetail={onViewDetail}
+        typeOfItem={typeOfItem}
+        location={location}
+        onChooseLocation={onChangeLocation}
+      />
+    );
+  }, [inns, typeOfItem, location, onViewDetail, onChangeLocation]);
 
   const _renderItem = useCallback(() => {
     switch (typeOfItem) {
@@ -229,8 +239,12 @@ const FindInn = ({navigation}) => {
         </View>
         {_renderItem()}
       </View>
-      <Filter isShow={isShowFilter} callBack={filterCallBack} />
-      {role === 0 && (
+      <Filter
+        isShow={isShowFilter}
+        callBack={filterCallBack}
+        typeOfItem={typeOfItem}
+      />
+      {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
           <ActionButtonItem title={translate.new} onPress={onGotoCreateInn}>
             <Ionicons name="md-create" style={styles.actionButtonIcon} />

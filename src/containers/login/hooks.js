@@ -83,6 +83,7 @@ const useHooks = ({navigation}) => {
         redirectToAdditionalIfNotHaveUser(pUserCredential.user.uid);
       }
     } catch (error) {
+      console.log('error: ', error);
       showMessageFail('Mã xác thực không chính xác');
     }
   };

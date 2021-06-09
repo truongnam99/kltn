@@ -43,4 +43,12 @@ export const styles = StyleSheet.create({
     color: '#a4a4a4',
     padding: 1,
   },
+  hint: {
+    position: 'absolute',
+    alignItems: 'center',
+    elevation: 1,
+    width: '100%',
+    backgroundColor: '#F2F2F28A',
+    paddingVertical: 4,
+  },
 });

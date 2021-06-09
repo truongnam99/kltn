@@ -9,7 +9,6 @@ const MapMarker = ({title, description, coordinate, onPress, ...props}) => {
     if (!title && !description) {
       return;
     }
-
     return (
       <View style={styles.container}>
         <Text numberOfLines={1} style={styles.mw100}>
@@ -19,12 +18,13 @@ const MapMarker = ({title, description, coordinate, onPress, ...props}) => {
       </View>
     );
   }, [title, description]);
+
   return (
     <Marker
       coordinate={coordinate}
+      onPress={onPress}
       {...props}
-      style={styles.jc}
-      onPress={onPress}>
+      style={styles.jc}>
       {_renderTitle()}
       <MaterialCommunityIcons name="map-marker" size={42} color="red" />
     </Marker>

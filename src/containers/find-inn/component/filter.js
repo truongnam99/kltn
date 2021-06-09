@@ -16,8 +16,16 @@ import styles from './filter.style';
 
 const MIN_AREA = 10;
 const MAX_AREA = 200;
+const MIN_RADIUS = 0;
+const MAX_RADIUS = 30000;
 
-const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
+const Filter = ({
+  styleContainer,
+  callBack,
+  isShow,
+  showPricePicker = true,
+  typeOfItem,
+}) => {
   const animationRef = useRef(null);
   const [isActive, setIsActive] = useState(isShow);
   const [price, setPrice] = useState({
@@ -29,6 +37,7 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
   const [area, setArea] = useState([10, 200]);
   const [garage, setGarage] = useState(false);
   const [kitchen, setKitchen] = useState(false);
+  const [maxRadius, setMaxRadius] = useState([5000]);
 
   useEffect(() => {
     if (!city) {
@@ -71,6 +80,10 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
     setGarage(value);
   }, []);
 
+  const onChangeMaxRadius = useCallback(value => {
+    setMaxRadius(value);
+  }, []);
+
   const onApplyPress = useCallback(() => {
     const selectCity = getCity(city);
     const selectDistrict = selectCity?.Districts.find(
@@ -94,8 +107,9 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
       area: selectArea,
       kitchen,
       garage,
+      maxRadius: maxRadius[0],
     });
-  }, [callBack, city, district, price, area, kitchen, garage]);
+  }, [callBack, city, district, price, area, kitchen, garage, maxRadius]);
 
   useEffect(() => {
     if (isShow && !isActive) {
@@ -187,6 +201,24 @@ const Filter = ({styleContainer, callBack, isShow, showPricePicker = true}) => {
           checked={kitchen}
         />
       </View>
+      {typeOfItem === 'map' && (
+        <View style={styles.marginBottom}>
+          <Text>
+            Phạm vi tìm kiếm:{' '}
+            <Text style={styles.priceStyle}>{maxRadius / 1000}</Text> Km
+          </Text>
+          <Slider
+            min={MIN_RADIUS}
+            max={MAX_RADIUS}
+            allowOverlap={false}
+            values={maxRadius}
+            onValuesChange={onChangeMaxRadius}
+            containerStyle={styles.sliderContainer}
+            step={1000}
+            sliderLength={190}
+          />
+        </View>
+      )}
 
       <Button
         title={translate.apply}

@@ -50,7 +50,12 @@ function* fetchInnTask({type, payload}) {
       yield put(reloadInn());
     }
     let data = null;
-    if (payload.searchText || payload.minArea || payload.maxArea) {
+    if (
+      payload.searchText ||
+      payload.minArea ||
+      payload.maxArea ||
+      payload.typeOfItem === 'map'
+    ) {
       const {hits} = yield call(fetchDataFromAlgolia, {...payload, count});
       data = hits;
     } else {

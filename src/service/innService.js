@@ -57,6 +57,9 @@ export function fetchDataFromAlgolia({
   garage,
   kitchen,
   count = 0,
+  typeOfItem,
+  location,
+  maxRadius,
 }) {
   let filter = '';
   let facetFilter = '';
@@ -93,14 +96,26 @@ export function fetchDataFromAlgolia({
     }
     facetFilter += `full_address_object.district.code:${district}`;
   }
-  return clientIndex.search(searchText, {
-    hitsPerPage: limit,
-    cacheable: true,
-    page: Math.ceil(count / limit),
-    filters: filter,
-    facets: '*',
-    facetFilters: facetFilter,
-  });
+
+  if (typeOfItem === 'map') {
+    return clientIndex.search(searchText, {
+      cacheable: true,
+      filters: filter,
+      facets: '*',
+      facetFilters: facetFilter,
+      aroundLatLng: `${location.latitude},${location.longitude}`,
+      aroundRadius: maxRadius,
+    });
+  } else {
+    return clientIndex.search(searchText, {
+      hitsPerPage: limit,
+      cacheable: true,
+      page: Math.ceil(count / limit),
+      filters: filter,
+      facets: '*',
+      facetFilters: facetFilter,
+    });
+  }
 }
 
 export function createInnInFirebase({isUpdate, ...data}) {

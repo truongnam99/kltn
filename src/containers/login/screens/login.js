@@ -7,6 +7,7 @@ import {Button} from '../../../components/index';
 import {lightTheme} from '../../../config/theme';
 import {navigationName} from '../../../constants/navigation';
 import {translate} from '../../../constants/translate';
+import {showMessageFail} from '../../../utils/utils';
 import {useHooks} from '../hooks';
 import styles from './login.style';
 
@@ -57,7 +58,7 @@ const Login = ({navigation}) => {
         redirectToAdditionalIfNotHaveUser(userCredential.user.uid);
       }
     } catch (error) {
-      Alert.alert(error);
+      showMessageFail(error);
     }
   }
 

@@ -13,7 +13,13 @@ export const useInn = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [headerText, setHeaderText] = useState('');
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({
+    city: {
+      Id: '79',
+      Name: 'TP. Hồ Chí Minh',
+    },
+  });
+  const [location, setLocation] = useState(null);
 
   const {uid, role} = useSelector(selectUserInfo) || {};
   const inns = useSelector(selectInns);
@@ -35,10 +41,13 @@ export const useInn = ({navigation}) => {
         maxArea: filter.area ? filter.area[1] : null,
         kitchen: filter.kitchen,
         garage: filter.garage,
+        radious: filter.maxRadius,
+        location,
+        typeOfItem,
         ...props,
       });
     },
-    [filter, headerText, handleFetchInn],
+    [filter, headerText, location, typeOfItem, handleFetchInn],
   );
 
   const onViewDetail = inn => {
@@ -63,9 +72,13 @@ export const useInn = ({navigation}) => {
     setIsShowFilter(!isShowFilter);
   }, [isShowFilter]);
 
+  const onChangeLocation = useCallback(value => {
+    setLocation(value);
+  }, []);
+
   const handleFetchInn = useCallback(
-    props => {
-      dispatch(fetchInn(props));
+    payload => {
+      dispatch(fetchInn(payload));
     },
     [dispatch],
   );
@@ -123,8 +136,8 @@ export const useInn = ({navigation}) => {
       onViewDetail,
       onGotoCreateInn,
       onGotoMyInn,
+      onChangeLocation,
     },
-
     selectors: {
       inns,
       count,
@@ -134,6 +147,7 @@ export const useInn = ({navigation}) => {
       typeOfItem,
       headerText,
       isShowFilter,
+      location,
     },
   };
 };
