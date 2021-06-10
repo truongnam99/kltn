@@ -45,19 +45,19 @@ export const shortenPrice = value => {
 export const dial = async phoneNumber => {
   const pn = unFormatString(phoneNumber, 'phoneNumber');
   if (!pn) {
-    Alert.alert('No phone number');
+    showMessageInfo('No phone number');
   }
   const canOpen = await Linking.canOpenURL(`tel:${pn}`);
   if (canOpen) {
     Linking.openURL(`tel:${pn}`);
   } else {
-    Alert.alert("Can't open dial");
+    showMessageInfo("Can't open dial");
   }
 };
 
 export const openFacebook = async id => {
   if (!id) {
-    Alert.alert('No facebook id');
+    showMessageInfo('No facebook id');
   }
   const canOpen = await Linking.canOpenURL(`fb://profile/${id}`);
   if (canOpen) {

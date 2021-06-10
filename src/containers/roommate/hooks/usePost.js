@@ -1,29 +1,51 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ROOMMATE_CREATE_POST} from '../../../store/actions/types';
+import {
+  resetCreateRoommateStatus,
+  resetUpdateRoommateStatus,
+  resetDeleteRoommateStatus,
+  deleteRoommate,
+  createRoommate,
+  updateRoommate,
+} from '../../../store/actions/roommateAction';
 import province from '../../../constants/provice.json';
 import {formatString, unFormatString} from '../../../utils/utils';
 import {selectUserInfo} from '../../login/selectors';
-import {selectIsLoading} from '../selectors';
+import {
+  selectCreateRoommateStatus,
+  selectDeleteRoommateStatus,
+  selectUpdateRoommateStatus,
+} from '../selectors';
+import {status} from '../../../constants/constants';
 
-const usePostHook = ({navigation}) => {
+const usePostHook = ({data = {}, navigation}) => {
   const [showInnInfo, setShowInnInfo] = useState(false);
-  const [roommate, setRoommate] = useState({
-    content: '',
-    innName: null,
-    innOwner: null,
-    innPrice: null,
-    innAddress: null,
-    innWaterPrice: null,
-    innElectricPrice: null,
-    innArea: null,
-    innDeposit: null,
-    city: {
-      Id: '79',
-      Name: 'Thành phố Hồ Chí Minh',
-    },
-    district: {Id: '', Name: ''},
-  });
+  const [roommate, setRoommate] = useState(
+    data.id
+      ? {
+          ...data,
+          innPrice: formatString(data.innPrice, 'currency'),
+          innWaterPrice: formatString(data.innWaterPrice, 'currency'),
+          innElectricPrice: formatString(data.innElectricPrice, 'currency'),
+          innDeposit: formatString(data.innDeposit, 'currency'),
+        }
+      : {
+          content: '',
+          innName: null,
+          innOwner: null,
+          innPrice: null,
+          innAddress: null,
+          innWaterPrice: null,
+          innElectricPrice: null,
+          innArea: null,
+          innDeposit: null,
+          city: {
+            Id: '79',
+            Name: 'Thành phố Hồ Chí Minh',
+          },
+          district: {Id: '', Name: ''},
+        },
+  );
   const [additionalInfo, setAdditionalInfo] = useState({
     job: 0,
     gender: 0,
@@ -31,8 +53,20 @@ const usePostHook = ({navigation}) => {
   });
   const [districts, setDistricts] = useState([]);
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
+  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+
   const userInfo = useSelector(selectUserInfo);
+  const {status: createRoommateStatus} = useSelector(
+    selectCreateRoommateStatus,
+  );
+  const {status: updateRoommateStatus} = useSelector(
+    selectUpdateRoommateStatus,
+  );
+  const {status: deleteRoommateStatus} = useSelector(
+    selectDeleteRoommateStatus,
+  );
 
   const handleSetRoommate = useCallback((value, field) => {
     setRoommate(preState => {
@@ -177,18 +211,21 @@ const usePostHook = ({navigation}) => {
     }));
   }, []);
 
-  const onPost = useCallback(async () => {
-    let data = {
+  const onPost = useCallback(() => {
+    let payload = {
       content: roommate.content,
       haveInnContent: showInnInfo,
       isActive: true,
       district: roommate.district,
       city: roommate.city,
       ...additionalInfo,
+      owner: {
+        ...userInfo,
+      },
     };
     if (showInnInfo) {
-      data = {
-        ...data,
+      payload = {
+        ...payload,
         innName: roommate.innName,
         innOwner: roommate.innOwner,
         innPrice: unFormatString(roommate.innPrice, 'currency'),
@@ -199,9 +236,25 @@ const usePostHook = ({navigation}) => {
         innDeposit: unFormatString(roommate.innDeposit, 'currency'),
       };
     }
-    await handlePost(data);
-    navigation.goBack();
-  }, [navigation, roommate, additionalInfo, handlePost, showInnInfo]);
+    if (roommate.id) {
+      dispatch(updateRoommate(payload));
+    } else {
+      dispatch(createRoommate(payload));
+    }
+  }, [userInfo, roommate, additionalInfo, showInnInfo, dispatch]);
+
+  const onDeleteRoommate = useCallback(() => {
+    setShowDeleteConfirmModal(true);
+  }, []);
+
+  const onCloseDeleteConfirmModal = useCallback(() => {
+    setShowDeleteConfirmModal(false);
+  }, []);
+
+  const onConfirmDelete = useCallback(() => {
+    setShowDeleteConfirmModal(false);
+    dispatch(deleteRoommate(data.id));
+  }, [dispatch, data]);
 
   useEffect(() => {
     if (!roommate.city.Id) {
@@ -227,20 +280,35 @@ const usePostHook = ({navigation}) => {
     handleSetRoommate(districts[0], 'district');
   }, [districts, handleSetRoommate]);
 
-  const handlePost = useCallback(
-    async data => {
-      dispatch({
-        type: ROOMMATE_CREATE_POST,
-        payload: {
-          ...data,
-          owner: {
-            ...userInfo,
-          },
-        },
-      });
-    },
-    [dispatch, userInfo],
-  );
+  useEffect(() => {
+    if (
+      createRoommateStatus === status.PENDING ||
+      updateRoommateStatus === status.PENDING
+    ) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+    if (
+      createRoommateStatus === status.SUCCESS ||
+      updateRoommateStatus === status.SUCCESS
+    ) {
+      dispatch(resetCreateRoommateStatus());
+      dispatch(resetUpdateRoommateStatus());
+      navigation.goBack();
+    }
+  }, [navigation, createRoommateStatus, updateRoommateStatus, dispatch]);
+
+  useEffect(() => {
+    if (deleteRoommateStatus === status.PENDING) {
+      setDeleteLoading(true);
+    } else {
+      setDeleteLoading(false);
+    }
+    if (deleteRoommateStatus === status.SUCCESS) {
+      dispatch(resetDeleteRoommateStatus());
+    }
+  }, [deleteRoommateStatus, dispatch]);
 
   return {
     handlers: {
@@ -260,13 +328,18 @@ const usePostHook = ({navigation}) => {
       onInnAreaChange,
       onInnDepositChange,
       onPost,
+      onDeleteRoommate,
+      onCloseDeleteConfirmModal,
+      onConfirmDelete,
     },
     selectors: {
+      showDeleteConfirmModal,
       roommate,
       additionalInfo,
       showInnInfo,
       userInfo,
-      isLoading,
+      loading,
+      deleteLoading,
       districts,
     },
   };

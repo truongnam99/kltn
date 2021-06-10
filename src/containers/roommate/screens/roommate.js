@@ -9,7 +9,7 @@ import {
 import CartItem from '../components/cart-item';
 import styles from './roommate.style';
 import useRoommate from '../hooks/useRoommate';
-import Filter from '../../find-inn/component/filter';
+import Filter from '../components/filter';
 import {FooterListComponent, ListEmptyComponent} from '../../../components';
 import {
   ItemFilter,
@@ -20,7 +20,7 @@ import {activeOpacity} from '../../../components/shared';
 
 const Roommate = ({navigation}) => {
   const {selectors, handlers} = useRoommate({navigation});
-  const {roommates, userInfo, isLoading, isShowFilter, filter} = selectors;
+  const {roommates, userInfo, loading, isShowFilter, filter} = selectors;
   const {
     onFilterButtonPress,
     onLoadmore,
@@ -78,7 +78,7 @@ const Roommate = ({navigation}) => {
             />
           </View>
         )}
-        ListFooterComponent={<FooterListComponent isLoading={isLoading} />}
+        ListFooterComponent={<FooterListComponent isLoading={loading} />}
         onEndReached={onLoadmore}
         onEndReachedThreshold={100}
         ListEmptyComponent={ListEmptyComponent}

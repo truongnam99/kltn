@@ -1,14 +1,14 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
-import {ListEmptyComponent} from '../../../components';
+import {FooterListComponent, ListEmptyComponent} from '../../../components';
 import CartItem from '../components/cart-item';
 import {useMyPost} from '../hooks/useMyPost';
 import styles from './roommate.style';
 
-export const MyPost = ({}) => {
-  const {selectors, handlers} = useMyPost();
-  const {posts, userInfo} = selectors;
-  const {handleFoundRoommate} = handlers;
+export const MyPost = ({navigation}) => {
+  const {selectors, handlers} = useMyPost({navigation});
+  const {posts, userInfo, loading} = selectors;
+  const {handleFoundRoommate, onGotoCreateRoommate} = handlers;
 
   return (
     <View style={styles.container}>
@@ -23,10 +23,13 @@ export const MyPost = ({}) => {
                 userInfo={userInfo}
                 showIsActive={true}
                 onFoundRoommate={handleFoundRoommate}
+                onUpdate={onGotoCreateRoommate}
+                item={item.item}
               />
             </View>
           )}
-          ListEmptyComponent={ListEmptyComponent}
+          ListFooterComponent={<FooterListComponent isLoading={loading} />}
+          ListEmptyComponent={<ListEmptyComponent loading={loading} />}
         />
       </View>
     </View>

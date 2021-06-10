@@ -22,12 +22,12 @@ const Home = props => {
         activeBackgroundColor: '#f4f4f4',
       }}>
       <Tab.Screen
-        name={navigationName.home.logistic}
-        component={LogisticContainer}
+        name={navigationName.home.roommate}
+        component={RoommateContainer}
         options={{
           tabBarIcon: attributes => (
             <MaterialIcons
-              name="local-shipping"
+              name="group-add"
               {...attributes}
               size={32}
               color={lightTheme.primary}
@@ -49,14 +49,13 @@ const Home = props => {
           ),
         }}
       />
-
       <Tab.Screen
-        name={navigationName.home.roommate}
-        component={RoommateContainer}
+        name={navigationName.home.logistic}
+        component={LogisticContainer}
         options={{
           tabBarIcon: attributes => (
             <MaterialIcons
-              name="group-add"
+              name="local-shipping"
               {...attributes}
               size={32}
               color={lightTheme.primary}
@@ -64,6 +63,7 @@ const Home = props => {
           ),
         }}
       />
+
       <Tab.Screen
         name={navigationName.home.houseware}
         component={HousewareContainer}

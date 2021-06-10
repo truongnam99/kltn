@@ -1,25 +1,51 @@
-import {useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FETCH_MY_POST, POST_UPDATE_STATUS} from '../../../store/actions/types';
-import {selectMyPosts} from '../selectors';
+import {
+  changeRoommateActive,
+  fetchMyRoommate,
+} from '../../../store/actions/roommateAction';
+import {selectFetchMyRoommateStatus, selectMyPosts} from '../selectors';
 import {selectUserInfo} from '../../login/selectors';
+import {status} from '../../../constants/constants';
+import {navigationName} from '../../../constants/navigation';
 
-export const useMyPost = () => {
+export const useMyPost = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const posts = useSelector(selectMyPosts);
   const userInfo = useSelector(selectUserInfo);
+  const {status: fetchMyRoommateStatus} = useSelector(
+    selectFetchMyRoommateStatus,
+  );
+
+  const onGotoCreateRoommate = data => {
+    navigation.navigate(navigationName.roommate.post, {
+      data,
+    });
+  };
 
   useEffect(() => {
-    dispatch({type: FETCH_MY_POST, payload: null});
+    dispatch(fetchMyRoommate());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleFoundRoommate = id => {
-    dispatch({type: POST_UPDATE_STATUS, payload: id});
-  };
+  useEffect(() => {
+    if (fetchMyRoommateStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [fetchMyRoommateStatus]);
+
+  const handleFoundRoommate = useCallback(
+    (id, isActive) => {
+      dispatch(changeRoommateActive(id, isActive));
+    },
+    [dispatch],
+  );
 
   return {
-    selectors: {posts, userInfo},
-    handlers: {handleFoundRoommate},
+    selectors: {posts, userInfo, loading},
+    handlers: {handleFoundRoommate, onGotoCreateRoommate},
   };
 };

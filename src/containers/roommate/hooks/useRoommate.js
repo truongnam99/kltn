@@ -1,16 +1,20 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {navigationName} from '../../../constants/navigation';
-import {fetchRoommate} from '../../../store/actions/roommateAction';
-import {POST_UPDATE_STATUS} from '../../../store/actions/types';
-import {selectIsLoading, selectRoommates} from '../selectors';
+import {
+  changeRoommateActive,
+  fetchRoommate,
+} from '../../../store/actions/roommateAction';
+import {selectFetchRoommateStatus, selectRoommates} from '../selectors';
 import {selectUserInfo} from '../../login/selectors';
+import {status} from '../../../constants/constants';
 
 const useHook = ({navigation}) => {
   const [isShowFilter, setIsShowFilter] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState();
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
+  const {status: fetchRoommateStatus} = useSelector(selectFetchRoommateStatus);
   const roommates = useSelector(selectRoommates);
   const userInfo = useSelector(selectUserInfo);
 
@@ -44,6 +48,14 @@ const useHook = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (fetchRoommateStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [fetchRoommateStatus]);
+
   const onLoadmore = useCallback(() => {
     handleFetchRoommate({
       cityId: filter?.city?.Id,
@@ -52,21 +64,17 @@ const useHook = ({navigation}) => {
   }, [handleFetchRoommate, filter]);
 
   const handleFoundRoommate = useCallback(
-    id => {
-      dispatch({type: POST_UPDATE_STATUS, payload: id});
+    (id, isActive) => {
+      dispatch(changeRoommateActive({id, isActive}));
     },
     [dispatch],
   );
 
   const handleFetchRoommate = useCallback(
     (props = {reload: false}) => {
-      if (isLoading && !props.reload) {
-        return;
-      }
-
       dispatch(fetchRoommate(props));
     },
-    [isLoading, dispatch],
+    [dispatch],
   );
 
   return {
@@ -82,7 +90,7 @@ const useHook = ({navigation}) => {
     selectors: {
       roommates,
       userInfo,
-      isLoading,
+      loading,
       isShowFilter,
       filter,
     },

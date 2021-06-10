@@ -74,20 +74,48 @@ export const MESSAGE_SET_END = 'message/MESSAGE_SET_END';
 export const MESSAGE_DETAIL_SET_END = 'message/MESSAGE_DETAIL_SET_END';
 export const CHANGE_MESSAGE = 'message/CHANGE_MESSAGE';
 export const SET_CHANGE_MESSAGES = 'message/SET_CHANGE_MESSAGES';
+
 // roommate
 export const FETCH_ROOMMATE = 'roommate/FETCH_ROOMMATE';
+export const FETCH_ROOMMATE_SUCCESS = 'roommate/FETCH_ROOMMATE_SUCCESS';
+export const FETCH_ROOMMATE_FAIL = 'roommate/FETCH_ROOMMATE_FAIL';
+
+export const FETCH_MY_ROOMMATE = 'roommate/FETCH_MY_ROOMMATE';
+export const FETCH_MY_ROOMMATE_SUCCESS = 'roommate/FETCH_MY_ROOMMATE_SUCCESS';
+export const FETCH_MY_ROOMMATE_FAIL = 'roommate/FETCH_MY_ROOMMATE_FAIL';
+
+export const CREATE_ROOMMATE = 'roommate/CREATE_ROOMMATE';
+export const CREATE_ROOMMATE_SUCCESS = 'roommate/CREATE_ROOMMATE_SUCCESS';
+export const CREATE_ROOMMATE_FAIL = 'roommate/CREATE_ROOMMATE_FAIL';
+
+export const UPDATE_ROOMMATE = 'roommate/UPDATE_ROOMMATE';
+export const UPDATE_ROOMMATE_SUCCESS = 'roommate/UPDATE_ROOMMATE_SUCCESS';
+export const UPDATE_ROOMMATE_FAIL = 'roommate/UPDATE_ROOMMATE_FAIL';
+
+export const DELETE_ROOMMATE = 'roommate/DELETE_ROOMMATE';
+export const DELETE_ROOMMATE_SUCCESS = 'roommate/DELETE_ROOMMATE_SUCCESS';
+export const DELETE_ROOMMATE_FAIL = 'roommate/DELETE_ROOMMATE_FAIL';
+
+export const CHANGE_ROOMMATE_ACTIVE = 'roommate/CHANGE_ROOMMATE_ACTIVE';
+export const CHANGE_ROOMMATE_ACTIVE_SUCCESS =
+  'roommate/CHANGE_ROOMMATE_ACTIVE_SUCCESS';
+export const CHANGE_ROOMMATE_ACTIVE_FAIL =
+  'roommate/CHANGE_ROOMMATE_ACTIVE_FAIL';
+
+export const RESET_FETCH_ROOMMATE_STATUS =
+  'roommate/RESET_FETCH_ROOMMATE_STATUS';
+export const RESET_CREATE_ROOMMATE_STATUS =
+  'roommate/RESET_CREATE_ROOMMATE_STATUS';
+export const RESET_UPDATE_ROOMMATE_STATUS =
+  'roommate/RESET_UPDATE_ROOMMATE_STATUS';
+export const RESET_DELETE_ROOMMATE_STATUS =
+  'roommate/RESET_DELETE_ROOMMATE_STATUS';
+
 export const ROOMMATE_SET_END = 'roommate/ROOMMATE_SET_END';
-export const ADD_ROOMMATE = 'roommate/ADD_ROOMMATE';
-export const ROOMMATE_IS_LOADING = 'roommate/ROOMMATE_IS_LOADING';
 export const ROOMMATE_RELOAD_LIST = 'roommate/ROOMMATE_RELOAD_LIST';
 export const ROOMMATE_SET_LAST = 'roommate/ROOMMATE_SET_LAST';
-export const ADD_MY_POST = 'roommate/ADD_MY_POST';
-export const FETCH_MY_POST = 'roommate/FETCH_MY_POST';
-export const UPDATE_MY_POST = 'roommate/UPDATE_MY_POST';
-export const UPDATE_POST = 'roommate/UPDATE_POST';
-export const POST_UPDATE_STATUS = 'roommate/POST_UPDATE_STATUS';
-export const ROOMMATE_CREATE_POST = 'roommate/ROOMMATE_CREATE_POST';
 
+// houseware
 export const HOUSEWARE_CREATE_POST = 'houseware/HOUSEWARE_CREATE_POST';
 export const HOUSEWARE_CREATE_POST_SUCCESS =
   'houseware/HOUSEWARE_CREATE_POST_SUCCESS';

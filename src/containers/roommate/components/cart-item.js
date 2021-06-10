@@ -27,6 +27,7 @@ const CartItem = ({
   onFoundRoommate,
   isActive,
   showIsActive = false,
+  onUpdate,
   ...props
 }) => {
   const [state, setState] = useState({
@@ -97,8 +98,16 @@ const CartItem = ({
             </MenuTrigger>
             <MenuOptions>
               <MenuOption
-                text={translate.roommate.foundRoommate}
-                onSelect={() => onFoundRoommate(id)}
+                text={
+                  isActive
+                    ? translate.roommate.foundRoommate
+                    : translate.roommate.findingRoomate
+                }
+                onSelect={() => onFoundRoommate(id, !isActive)}
+              />
+              <MenuOption
+                text="Chỉnh sửa"
+                onSelect={() => onUpdate(props.item)}
               />
             </MenuOptions>
           </Menu>

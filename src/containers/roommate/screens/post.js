@@ -15,15 +15,21 @@ import {translate} from '../../../constants/translate';
 import {gender, jobs} from '../../../constants/constants';
 import usePost from '../hooks/usePost';
 import {styles} from './post.style';
+import {DeleteConfirm} from '../../../components/delete-confirm/delete-confirm';
 
-const Post = ({navigation}) => {
-  const {handlers, selectors} = usePost({navigation});
+const Post = ({route, navigation}) => {
+  const {handlers, selectors} = usePost({
+    data: {...route.params?.data},
+    navigation,
+  });
   const {
+    showDeleteConfirmModal,
     roommate,
     additionalInfo,
-    isLoading,
+    loading,
     showInnInfo,
     districts,
+    deleteLoading,
   } = selectors;
   const {
     onContentChange,
@@ -42,6 +48,9 @@ const Post = ({navigation}) => {
     onInnAreaChange,
     onInnDepositChange,
     onPost,
+    onDeleteRoommate,
+    onCloseDeleteConfirmModal,
+    onConfirmDelete,
   } = handlers;
 
   return (
@@ -143,11 +152,33 @@ const Post = ({navigation}) => {
           />
         </View>
       )}
-      <Button
-        loading={isLoading}
-        containerStyle={styles.button}
-        title={translate.post.post}
-        onPress={onPost}
+      <View style={styles.buttonWrapper}>
+        <Button
+          title={translate.post.post}
+          loading={loading}
+          containerStyle={styles.buttonContainer}
+          type="outline"
+          disabled={deleteLoading}
+          onPress={onPost}
+        />
+        {route.params?.data && (
+          <Button
+            loading={deleteLoading}
+            title="Xóa"
+            containerStyle={styles.buttonDelete}
+            titleStyle={styles.buttonDeleteTitle}
+            buttonStyle={styles.buttonDeleteStyle}
+            type="outline"
+            onPress={onDeleteRoommate}
+          />
+        )}
+      </View>
+      <DeleteConfirm
+        visible={showDeleteConfirmModal}
+        onCancel={onCloseDeleteConfirmModal}
+        onConfirm={onConfirmDelete}
+        title="Bạn có chắc chắn xóa dữ dịch vụ vận chuyển?"
+        description="Dữ liệu sẽ bị xóa và không thể phục hồi"
       />
     </ScrollView>
   );

@@ -22,8 +22,25 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
     fontSize: 16,
   },
-  button: {
-    marginVertical: 8,
-    marginBottom: 16,
+  buttonContainer: {
+    paddingTop: 8,
+    paddingBottom: 20,
+    width: 120,
+  },
+  buttonDelete: {
+    paddingTop: 8,
+    paddingBottom: 20,
+    width: 120,
+    marginLeft: 16,
+  },
+  buttonDeleteTitle: {
+    color: lightTheme.secondary,
+  },
+  buttonDeleteStyle: {
+    borderColor: lightTheme.secondary,
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });

@@ -6,6 +6,7 @@ import sagas from './sagas';
 import * as housewareSagas from './sagas/housewareSaga';
 import * as innSagas from './sagas/innSagas';
 import * as logisticSagas from './sagas/logisticSaga';
+import * as roommateSagas from './sagas/roommateSagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,6 +24,7 @@ const saga = {
   ...housewareSagas,
   ...innSagas,
   ...logisticSagas,
+  ...roommateSagas,
 };
 
 for (let a in saga) {
