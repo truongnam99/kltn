@@ -56,8 +56,8 @@ function* fetchInnTask({type, payload}) {
       payload.maxArea ||
       payload.typeOfItem === 'map'
     ) {
-      const {hits} = yield call(fetchDataFromAlgolia, {...payload, count});
-      data = hits;
+      const aaa = yield call(fetchDataFromAlgolia, {...payload, count});
+      data = aaa.hits;
     } else {
       const result = yield call(fetchDataFromFirebase, {...payload, last});
       if (result.docs.length) {

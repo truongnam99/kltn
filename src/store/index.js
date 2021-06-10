@@ -5,6 +5,7 @@ import allReducers from './reducers';
 import sagas from './sagas';
 import * as housewareSagas from './sagas/housewareSaga';
 import * as innSagas from './sagas/innSagas';
+import * as logisticSagas from './sagas/logisticSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,6 +22,7 @@ const configureStore = () => {
 const saga = {
   ...housewareSagas,
   ...innSagas,
+  ...logisticSagas,
 };
 
 for (let a in saga) {

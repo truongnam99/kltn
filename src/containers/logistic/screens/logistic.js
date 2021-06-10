@@ -13,7 +13,6 @@ import {
   ActionButtonItem,
 } from '../../../components/action-button/action-button';
 import CartItem from '../compoinents/card-item';
-import Filter from '../../find-inn/component/filter';
 import {ListEmptyComponent} from '../../../components';
 import {
   ItemFilter,
@@ -25,17 +24,18 @@ import {translate} from '../../../constants/translate';
 import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
 import {activeOpacity} from '../../../components/shared';
 import styles from './logistic.style';
+import Filter from '../compoinents/filter';
 
 const Logistic = ({navigation}) => {
   const {handlers, selectors} = useLogistic({navigation});
-  const {logistics, isLoading, role, isShowFilter, filter} = selectors;
+  const {logistics, loading, role, isShowFilter, filter} = selectors;
   const {
     filterCallBack,
     onDetailClick,
     onFilterButtonPress,
     onGotoCreateLogistic,
     onGotoMyLogistic,
-    onFetchInn,
+    onFetchLogistic,
   } = handlers;
 
   const _renderFilter = () => {
@@ -76,7 +76,7 @@ const Logistic = ({navigation}) => {
         data={logistics}
         numColumns={2}
         keyExtractor={(item, index) => index}
-        onEndReached={onFetchInn}
+        onEndReached={onFetchLogistic}
         onEndReachedThreshold={0}
         renderItem={item => (
           <TouchableOpacity
@@ -86,9 +86,9 @@ const Logistic = ({navigation}) => {
             <CartItem {...item.item} />
           </TouchableOpacity>
         )}
-        ListEmptyComponent={ListEmptyComponent}
+        ListEmptyComponent={<ListEmptyComponent loading={loading} />}
       />
-      {isLoading && (
+      {loading && (
         <ActivityIndicator style={styles.loading} color={lightTheme.primary} />
       )}
       <Filter

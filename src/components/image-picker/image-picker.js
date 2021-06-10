@@ -1,17 +1,14 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Alert,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import styles from './image-picker.style';
 import FastImage from 'react-native-fast-image';
+import {showMessageFail, showMessageInfo} from '../../utils/utils';
+import {activeOpacity} from '../shared';
 
+let rePickerImageIndex = -1;
 const ImagePicker = ({
   maxFile = 5,
   quality = 0.4,
@@ -21,7 +18,6 @@ const ImagePicker = ({
 }) => {
   const screenWidth = Dimensions.get('window').width;
   const [files, setFiles] = useState(defaultImages || []);
-  const [rePickerImageIndex, setRePickerImageIndex] = useState(-1);
   const [sizes, setSizes] = useState({
     firstRowSize: screenWidth / 2 - 2,
     anotherRowSize: screenWidth / 3 - 2,
@@ -35,64 +31,85 @@ const ImagePicker = ({
     });
   };
 
-  const pickerImageCallback = ({
-    didCancel,
-    errorMessage,
-    uri,
-    width,
-    height,
-    fileSize,
-    type,
-    fileName,
-  }) => {
-    if (didCancel) {
-      return;
-    }
-    if (errorMessage) {
-      Alert.alert(errorMessage);
-      return;
-    }
-    onChangeImages([...files, {uri, width, height, fileSize, type, fileName}]);
-    setFiles([...files, {uri, width, height, fileSize, type, fileName}]);
-  };
+  const pickerImageCallback = useCallback(
+    ({
+      didCancel,
+      errorMessage,
+      uri,
+      width,
+      height,
+      fileSize,
+      type,
+      fileName,
+    }) => {
+      if (didCancel) {
+        return;
+      }
+      if (errorMessage) {
+        showMessageFail(errorMessage);
+        return;
+      }
+      setFiles([...files, {uri, width, height, fileSize, type, fileName}]);
+      onChangeImages([
+        ...files,
+        {uri, width, height, fileSize, type, fileName},
+      ]);
+    },
+    [onChangeImages, files],
+  );
 
-  const rePickerImageCallback = ({
-    didCancel,
-    errorMessage,
-    uri,
-    width,
-    height,
-    fileSize,
-    type,
-    fileName,
-  }) => {
-    if (didCancel) {
-      return;
-    }
-    if (errorMessage) {
-      Alert.alert(errorMessage);
-      return;
-    }
-    files[rePickerImageIndex] = {uri, width, height, fileSize, type, fileName};
-    onChangeImages([...files]);
-    setFiles([...files]);
-  };
+  const rePickerImageCallback = useCallback(
+    ({
+      didCancel,
+      errorMessage,
+      uri,
+      width,
+      height,
+      fileSize,
+      type,
+      fileName,
+    }) => {
+      if (didCancel) {
+        return;
+      }
+      if (errorMessage) {
+        showMessageFail(errorMessage);
+        return;
+      }
+      files[rePickerImageIndex] = {
+        uri,
+        width,
+        height,
+        fileSize,
+        type,
+        fileName,
+      };
+      setFiles([...files]);
+      onChangeImages([...files]);
+    },
+    [onChangeImages, files],
+  );
 
-  const rePickerImage = index => {
-    setRePickerImageIndex(index);
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality,
-        maxWidth: 360,
-      },
-      rePickerImageCallback,
-    );
-  };
+  const rePickerImage = useCallback(
+    index => {
+      console.log('index: ', index);
+      // setRePickerImageIndex(index);
+      rePickerImageIndex = index;
+      launchImageLibrary(
+        {
+          mediaType: 'photo',
+          quality,
+          maxWidth: 360,
+        },
+        rePickerImageCallback,
+      );
+    },
+    [quality, rePickerImageCallback],
+  );
 
-  const openImagePicker = () => {
+  const openImagePicker = useCallback(() => {
     if (files.length === maxFile) {
-      Alert.alert('Max of select');
+      showMessageInfo('Max of select');
       return;
     }
     launchImageLibrary(
@@ -103,13 +120,16 @@ const ImagePicker = ({
       },
       pickerImageCallback,
     );
-  };
+  }, [files, maxFile, quality, pickerImageCallback]);
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer} onLayout={event => onLayout(event)}>
         {files.map((file, index) => (
-          <TouchableOpacity onPress={() => rePickerImage(index)} key={index}>
+          <TouchableOpacity
+            onPress={() => rePickerImage(index)}
+            key={index}
+            activeOpacity={activeOpacity}>
             <FastImage
               source={{uri: file.uri}}
               style={StyleSheet.flatten([

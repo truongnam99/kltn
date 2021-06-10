@@ -1,35 +1,22 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   FlatList,
   TouchableOpacity,
   View,
   ActivityIndicator,
-  Text,
 } from 'react-native';
 
 import CartItem from '../compoinents/card-item';
-import {navigationName} from '../../../constants/navigation';
 import {lightTheme} from '../../../config/theme';
-import {translate} from '../../../constants/translate';
 import {activeOpacity} from '../../../components/shared';
 import {useMyLogistic} from '../hooks/useMyLogistic';
 import styles from './logistic.style';
+import {ListEmptyComponent} from '../../../components';
 
 const MyLogistic = ({navigation}) => {
-  const {handlers, selectors} = useMyLogistic();
-  const {logistics, isLoading} = selectors;
-  const {handleFetchMyLogistic} = handlers;
-
-  const onGotoCreateLogistic = data => {
-    navigation.navigate(navigationName.logistic.createLogistic, {
-      data,
-    });
-  };
-
-  useEffect(() => {
-    handleFetchMyLogistic();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {handlers, selectors} = useMyLogistic({navigation});
+  const {logistics, loading} = selectors;
+  const {onGotoCreateLogistic} = handlers;
 
   return (
     <View style={styles.container}>
@@ -46,9 +33,9 @@ const MyLogistic = ({navigation}) => {
             <CartItem {...item.item} />
           </TouchableOpacity>
         )}
-        ListEmptyComponent={<Text>{translate.noDataToShow}</Text>}
+        ListEmptyComponent={<ListEmptyComponent loading={loading} />}
       />
-      {isLoading && (
+      {loading && (
         <ActivityIndicator style={styles.loading} color={lightTheme.primary} />
       )}
     </View>

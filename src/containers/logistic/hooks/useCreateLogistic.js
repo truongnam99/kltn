@@ -1,40 +1,61 @@
-import {useCallback, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
   createLogistic,
-  setLoading,
+  deleteLogistic,
+  resetCreateLogisticStatus,
+  resetDeleteLogisticStatus,
+  resetUpdateLogisticStatus,
+  updateLogistic,
 } from '../../../store/actions/logisticAction';
 import {
   formatString,
   getCity,
-  uploadImageIntoFirebase,
   unFormatString,
   isPhoneNumber,
   showMessageFail,
 } from '../../../utils/utils';
+import {status} from '../../../constants/constants';
 import {selectUserInfo} from '../../login/selectors';
-import {selectIsLoading} from '../selectors';
+import {
+  selectCreateLogisticStatus,
+  selectDeleteLogisticStatus,
+  selectUpdateLogisticStatus,
+} from '../selectors';
 
 export const useCreateLogistic = ({data = {}, navigation}) => {
+  const [loading, setLoading] = useState(false);
   const userInfo = useSelector(selectUserInfo);
-  const isLoading = useSelector(selectIsLoading);
+  const {status: createLogisticStatus} = useSelector(
+    selectCreateLogisticStatus,
+  );
+  const {status: deleteLogisticStatus} = useSelector(
+    selectDeleteLogisticStatus,
+  );
+  const {status: updateLogisticStatus} = useSelector(
+    selectUpdateLogisticStatus,
+  );
   const dispatch = useDispatch();
   const [logistic, setLogistic] = useState({
     id: data.id,
     name: data.name,
-    owner: data.owner,
+    owner: data.owner || {
+      displayName: userInfo.displayName,
+      phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
+      photoURL: userInfo.photoURL,
+      uid: userInfo.uid,
+    },
     images: data.image ? [{uri: data.image}] : [],
-    area: data.area,
+    area: data.area || [],
     exactAddress: data.exact_address,
-    price: formatString(data.price, 'currency'),
+    price: data.price,
     city: data.full_address_object?.city.Id || '79',
     district: data.full_address_object?.district.Id,
     ownerName: data.ownerName || userInfo.displayName,
     contact: formatString(data.contact || userInfo.phoneNumber, 'phoneNumber'),
     notes: data.notes,
   });
-
   const [validation, setValidation] = useState({
     name: {
       required: true,
@@ -71,6 +92,39 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
       inputRef: useRef(),
     },
   });
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  useEffect(() => {
+    if (
+      createLogisticStatus === status.PENDING ||
+      updateLogisticStatus === status.PENDING
+    ) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+      if (
+        createLogisticStatus === status.SUCCESS ||
+        updateLogisticStatus === status.SUCCESS
+      ) {
+        dispatch(resetCreateLogisticStatus());
+        dispatch(resetUpdateLogisticStatus());
+        navigation.goBack();
+      }
+    }
+  }, [navigation, createLogisticStatus, updateLogisticStatus, dispatch]);
+
+  useEffect(() => {
+    if (deleteLogisticStatus === status.PENDING) {
+      setDeleteLoading(true);
+    } else {
+      setDeleteLoading(false);
+      if (deleteLogisticStatus === status.SUCCESS) {
+        dispatch(resetDeleteLogisticStatus());
+        navigation.goBack();
+      }
+    }
+  }, [navigation, deleteLogisticStatus, dispatch]);
 
   const validateField = useCallback(
     (value, field) => {
@@ -107,7 +161,7 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
     [setValidation],
   );
 
-  const validateData = () => {
+  const validateData = useCallback(() => {
     const errors = [];
     if (!logistic.name) {
       errors.push('name');
@@ -150,7 +204,7 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
       return {...newValidation};
     });
     return !errors.length;
-  };
+  }, [logistic, validateField]);
 
   const handleSetLogistic = useCallback(
     (field, value) => {
@@ -164,7 +218,7 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
     [setLogistic],
   );
 
-  const getCityAndDistrict = () => {
+  const getCityAndDistrict = useCallback(() => {
     const city = getCity(logistic.city);
     const district =
       !!city && city.Districts.find(item => item.Id === logistic.district);
@@ -182,55 +236,30 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
           }
         : null,
     };
-  };
+  }, [logistic.city, logistic.district]);
 
-  const uploadImage = async () => {
-    try {
-      const img = [];
-      for (let i = 0; i < logistic.images.length; i++) {
-        if (logistic.images[i].uri.startsWith('http')) {
-          img.push(logistic.images[i].uri);
-          continue;
-        }
-        const result = await uploadImageIntoFirebase(logistic.images[i].uri);
-        img.push(await result.getDownloadURL());
-      }
-      return img;
-    } catch (error) {
-      throw new Error('ERR_UPLOAD_IMAGE');
-    }
-  };
-
-  const handleCreateLogistic = async () => {
-    let check = false;
+  const handleCreateLogistic = useCallback(async () => {
     try {
       if (!validateData()) {
         throw new Error('ERR_VALIDATE_DATA');
       }
-      dispatch(setLoading(true));
       const {city, district} = getCityAndDistrict();
       const {exactAddress, images, ...rest} = logistic;
-      const image = await uploadImage();
-      dispatch(
-        createLogistic({
-          ...rest,
-          exact_address: exactAddress,
-          full_address_object: {
-            city,
-            district,
-          },
-          image: image[0],
-          owner: {
-            displayName: userInfo.displayName,
-            phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
-            photoURL: userInfo.photoURL,
-            uid: userInfo.uid,
-          },
-          contact: unFormatString(rest.contact, 'phoneNumber'),
-          price: unFormatString(rest.price, 'currency'),
-        }),
-      );
-      check = true;
+      const payload = {
+        ...rest,
+        exact_address: exactAddress,
+        full_address_object: {
+          city,
+          district,
+        },
+        image: images[0]?.uri,
+        contact: unFormatString(rest.contact, 'phoneNumber'),
+      };
+      if (payload.id) {
+        dispatch(updateLogistic(payload));
+      } else {
+        dispatch(createLogistic(payload));
+      }
     } catch (error) {
       switch (error.message) {
         case 'ERR_VALIDATE_DATA':
@@ -243,27 +272,41 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
           console.log('need to handle error at handleCreateLogistic', error);
           break;
       }
-      check = false;
-    } finally {
-      dispatch(setLoading(false));
     }
-    return check;
-  };
+  }, [logistic, getCityAndDistrict, validateData, dispatch]);
 
-  const onCreateLogistic = useCallback(async () => {
-    const result = await handleCreateLogistic();
-    if (result) {
-      navigation.goBack();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation]);
+  const onCreateLogistic = useCallback(() => {
+    handleCreateLogistic();
+  }, [handleCreateLogistic]);
+
+  const onDeleteLogistic = useCallback(() => {
+    setShowDeleteConfirmModal(true);
+  }, []);
+
+  const onCloseDeleteConfirmModal = useCallback(() => {
+    setShowDeleteConfirmModal(false);
+  }, []);
+
+  const onConfirmDelete = useCallback(() => {
+    setShowDeleteConfirmModal(false);
+    dispatch(deleteLogistic(data.id));
+  }, [dispatch, data]);
 
   return {
-    handlers: {handleSetLogistic, handleCreateLogistic, onCreateLogistic},
+    handlers: {
+      handleSetLogistic,
+      handleCreateLogistic,
+      onCreateLogistic,
+      onDeleteLogistic,
+      onCloseDeleteConfirmModal,
+      onConfirmDelete,
+    },
     selectors: {
       logistic,
-      isLoading,
+      deleteLoading,
+      loading,
       validation,
+      showDeleteConfirmModal,
     },
   };
 };

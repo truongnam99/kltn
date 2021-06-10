@@ -128,7 +128,7 @@ const MapInn = ({
   return (
     <View style={styles.container}>
       <View style={styles.hint}>
-        <Text>Chọn một điểm để thực hiện tìm kiếm trọ</Text>
+        <Text>Chọn một điểm và áp dụng phạm vi tìm kiếm để tìm kiếm trọ</Text>
       </View>
       <MapView
         style={styles.mapView}

@@ -1,29 +1,44 @@
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLoading} from '../../../store/actions/logisticAction';
-import {FETCH_MY_LOGISTIC} from '../../../store/actions/types';
-import {selectIsLoading, selectMyLogistics} from '../selectors';
+import {fetchMyLogistic} from '../../../store/actions/logisticAction';
+import {navigationName} from '../../../constants/navigation';
+import {status} from '../../../constants/constants';
+import {selectFetchMyLogisticsStatus, selectMyLogistics} from '../selectors';
 
-export const useMyLogistic = () => {
+export const useMyLogistic = ({navigation}) => {
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const logistics = useSelector(selectMyLogistics);
-  const isLoading = useSelector(selectIsLoading);
+  const {status: fetchLogisticsStatus} = useSelector(
+    selectFetchMyLogisticsStatus,
+  );
 
-  const handleFetchMyLogistic = () => {
-    if (isLoading) {
-      return;
-    }
-    dispatch(setLoading(true));
-    dispatch({type: FETCH_MY_LOGISTIC, payload: null});
-    dispatch(setLoading(false));
+  const onGotoCreateLogistic = data => {
+    navigation.navigate(navigationName.logistic.createLogistic, {
+      data,
+    });
   };
+
+  useEffect(() => {
+    if (fetchLogisticsStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [fetchLogisticsStatus]);
+
+  useEffect(() => {
+    dispatch(fetchMyLogistic());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     handlers: {
-      handleFetchMyLogistic,
+      onGotoCreateLogistic,
     },
     selectors: {
       logistics,
-      isLoading,
+      loading,
     },
   };
 };

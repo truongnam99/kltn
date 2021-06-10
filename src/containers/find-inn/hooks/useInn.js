@@ -41,7 +41,7 @@ export const useInn = ({navigation}) => {
         maxArea: filter.area ? filter.area[1] : null,
         kitchen: filter.kitchen,
         garage: filter.garage,
-        radious: filter.maxRadius,
+        maxRadius: filter.maxRadius,
         location,
         typeOfItem,
         ...props,

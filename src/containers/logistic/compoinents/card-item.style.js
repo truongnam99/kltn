@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
   },
   userContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
   userAvatar: {
     width: 32,
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
   },
   username: {
     marginLeft: 4,
+    flex: 1,
   },
   price: {
     marginTop: 4,

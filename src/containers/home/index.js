@@ -22,20 +22,6 @@ const Home = props => {
         activeBackgroundColor: '#f4f4f4',
       }}>
       <Tab.Screen
-        name={navigationName.home.inn}
-        component={FinnInnContainer}
-        options={{
-          tabBarIcon: attributes => (
-            <FontAwesome
-              name="home"
-              {...attributes}
-              size={32}
-              color={lightTheme.primary}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name={navigationName.home.logistic}
         component={LogisticContainer}
         options={{
@@ -49,6 +35,21 @@ const Home = props => {
           ),
         }}
       />
+      <Tab.Screen
+        name={navigationName.home.inn}
+        component={FinnInnContainer}
+        options={{
+          tabBarIcon: attributes => (
+            <FontAwesome
+              name="home"
+              {...attributes}
+              size={32}
+              color={lightTheme.primary}
+            />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name={navigationName.home.roommate}
         component={RoommateContainer}

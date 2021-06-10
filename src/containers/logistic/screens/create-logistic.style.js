@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {lightTheme} from '../../../config/theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,8 +11,21 @@ export const styles = StyleSheet.create({
     paddingBottom: 20,
     width: 120,
   },
+  buttonDelete: {
+    paddingTop: 8,
+    paddingBottom: 20,
+    width: 120,
+    marginLeft: 16,
+  },
+  buttonDeleteTitle: {
+    color: lightTheme.secondary,
+  },
+  buttonDeleteStyle: {
+    borderColor: lightTheme.secondary,
+  },
   buttonWrapper: {
-    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   sectionHeader: {
     fontSize: 18,
@@ -19,5 +33,20 @@ export const styles = StyleSheet.create({
   },
   textAlign: {
     textAlignVertical: 'top',
+    height: 150,
+  },
+  textInputStyle: {
+    paddingVertical: 0,
+    fontSize: 16,
+  },
+  containerStyle: {
+    marginBottom: 8,
+  },
+  titleStyle: {
+    marginBottom: 0,
+    fontSize: 16,
+  },
+  fontSize: {
+    fontSize: 16,
   },
 });

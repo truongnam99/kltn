@@ -49,7 +49,7 @@ const translate = {
     price: 'Giá vận chuyển:',
     detail: 'Chi tiết:',
     contact: 'Liên hệ:',
-    myLogistic: 'Dịch vụ của đã đăng',
+    myLogistic: 'Dịch vụ của tôi',
   },
   chat: {
     chat: 'Chat',

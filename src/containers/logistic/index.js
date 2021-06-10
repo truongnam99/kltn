@@ -40,7 +40,7 @@ const LogisticContainer = () => {
         name={navigationName.logistic.myLogistic}
         component={MyLogistic}
         options={{
-          headerTitle: translate.logisticService,
+          headerTitle: 'Dịch vụ đã đăng',
         }}
       />
     </LogisticStack.Navigator>

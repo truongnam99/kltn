@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './logistic-detail.style';
 import {translate} from '../../../constants/translate';
-import {dial} from '../../../utils/utils';
+import {dial, getCity, shortenDistrictName} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import {Image, Text} from '../../../components';
@@ -16,6 +16,8 @@ const LogisticDetail = ({route, navigation}) => {
   const onViewProfile = () => {
     navigation.navigate(navigationName.findInn.viewProfile, {profile: owner});
   };
+
+  const city = getCity(logistic.city);
 
   const onGotoChat = () => {
     if (!owner) {
@@ -41,7 +43,9 @@ const LogisticDetail = ({route, navigation}) => {
       <View style={styles.infoContainer}>
         <View style={styles.userContainer}>
           <Image image={logistic.owner.photoURL} style={styles.userImage} />
-          <Text style={styles.username}>{logistic.owner.username}</Text>
+          <Text style={styles.username}>
+            {owner.userName || owner.displayName}
+          </Text>
           <TouchableOpacity
             activeOpacity={activeOpacity}
             onPress={onViewProfile}>
@@ -50,7 +54,17 @@ const LogisticDetail = ({route, navigation}) => {
         </View>
         <View style={styles.contentContainer}>
           <Text types="bold,h2">{translate.logistic.area}</Text>
-          <Text>{logistic.area}</Text>
+          {logistic.area && (
+            <Text>
+              {logistic.area
+                ?.map(item =>
+                  shortenDistrictName(
+                    city.Districts.find(d => d.Id === item)?.Name,
+                  ),
+                )
+                .join(', ')}
+            </Text>
+          )}
         </View>
         <View style={styles.contentContainer}>
           <Text types="bold,h2">{translate.logistic.price}</Text>

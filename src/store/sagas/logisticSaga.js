@@ -1,139 +1,152 @@
-import firestore from '@react-native-firebase/firestore';
-import {call, put, select} from 'redux-saga/effects';
-import {
-  ADD_LOGISTIC,
-  ADD_MY_LOGISTIC,
-  LOGISTIC_RELOAD_LIST,
-  LOGISTIC_SET_END,
-  LOGISTIC_SET_LAST,
-  UPDATE_LOGISTIC,
-  UPDATE_MY_LOGISTIC,
-} from '../actions/types';
+import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {showMessageFail, showMessageSuccess} from '../../utils/utils';
+import {
+  createLogisticInFirestore,
+  fetchDataFromFirebase,
+  updateLogisticInFirestore,
+  fetchMyLogistic,
+  deleteLogistic,
+} from '../../service/logisticService';
+import {
+  createLogisticFail,
+  createLogisticSuccess,
+  deleteLogisticFail,
+  deleteLogisticSuccess,
+  fetchLogisticFail,
+  fetchLogisticSuccess,
+  fetchMyLogisticFail,
+  fetchMyLogisticSuccess,
+  reloadLogistics,
+  setEnd,
+  setLast,
+  updateLogisticFail,
+  updateLogisticSuccess,
+} from '../actions/logisticAction';
+import {
+  CREATE_LOGISTIC,
+  DELETE_LOGISTIC,
+  FETCH_LOGISTIC,
+  FETCH_MY_LOGISTIC,
+  UPDATE_LOGISTIC,
+} from '../actions/types';
+import {uploadImagesToFirebase} from '../../service/firebaseService';
 
-export function* fetchLogistic({type, payload}) {
-  const {isEnd} = yield select(state => state.logisticReducer);
-
-  if (isEnd && !payload.reload) {
-    return;
-  }
-  if (payload.reload) {
-    yield put({type: LOGISTIC_RELOAD_LIST});
-  }
-  const data = yield call(fetchDataFromFirebase, payload);
-  if (data.length === 0) {
-    yield put({type: LOGISTIC_SET_END, payload: true});
-  } else {
-    yield put({type: ADD_LOGISTIC, payload: data});
-  }
+export function* fetchLogisticWatcher() {
+  yield takeLatest(FETCH_LOGISTIC, fetchLogisticTask);
 }
 
-function* fetchDataFromFirebase({limit = 8, cityId, districtId}) {
+function* fetchLogisticTask({payload}) {
   try {
-    const {last} = yield select(state => state.logisticReducer);
-    let query = firestore().collection('Logistics');
+    const {isEnd, last} = yield select(state => state.logisticReducer);
 
-    if (last) {
-      query = query.startAfter(last);
+    if (isEnd && !payload.reload) {
+      yield put(setEnd(true));
+      return;
     }
-    if (cityId) {
-      query = query.where('full_address_object.city.code', '==', cityId);
+    if (payload.reload) {
+      yield put(reloadLogistics());
     }
-    if (districtId) {
-      query = query.where(
-        'full_address_object.district.code',
-        '==',
-        +districtId,
-      );
-    }
-
-    const results = yield query.limit(limit).get();
+    const results = yield call(fetchDataFromFirebase, {
+      ...payload,
+      last: payload.reload ? null : last,
+    });
     if (results.docs.length) {
-      yield put({
-        type: LOGISTIC_SET_LAST,
-        payload: results.docs[results.docs.length - 1],
-      });
+      yield put(setLast(results.docs[results.docs.length - 1]));
     }
-    return results.docs.map(item => item.data());
+    const data = results.docs.map(item => ({id: item.id, ...item.data()}));
+    if (data.length === 0) {
+      yield put(setEnd(true));
+    } else {
+      yield put(fetchLogisticSuccess(data));
+    }
   } catch (error) {
-    showMessageFail('Lỗi lấy dược dữ liệu dịch vụ vận chuyển.');
+    console.log(error);
+    yield put(fetchLogisticFail('ERR_FETCH_LOGISTIC: at saga'));
+    showMessageFail('Lỗi lấy dữ liệu');
   }
 }
 
-export function* createLogistic({type, payload}) {
-  if (payload.id) {
-    try {
-      yield updateLogisticInFirestore(payload);
-      const {logistics, myLogistics} = yield select(
-        state => state.logisticReducer,
-      );
-      if (logistics && logistics.length) {
-        const index = logistics.findIndex(item => item.id === payload.id);
-        if (index !== -1) {
-          logistics.splice(index, 1, {...payload});
-          yield put({type: UPDATE_LOGISTIC, payload: logistics});
-        }
-      }
-      if (myLogistics && myLogistics.length) {
-        const index = myLogistics.findIndex(item => item.id === payload.id);
-        if (index !== -1) {
-          myLogistics.splice(index, 1, {...payload});
-          yield put({type: UPDATE_MY_LOGISTIC, payload: myLogistics});
-        }
-      }
-      showMessageSuccess('Cập nhật thành công');
-    } catch (error) {
-      showMessageFail('Lỗi cập nhật được thông tin dịch vụ vận chuyển.');
+export function* createLogisticWatcher() {
+  yield takeLatest(CREATE_LOGISTIC, createLogisticTask);
+}
+
+function* uploadImage(image) {
+  try {
+    if (!image) {
+      return null;
     }
-  } else {
-    try {
-      const result = yield createLogisticInFirestore(payload);
-      yield put({
-        type: ADD_LOGISTIC,
-        payload: {data: {id: result.id, ...payload}, setToFirst: true},
-      });
-      showMessageSuccess('Đã tạo dịch vụ vận chuyển');
-    } catch (error) {
-      showMessageFail('Lỗi tạo được dịch vụ vận chuyển.');
-    }
+    return (yield uploadImagesToFirebase([image]))[0];
+  } catch (error) {
+    throw new Error('ERR_UPLOAD_IMAGE');
   }
 }
 
-function* createLogisticInFirestore({id, ...payload}) {
-  return yield firestore()
-    .collection('Logistics')
-    .add({
-      ...payload,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
+function* createLogisticTask({type, payload}) {
+  try {
+    const image = yield uploadImage(payload.image);
+    const result = yield createLogisticInFirestore({...payload, image});
+    yield put(createLogisticSuccess({id: result.id, ...payload, image}));
+    showMessageSuccess('Đã tạo dịch vụ vận chuyển');
+  } catch (error) {
+    console.log('error: ', error);
+    yield put(createLogisticFail('ERR_CREATE_LOGISTIC: at saga'));
+    showMessageFail('Lỗi tạo được dịch vụ vận chuyển.');
+  }
 }
 
-function* updateLogisticInFirestore({id, ...payload}) {
-  return yield firestore()
-    .collection('Logistics')
-    .doc(id)
-    .update({
-      ...payload,
-      updatedAt: firestore.FieldValue.serverTimestamp(),
-    });
+export function* updateLogisticWatcher() {
+  yield takeLatest(UPDATE_LOGISTIC, updateLogisticTask);
 }
 
-export function* fetchMyLogistic() {
+function* updateLogisticTask({type, payload}) {
+  try {
+    const image = yield uploadImage(payload.image);
+    yield call(updateLogisticInFirestore, {...payload, image});
+    yield put(updateLogisticSuccess({...payload, image}));
+    showMessageSuccess('Cập nhật thành công');
+  } catch (error) {
+    console.log('error: ', error);
+    yield put(updateLogisticFail('ERR_UPDATE_LOGISTIC: at saga'));
+    showMessageFail('Lỗi cập nhật được thông tin dịch vụ vận chuyển.');
+  }
+}
+
+export function* fetchMyLogisticWatcher() {
+  yield takeLatest(FETCH_MY_LOGISTIC, fetchMyLogisticTask);
+}
+
+function* fetchMyLogisticTask() {
   try {
     const {uid} = yield select(state => state.userReducer.userCredential) || {};
     if (uid) {
-      const result = yield firestore()
-        .collection('Logistics')
-        .where('owner.uid', '==', uid)
-        .get();
-      yield put({
-        type: ADD_MY_LOGISTIC,
-        payload: result.docs.map(item => {
-          return {id: item.id, ...item.data()};
-        }),
-      });
+      const result = yield call(fetchMyLogistic, uid);
+      yield put(
+        fetchMyLogisticSuccess(
+          result.docs.map(item => {
+            return {id: item.id, ...item.data()};
+          }),
+        ),
+      );
     }
   } catch (error) {
+    console.log('error: ', error);
+    fetchMyLogisticFail('ERR_FETCH_MY_LOGISTIC: at saga');
     showMessageFail('Lỗi lấy được thông tin dịch vụ vận chuyển');
+  }
+}
+
+export function* deleteLogisticWatcher() {
+  yield takeLatest(DELETE_LOGISTIC, deleteLogisticTask);
+}
+
+function* deleteLogisticTask({payload}) {
+  try {
+    yield call(deleteLogistic, payload);
+    yield put(deleteLogisticSuccess(payload));
+    showMessageSuccess('Xóa thành công');
+  } catch (error) {
+    yield put(deleteLogisticFail('ERR_DELETE_LOGISTIC'));
+    console.log(error);
+    showMessageFail('Lỗi xóa dịch vụ vận chuyển');
   }
 }

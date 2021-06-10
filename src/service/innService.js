@@ -59,7 +59,7 @@ export function fetchDataFromAlgolia({
   count = 0,
   typeOfItem,
   location,
-  maxRadius,
+  maxRadius = 5000,
 }) {
   let filter = '';
   let facetFilter = '';
@@ -132,11 +132,25 @@ export function updateInnInFirebase({isUpdate, ...data}) {
 }
 
 export function createInnInAlgolia({isUpdate, ...data}) {
-  return clientIndex.saveObject({...data});
+  let _geoloc = null;
+  if (data.coordinate) {
+    _geoloc = {
+      lat: data.coordinate.latitude,
+      lng: data.coordinate.longitude,
+    };
+  }
+  return clientIndex.saveObject({...data, _geoloc});
 }
 
 export function updateInnInAlgolia({isUpdate, uid, ...data}) {
-  return clientIndex.saveObject({objectID: uid, ...data});
+  let _geoloc = null;
+  if (data.coordinate) {
+    _geoloc = {
+      lat: data.coordinate.latitude,
+      lng: data.coordinate.longitude,
+    };
+  }
+  return clientIndex.saveObject({objectID: uid, ...data, _geoloc});
 }
 
 export function fetchMyInn({uid}) {

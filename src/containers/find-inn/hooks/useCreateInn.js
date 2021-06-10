@@ -397,7 +397,6 @@ export const useCreateInn = ({data = {}, navigation}) => {
       }
       const city = getCity(inn.innCity);
       const upload_room_images = await uploadImage();
-      console.log('upload_room_images: ', upload_room_images);
 
       const district = city.Districts?.find(
         item => item.Id === inn.innDistrict,
@@ -478,6 +477,7 @@ export const useCreateInn = ({data = {}, navigation}) => {
       navigation.goBack();
     }
   }, [dispatch, data, navigation]);
+
   useEffect(() => {
     if (createInnStatus === status.PENDING) {
       setLoading(true);

@@ -1,27 +1,34 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {navigationName} from '../../../constants/navigation';
-import {fetchLogistic, setLoading} from '../../../store/actions/logisticAction';
+import {fetchLogistic} from '../../../store/actions/logisticAction';
 import {selectRole} from '../../login/selectors';
-import {selectCount, selectIsLoading, selectLogistics} from '../selectors';
+import {
+  selectCount,
+  selectLogistics,
+  selectFetchLogisticsStatus,
+} from '../selectors';
+import {status} from '../../../constants/constants';
 
 export const useLogistic = ({navigation}) => {
   const [isShowFilter, setIsShowFilter] = useState(false);
-  const [filter, setFilter] = useState(true);
+  const [filter, setFilter] = useState({
+    city: {
+      Id: '79',
+      Name: 'Thành phố Hồ Chí Minh',
+    },
+  });
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const logistics = useSelector(selectLogistics);
-  const isLoading = useSelector(selectIsLoading);
+  const {status: fetchLogisticsStatus} = useSelector(
+    selectFetchLogisticsStatus,
+  );
   const count = useSelector(selectCount);
   const role = useSelector(selectRole);
 
   const handlerFetchLogistic = (props = {reload: false}) => {
-    if (isLoading) {
-      return;
-    }
-
-    dispatch(setLoading(true));
     dispatch(fetchLogistic(props));
-    dispatch(setLoading(false));
   };
 
   const filterCallBack = useCallback(value => {
@@ -33,7 +40,7 @@ export const useLogistic = ({navigation}) => {
     navigation.navigate(navigationName.logistic.logisticDetail, {logistic});
   };
 
-  const onFetchInn = (props = {}) => {
+  const onFetchLogistic = (props = {}) => {
     handlerFetchLogistic(props);
   };
 
@@ -49,12 +56,20 @@ export const useLogistic = ({navigation}) => {
   };
 
   useEffect(() => {
-    onFetchInn();
+    onFetchLogistic();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    onFetchInn({
+    if (fetchLogisticsStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [fetchLogisticsStatus]);
+
+  useEffect(() => {
+    onFetchLogistic({
       cityId: filter?.city?.Id,
       districtId: filter?.district?.Id,
       reload: true,
@@ -70,11 +85,11 @@ export const useLogistic = ({navigation}) => {
       onFilterButtonPress,
       onGotoCreateLogistic,
       onGotoMyLogistic,
-      onFetchInn,
+      onFetchLogistic,
     },
     selectors: {
       logistics,
-      isLoading,
+      loading,
       count,
       role,
       isShowFilter,

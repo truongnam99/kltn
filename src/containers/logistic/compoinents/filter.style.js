@@ -12,10 +12,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 8,
   },
-  sliderContainer: {
-    height: 30,
-    marginHorizontal: 10,
-  },
   priceStyle: {
     fontWeight: 'bold',
   },
