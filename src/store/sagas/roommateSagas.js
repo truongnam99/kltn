@@ -13,6 +13,7 @@ import {
   changeRoommateActiveSuccess,
   createRoommateFail,
   createRoommateSuccess,
+  deleteRoommateSuccess,
   fetchMyRoommateFail,
   fetchMyRoommateSuccess,
   fetchRoommateFail,
@@ -39,18 +40,17 @@ export function* fetchRoommateWatcher() {
 
 function* fetchRoommateTask({payload}) {
   try {
+    if (payload.reload) {
+      yield put(reloadRoommate());
+    }
     const {isEnd, last} = yield select(state => state.roommateReducer);
     if (isEnd && !payload.reload) {
       put(resetFetchRoommateStatus());
       return;
     }
-    if (payload.reload) {
-      yield put(reloadRoommate());
-    }
     const result = yield call(fetchRoommate, {...payload, last});
     if (result.docs.length) {
       yield put(setLast(result.docs[result.docs.length - 1]));
-      return;
     }
     if (result.docs.length < payload.limit) {
       yield put(setEnd(true));
@@ -58,15 +58,15 @@ function* fetchRoommateTask({payload}) {
     yield put(
       fetchRoommateSuccess(
         result.docs.map(item => ({
-          id: item.id,
           ...item.data(),
+          id: item.id,
         })),
       ),
     );
   } catch (error) {
-    console.log('error: ', error);
+    console.log(error);
     yield put(fetchRoommateFail('ERR_FETCH_ROOMMATE'));
-    showMessageFail('Không thể lấy dữ liệu bài đăng tìm bạn cùng phòng.');
+    showMessageFail('Không thể lấy dữ liệu bài đăng');
   }
 }
 
@@ -81,8 +81,8 @@ function* fetchMyRoommateTask() {
     yield put(
       fetchMyRoommateSuccess(
         result.docs.map(item => ({
-          id: item.id,
           ...item.data(),
+          id: item.id,
         })),
       ),
     );
@@ -153,6 +153,7 @@ export function* deleteRoommateWatcher() {
 function* deleteRoommateTask({payload}) {
   try {
     yield call(deleteRoommate, payload);
+    yield put(deleteRoommateSuccess(payload));
   } catch (error) {
     console.log('error: ', error);
     yield put(updateRoommateFail('ERR_UPDATE_ROOMMATE'));

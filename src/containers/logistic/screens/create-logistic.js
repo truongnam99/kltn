@@ -53,7 +53,6 @@ const CreateLogistic = ({route, navigation}) => {
       <ImagePicker
         quality={0.2}
         onChangeImages={value => {
-          console.log('ddddddd');
           handleSetLogistic('images', value);
         }}
         defaultImages={logistic.images}

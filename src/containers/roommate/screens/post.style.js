@@ -43,4 +43,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  containerStyle: {
+    marginBottom: 8,
+  },
+  titleStyle: {
+    marginBottom: 0,
+    fontSize: 16,
+  },
+  fontSize: {
+    fontSize: 16,
+  },
 });

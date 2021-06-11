@@ -1,4 +1,4 @@
-import produce from 'immer';
+import {produce} from 'immer';
 import {status} from '../../constants/constants';
 import {
   ROOMMATE_SET_END,
@@ -22,6 +22,10 @@ import {
   CHANGE_ROOMMATE_ACTIVE,
   CHANGE_ROOMMATE_ACTIVE_SUCCESS,
   CHANGE_ROOMMATE_ACTIVE_FAIL,
+  RESET_CREATE_ROOMMATE_STATUS,
+  RESET_FETCH_ROOMMATE_STATUS,
+  RESET_UPDATE_ROOMMATE_STATUS,
+  RESET_DELETE_ROOMMATE_STATUS,
 } from '../actions/types';
 
 const initialState = {
@@ -66,7 +70,7 @@ const roommateReducer = (state = initialState, {type, payload}) =>
       case FETCH_ROOMMATE_SUCCESS:
         draft.fetchRoommate.status = status.SUCCESS;
         draft.fetchRoommate.message = '';
-        draft.roommates = [...draft.roommates, payload];
+        draft.roommates = [...draft.roommates, ...payload];
         break;
       case FETCH_ROOMMATE_FAIL:
         draft.fetchRoommate.status = status.FAIL;
@@ -110,13 +114,13 @@ const roommateReducer = (state = initialState, {type, payload}) =>
         draft.updateRoommate.status = status.SUCCESS;
         draft.updateRoommate.message = '';
         draft.roommates = produce(draft.roommates, d => {
-          const index = d.find(item => item.id === payload.id);
+          const index = d.findIndex(item => item.id === payload.id);
           if (index !== -1) {
             d[index] = payload;
           }
         });
         draft.myRoommates = produce(draft.myRoommates, d => {
-          const index = d.find(item => item.id === payload.id);
+          const index = d.findIndex(item => item.id === payload.id);
           if (index !== -1) {
             d[index] = payload;
           }
@@ -152,13 +156,13 @@ const roommateReducer = (state = initialState, {type, payload}) =>
         draft.changeRoommateActive.status = status.SUCCESS;
         draft.changeRoommateActive.message = '';
         draft.roommates = produce(draft.roommates, d => {
-          const index = d.find(item => item.id === payload.id);
+          const index = d.findIndex(item => item.id === payload.id);
           if (index !== -1) {
             d[index].isActive = payload.isActive;
           }
         });
         draft.myRoommates = produce(draft.myRoommates, d => {
-          const index = d.find(item => item.id === payload.id);
+          const index = d.findIndex(item => item.id === payload.id);
           if (index !== -1) {
             d[index].isActive = payload.isActive;
           }
@@ -167,6 +171,23 @@ const roommateReducer = (state = initialState, {type, payload}) =>
       case CHANGE_ROOMMATE_ACTIVE_FAIL:
         draft.changeRoommateActive.status = status.FAIL;
         draft.changeRoommateActive.message = payload;
+        break;
+
+      case RESET_FETCH_ROOMMATE_STATUS:
+        draft.fetchRoommate.status = '';
+        draft.fetchRoommate.message = '';
+        break;
+      case RESET_CREATE_ROOMMATE_STATUS:
+        draft.createRoommate.status = '';
+        draft.createRoommate.message = '';
+        break;
+      case RESET_UPDATE_ROOMMATE_STATUS:
+        draft.updateRoommate.status = '';
+        draft.updateRoommate.message = '';
+        break;
+      case RESET_DELETE_ROOMMATE_STATUS:
+        draft.deleteRoommate.status = '';
+        draft.deleteRoommate.message = '';
         break;
 
       case ROOMMATE_SET_END:

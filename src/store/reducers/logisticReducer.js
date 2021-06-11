@@ -112,11 +112,15 @@ const logisticReducer = (state = initialState, {type, payload}) => {
         draft.updateLogistic.message = '';
         draft.logistics = produce(draft.logistics, d => {
           const index = d.findIndex(item => item.id === payload.id);
-          d[index] = payload;
+          if (index !== -1) {
+            d[index] = payload;
+          }
         });
         draft.myLogistics = produce(draft.myLogistics, d => {
           const index = d.findIndex(item => item.id === payload.id);
-          d[index] = payload;
+          if (index !== -1) {
+            d[index] = payload;
+          }
         });
         break;
       case UPDATE_LOGISTIC_FAIL:

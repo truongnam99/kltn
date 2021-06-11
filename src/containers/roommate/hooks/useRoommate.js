@@ -29,12 +29,13 @@ const useHook = ({navigation}) => {
   const filterCallBack = useCallback(
     value => {
       setIsShowFilter(false);
+      setFilter(value);
       handleFetchRoommate({
         reload: true,
+        ...value,
         cityId: value.city?.Id,
         districtId: value.district?.Id,
       });
-      setFilter(value);
     },
     [handleFetchRoommate],
   );
@@ -56,13 +57,6 @@ const useHook = ({navigation}) => {
     }
   }, [fetchRoommateStatus]);
 
-  const onLoadmore = useCallback(() => {
-    handleFetchRoommate({
-      cityId: filter?.city?.Id,
-      districtId: filter?.district?.Id,
-    });
-  }, [handleFetchRoommate, filter]);
-
   const handleFoundRoommate = useCallback(
     (id, isActive) => {
       dispatch(changeRoommateActive({id, isActive}));
@@ -72,20 +66,38 @@ const useHook = ({navigation}) => {
 
   const handleFetchRoommate = useCallback(
     (props = {reload: false}) => {
-      dispatch(fetchRoommate(props));
+      dispatch(
+        fetchRoommate({
+          cityId: filter?.city?.Id,
+          districtId: filter?.district?.Id,
+          gender: filter?.gender,
+          job: filter?.job,
+          ...props,
+        }),
+      );
     },
-    [dispatch],
+    [dispatch, filter],
+  );
+
+  const onGotoUpdateRoommate = useCallback(
+    data => {
+      console.log('data: ', data);
+      navigation.navigate(navigationName.roommate.post, {
+        data,
+      });
+    },
+    [navigation],
   );
 
   return {
     handlers: {
       onFilterButtonPress,
-      onLoadmore,
       onOpenPost,
       onGetPosted,
       filterCallBack,
       handleFetchRoommate,
       handleFoundRoommate,
+      onGotoUpdateRoommate,
     },
     selectors: {
       roommates,

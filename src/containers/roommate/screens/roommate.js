@@ -17,26 +17,39 @@ import {
 } from '../../../components/filter/filter';
 import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
 import {activeOpacity} from '../../../components/shared';
+import {getGender, getJob} from '../../../constants/constants';
 
 const Roommate = ({navigation}) => {
   const {selectors, handlers} = useRoommate({navigation});
   const {roommates, userInfo, loading, isShowFilter, filter} = selectors;
   const {
     onFilterButtonPress,
-    onLoadmore,
     onOpenPost,
     onGetPosted,
     filterCallBack,
     handleFoundRoommate,
+    onGotoUpdateRoommate,
+    handleFetchRoommate,
   } = handlers;
 
   const _renderFilter = () => {
     const filterItems = [];
-    if (filter?.city?.Name) {
+    const {city, district, job, gender} = filter || {};
+    if (city?.Name) {
       filterItems.push(shortenCityName(filter.city.Name));
     }
-    if (filter?.district?.Name) {
+    if (district?.Name) {
       filterItems.push(shortenDistrictName(filter.district.Name));
+    }
+    if (!job) {
+      const jobText = getJob(job);
+      if (jobText) {
+        filterItems.push(jobText);
+      }
+    }
+    const genderText = getGender(gender);
+    if (genderText) {
+      filterItems.push(genderText);
     }
     return filterItems.map((value, index) => (
       <ItemFilter value={value} key={index} />
@@ -75,24 +88,26 @@ const Roommate = ({navigation}) => {
               userInfo={userInfo}
               onFoundRoommate={handleFoundRoommate}
               navigation={navigation}
+              onUpdate={onGotoUpdateRoommate}
+              item={item.item}
             />
           </View>
         )}
         ListFooterComponent={<FooterListComponent isLoading={loading} />}
-        onEndReached={onLoadmore}
+        onEndReached={handleFetchRoommate}
         onEndReachedThreshold={100}
-        ListEmptyComponent={ListEmptyComponent}
+        ListEmptyComponent={<ListEmptyComponent loading={loading} />}
       />
-      {userInfo.role === 0 && (
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButtonItem title="New" onPress={onOpenPost}>
-            <Ionicons name="md-create" style={styles.actionButtonIcon} />
-          </ActionButtonItem>
-          <ActionButtonItem title="Posted" onPress={onGetPosted}>
-            <Ionicons name="list" style={styles.actionButtonIcon} />
-          </ActionButtonItem>
-        </ActionButton>
-      )}
+      {/* {userInfo.role === 0 && ( */}
+      <ActionButton buttonColor="rgba(231,76,60,1)">
+        <ActionButtonItem title="Tạo" onPress={onOpenPost}>
+          <Ionicons name="md-create" style={styles.actionButtonIcon} />
+        </ActionButtonItem>
+        <ActionButtonItem title="Bài đã đăng" onPress={onGetPosted}>
+          <Ionicons name="list" style={styles.actionButtonIcon} />
+        </ActionButtonItem>
+      </ActionButton>
+      {/* )} */}
 
       <Filter
         isShow={isShowFilter}

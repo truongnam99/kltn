@@ -8,8 +8,7 @@ import {
   createRoommate,
   updateRoommate,
 } from '../../../store/actions/roommateAction';
-import province from '../../../constants/provice.json';
-import {formatString, unFormatString} from '../../../utils/utils';
+import {formatString, getCity, unFormatString} from '../../../utils/utils';
 import {selectUserInfo} from '../../login/selectors';
 import {
   selectCreateRoommateStatus,
@@ -19,15 +18,18 @@ import {
 import {status} from '../../../constants/constants';
 
 const usePostHook = ({data = {}, navigation}) => {
-  const [showInnInfo, setShowInnInfo] = useState(false);
+  const [showInnInfo, setShowInnInfo] = useState(data.haveInnContent || false);
   const [roommate, setRoommate] = useState(
     data.id
       ? {
           ...data,
+          city: data.city?.Id,
+          district: data.district?.Id,
           innPrice: formatString(data.innPrice, 'currency'),
           innWaterPrice: formatString(data.innWaterPrice, 'currency'),
           innElectricPrice: formatString(data.innElectricPrice, 'currency'),
           innDeposit: formatString(data.innDeposit, 'currency'),
+          innArea: formatString(data.innArea, 'currency'),
         }
       : {
           content: '',
@@ -39,19 +41,13 @@ const usePostHook = ({data = {}, navigation}) => {
           innElectricPrice: null,
           innArea: null,
           innDeposit: null,
-          city: {
-            Id: '79',
-            Name: 'Thành phố Hồ Chí Minh',
-          },
-          district: {Id: '', Name: ''},
+          city: '79',
+          district: null,
+          job: 0,
+          gender: 0,
+          age: [20, 30],
         },
   );
-  const [additionalInfo, setAdditionalInfo] = useState({
-    job: 0,
-    gender: 0,
-    age: [20, 30],
-  });
-  const [districts, setDistricts] = useState([]);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -70,10 +66,18 @@ const usePostHook = ({data = {}, navigation}) => {
 
   const handleSetRoommate = useCallback((value, field) => {
     setRoommate(preState => {
-      return {
-        ...preState,
-        [field]: value,
-      };
+      if (field === 'city' && value !== preState.city) {
+        return {
+          ...preState,
+          city: value,
+          district: null,
+        };
+      } else {
+        return {
+          ...preState,
+          [field]: value,
+        };
+      }
     });
   }, []);
 
@@ -166,59 +170,54 @@ const usePostHook = ({data = {}, navigation}) => {
 
   const onChangeCity = useCallback(
     value => {
-      handleSetRoommate(
-        {
-          Id: value.key,
-          Name: value.value,
-        },
-        'city',
-      );
+      const city = value();
+      handleSetRoommate(city, 'city');
     },
     [handleSetRoommate],
   );
 
   const onChangeDistrict = useCallback(
     value => {
-      handleSetRoommate(
-        {
-          Id: value.key,
-          Name: value.value,
-        },
-        'district',
-      );
+      const district = value();
+      handleSetRoommate(district, 'district');
     },
     [handleSetRoommate],
   );
 
-  const onSelectJob = useCallback(value => {
-    setAdditionalInfo(pre => ({
-      ...pre,
-      job: value,
-    }));
-  }, []);
+  const onSelectJob = useCallback(
+    value => {
+      handleSetRoommate(value, 'job');
+    },
+    [handleSetRoommate],
+  );
 
-  const onSelectGender = useCallback(value => {
-    setAdditionalInfo(pre => ({
-      ...pre,
-      gender: value,
-    }));
-  }, []);
+  const onSelectGender = useCallback(
+    value => {
+      handleSetRoommate(value, 'gender');
+    },
+    [handleSetRoommate],
+  );
 
-  const onAgeChange = useCallback(values => {
-    setAdditionalInfo(pre => ({
-      ...pre,
-      age: values,
-    }));
-  }, []);
+  const onAgeChange = useCallback(
+    values => {
+      handleSetRoommate(values, 'age');
+    },
+    [handleSetRoommate],
+  );
 
   const onPost = useCallback(() => {
+    const {Districts, ...city} = getCity(roommate.city) || {};
+    const {Wards, ...district} =
+      Districts?.find(item => item.Id === roommate.district) || {};
     let payload = {
       content: roommate.content,
       haveInnContent: showInnInfo,
       isActive: true,
-      district: roommate.district,
-      city: roommate.city,
-      ...additionalInfo,
+      district,
+      city,
+      job: roommate.job,
+      gender: roommate.gender,
+      age: roommate.age,
       owner: {
         ...userInfo,
       },
@@ -232,16 +231,16 @@ const usePostHook = ({data = {}, navigation}) => {
         innAddress: roommate.innAddress,
         innWaterPrice: unFormatString(roommate.innWaterPrice, 'currency'),
         innElectricPrice: unFormatString(roommate.innElectricPrice, 'currency'),
-        innArea: roommate.innArea,
+        innArea: unFormatString(roommate.innArea, 'currency'),
         innDeposit: unFormatString(roommate.innDeposit, 'currency'),
       };
     }
     if (roommate.id) {
-      dispatch(updateRoommate(payload));
+      dispatch(updateRoommate({id: roommate.id, ...payload}));
     } else {
       dispatch(createRoommate(payload));
     }
-  }, [userInfo, roommate, additionalInfo, showInnInfo, dispatch]);
+  }, [userInfo, roommate, showInnInfo, dispatch]);
 
   const onDeleteRoommate = useCallback(() => {
     setShowDeleteConfirmModal(true);
@@ -255,30 +254,6 @@ const usePostHook = ({data = {}, navigation}) => {
     setShowDeleteConfirmModal(false);
     dispatch(deleteRoommate(data.id));
   }, [dispatch, data]);
-
-  useEffect(() => {
-    if (!roommate.city.Id) {
-      return;
-    }
-
-    setDistricts(
-      province
-        .find(item => item.Id === roommate.city.Id)
-        .Districts.map(dt => {
-          return {
-            key: dt.Id,
-            value: dt.Name,
-          };
-        }),
-    );
-  }, [roommate.city]);
-
-  useEffect(() => {
-    if (!districts.length) {
-      return;
-    }
-    handleSetRoommate(districts[0], 'district');
-  }, [districts, handleSetRoommate]);
 
   useEffect(() => {
     if (
@@ -307,8 +282,9 @@ const usePostHook = ({data = {}, navigation}) => {
     }
     if (deleteRoommateStatus === status.SUCCESS) {
       dispatch(resetDeleteRoommateStatus());
+      navigation.goBack();
     }
-  }, [deleteRoommateStatus, dispatch]);
+  }, [deleteRoommateStatus, navigation, dispatch]);
 
   return {
     handlers: {
@@ -335,12 +311,10 @@ const usePostHook = ({data = {}, navigation}) => {
     selectors: {
       showDeleteConfirmModal,
       roommate,
-      additionalInfo,
       showInnInfo,
       userInfo,
       loading,
       deleteLoading,
-      districts,
     },
   };
 };

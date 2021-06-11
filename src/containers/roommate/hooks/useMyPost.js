@@ -4,7 +4,7 @@ import {
   changeRoommateActive,
   fetchMyRoommate,
 } from '../../../store/actions/roommateAction';
-import {selectFetchMyRoommateStatus, selectMyPosts} from '../selectors';
+import {selectFetchMyRoommateStatus, selectMyRoommates} from '../selectors';
 import {selectUserInfo} from '../../login/selectors';
 import {status} from '../../../constants/constants';
 import {navigationName} from '../../../constants/navigation';
@@ -12,7 +12,7 @@ import {navigationName} from '../../../constants/navigation';
 export const useMyPost = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const posts = useSelector(selectMyPosts);
+  const posts = useSelector(selectMyRoommates);
   const userInfo = useSelector(selectUserInfo);
   const {status: fetchMyRoommateStatus} = useSelector(
     selectFetchMyRoommateStatus,
@@ -39,7 +39,7 @@ export const useMyPost = ({navigation}) => {
 
   const handleFoundRoommate = useCallback(
     (id, isActive) => {
-      dispatch(changeRoommateActive(id, isActive));
+      dispatch(changeRoommateActive({id, isActive}));
     },
     [dispatch],
   );

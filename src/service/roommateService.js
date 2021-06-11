@@ -1,16 +1,29 @@
 import firestore from '@react-native-firebase/firestore';
 
-export function fetchRoommate({limit = 10, cityId, districtId, last}) {
+export function fetchRoommate({
+  limit = 10,
+  cityId,
+  districtId,
+  last,
+  gender,
+  job,
+}) {
   let query = firestore().collection('Roommates').where('isActive', '==', true);
 
   if (last) {
     query = query.startAfter(last);
   }
   if (cityId) {
-    query = query.where('city.Id', '==', cityId);
+    query = query.where('city.Id', '==', cityId + '');
   }
   if (districtId) {
-    query = query.where('district.Id', '==', districtId);
+    query = query.where('district.Id', '==', districtId + '');
+  }
+  if (gender !== undefined && gender !== null) {
+    query = query.where('gender', '==', gender);
+  }
+  if (job) {
+    query = query.where('job', '==', job);
   }
   return query.limit(limit).get();
 }

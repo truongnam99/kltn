@@ -14,6 +14,7 @@ const BasePicker = ({
   required,
   listItemLabelStyle,
   textStyle,
+  titleStyle,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -22,7 +23,7 @@ const BasePicker = ({
   };
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>
+      <Text style={[styles.title, titleStyle]}>
         {title}
         {required && <Text style={styles.required}>*</Text>}
       </Text>
