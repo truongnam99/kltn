@@ -18,6 +18,7 @@ export const useInn = ({navigation}) => {
       Id: '79',
       Name: 'TP. Hồ Chí Minh',
     },
+    maxRadius: 5000,
   });
   const [location, setLocation] = useState(null);
 
@@ -72,9 +73,13 @@ export const useInn = ({navigation}) => {
     setIsShowFilter(!isShowFilter);
   }, [isShowFilter]);
 
-  const onChangeLocation = useCallback(value => {
-    setLocation(value);
-  }, []);
+  const onChangeLocation = useCallback(
+    value => {
+      setLocation(value);
+      onFetchInn({location: value, reload: true});
+    },
+    [onFetchInn],
+  );
 
   const handleFetchInn = useCallback(
     payload => {

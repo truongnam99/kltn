@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
     width: '100%',
-    backgroundColor: '#F2F2F28A',
+    backgroundColor: '#F2F2F2D6',
     paddingVertical: 4,
   },
 });

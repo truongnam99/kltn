@@ -165,9 +165,10 @@ const FindInn = ({navigation}) => {
         typeOfItem={typeOfItem}
         location={location}
         onChooseLocation={onChangeLocation}
+        radius={filter?.maxRadius}
       />
     );
-  }, [inns, typeOfItem, location, onViewDetail, onChangeLocation]);
+  }, [inns, typeOfItem, location, onViewDetail, onChangeLocation, filter]);
 
   const _renderItem = useCallback(() => {
     switch (typeOfItem) {

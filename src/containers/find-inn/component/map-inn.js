@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import MapView, {Marker as MapMarker} from 'react-native-maps';
+import MapView, {Circle, Marker as MapMarker} from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
 
@@ -24,10 +24,12 @@ const MapInn = ({
   location,
   onChooseLocation = () => console.log('implement onChooseLocation'),
   typeOfItem,
+  radius = 5000,
   ...props
 }) => {
   const [inn, setInn] = useState(null);
   const [showInnContainer, setShowInnContainer] = useState(false);
+  console.log('showInnContainer: ', showInnContainer);
   const innContainerRef = useRef(null);
   const preShowInnContainer = usePrevious(showInnContainer);
 
@@ -36,6 +38,7 @@ const MapInn = ({
   }, []);
 
   const _renderInnContainer = useCallback(() => {
+    console.log('inn: ', showInnContainer, preShowInnContainer);
     if (!inn) {
       return null;
     }
@@ -110,7 +113,9 @@ const MapInn = ({
                 coordinate={item.coordinate}
                 title={item.room_name}
                 description={shortenPrice(item.room_price)}
-                onPress={() => onMakerPress(item)}
+                onPress={() => {
+                  onMakerPress(item);
+                }}
               />
             );
           })}
@@ -122,13 +127,23 @@ const MapInn = ({
     if (!location) {
       return null;
     }
-    return <MapMarker coordinate={location} pinColor={lightTheme.primary} />;
-  }, [location]);
+    return (
+      <>
+        <Circle
+          radius={radius}
+          center={location}
+          fillColor="#5eba7d46"
+          strokeWidth={0}
+        />
+        <MapMarker coordinate={location} pinColor={lightTheme.primary} />
+      </>
+    );
+  }, [location, radius]);
 
   return (
     <View style={styles.container}>
       <View style={styles.hint}>
-        <Text>Chọn một điểm và áp dụng phạm vi tìm kiếm để tìm kiếm trọ</Text>
+        <Text>Chọn địa điểm để tìm kiếm</Text>
       </View>
       <MapView
         style={styles.mapView}

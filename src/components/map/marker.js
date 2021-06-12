@@ -11,10 +11,10 @@ const MapMarker = ({title, description, coordinate, onPress, ...props}) => {
     }
     return (
       <View style={styles.container}>
-        <Text numberOfLines={1} style={styles.mw100}>
+        <Text numberOfLines={1} style={[styles.mw100, styles.font]}>
           {title}
         </Text>
-        <Text types="italic,h0">{description}</Text>
+        <Text style={styles.font}>{description}</Text>
       </View>
     );
   }, [title, description]);
@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mw100: {
-    maxWidth: 120,
+    maxWidth: 100,
+  },
+  font: {
+    fontSize: 12,
   },
 });

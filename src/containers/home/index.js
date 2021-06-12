@@ -22,20 +22,6 @@ const Home = props => {
         activeBackgroundColor: '#f4f4f4',
       }}>
       <Tab.Screen
-        name={navigationName.home.roommate}
-        component={RoommateContainer}
-        options={{
-          tabBarIcon: attributes => (
-            <MaterialIcons
-              name="group-add"
-              {...attributes}
-              size={32}
-              color={lightTheme.primary}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name={navigationName.home.inn}
         component={FinnInnContainer}
         options={{
@@ -63,7 +49,20 @@ const Home = props => {
           ),
         }}
       />
-
+      <Tab.Screen
+        name={navigationName.home.roommate}
+        component={RoommateContainer}
+        options={{
+          tabBarIcon: attributes => (
+            <MaterialIcons
+              name="group-add"
+              {...attributes}
+              size={32}
+              color={lightTheme.primary}
+            />
+          ),
+        }}
+      />
       <Tab.Screen
         name={navigationName.home.houseware}
         component={HousewareContainer}
