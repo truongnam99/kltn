@@ -32,9 +32,9 @@ export default function FinnInnContainer() {
       <HomeStack.Screen
         name={navigationName.findInn.createInn}
         component={CreateInn}
-        options={{
-          headerTitle: translate.inn.createInn,
-        }}
+        options={({route}) => ({
+          title: route.params?.data ? 'Cập nhật trọ' : 'Tạo Trọ',
+        })}
       />
       <HomeStack.Screen
         name={navigationName.findInn.myInn}

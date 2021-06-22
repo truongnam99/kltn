@@ -23,9 +23,9 @@ export default function RoommateContainer() {
       <RoommateStack.Screen
         name={navigationName.roommate.post}
         component={Post}
-        options={{
-          headerTitle: translate.roommate.post,
-        }}
+        options={({route}) => ({
+          title: route.params?.data ? 'Cập nhật bài viết' : 'Tạo bài viết',
+        })}
       />
       <RoommateStack.Screen
         name={navigationName.roommate.myPost}

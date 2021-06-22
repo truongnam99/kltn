@@ -81,7 +81,6 @@ const useHook = ({navigation}) => {
 
   const onGotoUpdateRoommate = useCallback(
     data => {
-      console.log('data: ', data);
       navigation.navigate(navigationName.roommate.post, {
         data,
       });

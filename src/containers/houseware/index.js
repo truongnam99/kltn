@@ -23,10 +23,9 @@ const HousewareContainer = () => {
       <HousewareStack.Screen
         name={navigationName.houseware.createHouseware}
         component={CreateHouseware}
-        options={{
-          headerTitle: translate.houseware.createHouseware,
-          tabBar: null,
-        }}
+        options={({route}) => ({
+          title: route.params?.data ? 'Cập nhật bài viết' : 'Tạo bài viết',
+        })}
       />
       <HousewareStack.Screen
         name={navigationName.houseware.myHouseware}
