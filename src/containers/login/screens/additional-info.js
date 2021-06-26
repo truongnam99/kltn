@@ -194,6 +194,7 @@ const AdditionalInfo = ({navigation}) => {
           setValue={value => onUpdateUserInfo(value, 'gender')}
           title={translate.gender}
           pickerContainerStype={styles.pickerContainerStype}
+          titleStyle={[styles.titleStyle, styles.marginTop]}
           required={true}
         />
         <BasePicker
@@ -203,6 +204,7 @@ const AdditionalInfo = ({navigation}) => {
           title={translate.homeTown}
           setValue={value => onUpdateUserInfo(value, 'homeTown')}
           pickerContainerStype={styles.pickerContainerStype}
+          titleStyle={styles.titleStyle}
           required={true}
         />
         <BasePicker
@@ -211,6 +213,7 @@ const AdditionalInfo = ({navigation}) => {
           items={profileJobs}
           value={userInfo.job}
           pickerContainerStype={styles.pickerContainerStype}
+          titleStyle={styles.titleStyle}
           setValue={value => onUpdateUserInfo(value, 'job')}
           required={true}
         />
@@ -220,6 +223,7 @@ const AdditionalInfo = ({navigation}) => {
           items={role}
           value={userInfo.role}
           pickerContainerStype={styles.pickerContainerStype}
+          titleStyle={styles.titleStyle}
           setValue={value => onUpdateUserInfo(value, 'role')}
           required={true}
         />

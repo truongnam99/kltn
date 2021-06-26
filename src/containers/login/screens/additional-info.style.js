@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     paddingTop: 10,
     paddingHorizontal: 20,
+    backgroundColor: 'white',
   },
   changeAvatar: {
     marginTop: 6,
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
   pickerContainerStype: {
     borderRadius: 6,
     borderWidth: 1,
+    height: 38,
   },
   textInputStyle: {
     textAlignVertical: 'center',
@@ -49,6 +51,10 @@ const styles = StyleSheet.create({
   },
   require: {
     color: 'red',
+  },
+  titleStyle: {
+    fontSize: 16,
+    marginBottom: 3,
   },
 });
 

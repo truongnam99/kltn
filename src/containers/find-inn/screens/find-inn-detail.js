@@ -1,12 +1,11 @@
 import React from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FastImage from 'react-native-fast-image';
 
 import {ImageView, Text} from '../../../components/index';
+import Image from '../../../components/image/image';
 import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
-import {noImage} from '../../../constants/string';
 import {activeOpacity} from '../../../components/shared';
 import styles from './find-inn-detail.style';
 
@@ -47,15 +46,11 @@ const FindInnDetail = ({route, navigation}) => {
         )}
         <View style={styles.detailContainer}>
           <View style={[styles.primaryContainer, styles.row, styles.alignEnd]}>
-            <FastImage
-              source={{
-                uri: inn.created_by?.photoURL
-                  ? inn.created_by.photoURL
-                  : noImage,
-              }}
+            <Image
+              image={inn.created_by?.photoURL}
               style={styles.avatar}
+              isAvata={true}
             />
-
             <Text style={[styles.fontSize16, styles.fz16, styles.ml6]}>
               {inn.created_by?.displayName}
             </Text>

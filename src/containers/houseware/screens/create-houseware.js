@@ -86,6 +86,7 @@ export const CreateHouseware = ({navigation, route}) => {
             key={index}
             onChangeValue={onItemChangeValue}
             index={index}
+            itemPassed={item}
           />
         </>
       ))}

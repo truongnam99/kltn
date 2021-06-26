@@ -75,6 +75,24 @@ const styles = StyleSheet.create({
   mr6: {
     marginRight: space3,
   },
+  searchResultContainer: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    width: '80%',
+    paddingTop: 8,
+    paddingHorizontal: 10,
+    elevation: 10,
+    marginTop: 45,
+    marginLeft: 16,
+    borderRadius: 6,
+  },
+  searchItem: {
+    marginBottom: 6,
+    paddingVertical: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E4E4E4',
+  },
 });
 
 export default styles;

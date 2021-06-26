@@ -85,8 +85,7 @@ export const getDistricts = cityId => {
           value: d.Id,
           label: d.Name,
         };
-      })
-      .sort((a, b) => (a.label > b.label ? 1 : -1)),
+      }),
   ];
 };
 

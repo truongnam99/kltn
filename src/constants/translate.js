@@ -41,7 +41,7 @@ const translate = {
   price: 'Giá',
   addHouseware: 'Thêm món hàng.',
   inn: {
-    myInn: 'Trọ của đã đăng',
+    myInn: 'Trọ đã đăng',
     createInn: 'Đăng thông tin trọ',
   },
   logistic: {

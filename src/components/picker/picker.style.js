@@ -56,7 +56,9 @@ export const dropdownStyles = StyleSheet.create({
   modalContentContainerStyle: {
     marginHorizontal: 50,
     backgroundColor: 'white',
-    marginVertical: 250,
+    height: 250,
+    flexGrow: 0.5,
+    marginTop: 150,
     elevation: 3,
     borderRadius: 6,
   },

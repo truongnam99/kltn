@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import Slider from '@ptomasroos/react-native-multi-slider';
 import * as Animatable from 'react-native-animatable';
 
@@ -135,17 +135,19 @@ const Filter = ({
       animation={fadeDownIn}
       duration={350}
       style={StyleSheet.flatten([styles.container, styleContainer])}>
-      <CityPicker
-        value={city}
-        setValue={onSetCity}
-        containerStyle={[styles.picker, styles.marginBottom]}
-      />
-      <DistrictPicker
-        value={district}
-        setValue={onSetDistrict}
-        containerStyle={[styles.picker, styles.marginBottom]}
-        cityId={city}
-      />
+      <KeyboardAvoidingView>
+        <CityPicker
+          value={city}
+          setValue={onSetCity}
+          containerStyle={[styles.picker, styles.marginBottom]}
+        />
+        <DistrictPicker
+          value={district}
+          setValue={onSetDistrict}
+          containerStyle={[styles.picker, styles.marginBottom]}
+          cityId={city}
+        />
+      </KeyboardAvoidingView>
       {showPricePicker && (
         <View style={styles.marginBottom}>
           <Text>

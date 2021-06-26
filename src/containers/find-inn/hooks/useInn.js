@@ -1,12 +1,15 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import debounce from 'lodash/debounce';
+import {MAP_BOX_ACCESS_TOKEN} from '../../../config/index';
 import {changeMessage} from '../../../store/actions/messageAction';
 import {fetchInn} from '../../../store/actions/innAction';
 import {selectUserInfo} from '../../../containers/login/selectors';
 import {navigationName} from '../../../constants/navigation';
 import {selectInns, selectCount, selectFetchInnStatus} from '../selectors';
 import {status} from '../../../constants/constants';
+import {showMessageFail} from '../../../utils/utils';
 
 export const useInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
@@ -21,7 +24,7 @@ export const useInn = ({navigation}) => {
     maxRadius: 5000,
   });
   const [location, setLocation] = useState(null);
-
+  const [listPlaces, setListPlaces] = useState([]);
   const {uid, role} = useSelector(selectUserInfo) || {};
   const inns = useSelector(selectInns);
   const count = useSelector(selectCount);
@@ -65,6 +68,11 @@ export const useInn = ({navigation}) => {
     navigation.navigate(navigationName.findInn.myInn);
   };
 
+  const onItemSearchPress = useCallback(value => {
+    setLocation(value.coordinate);
+    setListPlaces([]);
+  }, []);
+
   const onHeaderChangeText = useCallback(value => {
     setHeaderText(value);
   }, []);
@@ -105,10 +113,47 @@ export const useInn = ({navigation}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const delaySearch = useCallback(
+    debounce(() => {
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURI(
+        headerText,
+      )}.json?access_token=${MAP_BOX_ACCESS_TOKEN}&country=vn`;
+      fetch(url)
+        .then(result => result.json())
+        .then(data => {
+          const {features} = data;
+          setListPlaces(
+            features.map(item => ({
+              id: item.id,
+              name: item.place_name,
+              coordinate: {
+                longitude: item.geometry.coordinates[0],
+                latitude: item.geometry.coordinates[1],
+              },
+              type: item.geometry.type,
+            })),
+          );
+        })
+        .catch(error => {
+          showMessageFail('Lỗi search địa điểm. Vui lòng chọn ở map');
+        });
+    }, 1000),
+    [headerText],
+  );
+
+  useEffect(() => {
+    if (typeOfItem === 'map') {
+      if (headerText) {
+        delaySearch();
+        return delaySearch.cancel;
+      }
+    }
+  }, [headerText, delaySearch]);
+
   useEffect(() => {
     onFetchInn({reload: true});
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  }, [filter, location]);
 
   useEffect(() => {
     if (fetchInnStatus === status.PENDING) {
@@ -142,8 +187,10 @@ export const useInn = ({navigation}) => {
       onGotoCreateInn,
       onGotoMyInn,
       onChangeLocation,
+      onItemSearchPress,
     },
     selectors: {
+      listPlaces,
       inns,
       count,
       role,

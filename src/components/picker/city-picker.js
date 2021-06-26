@@ -35,7 +35,6 @@ const CityPicker = ({
         style={[styles.container, pickerContainerStype]}
         translation={translate.cityPicker}
         value={value}
-        searchable={false}
         setValue={
           validate
             ? v => {

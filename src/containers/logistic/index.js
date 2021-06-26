@@ -32,9 +32,18 @@ const LogisticContainer = () => {
       <LogisticStack.Screen
         name={navigationName.logistic.createLogistic}
         component={CreateLogistic}
-        options={({route}) => ({
-          title: route.params?.data ? 'Cập nhật dịch vụ' : 'Tạo dịch vụ',
-        })}
+        options={({route}) =>
+          route.params?.data
+            ? {
+                title: 'Cập nhật dịch vụ vận chuyển',
+                headerTitleStyle: {
+                  fontSize: 17,
+                },
+              }
+            : {
+                title: 'Tạo dịch vụ vận chuyển',
+              }
+        }
       />
       <LogisticStack.Screen
         name={navigationName.logistic.myLogistic}

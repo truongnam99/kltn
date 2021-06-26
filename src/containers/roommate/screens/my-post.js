@@ -11,27 +11,24 @@ export const MyPost = ({navigation}) => {
   const {handleFoundRoommate, onGotoCreateRoommate} = handlers;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.itemContainer}>
-        <FlatList
-          data={posts}
-          keyExtractor={(item, index) => index}
-          renderItem={item => (
-            <View style={styles.itemStyle}>
-              <CartItem
-                {...item.item}
-                userInfo={userInfo}
-                showIsActive={true}
-                onFoundRoommate={handleFoundRoommate}
-                onUpdate={onGotoCreateRoommate}
-                item={item.item}
-              />
-            </View>
-          )}
-          ListFooterComponent={<FooterListComponent isLoading={loading} />}
-          ListEmptyComponent={<ListEmptyComponent loading={loading} />}
-        />
-      </View>
-    </View>
+    <FlatList
+      data={posts}
+      keyExtractor={(item, index) => index}
+      renderItem={item => (
+        <View style={styles.itemStyle}>
+          <CartItem
+            {...item.item}
+            userInfo={userInfo}
+            showIsActive={true}
+            onFoundRoommate={handleFoundRoommate}
+            onUpdate={onGotoCreateRoommate}
+            item={item.item}
+          />
+        </View>
+      )}
+      ListFooterComponent={<FooterListComponent isLoading={loading} />}
+      ListEmptyComponent={<ListEmptyComponent loading={loading} />}
+      style={styles.flastList}
+    />
   );
 };

@@ -8,6 +8,11 @@ export const SET_CONFIRM_CODE = 'login/SET_CONFIRM_CODE';
 export const SET_USER = 'user/SET_USER';
 export const SET_USER_CREDENTIAL = 'user/SET_USER_CREDENTIAL';
 export const CREATE_USER = 'user/CREATE_USER';
+export const LOGOUT = 'user/LOGOUT';
+export const UPDATE_USER = 'user/UPDATE_USER';
+export const UPDATE_USER_SUCCESS = 'user/UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAIL = 'user/UPDATE_USER_FAIL';
+export const RESET_UPDATE_USER_STATUS = 'user/RESET_UPDATE_USER_STATUS';
 
 // inn
 export const FETCH_INN = 'inn/FETCH_INN';

@@ -4,6 +4,7 @@ import {lightTheme} from '../../../config/theme';
 export const styles = StyleSheet.create({
   container: {
     padding: 6,
+    backgroundColor: 'white',
   },
   content: {
     textAlignVertical: 'top',

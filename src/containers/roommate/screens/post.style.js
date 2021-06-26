@@ -4,7 +4,7 @@ import {lightTheme} from '../../../config/theme';
 export const styles = StyleSheet.create({
   container: {
     padding: 8,
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
   },
   textContent: {
     borderRadius: 8,

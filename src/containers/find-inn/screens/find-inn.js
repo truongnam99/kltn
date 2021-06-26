@@ -10,7 +10,11 @@ import MapInn from '../component/map-inn';
 import styles from './find-inn.style';
 import Filter from '../component/filter';
 import {translate} from '../../../constants/translate';
-import {FooterListComponent, ListEmptyComponent} from '../../../components';
+import {
+  FooterListComponent,
+  ListEmptyComponent,
+  Text,
+} from '../../../components';
 import {activeOpacity} from '../../../components/shared';
 import {useInn} from '../hooks/useInn';
 import {lightTheme} from '../../../config/theme';
@@ -39,8 +43,10 @@ const FindInn = ({navigation}) => {
     headerText,
     isShowFilter,
     location,
+    listPlaces,
   } = selectors;
   const {
+    onItemSearchPress,
     onChangeView,
     onFetchInn,
     onHeaderChangeText,
@@ -181,6 +187,28 @@ const FindInn = ({navigation}) => {
     }
   }, [typeOfItem, _renderSmallType, _renderLargeType, _renderMap]);
 
+  const _renderSeachResult = useCallback(() => {
+    if (typeOfItem !== 'map' || !headerText || !listPlaces?.length) {
+      return null;
+    }
+
+    return (
+      <View style={styles.searchResultContainer}>
+        {listPlaces.map(item => {
+          return (
+            <TouchableOpacity
+              key={item.id}
+              activeOpacity={activeOpacity}
+              onPress={() => onItemSearchPress(item)}
+              style={styles.searchItem}>
+              <Text numberOfLines={2}>{item.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  }, [headerText, typeOfItem, listPlaces, onItemSearchPress]);
+
   const _renderIconChange = useCallback(() => {
     switch (typeOfItem) {
       case 'small':
@@ -211,6 +239,7 @@ const FindInn = ({navigation}) => {
         onPress={() => onFetchInn({reload: true})}
         onChangeText={onHeaderChangeText}
         value={headerText}
+        typeOfItem={typeOfItem}
       />
       <View style={styles.main}>
         <View style={styles.filterContainer}>
@@ -245,6 +274,7 @@ const FindInn = ({navigation}) => {
         callBack={filterCallBack}
         typeOfItem={typeOfItem}
       />
+      {_renderSeachResult()}
       {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">
           <ActionButtonItem title={translate.new} onPress={onGotoCreateInn}>

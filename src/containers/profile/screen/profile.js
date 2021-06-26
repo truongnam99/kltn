@@ -1,12 +1,15 @@
-import auth from '@react-native-firebase/auth';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {TouchableOpacity, View, Text as RNText} from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {Avatar, Button, Text, TextInput} from '../../../components';
-import {getGender, getProfileJobs} from '../../../constants/constants';
+import {Avatar, BasePicker, Button, Text, TextInput} from '../../../components';
+import {
+  gender,
+  getGender,
+  getProfileJobs,
+  profileJobs,
+} from '../../../constants/constants';
 import {translate} from '../../../constants/translate';
-import {formatString, getCity} from '../../../utils/utils';
+import {cities, formatString, getCity} from '../../../utils/utils';
 import useHooks from '../hooks';
 import styles from './profile.style';
 import {Contact} from '../../roommate/components/contact';
@@ -16,103 +19,217 @@ const CTextInput = ({...props}) => {
 };
 
 const Profile = ({navigation, route}) => {
-  const profile = route.params?.profile;
-  const {selectors} = useHooks();
-  const user = profile ?? selectors.user;
+  const {selectors, handlers} = useHooks({navigation, route});
+  const {isMe, user, editable, updateValue, validation} = selectors;
+  const {
+    onOpenEdit,
+    onCancel,
+    onUpdateProfile,
+    onSignOut,
+    onChangeName,
+    pickImage,
+    updateProfile,
+    onChangePhone,
+  } = handlers;
 
-  const pickerImageCallback = ({didCancel, errorMessage, uri}) => {
-    if (didCancel) {
-      return;
+  const _renderButton = () => {
+    if (isMe) {
+      return (
+        <View>
+          <Text>{translate.logistic.contact}</Text>
+          <Contact navigation={navigation} owner={user} />
+        </View>
+      );
     }
-    if (errorMessage) {
-      return;
+    if (editable) {
+      return (
+        <View style={styles.buttonContainer}>
+          <Button
+            containerStyle={styles.buttonStyle}
+            title="Lưu"
+            onPress={updateProfile}
+          />
+          <Button
+            containerStyle={styles.buttonStyle}
+            buttonStyle={styles.buttonSecondaryColor}
+            title="Hủy"
+            onPress={onCancel}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.buttonContainer}>
+          <Button
+            containerStyle={styles.buttonStyle}
+            title="Chỉnh sửa"
+            onPress={onOpenEdit}
+          />
+          <Button
+            containerStyle={styles.buttonStyle}
+            buttonStyle={styles.buttonSecondaryColor}
+            title="Đăng xuất"
+            onPress={onSignOut}
+          />
+        </View>
+      );
     }
   };
 
-  const pickImage = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality: 0.3,
-        maxWidth: 100,
-      },
-      pickerImageCallback,
-    );
-  };
-
-  const onSignOut = () => {
-    auth().signOut();
-  };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Avatar
-          source={user.photoURL ?? profile?.photoURL}
-          size="large"
-          isShowDetailFullScreen={false}
-        />
-        {!profile && (
+  const _renderEditProfile = useCallback(() => {
+    return (
+      <>
+        <View style={styles.imageContainer}>
+          <Avatar
+            source={updateValue.photoURL}
+            size="large"
+            isShowDetailFullScreen={false}
+          />
           <TouchableOpacity onPress={() => pickImage()}>
             <Text types="italic,underline" style={styles.changeAvatar}>
               {translate.changeAvatar}
             </Text>
           </TouchableOpacity>
-        )}
-      </View>
-      <CTextInput
-        defaultValue={user.displayName}
-        title={translate.name}
-        type="outline"
-      />
-      <CTextInput
-        defaultValue={formatString(user.phoneNumber, 'phoneNumber')}
-        title={translate.phoneNumber}
-        type="outline"
-      />
-      <CTextInput
-        defaultValue={user.email}
-        title={translate.email}
-        type="outline"
-      />
-      <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
-      <DatePicker
-        mode="date"
-        date={user.birthday}
-        format="DD/MM/YYYY"
-        androidMode="spinner"
-        customStyles={{
-          dateInput: styles.dateInput,
-          dateText: styles.dateText,
-        }}
-        style={styles.dateTouchBody}
-      />
-      <CTextInput
-        defaultValue={getCity(user.homeTown)?.Name}
-        title={translate.homeTown}
-        type="outline"
-      />
-      <CTextInput
-        defaultValue={getGender(user.gender)}
-        title={translate.gender}
-        type="outline"
-      />
-      <CTextInput
-        defaultValue={getProfileJobs(user.job)}
-        title={translate.job}
-        type="outline"
-      />
-      {profile && (
-        <View>
-          <Text>{translate.logistic.contact}</Text>
-          <Contact navigation={navigation} owner={user} />
         </View>
-      )}
-      {!profile && (
-        <View style={styles.mt8}>
-          <Button title="Logout" onPress={onSignOut} />
+        <CTextInput
+          value={updateValue.displayName}
+          title={translate.name}
+          type="outline"
+          onChangeText={onChangeName}
+          required={true}
+          error={validation.displayName}
+          showHint={validation.displayName}
+          hint="Tên không được để trống"
+        />
+        <CTextInput
+          value={formatString(updateValue.phoneNumber, 'phoneNumber')}
+          title={translate.phoneNumber}
+          type="outline"
+          onChangeText={onChangePhone}
+          required={true}
+          error={validation.phoneNumber}
+          showHint={validation.phoneNumber}
+          hint="Số điện thoại không hợp lệ"
+          keyboardType="phone-pad"
+        />
+        <CTextInput
+          value={updateValue.email}
+          title={translate.email}
+          type="outline"
+        />
+        <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
+        <DatePicker
+          mode="date"
+          date={updateValue.birthday}
+          format="DD/MM/YYYY"
+          androidMode="spinner"
+          customStyles={{
+            dateInput: styles.dateInput,
+            dateText: styles.dateText,
+          }}
+          style={styles.dateTouchBody}
+        />
+        <BasePicker
+          containerStyle={styles.marginTop}
+          value={updateValue.homeTown}
+          items={cities}
+          title="Quê quán"
+          setValue={value => onUpdateProfile(value, 'homeTown')}
+          required={true}
+          titleStyle={styles.fontSize}
+          textStyle={styles.fontSize}
+        />
+        <BasePicker
+          containerStyle={styles.marginTop}
+          title={translate.gender}
+          items={gender}
+          value={updateValue.gender}
+          setValue={value => onUpdateProfile(value, 'gender')}
+          required={true}
+          titleStyle={styles.fontSize}
+          textStyle={styles.fontSize}
+        />
+        <BasePicker
+          containerStyle={styles.marginTop}
+          title={translate.job}
+          items={profileJobs}
+          value={updateValue.job}
+          setValue={value => onUpdateProfile(value, 'job')}
+          required={true}
+          titleStyle={styles.fontSize}
+          textStyle={styles.fontSize}
+        />
+      </>
+    );
+  }, [
+    updateValue,
+    validation,
+    onChangeName,
+    onChangePhone,
+    pickImage,
+    onUpdateProfile,
+  ]);
+
+  const _renderProfile = useCallback(() => {
+    return (
+      <>
+        <View style={styles.imageContainer}>
+          <Avatar
+            source={user.photoURL}
+            size="large"
+            isShowDetailFullScreen={false}
+          />
         </View>
-      )}
+        <CTextInput
+          value={user.displayName}
+          title={translate.name}
+          type="outline"
+          editable={false}
+        />
+        <CTextInput
+          value={formatString(user.phoneNumber, 'phoneNumber')}
+          title={translate.phoneNumber}
+          type="outline"
+          editable={false}
+        />
+        <CTextInput
+          value={user.email}
+          title={translate.email}
+          type="outline"
+          editable={false}
+        />
+        <CTextInput
+          title={translate.birthday}
+          value={user.birthday}
+          type="outline"
+          editable={false}
+        />
+        <CTextInput
+          value={getCity(user.homeTown)?.Name}
+          title="Quê quán"
+          type="outline"
+          editable={false}
+        />
+        <CTextInput
+          value={getGender(user.gender)}
+          title={translate.gender}
+          type="outline"
+          editable={false}
+        />
+        <CTextInput
+          value={getProfileJobs(user.job)}
+          title={translate.job}
+          type="outline"
+          editable={false}
+        />
+      </>
+    );
+  }, [user]);
+
+  return (
+    <View style={styles.container}>
+      {editable ? _renderEditProfile() : _renderProfile()}
+      {_renderButton()}
     </View>
   );
 };

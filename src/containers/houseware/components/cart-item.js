@@ -29,7 +29,7 @@ const Item = ({image, price, discription, itemContainer}) => {
   return (
     <View style={[styles.row, itemContainer]}>
       <View style={styles.imageView}>
-        <Image Image={image} style={styles.photo} />
+        <Image image={image} style={styles.photo} />
       </View>
       <View style={styles.itemDesciption}>
         <Text>{`Giá: ${price}`}</Text>

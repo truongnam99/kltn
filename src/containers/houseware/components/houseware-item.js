@@ -6,12 +6,16 @@ import {styles} from './houseware-item.style';
 import {noImage} from '../../../constants/string';
 import {translate} from '../../../constants/translate';
 
-export const HousewareItem = ({onChangeValue, index}) => {
-  const [item, setItem] = useState({
+export const HousewareItem = ({
+  onChangeValue,
+  index,
+  itemPassed = {
     image: noImage,
     price: '',
     description: '',
-  });
+  },
+}) => {
+  const [item, setItem] = useState(itemPassed);
 
   const onChangeImages = value => {
     if (value.length < 0) {
@@ -57,13 +61,19 @@ export const HousewareItem = ({onChangeValue, index}) => {
             quality={0.2}
             onChangeImages={onChangeImages}
             imageStyle={styles.image}
+            defaultImages={[{uri: item.image}]}
           />
         </View>
         <View style={styles.detail}>
-          <TextInput title={translate.price} onChangeText={onChangePrice} />
+          <TextInput
+            title={translate.price}
+            onChangeText={onChangePrice}
+            value={item.price}
+          />
           <TextInput
             title={translate.description}
             onChangeText={onChangeDescription}
+            value={item.description}
           />
         </View>
       </View>

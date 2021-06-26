@@ -1,14 +1,26 @@
 import auth from '@react-native-firebase/auth';
+import {status} from '../../constants/constants';
 
-import {SET_USER, SET_USER_CREDENTIAL} from '../actions/types';
+import {
+  SET_USER,
+  SET_USER_CREDENTIAL,
+  LOGOUT,
+  UPDATE_USER,
+  RESET_UPDATE_USER_STATUS,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAIL,
+} from '../actions/types';
 
-const userReducer = (
-  state = {
-    userInfo: null,
-    userCredential: auth().currentUser,
+const initialState = {
+  userInfo: null,
+  userCredential: auth().currentUser,
+  updateStatus: {
+    status: '',
+    message: '',
   },
-  action,
-) => {
+};
+
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
       return {
@@ -19,6 +31,44 @@ const userReducer = (
       return {
         ...state,
         userCredential: action.payload,
+      };
+    case LOGOUT:
+      return {
+        userInfo: null,
+        userCredential: null,
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        updateStatus: {
+          status: status.PENDING,
+          message: '',
+        },
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        userInfo: action.payload,
+        updateStatus: {
+          status: status.SUCCESS,
+          message: '',
+        },
+      };
+    case UPDATE_USER_FAIL:
+      return {
+        ...state,
+        updateStatus: {
+          status: status.FAIL,
+          message: action.payload,
+        },
+      };
+    case RESET_UPDATE_USER_STATUS:
+      return {
+        ...state,
+        updateStatus: {
+          status: '',
+          message: '',
+        },
       };
     default:
       return state;

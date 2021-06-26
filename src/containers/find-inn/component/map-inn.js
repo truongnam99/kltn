@@ -27,9 +27,9 @@ const MapInn = ({
   radius = 5000,
   ...props
 }) => {
+  const mapRef = useRef(null);
   const [inn, setInn] = useState(null);
   const [showInnContainer, setShowInnContainer] = useState(false);
-  console.log('showInnContainer: ', showInnContainer);
   const innContainerRef = useRef(null);
   const preShowInnContainer = usePrevious(showInnContainer);
 
@@ -38,7 +38,6 @@ const MapInn = ({
   }, []);
 
   const _renderInnContainer = useCallback(() => {
-    console.log('inn: ', showInnContainer, preShowInnContainer);
     if (!inn) {
       return null;
     }
@@ -140,12 +139,18 @@ const MapInn = ({
     );
   }, [location, radius]);
 
+  useEffect(() => {
+    if (location && mapRef?.current) {
+      mapRef.current.animateCamera({center: location});
+    }
+  }, [location]);
   return (
     <View style={styles.container}>
       <View style={styles.hint}>
         <Text>Chọn địa điểm để tìm kiếm</Text>
       </View>
       <MapView
+        ref={mapRef}
         style={styles.mapView}
         initialRegion={{
           latitude: 10.821473,
