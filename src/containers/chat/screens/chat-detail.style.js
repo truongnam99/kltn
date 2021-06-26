@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
   textInputStyle: {
     padding: 2,
   },
+  day: {
+    alignItems: 'center',
+  },
 });
 
 export default styles;

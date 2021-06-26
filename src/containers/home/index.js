@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 import LogisticContainer from '../logistic';
 import RoommateContainer from '../roommate';
@@ -15,6 +17,13 @@ import {lightTheme} from '../../config/theme';
 const Tab = createBottomTabNavigator();
 
 const Home = props => {
+  useEffect(() => {
+    const userId = auth().currentUser.uid;
+    const reference = database().ref(`/online/${userId}`);
+    reference.set(true);
+    reference.onDisconnect().remove();
+  }, []);
+
   return (
     <Tab.Navigator
       tabBarOptions={{

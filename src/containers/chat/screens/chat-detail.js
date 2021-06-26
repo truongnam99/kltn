@@ -2,7 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {View, FlatList, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Message from '../components/message';
-import {TextInput} from '../../../components';
+import {Text, TextInput} from '../../../components';
+import dayjs from 'dayjs';
 
 import {lightTheme} from '../../../config/theme';
 import {useChatDetail} from '../hooks/useChatDetail';
@@ -61,8 +62,16 @@ const ChatDetail = ({navigation, route, ...props}) => {
         onLayout={flatListScrollToEnd}
         data={message?.messages || []}
         keyExtractor={(item, index) => index}
-        renderItem={({item}) => (
+        renderItem={({item, index}) => (
           <View style={styles.messageItem}>
+            {dayjs(item.sendAt.toDate()).format('YYYYMMDD') !==
+              dayjs(message?.messages[index - 1]?.sendAt.toDate()).format(
+                'YYYYMMDD',
+              ) && (
+              <View style={styles.day}>
+                <Text>{dayjs(item.sendAt.toDate()).format('YYYY-MM-DD')}</Text>
+              </View>
+            )}
             <Message {...item} uid={uid} photoUrl={route.params.photoUrl} />
           </View>
         )}

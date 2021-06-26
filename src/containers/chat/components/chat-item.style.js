@@ -30,6 +30,17 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     fontStyle: 'italic',
   },
+  online: {
+    width: 12,
+    height: 12,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'green',
+    position: 'absolute',
+    marginTop: 8,
+    marginLeft: 30,
+  },
 });
 
 export default styles;
