@@ -53,6 +53,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   mapStyle: {
-    height: 200,
+    height: 300,
   },
 });

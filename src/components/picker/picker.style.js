@@ -35,6 +35,24 @@ export const styles = StyleSheet.create({
   flex1: {
     flex: 1,
   },
+  searchResultContainer: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    width: '80%',
+    paddingTop: 8,
+    paddingHorizontal: 10,
+    elevation: 10,
+    marginTop: 45,
+    marginLeft: 16,
+    borderRadius: 6,
+  },
+  searchItem: {
+    marginBottom: 6,
+    paddingVertical: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E4E4E4',
+  },
 });
 
 export const dropdownStyles = StyleSheet.create({
