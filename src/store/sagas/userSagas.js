@@ -3,6 +3,7 @@ import {UPDATE_USER} from '../actions/types';
 import {updateUserFail, updateUserSuccess} from '../actions/userAction';
 import {updateUser} from '../../service/userService';
 import {showMessageFail, showMessageSuccess} from '../../utils/utils';
+import {uploadImagesToFirebase} from '../../service/firebaseService';
 
 export function* updateUserWatcher() {
   yield takeLatest(UPDATE_USER, updateUserTask);
@@ -10,8 +11,14 @@ export function* updateUserWatcher() {
 
 function* updateUserTask({payload}) {
   try {
-    yield updateUser(payload);
-    yield put(updateUserSuccess(payload));
+    let data = {...payload};
+    if (payload.photoURL) {
+      payload.photoURL.startsWith('file:');
+      const [photoURL] = yield uploadImagesToFirebase([payload.photoURL]);
+      data.photoURL = photoURL;
+    }
+    yield updateUser(data);
+    yield put(updateUserSuccess(data));
     showMessageSuccess('Cập nhật thông tin thành công');
   } catch (error) {
     console.log(error);

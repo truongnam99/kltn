@@ -23,3 +23,7 @@ export const selectConfirm = createSelector(selectLoginState, state =>
 export const selectRole = createSelector(selectUserState, state =>
   get('userInfo.role', state),
 );
+
+export const selectUpdateStatus = createSelector(selectUserState, state =>
+  get('updateStatus', state),
+);

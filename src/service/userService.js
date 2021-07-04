@@ -15,27 +15,22 @@ export const updateUser = async payload => {
     .collection('Housewares')
     .where('owner.uid', '==', payload.uid)
     .get();
-  console.log('housewares: ', housewares);
   const inns = await firestore()
     .collection('Inns')
     .where('created_by.uid', '==', payload.uid)
     .get();
-  console.log('inns: ', inns);
   const logistics = await firestore()
     .collection('Logistics')
     .where('owner.uid', '==', payload.uid)
     .get();
-  console.log('logistics: ', logistics);
   const roommates = await firestore()
     .collection('Roommates')
     .where('owner.uid', '==', payload.uid)
     .get();
-  console.log('roommates: ', roommates);
   const messages = await firestore()
     .collection('Messages')
     .where('users', 'array-contains', payload.uid)
     .get();
-  console.log('messages: ', messages);
 
   await firestore().runTransaction(async transaction => {
     housewares.forEach(houseware => {

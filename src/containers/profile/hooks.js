@@ -1,13 +1,18 @@
 import auth from '@react-native-firebase/auth';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch} from 'react-redux';
-import {logout, updateUser} from '../../store/actions/userAction';
+import {
+  logout,
+  resetUpdateUserStatus,
+  updateUser,
+} from '../../store/actions/userAction';
 import {navigationName} from '../../constants/navigation';
-import {selectUserInfo} from '../login/selectors';
+import {selectUpdateStatus, selectUserInfo} from '../login/selectors';
 import validator from 'validator';
 import {unFormatString} from '../../utils/utils';
+import {status} from '../../constants/constants';
 
 const useHooks = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -17,6 +22,8 @@ const useHooks = ({navigation, route}) => {
   const [editable, setEditable] = useState(false);
   const [updateValue, setUpdateValue] = useState(user);
   const [validation, setValidation] = useState({});
+  const [loading, setLoading] = useState(false);
+  const {status: updateInfoStatus} = useSelector(selectUpdateStatus);
 
   const pickerImageCallback = ({didCancel, errorMessage, uri}) => {
     if (didCancel) {
@@ -25,6 +32,10 @@ const useHooks = ({navigation, route}) => {
     if (errorMessage) {
       return;
     }
+    setUpdateValue(prev => ({
+      ...prev,
+      photoURL: uri,
+    }));
   };
 
   const pickImage = () => {
@@ -86,8 +97,20 @@ const useHooks = ({navigation, route}) => {
     [onUpdateProfile],
   );
 
+  useEffect(() => {
+    if (updateInfoStatus === status.PENDING) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+      if (updateInfoStatus !== '') {
+        dispatch(resetUpdateUserStatus());
+      }
+      setEditable(false);
+    }
+  }, [updateInfoStatus, dispatch]);
+
   return {
-    selectors: {user, isMe, editable, updateValue, validation},
+    selectors: {user, isMe, editable, updateValue, validation, loading},
     handlers: {
       onOpenEdit,
       onCancel,

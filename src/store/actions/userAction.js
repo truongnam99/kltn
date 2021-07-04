@@ -57,7 +57,7 @@ export const updateUserFail = payload => {
   };
 };
 
-export const resetUpdateUserStatus = payload => {
+export const resetUpdateUserStatus = () => {
   return {
     type: RESET_UPDATE_USER_STATUS,
   };

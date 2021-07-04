@@ -20,7 +20,7 @@ const CTextInput = ({...props}) => {
 
 const Profile = ({navigation, route}) => {
   const {selectors, handlers} = useHooks({navigation, route});
-  const {isMe, user, editable, updateValue, validation} = selectors;
+  const {isMe, user, editable, updateValue, validation, loading} = selectors;
   const {
     onOpenEdit,
     onCancel,
@@ -48,12 +48,14 @@ const Profile = ({navigation, route}) => {
             containerStyle={styles.buttonStyle}
             title="Lưu"
             onPress={updateProfile}
+            loading={loading}
           />
           <Button
             containerStyle={styles.buttonStyle}
             buttonStyle={styles.buttonSecondaryColor}
             title="Hủy"
             onPress={onCancel}
+            disabled={loading}
           />
         </View>
       );
