@@ -118,6 +118,7 @@ const Profile = ({navigation, route}) => {
           value={updateValue.email}
           title={translate.email}
           type="outline"
+          onChangeText={value => onUpdateProfile(value, 'email')}
         />
         <RNText style={styles.birthdayText}>{translate.birthday}</RNText>
         <DatePicker
@@ -130,6 +131,7 @@ const Profile = ({navigation, route}) => {
             dateText: styles.dateText,
           }}
           style={styles.dateTouchBody}
+          onDateChange={date => onUpdateProfile(date, 'phoneNumber')}
         />
         <BasePicker
           containerStyle={styles.marginTop}

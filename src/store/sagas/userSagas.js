@@ -12,8 +12,7 @@ export function* updateUserWatcher() {
 function* updateUserTask({payload}) {
   try {
     let data = {...payload};
-    if (payload.photoURL) {
-      payload.photoURL.startsWith('file:');
+    if (payload.photoURL?.startsWith('file:')) {
       const [photoURL] = yield uploadImagesToFirebase([payload.photoURL]);
       data.photoURL = photoURL;
     }
