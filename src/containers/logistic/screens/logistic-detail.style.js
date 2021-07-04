@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
   },
   userContainer: {
+    backgroundColor: 'white',
+    padding: 8,
+    borderRadius: 8,
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
@@ -30,8 +33,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   contentContainer: {
-    marginBottom: 8,
+    marginTop: 8,
     paddingHorizontal: 8,
+    backgroundColor: 'white',
+    padding: 8,
+    borderRadius: 8,
   },
   contentTitle: {
     fontSize: 14,

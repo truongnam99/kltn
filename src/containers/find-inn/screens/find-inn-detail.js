@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -8,9 +8,19 @@ import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import styles from './find-inn-detail.style';
+import {Preview} from '../../../components/preview';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
+  const [openPreview, setOpenPreview] = useState(false);
+
+  const onPreviewOpen = useCallback(() => {
+    setOpenPreview(true);
+  }, []);
+
+  const onPreviewClose = useCallback(() => {
+    setOpenPreview(false);
+  }, []);
 
   const onGotoChat = () => {
     if (!inn.created_by) {
@@ -38,11 +48,18 @@ const FindInnDetail = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Preview
+        images={inn.upload_room_images}
+        visible={openPreview}
+        onClose={onPreviewClose}
+      />
       <ScrollView>
         {inn.upload_room_images?.length && (
-          <View>
+          <TouchableOpacity
+            activeOpacity={activeOpacity}
+            onPress={onPreviewOpen}>
             <ImageView images={inn.upload_room_images} />
-          </View>
+          </TouchableOpacity>
         )}
         <View style={styles.detailContainer}>
           <View style={[styles.primaryContainer, styles.row, styles.alignEnd]}>

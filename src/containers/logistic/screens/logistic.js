@@ -13,7 +13,7 @@ import {
   ActionButtonItem,
 } from '../../../components/action-button/action-button';
 import CartItem from '../compoinents/card-item';
-import {ListEmptyComponent} from '../../../components';
+import {FooterListComponent, ListEmptyComponent} from '../../../components';
 import {
   ItemFilter,
   ItemFilterContainer,
@@ -87,10 +87,8 @@ const Logistic = ({navigation}) => {
           </TouchableOpacity>
         )}
         ListEmptyComponent={<ListEmptyComponent loading={loading} />}
+        ListFooterComponent={<FooterListComponent isLoading={loading} />}
       />
-      {loading && (
-        <ActivityIndicator style={styles.loading} color={lightTheme.primary} />
-      )}
       <Filter
         styleContainer={styles.styleContainer}
         isShow={isShowFilter}

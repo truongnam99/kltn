@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -8,10 +8,21 @@ import {dial, getCity, shortenDistrictName} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import {Image, Text} from '../../../components';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Preview} from '../../../components/preview';
 
 const LogisticDetail = ({route, navigation}) => {
   const {logistic} = route.params;
   const {owner} = logistic;
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const onPreviewClose = useCallback(() => {
+    setPreviewImage(null);
+  }, []);
+
+  const onPreviewOpen = useCallback(() => {
+    setPreviewImage(logistic.image);
+  }, [logistic.image]);
 
   const onViewProfile = () => {
     navigation.navigate(navigationName.findInn.viewProfile, {profile: owner});
@@ -38,11 +49,25 @@ const LogisticDetail = ({route, navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image image={logistic.image} style={styles.image} />
+    <ScrollView>
+      <Preview
+        visible={!!previewImage}
+        onClose={onPreviewClose}
+        images={[previewImage]}
+      />
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={activeOpacity}
+        onPress={onPreviewOpen}>
+        <Image image={logistic.image} style={styles.image} />
+      </TouchableOpacity>
       <View style={styles.infoContainer}>
         <View style={styles.userContainer}>
-          <Image image={logistic.owner.photoURL} style={styles.userImage} />
+          <Image
+            image={logistic.owner.photoURL}
+            style={styles.userImage}
+            isAvata={true}
+          />
           <Text style={styles.username}>
             {owner.userName || owner.displayName}
           </Text>
@@ -100,7 +125,7 @@ const LogisticDetail = ({route, navigation}) => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
