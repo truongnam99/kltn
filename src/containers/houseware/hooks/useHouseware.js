@@ -3,7 +3,11 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {status} from '../../../constants/constants';
 import {navigationName} from '../../../constants/navigation';
-import {fetchHousewares} from '../../../store/actions/housewareAction';
+import {
+  fetchHousewares,
+  updateHousewareIsActive,
+} from '../../../store/actions/housewareAction';
+import {selectUid} from '../../login/selectors';
 import {selectFetchHousewares, selectHousewares} from '../selectors';
 
 export const useHouseware = ({navigation}) => {
@@ -14,6 +18,7 @@ export const useHouseware = ({navigation}) => {
     city: '79',
   });
   const housewares = useSelector(selectHousewares);
+  const uid = useSelector(selectUid);
   const {status: statusFetchHousewares} = useSelector(selectFetchHousewares);
 
   const onGotoCreateHouseware = () => {
@@ -58,13 +63,31 @@ export const useHouseware = ({navigation}) => {
     [setFilter, dispatch, loading],
   );
 
+  const onCartItemPress = useCallback(
+    item => {
+      navigation.navigate(navigationName.houseware.createHouseware, {
+        data: item,
+      });
+    },
+    [navigation],
+  );
+
+  const onMarkSold = useCallback(
+    (id, isActive) => {
+      dispatch(updateHousewareIsActive({id, isActive}));
+    },
+    [dispatch],
+  );
+
   return {
-    selectors: {housewares, loading},
+    selectors: {housewares, loading, uid},
     handlers: {
       onGotoCreateHouseware,
       onGotoMyPost,
       onFetchHouseware,
       handleApplyFilter,
+      onCartItemPress,
+      onMarkSold,
     },
   };
 };

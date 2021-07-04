@@ -7,6 +7,7 @@ import {
   MenuTrigger,
   Menu,
 } from 'react-native-popup-menu';
+import dayjs from 'dayjs';
 
 import styles from './cart-item.style';
 import {translate} from '../../../constants/translate';
@@ -16,6 +17,7 @@ import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import Text from '../../../components/text/text';
 import {Image} from '../../../components';
+import {shortenDistrictName} from '../../../utils/utils';
 
 const maxNumberOfLines = 5;
 
@@ -28,8 +30,11 @@ const CartItem = ({
   isActive,
   showIsActive = false,
   onUpdate,
+  createdAt,
+  district,
   ...props
 }) => {
+  const districtName = shortenDistrictName(district.Name);
   const [state, setState] = useState({
     baseLine: -1,
     isShowSeeMore: false,
@@ -81,13 +86,23 @@ const CartItem = ({
             />
             <View style={styles.nameContainer}>
               <Text style={styles.name}>{owner.displayName}</Text>
-              {showIsActive && (
-                <Text style={styles.activeText}>
-                  {isActive
-                    ? translate.roommate.finding
-                    : translate.roommate.found}
-                </Text>
-              )}
+              <Text style={styles.activeText}>
+                {dayjs(createdAt?.toDate()).format('DD/MM/YYYY')}
+                {districtName && (
+                  <>
+                    <Text style={styles.dot}> · </Text>
+                    {districtName}
+                  </>
+                )}
+                {showIsActive && (
+                  <>
+                    <Text style={styles.dot}> · </Text>
+                    {isActive
+                      ? translate.roommate.finding
+                      : translate.roommate.found}
+                  </>
+                )}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -120,8 +135,10 @@ const CartItem = ({
         numberOfLines={state.numberOfLines}
         onTextLayout={onTextLayout}>
         {content}
-        {props.job && <Text>{`\nNghề nghiệp: ${getJob(props.job)}`}</Text>}
-        {props.gender && (
+        {getGender(props.gender) && (
+          <Text>{`\nNghề nghiệp: ${getJob(props.job)}`}</Text>
+        )}
+        {getGender(props.gender) && (
           <Text>{`\nGiới tính: ${getGender(props.gender)}`}</Text>
         )}
         {props.age && props.age.length && (

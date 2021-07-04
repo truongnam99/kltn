@@ -1,250 +1,472 @@
 [
     {
-        "exact_address": "71/15/8/10 Đường số 8, Phường Trường Thọ, Quận Thủ Đức, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "Mình chuyển vùng làm việc nên cần bán một số đồ như hình.\n-Tủ lạnh còn mới, ít tốn điện.\n-Máy giặt mới mua, còn hạn bảo hành\nAi có nhu cầu thì liên hệ mk.",
+        "district": "766",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Tủ Lạnh GL 160 lít",
+                "image": "https://cdn.chotot.com/2pd3Q5GQCKVQEZz7KMO9zvF4Hkmnow6M1nbnYq7JvqQ/preset:view/plain/48d211623c23dbf09fd0b605482ba0c3-2726686562173853541.jpg",
+                "price": "1.800.000 đ"
+            },
+            {
+                "description": "Máy giặt Samsung 9kg\nMáy đầy đủ chức năng\nGiặt êm tiết kiệm điện nước\nBảo hành còn 3 tháng",
+                "image": "https://cdn.chotot.com/aa3Joy99PX7uogCmWXl_ZAT3SUfZRaMGj563CYdiazY/preset:view/plain/2050e4c86263596d1429010379736352-2726666271050702258.jpg",
+                "price": "1.800.000 đ"
+            },
+            {
+                "description": "Quạt đứng Senko lùn chạy êm gió mát",
+                "image": "https://cdn.chotot.com/c_ub1pqa7lA7J8Ys8Dlb35Uo457ibKtC99uvFnzimu4/preset:view/plain/24f22b40d838fadf3c268beb58d824f7-2726656048633934575.jpg",
+                "price": "160.000 đ"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
-            "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
-            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
-        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 762,
-                "text": "Quận Thủ Đức",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 762,
-                "code": 26827,
-                "text": "Phường Trường Thọ"
-            },
-            "streetName": "Đường số 8",
-            "houseNumber": "71/15/8/10"
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
         }
     },
     {
-        "exact_address": "203 Đặng Thùy trâm, Phường 13, Quận Bình Thạnh, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe2.PNG?alt=media",
+        "city": "79",
+        "content": "Mình cần bán một cái bàn như hình",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Bàn làm việc chữ K khung sơn tĩnh điện\nmặt MDF phủ melamine, kích thước dài 1m2 x 60 x75cm",
+                "image": "https://cdn.chotot.com/fKLTX2AA_Z-o5Cx0SHjKoaYdDg_xU2fqtWf6W8rISD0/preset:view/plain/755bf73b736eb10135bcc7cf120532ef-2722566252276493955.jpg",
+                "price": "490.000 đ"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
-            "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
-            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Dịch vụ vận chuyển trọ ưu đãi cho sinh viên. Liên hệ: 0949709036 để biết thêm chi tiết",
-        "price": "Giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 765,
-                "text": "Quận Bình Thạnh",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 765,
-                "code": 26905,
-                "text": "Phường 13"
-            },
-            "streetName": "Đặng Thùy trâm",
-            "houseNumber": "203"
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
         }
     },
     {
-        "exact_address": "90 Phạm Văn bạch, Phường 15, Quận Tân Bình, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "Công ty xả kho thanh lý quạt điều hoà Có dung tích từ mười lăm đến 60l nước\n-Giá chỉ từ 1.600.000 đồng Giá tại kho\n-ship hàng toàn quốc\n- Có bảo hành tại nhà\n-ib hoặc liên hệ em qua sdt zalo ạ",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "",
+                "image": "https://cdn.chotot.com/zecTAht2hfcHZGjXYAviefmti0O55NiiXCHmtpQofEA/preset:view/plain/d0c8d4ff5d5355ec428e6fdd6a5a2d12-2709671671840374538.jpg",
+                "price": "1.600.000 đ"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
             "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
+            "role": 0,
             "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Xe nhanh, uy tính",
-        "price": "Giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 766,
-                "text": "Quận Tân Bình",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 766,
-                "code": 27007,
-                "text": "Phường 15"
-            },
-            "streetName": "Phạm Văn bạch",
-            "houseNumber": "90"
         }
     },
     {
-        "exact_address": "119 Đường 26 tháng 3, Phường Bình Hưng Hòa, Quận Bình Tân, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "Dư dùng bán lại nồi cơm điện sharp 1,5 lít. Sử dụng được hơn 1 năm.\nGiá:200k\nLiên hệ: 0949709035",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Nồi cơm điện sharp 1,5 lít",
+                "image": "https://cdn.chotot.com/Pd8wqIMT4ZKWWWS1NuRw-dLQoR3-gSWtCjvRLyqlOGg/preset:view/plain/8ae12e6d560d8e7896f301dadc7d7aeb-2726694510259519670.jpg",
+                "price": "200.000 đ"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
-            "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
-            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Chất lượng, giá rẻ",
-        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 777,
-                "text": "Quận Bình Tân",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 777,
-                "code": 27436,
-                "text": "Phường Bình Hưng Hòa"
-            },
-            "streetName": "Đường 26 tháng 3",
-            "houseNumber": "119"
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
         }
     },
     {
-        "exact_address": "15 Hoàng hoa thám, Phường 13, Quận Tân Bình, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "Cần bán gấp tủ nhựa đài loan cao cấp\nLiên hệ: 0949709035",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Tủ nhựa đài loan\nkích thước: W1250 x D450 x H1800",
+                "image": "https://cdn.chotot.com/yV87khApty0d9Y9zNYZrV-YtHBw-5mxSiFcTIbAxVig/preset:view/plain/8060812539.jpg",
+                "price": "1.890.000 đ"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
             "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
+            "role": 0,
             "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Xe ba gác, nhỏ nhẹ. Nhận chuyển trọ cho sinh viên, người đi làm, người có nhu cầu chuyển trọ.",
-        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 766,
-                "text": "Quận Tân Bình",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 766,
-                "code": 26974,
-                "text": "Phường 13"
-            },
-            "streetName": "Hoàng hoa thám",
-            "houseNumber": "15"
         }
     },
     {
-        "exact_address": "10 Núi thành, Phường 13, Quận Tân Bình, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "vì khá ồn nên mình muốn pass lại, sp có thể gấp gọn mang đi du lịch được ạ\nLiên hệ: 0949709035",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Máy sấy tóc",
+                "image": "https://cdn.chotot.com/7ZoCs5wec5UXxxlesVGBFn6SR6m74-PvHgP9L-mMh18/preset:view/plain/33f0aab443874a0602b9c5a5db96145e-2726685446918898171.jpg",
+                "price": "140k"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
             "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
+            "role": 0,
             "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
-        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 766,
-                "text": "Quận Tân Bình",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 766,
-                "code": 26974,
-                "text": "Phường 13"
-            },
-            "streetName": "Núi thành",
-            "houseNumber": "10"
         }
     },
     {
-        "exact_address": "125 GÒ ô môi, Phường Phú Mỹ, Quận 7, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "Đang sử dụng tốt cần thanh lý cho ai cần. giá mình thanh lý 80k 1 món. ai cần xin lh với mình nhé. có fix cho ai lấy hết. xin cảm ơn. mình có ship hàng. khách hàng chịu phí ship\nLiên hệ: 0949709035",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Máy sấy tóc",
+                "image": "https://cdn.chotot.com/f_cXCU5RJU-t32CBhQ8fUJ3VzQLxQd8XlfGicPXqUDI/preset:view/plain/c57a9dd85a4f9a2c6a8d015ae72027d8-2722431562784343163.jpg",
+                "price": "80k"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
-            "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
-            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
-        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 778,
-                "text": "Quận 7",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 778,
-                "code": 27493,
-                "text": "Phường Phú Mỹ"
-            },
-            "streetName": "GÒ ô môi",
-            "houseNumber": "125"
+            "birthday": "26/11/2002",
+            "displayName": "Nguyễn Thanh Thủy",
+            "gender": 0,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709039",
+            "role": 0,
+            "uid": "OyD3Np7FncMBzxoGCzwTiX6N4Y13"
         }
     },
     {
-        "exact_address": "507-509 Trần xuân soạn, Phường Tân Kiểng, Quận 7, Hồ Chí Minh",
-        "image": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fxe1.PNG?alt=media",
+        "city": "79",
+        "content": "Bình Đun Nước Pha Sữa PediaSure Thiết Kế Hiện Đại\n✔ THÔNG TIN SẢN PHẨM :\n\n☑ Tên sản phẩm: Bình Đun Nước Pha Sữa PediaSure\n☑ Thương hiệu: PediaSure\n☑ Màu sắc: Trắng\n☑ Dung tích: 1 lít\n☑ Thân ấm: Thủy tinh\n☑ Công suất: 300W\n☑ Xuất xứ: Trung Quốc.\nLiên hệ: 0949709035",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "",
+                "image": "https://cdn.chotot.com/RfzxpHozUYKv4prnitaYABcXZVAKFxaSgrpqA0iI8lk/preset:view/plain/d5d5c9c21f17e33305258418b52e265e-2722647644533925359.jpg",
+                "price": "210k"
+            }
+        ],
         "owner": {
-            "username": "Trần Đình Lợi",
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
             "phoneNumber": "+84949709035",
-            "photoURL": "https://firebasestorage.googleapis.com/v0/b/kltn-d14a6.appspot.com/o/images%2Fundefinedoomruhp.jpg?alt=media&token=a11b3bbc-3c84-4f22-b49e-c300e0e7cd68",
-            "social": "Facebook",
+            "role": 0,
             "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
-        },
-        "notes": "Cung cấp dịch vụ vận chuyển giá rẻ ở các khu vực Thủ Đức, Quận 9.\nLiên hệ để đặt chỗ và biết giá cả chi tiết.",
-        "price": "< 10km giá 25k/km\n> 10km giá thương lượng",
-        "full_address_object": {
-            "city": {
-                "code": "HCM",
-                "text": "Hồ Chí Minh"
-            },
-            "district": {
-                "code": 778,
-                "text": "Quận 7",
-                "cityCode": "HCM"
-            },
-            "ward": {
-                "districtCode": 778,
-                "code": 27472,
-                "text": "Phường Tân Kiểng"
-            },
-            "streetName": "Trần xuân soạn",
-            "houseNumber": "507-509"
+        }
+    },
+    {
+        "city": "79",
+        "content": "KHUYẾN MÃI LÔ HÀNG CÂY NƯỚC NÓNG LẠNH FUJIE WD1105E CHÍNH HÃNG, HÀNG MỚI 100%, BẢO HÀNH 24 THÁNG ( ĐẦY ĐỦ GIẤY BẢO HÀNH, TEM CHỨNG NHẬN)",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Cây nước nóng lạnh FujiE WD1150E (Mới 100%,Có 50c)",
+                "image": "https://cdn.chotot.com/_xmNjtcYK8Pvn70CEMFVwN7sGaZjdPvJyCrIPboGA3E/preset:view/plain/0e1063f4121c0b4c5286e121102196c1-2646461315284484224.jpg",
+                "price": "1.050.000 đ"
+            }
+        ],
+        "owner": {
+            "birthday": "26/11/2002",
+            "displayName": "Nguyễn Thanh Thủy",
+            "gender": 0,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709039",
+            "role": 0,
+            "uid": "OyD3Np7FncMBzxoGCzwTiX6N4Y13"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Mới mua đồ điện máy nên được tặng nồi nướng và lẩu mới nên mình thanh lý rẻ nồi lẩu điện này. Mua về dùng đúng 1 lần rồi cất luôn nên nồi lẩu còn mới tinh đẹp. Nồi lẩu xài bằng điện nhanh sôi lắm luôn, kích thước đường kính 30cm, dùng để nấu canh cũng được, nấu mì cho 4-5 người ăn. Nay để lại rẻ cho ai cần. Mình ở gần siêu thị Gigamall. Cảm ơn chotot duyệt tin",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Xài đúng 1 lần",
+                "image": "https://cdn.chotot.com/IY4bkVmMkQwlmbDZn_9dC6Tt291I5vPTvw3viA5MB6Y/preset:view/plain/7b47ee08bf2bb3ce89ba6172ded3e1a5-2726794511013535835.jpg",
+                "price": "130.000 đ"
+            }
+        ],
+        "owner": {
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "mới mua xài được 2 lần, nay về quê bán rẻ lại cho ai cần",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Xài 2 lần về quê",
+                "image": "https://cdn.chotot.com/OXXhMLQ4Ub2VHFo23YJLnrrDzSJpzUx4FCuCOQ91kqw/preset:view/plain/29aa1a6819710767aed8b9d2573182fc-2724329705586379184.jpg",
+                "price": "140.000 đ"
+            }
+        ],
+        "owner": {
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709035",
+            "role": 0,
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "zosi 0.5 lit đã tét ok a chị em cần liên hệ",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Zosi 0.5lit",
+                "image": "https://cdn.chotot.com/qEV7XicXSwi3RKN5jqH1HY9iRRX93KuNz9-1_Vf7xtw/preset:view/plain/4252f2fcb57eb046d8df3631976bd9e7-2723300002372822269.jpg",
+                "price": "500k"
+            }
+        ],
+        "owner": {
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Nồi vẫn đang dùng ngon lành, k nứt, k cháy, vỏ có bong tróc theo tg. Giá này coi như bán xác r, a.c.e công nhân nào chỉ cần nấu cơm thì nt nhé, mình giao.",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "",
+                "image": "https://cdn.chotot.com/dCDpU7Vv-UwOqOL5vLonw8-N5jForu1Cyq4bc4Xr7PA/preset:view/plain/f05bf8072a8ad3ee90b3e6070b4c2cc8-2722896156324353635.jpg",
+                "price": "100k"
+            }
+        ],
+        "owner": {
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709035",
+            "role": 0,
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Cần bán máy ép Panasonic mới nguyên hộp\nBảo hành chính hãng",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Máy ép trái cây Panasonic Mj H100 mới , bảo hành",
+                "image": "https://cdn.chotot.com/enwarQ4ADvwXS9I2KOwA-Logsw5cVqN6zOVmSM_HpVY/preset:view/plain/212b1ecdcdddbd08a327a3656b41da5c-2726834146307356668.jpg",
+                "price": "950k"
+            }
+        ],
+        "owner": {
+            "birthday": "26/11/2002",
+            "displayName": "Nguyễn Thanh Thủy",
+            "gender": 0,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709039",
+            "role": 0,
+            "uid": "OyD3Np7FncMBzxoGCzwTiX6N4Y13"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Nhà mình chuyển qua sài bếp âm nên dư qua bếp này cần ra đi.\nBếp có nhiều chức năng nấu lẩu, chiên, nướng, nấu nước sôi tự hẹn giờ.\nBếp bền, chạy êm, không hề nóng, dây điện ổn áp chưa qua sửa chữa.\nĐặc biệt sử dụng được tất cả các loại nồi.",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "BẾP KHALUCK.HOME GIÁ RẺ, TIẾT KIỆM ĐIỆN NĂNG",
+                "image": "https://cdn.chotot.com/BIlpxuOGv8JMs7mU8gYz-yVyA2zW__MLMAvmdCPHkqg/preset:view/plain/17e8d7105155b512baa4e11bc313057b-2726808565716623376.jpg",
+                "price": "500k"
+            }
+        ],
+        "owner": {
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709035",
+            "role": 0,
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Em bếp từ dương national hàng nội địa nhật nên sử dụng điện 200v(vẫn sử dụng điện 220v ở Việt Nam bình thường).\nVới 2 bếp từ mỗi bên 2kw,cùng 1 lò nướng,bếp đã test ok và vệ sinh sạch sẽ.",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Bếp từ dương national kz-221b",
+                "image": "https://cdn.chotot.com/eJdYAYyWLJXDIcXJ_trLjfE02LdJZIn3qLKi9OGHPcs/preset:view/plain/0391d68454d27114ce9862aac4a9c2e9-2726791373131718389.jpg",
+                "price": "3tr1"
+            }
+        ],
+        "owner": {
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Nâng cấp lên lên pana spx107 nên thanh lý nồi tiger áp suất 2 bi cho bác nào cần. Tính năng của nồi các bác gg giúp em ah.",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Bán nồi Tiger áp suất 2bi nội địa",
+                "image": "https://cdn.chotot.com/j7QpfdQAd-tZ9HaScHoJ9ukUdH5rOWVssobckRH3wPk/preset:view/plain/c3e4feb8192b303ca0dfe29bf4af91fc-2725918641029322300.jpg",
+                "price": "2.000.000 đ"
+            }
+        ],
+        "owner": {
+            "birthday": "26/02/2001",
+            "displayName": "Lê Văn Lương",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709040",
+            "role": 0,
+            "uid": "C1cmqG3azQXY2a4LNZCXTZQ247R2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Dọn nhà Bán 01 bếp từ đơn còn mới 95% sử dung bình thường. thich hop de an lau cung gia dinh. hay o tro. Bếp còn rất mới vì ít sử dung.",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Bếp từ đơn",
+                "image": "https://cdn.chotot.com/zN5ysgxNUKAIB1NW7qcXxJeCoO03SBgf2V8xdfbuoB4/preset:view/plain/652ddc329f8d055e2d07b9b29ff7c7fb-2726789881132300988.jpg",
+                "price": "530.000 đ"
+            }
+        ],
+        "owner": {
+            "birthday": "26/11/2002",
+            "displayName": "Nguyễn Thanh Thủy",
+            "gender": 0,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709039",
+            "role": 0,
+            "uid": "OyD3Np7FncMBzxoGCzwTiX6N4Y13"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Ép ly nhựa\nĐường kính 95. Dùng được cho ly từ 350-700ml\nĐã qua sử dụng",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Máy ép ly nhựa Eton D1",
+                "image": "https://cdn.chotot.com/jDJO9BpxGZ-Egy7er1indhpUIoz_fYWyUECudpK17as/preset:view/plain/34653386afaf05156c4eb9aa56281285-2726789117676889159.jpg",
+                "price": "850k"
+            }
+        ],
+        "owner": {
+            "birthday": "25/01/1999",
+            "displayName": "Trương Hoàng Nam",
+            "gender": 1,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709035",
+            "role": 0,
+            "uid": "aJbsn5oTk4RDBj99htsG7jtboFE2"
+        }
+    },
+    {
+        "city": "79",
+        "content": "Cần bán máy xay sinh tố Philip Hr2221 mới nguyên hộp , công suất 700w , xay được đá , dòng mới 2020\nCó 2 cối , xay sinh tố , cối xay hạt",
+        "district": "762",
+        "isActive": true,
+        "items": [
+            {
+                "description": "Máy bánh Trứng Hàn Quốc",
+                "image": "https://cdn.chotot.com/VwYTDTzXUm0GIstmthtaU3BoEaMnpHvwEvdxSyFQQ8E/preset:view/plain/89187dbba0f5c54ad35eda5d6c779849-2726776048549509608.jpg",
+                "price": "7.900.000 đ"
+            }
+        ],
+        "owner": {
+            "birthday": "26/11/2002",
+            "displayName": "Nguyễn Thanh Thủy",
+            "gender": 0,
+            "homeTown": "79",
+            "job": 1,
+            "phoneNumber": "+84949709039",
+            "role": 0,
+            "uid": "OyD3Np7FncMBzxoGCzwTiX6N4Y13"
         }
     }
 ]

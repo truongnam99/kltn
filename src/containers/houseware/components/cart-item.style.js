@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
   itemDesciption: {
     marginLeft: 10,
     marginTop: 6,
+    flex: 1,
   },
   bottomItemContainer: {
     backgroundColor: 'white',
@@ -56,5 +57,8 @@ export const styles = StyleSheet.create({
   },
   textBottomColor: {
     color: lightTheme.secondary,
+  },
+  description: {
+    flexWrap: 'wrap',
   },
 });

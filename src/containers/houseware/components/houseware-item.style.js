@@ -19,4 +19,15 @@ export const styles = StyleSheet.create({
   image: {
     borderRadius: 6,
   },
+  textInputStyle: {
+    fontSize: 14,
+    paddingTop: 0,
+  },
+  titleStyle: {
+    marginBottom: 0,
+  },
+  description: {
+    textAlignVertical: 'top',
+    height: 48,
+  },
 });

@@ -13,7 +13,7 @@ export const selectUserCredetial = createSelector(selectUserState, state =>
 );
 
 export const selectUid = createSelector(selectUserState, state =>
-  get('userCredential.uid', state),
+  get('userInfo.uid', state),
 );
 
 export const selectConfirm = createSelector(selectLoginState, state =>

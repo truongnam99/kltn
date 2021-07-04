@@ -7,10 +7,9 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   textContent: {
-    borderRadius: 8,
     height: 150,
     borderColor: lightTheme.primary,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     textAlignVertical: 'top',
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -18,7 +17,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
   },
   title: {
-    fontWeight: 'bold',
     marginBottom: 4,
     fontSize: 16,
   },

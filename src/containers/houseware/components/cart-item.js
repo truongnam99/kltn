@@ -16,7 +16,7 @@ import {Image, Text} from '../../../components';
 const Owner = ({image, name, belowOwner}) => {
   return (
     <View style={styles.row}>
-      <Image image={image} style={styles.avatar} />
+      <Image image={image} style={styles.avatar} isAvata={true} />
       <View style={styles.ownerView}>
         <Text style={styles.name}>{name}</Text>
         {belowOwner()}
@@ -32,14 +32,20 @@ const Item = ({image, price, discription, itemContainer}) => {
         <Image image={image} style={styles.photo} />
       </View>
       <View style={styles.itemDesciption}>
-        <Text>{`Giá: ${price}`}</Text>
-        <Text>{`Mô tả: ${discription}`}</Text>
+        <Text>
+          <Text types="bold">Giá: </Text>
+          {price}
+        </Text>
+        <Text style={styles.description}>
+          <Text types="bold">Mô tả: </Text>
+          {discription}
+        </Text>
       </View>
     </View>
   );
 };
 
-const PopupAction = ({onMarkSold, isActive}) => {
+const PopupAction = ({onMarkSold, isActive, onUpdate, item}) => {
   return (
     <Menu>
       <MenuTrigger>
@@ -50,6 +56,7 @@ const PopupAction = ({onMarkSold, isActive}) => {
           text={isActive ? 'Đánh dấu đã bán' : 'Đánh dấu chưa bán'}
           onSelect={onMarkSold}
         />
+        <MenuOption text="Chỉnh sửa" onSelect={() => onUpdate(item)} />
       </MenuOptions>
     </Menu>
   );
@@ -69,6 +76,8 @@ const CartItem = ({
   showContact = true,
   isMe = false,
   onMarkSold,
+  onUpdate,
+  item,
 }) => {
   const [numberOfDisplays, setNumberOfDisplays] = useState(1);
   const cityName = shortenDistrictName(
@@ -106,20 +115,34 @@ const CartItem = ({
         <PopupAction
           onMarkSold={() => onMarkSold(id, !isActive)}
           isActive={isActive}
+          onUpdate={onUpdate}
+          item={item}
         />
       );
     }
     return (
       showContact && owner && <Contact owner={owner} navigation={navigation} />
     );
-  }, [showContact, isMe, owner, navigation, onMarkSold, id, isActive]);
+  }, [
+    showContact,
+    isMe,
+    owner,
+    navigation,
+    onMarkSold,
+    id,
+    isActive,
+    item,
+    onUpdate,
+  ]);
 
   const _renderBelowOwner = useCallback(() => {
     const time = createdAt
       ? dayjs(createdAt?.toDate()).format('DD/MM/YYYY')
       : '';
     if (isMe) {
-      return <Text>{isActive ? 'Đang bán' : 'Đã bán'}</Text>;
+      return (
+        <Text style={styles.time}>{isActive ? 'Đang bán' : 'Đã bán'}</Text>
+      );
     } else {
       return (
         <Text style={styles.time}>

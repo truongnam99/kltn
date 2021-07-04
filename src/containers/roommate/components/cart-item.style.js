@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   name: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   nameContainer: {
@@ -30,13 +30,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   activeText: {
-    fontSize: 10,
+    fontSize: 12,
   },
   content: {
     marginTop: 8,
   },
   seeMore: {
     color: lightTheme.secondary,
+  },
+  dot: {
+    fontWeight: 'bold',
   },
 });
 

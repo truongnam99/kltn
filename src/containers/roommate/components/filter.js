@@ -102,7 +102,7 @@ const Filter = ({styleContainer, callBack, isShow}) => {
         title="Giới tính"
         value={gender}
         setValue={onChangeGender}
-        items={genders}
+        items={[{value: null, label: 'Tất cả'}, ...genders]}
       />
       <BasePicker
         title="Nghề nghiệp"

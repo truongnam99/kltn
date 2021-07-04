@@ -69,11 +69,19 @@ export const HousewareItem = ({
             title={translate.price}
             onChangeText={onChangePrice}
             value={item.price}
+            type="outline"
+            textInputStyle={styles.textInputStyle}
+            titleStyle={styles.titleStyle}
           />
           <TextInput
             title={translate.description}
             onChangeText={onChangeDescription}
             value={item.description}
+            numberOfLines={4}
+            multiline={true}
+            type="outline"
+            textInputStyle={[styles.textInputStyle, styles.description]}
+            titleStyle={styles.titleStyle}
           />
         </View>
       </View>

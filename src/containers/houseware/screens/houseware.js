@@ -18,12 +18,14 @@ import {styles} from './houseware.style';
 
 export const Houseware = ({navigation}) => {
   const {selectors, handlers} = useHouseware({navigation});
-  const {housewares, loading} = selectors;
+  const {housewares, loading, uid} = selectors;
   const {
     onGotoCreateHouseware,
     onGotoMyPost,
     onFetchHouseware,
     handleApplyFilter,
+    onCartItemPress,
+    onMarkSold,
   } = handlers;
 
   return (
@@ -42,6 +44,10 @@ export const Houseware = ({navigation}) => {
             {...item}
             navigation={navigation}
             containerStyle={styles.itemStyle}
+            isMe={uid === item.owner.uid}
+            onMarkSold={onMarkSold}
+            onUpdate={onCartItemPress}
+            item={item}
           />
         )}
         ListEmptyComponent={<ListEmptyComponent loading={loading} />}

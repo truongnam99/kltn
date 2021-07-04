@@ -44,22 +44,25 @@ export const CreateHouseware = ({navigation, route}) => {
         required={true}
         {...validation.content}
         showHint={true}
+        type="outline"
       />
       <CityPicker
         value={houseware.city}
         required={true}
         setValue={onChangeCity}
-        pickerContainerStype={styles.cityContainerStyle}
+        pickerContainerStype={styles.pickerContainerStype}
+        titleStyle={styles.pickerTitleStyle}
       />
       <DistrictPicker
         value={houseware.district}
         required={true}
         setValue={onChangeDistrict}
-        pickerContainerStype={styles.cityContainerStyle}
+        pickerContainerStype={styles.pickerContainerStype}
         cityId={houseware.city}
         error={validation.district.error}
         hint={validation.district.hint}
         showHint={true}
+        titleStyle={styles.pickerTitleStyle}
       />
       {data && (
         <BasePicker
@@ -67,7 +70,8 @@ export const CreateHouseware = ({navigation, route}) => {
           items={housewareStatus}
           value={houseware.isActive}
           setValue={onChangeStatus}
-          pickerContainerStype={styles.cityContainerStyle}
+          pickerContainerStype={styles.pickerContainerStype}
+          titleStyle={styles.pickerTitleStyle}
         />
       )}
       {houseware.items.map((item, index) => (

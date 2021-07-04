@@ -12,7 +12,12 @@ import {status} from '../../../constants/constants';
 const useHook = ({navigation}) => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState({
+    city: {
+      Id: '79',
+      Name: 'Thành phố Hồ Chí Minh',
+    },
+  });
   const dispatch = useDispatch();
   const {status: fetchRoommateStatus} = useSelector(selectFetchRoommateStatus);
   const roommates = useSelector(selectRoommates);

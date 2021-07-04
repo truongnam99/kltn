@@ -11,6 +11,7 @@ export function createHouseware(payload) {
 export const fetchHousewares = ({last, city, district, ...options}) => {
   let query = firestore()
     .collection(HousewaresCollection)
+    .orderBy('createdAt')
     .where('isActive', '==', true);
   if (city) {
     query = query.where('city', '==', city);

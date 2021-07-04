@@ -9,7 +9,11 @@ const CartItem = ({image, owner, price, ownerName}) => {
       <Image image={image} style={styles.image} />
       <View style={styles.infoContainer}>
         <View style={styles.userContainer}>
-          <Image image={owner.photoURL} style={styles.userAvatar} />
+          <Image
+            image={owner.photoURL}
+            style={styles.userAvatar}
+            isAvata={true}
+          />
           <Text style={styles.username}>
             {ownerName || owner.displayName || owner.username}
           </Text>

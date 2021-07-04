@@ -41,7 +41,7 @@ const Roommate = ({navigation}) => {
     if (district?.Name) {
       filterItems.push(shortenDistrictName(filter.district.Name));
     }
-    if (!job) {
+    if (job) {
       const jobText = getJob(job);
       if (jobText) {
         filterItems.push(jobText);

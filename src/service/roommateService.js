@@ -8,7 +8,10 @@ export function fetchRoommate({
   gender,
   job,
 }) {
-  let query = firestore().collection('Roommates').where('isActive', '==', true);
+  let query = firestore()
+    .collection('Roommates')
+    .orderBy('createdAt', 'desc')
+    .where('isActive', '==', true);
 
   if (last) {
     query = query.startAfter(last);

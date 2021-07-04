@@ -47,4 +47,7 @@ export const styles = StyleSheet.create({
     right: 10,
     top: 50,
   },
+  buttonApply: {
+    marginTop: 10,
+  },
 });

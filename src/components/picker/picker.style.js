@@ -53,6 +53,9 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E4E4E4',
   },
+  searchTextContaner: {
+    marginBottom: 4,
+  },
 });
 
 export const dropdownStyles = StyleSheet.create({

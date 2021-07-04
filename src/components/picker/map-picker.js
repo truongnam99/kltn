@@ -100,6 +100,8 @@ const MapPicker = ({
         placeholder="Nhập địa chỉ tìm kiếm"
         onChangeText={onChangeText}
         value={text}
+        type="outline"
+        containerStyle={styles.searchTextContaner}
       />
       <MapView
         initialRegion={{

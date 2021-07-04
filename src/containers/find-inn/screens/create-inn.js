@@ -89,6 +89,7 @@ const CreateInn = ({route, navigation}) => {
         title={translate.post.innName}
         value={inn.innName}
         onChangeText={onChangeName}
+        placeholder="Nhà trọ Như Ý"
         {...validation.name}
       />
       <CityPicker

@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
   content: {
     textAlignVertical: 'top',
     height: 150,
+    paddingBottom: 6,
+    fontSize: 14,
   },
   row: {
     flexDirection: 'row',
@@ -25,8 +27,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 6,
   },
-  cityContainerStyle: {
-    borderWidth: 1,
-    borderRadius: 6,
+  pickerContainerStype: {
+    borderBottomWidth: 1,
+  },
+  pickerTitleStyle: {
+    fontSize: 16,
+  },
+  inputContainerStyle: {
+    paddingBottom: 4,
   },
 });
