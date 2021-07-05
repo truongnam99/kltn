@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginLeft: 30,
   },
+  bold: {
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

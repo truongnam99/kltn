@@ -5,7 +5,7 @@ import {Image, Text} from '../../../components';
 
 import styles from './chat-item.style';
 
-const ChatItem = ({photoUrl, uid, id, name, text, ...props}) => {
+const ChatItem = ({photoUrl, uid, name, text, readLast}) => {
   const [online, setOnline] = useState(false);
   useEffect(() => {
     database()
@@ -14,6 +14,7 @@ const ChatItem = ({photoUrl, uid, id, name, text, ...props}) => {
         setOnline(snapshot.val());
       });
   }, [uid]);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -21,7 +22,9 @@ const ChatItem = ({photoUrl, uid, id, name, text, ...props}) => {
         {online && <View style={styles.online} />}
         <View style={styles.column}>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.content} numberOfLines={2}>
+          <Text
+            style={[styles.content, !readLast && styles.bold]}
+            numberOfLines={2}>
             {text}
           </Text>
         </View>

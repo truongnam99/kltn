@@ -12,8 +12,8 @@ export const Preview = ({visible, images, onClose}) => {
     <Modal animationType="fade" transparent={true}>
       <View style={styles.container}>
         <Swiper containerStyle={styles.swiper}>
-          {images?.map(image => (
-            <View style={styles.imageContainer}>
+          {images?.map((image, index) => (
+            <View style={styles.imageContainer} key={index}>
               <FastImage source={{uri: image}} style={styles.image} />
             </View>
           ))}

@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {TouchableOpacity, View, Text as RNText} from 'react-native';
+import {TouchableOpacity, View, Text as RNText, ScrollView} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import {Avatar, BasePicker, Button, Text, TextInput} from '../../../components';
 import {
@@ -35,8 +35,8 @@ const Profile = ({navigation, route}) => {
   const _renderButton = () => {
     if (isMe) {
       return (
-        <View>
-          <Text>{translate.logistic.contact}</Text>
+        <View style={styles.contact}>
+          <Text types="h2">{translate.logistic.contact}</Text>
           <Contact navigation={navigation} owner={user} />
         </View>
       );
@@ -231,10 +231,10 @@ const Profile = ({navigation, route}) => {
   }, [user]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {editable ? _renderEditProfile() : _renderProfile()}
       {_renderButton()}
-    </View>
+    </ScrollView>
   );
 };
 

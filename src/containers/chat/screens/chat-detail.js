@@ -10,12 +10,12 @@ import {useChatDetail} from '../hooks/useChatDetail';
 import {activeOpacity} from '../../../components/shared';
 import styles from './chat-detail.style';
 
-const ChatDetail = ({navigation, route, ...props}) => {
+const ChatDetail = ({navigation, route}) => {
   const {selectors, handlers} = useChatDetail();
   const [messageId, setMessageId] = useState(route.params.id);
   const [text, setText] = useState();
   const flatList = useRef();
-  const {handleSendMessage} = handlers;
+  const {handleSendMessage, handleReadLastMessage} = handlers;
   const {messages, uid} = selectors;
   const message = messages.find(item => item.id === messageId);
 
@@ -32,6 +32,14 @@ const ChatDetail = ({navigation, route, ...props}) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (message?.readLast) {
+      if (!message.readLast[uid]) {
+        handleReadLastMessage(messageId, message.readLast);
+      }
+    }
+  }, [message, messageId, uid, handleReadLastMessage]);
 
   const onSendMessage = async () => {
     if (!text) {

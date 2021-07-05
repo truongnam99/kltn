@@ -7,6 +7,7 @@ export const useChatDetail = () => {
   const message = useSelector(selectMessage);
   const uid = useSelector(selectUid);
   const userInfo = useSelector(selectUserInfo);
+
   const handleSendMessage = async ({
     text,
     messageId,
@@ -27,6 +28,10 @@ export const useChatDetail = () => {
             sendBy: uid,
             text,
           }),
+          readLast: {
+            [uid]: true,
+            [destUser.id]: false,
+          },
         });
     } else {
       const result = await firestore()
@@ -52,15 +57,34 @@ export const useChatDetail = () => {
               photoUrl: destUser.photoURL,
             },
           ],
+          readLast: {
+            [uid]: true,
+            [destUser.id]: false,
+          },
         });
       setMessageId(result.id);
       return result;
     }
   };
 
+  const handleReadLastMessage = async (messageId, payload) => {
+    if (messageId) {
+      return await firestore()
+        .collection('Messages')
+        .doc(messageId)
+        .update({
+          readLast: {
+            ...payload,
+            [uid]: true,
+          },
+        });
+    }
+  };
+
   return {
     handlers: {
       handleSendMessage,
+      handleReadLastMessage,
     },
     selectors: {
       messages: Object.values(message),

@@ -17,14 +17,14 @@ const Chat = ({navigation}) => {
       <FlatList
         data={lastMessages}
         keyExtractor={(item, index) => index}
-        renderItem={item => (
+        renderItem={({item}) => (
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() =>
-              goToChatDetail(item.item.name, item.item.id, item.item.photoUrl)
+              goToChatDetail(item.name, item.id, item.photoUrl, item.uid)
             }
             activeOpacity={activeOpacity}>
-            <ChatItem {...item.item} />
+            <ChatItem {...item} />
           </TouchableOpacity>
         )}
         ListEmptyComponent={ListEmptyComponent}

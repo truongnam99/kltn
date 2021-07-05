@@ -23,7 +23,9 @@ const ChatContainer = ({navigation, route, ...props}) => {
       <ChatStack.Screen
         name={navigationName.chat.chatDetail}
         component={ChatDetail}
-        options={({route}) => ({title: route.params.name})}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
       />
     </ChatStack.Navigator>
   );

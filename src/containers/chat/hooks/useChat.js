@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 
@@ -11,11 +10,16 @@ const useChat = ({navigation}) => {
   const uid = useSelector(selectUid);
 
   const goToChatDetail = useCallback(
-    (title, id, photoUrl) => {
+    (title, id, photoUrl, userid) => {
       navigation.push(navigationName.chat.chatDetail, {
-        name: title,
         id,
+        name: title,
         photoUrl,
+        destUser: {
+          id: userid,
+          displayName: title,
+          photoURL: photoUrl,
+        },
       });
     },
     [navigation],
@@ -31,8 +35,10 @@ const useChat = ({navigation}) => {
         const user = msg.userInfos.find(ui => ui.id !== uid);
         return {
           ...user,
+          uid: user.id,
           id: msg.id,
           ...msg.messages[msg.messages.length - 1],
+          readLast: msg.readLast[uid],
         };
       }),
       uid,

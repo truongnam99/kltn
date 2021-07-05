@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
   fontSize: {
     fontSize: 16,
   },
+  contact: {
+    marginTop: 4,
+    marginBottom: 16,
+  },
 });
 
 export default styles;
