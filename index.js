@@ -8,11 +8,13 @@ import {name as appName} from './app.json';
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification, {Importance} from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
 
+// https://github.com/zo0r/react-native-push-notification
 PushNotification.createChannel(
   {
-    channelId: 'kltn-152365', // (required)
-    channelName: 'My channel', // (required)
+    channelId: 'kltn_152365',
+    channelName: 'My channel',
     channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
     playSound: false, // (optional) default: true
     soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
@@ -32,8 +34,8 @@ PushNotification.configure({
   // (required) Called when a remote is received or opened, or local notification is opened
   onNotification: function (notification) {
     console.log('NOTIFICATION:', notification);
-
     // process the notification
+    PushNotification.presentLocalNotification(notification);
 
     // (required) Called when a remote is received or opened, or local notification is opened
     notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -42,7 +44,6 @@ PushNotification.configure({
   // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
   onAction: function (notification) {
     console.log('ACTION:', notification.action);
-    console.log('NOTIFICATION:', notification);
 
     // process the action
   },
@@ -59,18 +60,13 @@ PushNotification.configure({
     sound: true,
   },
 
-  // Should the initial notification be popped automatically
-  // default: true
   popInitialNotification: true,
 
-  /**
-   * (optional) default: true
-   * - Specified if permissions (ios) and token (android and ios) will requested or not,
-   * - if not, you must call PushNotificationsHandler.requestPermissions() later
-   * - if you are not using remote notification or do not have Firebase installed, use this:
-   *     requestPermissions: Platform.OS === 'ios'
-   */
   requestPermissions: true,
+});
+
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  PushNotification.localNotification(remoteMessage.data);
 });
 
 AppRegistry.registerComponent(appName, () => App);
