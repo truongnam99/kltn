@@ -17,6 +17,8 @@ import Navigation from './src/navigation';
 import {MenuProvider} from 'react-native-popup-menu';
 import FlashMessage from 'react-native-flash-message';
 import Test from './src/containers/test';
+import {Button} from './src/components';
+import PushNotification from 'react-native-push-notification';
 
 const store = configureStore();
 const App: () => Node = () => {
@@ -26,11 +28,26 @@ const App: () => Node = () => {
     flex: 1,
   };
 
+  const push = () => {
+    PushNotification.localNotification({
+      channelId: 'kltn-152365',
+      smallIcon: 'ic_launcher',
+      title: 'fasfdsdf',
+      message: 'Haberin detayını okumak için dokunun',
+      data: {},
+    });
+  };
+  const check = () => {
+    PushNotification.setApplicationIconBadgeNumber(0);
+  };
+
   return (
     <Provider store={store}>
       <MenuProvider>
         <SafeAreaView style={backgroundStyle}>
-          <Navigation />
+          <Button onPress={push} title="push" />
+          <Button onPress={check} title="push" />
+          {/* <Navigation /> */}
           {/* <Test /> */}
           <FlashMessage position="top" />
         </SafeAreaView>
