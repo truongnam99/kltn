@@ -1,7 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
+import database from '@react-native-firebase/database';
 import {useSelector} from 'react-redux';
 import {selectUid, selectUserInfo} from '../../login/selectors';
 import {selectMessage} from '../selectors';
+import {postMessage} from '../../../service/firebaseService';
 
 export const useChatDetail = () => {
   const message = useSelector(selectMessage);
@@ -18,8 +20,10 @@ export const useChatDetail = () => {
       return;
     }
 
+    let result = null;
+
     if (messageId) {
-      return await firestore()
+      result = await firestore()
         .collection('Messages')
         .doc(messageId)
         .update({
@@ -34,7 +38,7 @@ export const useChatDetail = () => {
           },
         });
     } else {
-      const result = await firestore()
+      result = await firestore()
         .collection('Messages')
         .add({
           messages: [
@@ -63,8 +67,14 @@ export const useChatDetail = () => {
           },
         });
       setMessageId(result.id);
-      return result;
     }
+    const snapshot = await database()
+      .ref('online/' + uid)
+      .once('value');
+    if (snapshot.val()?.online) {
+      postMessage(snapshot.val()?.deviceToken, destUser.displayName, text);
+    }
+    return result;
   };
 
   const handleReadLastMessage = async (messageId, payload) => {

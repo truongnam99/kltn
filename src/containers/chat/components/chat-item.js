@@ -11,7 +11,7 @@ const ChatItem = ({photoUrl, uid, name, text, readLast}) => {
     database()
       .ref('online/' + uid)
       .once('value', snapshot => {
-        setOnline(snapshot.val());
+        setOnline(snapshot.val()?.online);
       });
   }, [uid]);
 

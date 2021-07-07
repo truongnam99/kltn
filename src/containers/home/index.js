@@ -4,6 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import messaging from '@react-native-firebase/messaging';
 
 import LogisticContainer from '../logistic';
 import RoommateContainer from '../roommate';
@@ -17,10 +18,13 @@ import {lightTheme} from '../../config/theme';
 const Tab = createBottomTabNavigator();
 
 const Home = props => {
-  useEffect(() => {
+  useEffect(async () => {
     const userId = auth().currentUser.uid;
     const reference = database().ref(`/online/${userId}`);
-    reference.set(true);
+    reference.set({
+      online: true,
+      deviceToken: await messaging().getToken(),
+    });
     reference.onDisconnect().remove();
   }, []);
 
