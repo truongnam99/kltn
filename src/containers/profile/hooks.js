@@ -23,7 +23,7 @@ const useHooks = ({navigation, route}) => {
   const [updateValue, setUpdateValue] = useState(user);
   const [validation, setValidation] = useState({});
   const [loading, setLoading] = useState(false);
-  const {status: updateInfoStatus} = useSelector(selectUpdateStatus);
+  const {status: updateInfoStatus} = useSelector(selectUpdateStatus) || {};
 
   const pickerImageCallback = ({didCancel, errorMessage, uri}) => {
     if (didCancel) {
