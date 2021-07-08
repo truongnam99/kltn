@@ -26,16 +26,14 @@ const FindInnDetail = ({route, navigation}) => {
     if (!inn.created_by) {
       return;
     }
-    navigation.navigate(navigationName.home.chat, {
-      screen: navigationName.chat.chatDetail,
-      params: {
-        name: inn.created_by.displayName,
-        photoUrl: inn.created_by.photoURL,
-        destUser: {
-          id: inn.created_by.uid,
-          displayName: inn.created_by.displayName,
-          photoURL: inn.created_by.photoURL,
-        },
+    console.log('ddđ');
+    navigation.navigate(navigationName.findInn.chat, {
+      name: inn.created_by.displayName,
+      photoUrl: inn.created_by.photoURL,
+      destUser: {
+        id: inn.created_by.uid,
+        displayName: inn.created_by.displayName,
+        photoURL: inn.created_by.photoURL,
       },
     });
   };

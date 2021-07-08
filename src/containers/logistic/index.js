@@ -8,6 +8,8 @@ import {navigationName} from '../../constants/navigation';
 import {headerOptions} from '../../config/index';
 import CreateLogistic from './screens/create-logistic';
 import MyLogistic from './screens/my-logistic';
+import Profile from '../profile/screen/profile';
+import ChatDetail from '../chat/screens/chat-detail';
 
 const LogisticContainer = () => {
   const LogisticStack = createStackNavigator();
@@ -51,6 +53,20 @@ const LogisticContainer = () => {
         options={{
           headerTitle: 'Dịch vụ đã đăng',
         }}
+      />
+      <LogisticStack.Screen
+        name={navigationName.logistic.viewProfile}
+        component={Profile}
+        options={({route}) => ({
+          title: route.params.profile?.displayName || '',
+        })}
+      />
+      <LogisticStack.Screen
+        name={navigationName.logistic.chat}
+        component={ChatDetail}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
       />
     </LogisticStack.Navigator>
   );

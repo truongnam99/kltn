@@ -1,7 +1,14 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, View, Text as RNText, ScrollView} from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import {Avatar, BasePicker, Button, Text, TextInput} from '../../../components';
+import {
+  Avatar,
+  BasePicker,
+  Button,
+  Text,
+  TextInput,
+  ConfirmBox,
+} from '../../../components';
 import {
   gender,
   getGender,
@@ -20,16 +27,26 @@ const CTextInput = ({...props}) => {
 
 const Profile = ({navigation, route}) => {
   const {selectors, handlers} = useHooks({navigation, route});
-  const {isMe, user, editable, updateValue, validation, loading} = selectors;
+  const {
+    isMe,
+    user,
+    editable,
+    updateValue,
+    validation,
+    loading,
+    showConfirmLogout,
+  } = selectors;
   const {
     onOpenEdit,
     onCancel,
     onUpdateProfile,
-    onSignOut,
+    onShowConfirmLogoutBox,
     onChangeName,
     pickImage,
     updateProfile,
     onChangePhone,
+    onConfirmLogout,
+    onCancelLogout,
   } = handlers;
 
   const _renderButton = () => {
@@ -71,7 +88,7 @@ const Profile = ({navigation, route}) => {
             containerStyle={styles.buttonStyle}
             buttonStyle={styles.buttonSecondaryColor}
             title="Đăng xuất"
-            onPress={onSignOut}
+            onPress={onShowConfirmLogoutBox}
           />
         </View>
       );
@@ -234,6 +251,12 @@ const Profile = ({navigation, route}) => {
     <ScrollView style={styles.container}>
       {editable ? _renderEditProfile() : _renderProfile()}
       {_renderButton()}
+      <ConfirmBox
+        title="Bạn có muốn đăng xuất không"
+        onConfirm={onConfirmLogout}
+        onCancel={onCancelLogout}
+        visible={showConfirmLogout}
+      />
     </ScrollView>
   );
 };

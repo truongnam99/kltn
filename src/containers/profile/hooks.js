@@ -24,6 +24,7 @@ const useHooks = ({navigation, route}) => {
   const [validation, setValidation] = useState({});
   const [loading, setLoading] = useState(false);
   const {status: updateInfoStatus} = useSelector(selectUpdateStatus) || {};
+  const [showConfirmLogout, setShowConfirmLogout] = useState(false);
 
   const pickerImageCallback = ({didCancel, errorMessage, uri}) => {
     if (didCancel) {
@@ -109,17 +110,40 @@ const useHooks = ({navigation, route}) => {
     }
   }, [updateInfoStatus, dispatch]);
 
+  const onConfirmLogout = () => {
+    onSignOut();
+    setShowConfirmLogout(false);
+  };
+
+  const onCancelLogout = useCallback(() => {
+    setShowConfirmLogout(false);
+  }, []);
+
+  const onShowConfirmLogoutBox = useCallback(() => {
+    setShowConfirmLogout(true);
+  }, []);
+
   return {
-    selectors: {user, isMe, editable, updateValue, validation, loading},
+    selectors: {
+      user,
+      isMe,
+      editable,
+      updateValue,
+      validation,
+      loading,
+      showConfirmLogout,
+    },
     handlers: {
       onOpenEdit,
       onCancel,
       onUpdateProfile,
-      onSignOut,
       onChangeName,
       onChangePhone,
       pickImage,
       updateProfile,
+      onConfirmLogout,
+      onCancelLogout,
+      onShowConfirmLogoutBox,
     },
   };
 };

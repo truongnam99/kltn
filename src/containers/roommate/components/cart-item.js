@@ -69,7 +69,7 @@ const CartItem = ({
   };
 
   const onViewProfile = () => {
-    props?.navigation.navigate(navigationName.findInn.viewProfile, {
+    props?.navigation.navigate(navigationName.roommate.viewProfile, {
       profile: owner,
     });
   };

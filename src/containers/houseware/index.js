@@ -7,6 +7,8 @@ import {translate} from '../../constants/translate';
 import {Houseware} from './screens/houseware';
 import {CreateHouseware} from './screens/create-houseware';
 import {MyHouseware} from './screens/my-houseware';
+import Profile from '../profile/screen/profile';
+import ChatDetail from '../chat/screens/chat-detail';
 
 const HousewareContainer = () => {
   const HousewareStack = createStackNavigator();
@@ -33,6 +35,20 @@ const HousewareContainer = () => {
         options={{
           headerTitle: translate.houseware.myHouseware,
         }}
+      />
+      <HousewareStack.Screen
+        name={navigationName.houseware.profile}
+        component={Profile}
+        options={({route}) => ({
+          title: route.params.profile?.displayName || '',
+        })}
+      />
+      <HousewareStack.Screen
+        name={navigationName.houseware.chat}
+        component={ChatDetail}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
       />
     </HousewareStack.Navigator>
   );

@@ -23,6 +23,7 @@ import {
   selectDeleteLogisticStatus,
   selectUpdateLogisticStatus,
 } from '../selectors';
+import {navigationName} from '../../../constants/navigation';
 
 export const useCreateLogistic = ({data = {}, navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -103,13 +104,13 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
       setLoading(true);
     } else {
       setLoading(false);
-      if (
-        createLogisticStatus === status.SUCCESS ||
-        updateLogisticStatus === status.SUCCESS
-      ) {
+      if (createLogisticStatus === status.SUCCESS) {
         dispatch(resetCreateLogisticStatus());
+        navigation.goBack(navigationName.logistic.logistic);
+      }
+      if (updateLogisticStatus === status.SUCCESS) {
         dispatch(resetUpdateLogisticStatus());
-        navigation.goBack();
+        navigation.goBack(navigationName.logistic.myLogistic);
       }
     }
   }, [navigation, createLogisticStatus, updateLogisticStatus, dispatch]);
@@ -121,7 +122,7 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
       setDeleteLoading(false);
       if (deleteLogisticStatus === status.SUCCESS) {
         dispatch(resetDeleteLogisticStatus());
-        navigation.goBack();
+        navigation.goBack(navigationName.logistic.myLogistic);
       }
     }
   }, [navigation, deleteLogisticStatus, dispatch]);

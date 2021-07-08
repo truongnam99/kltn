@@ -25,7 +25,7 @@ const LogisticDetail = ({route, navigation}) => {
   }, [logistic.image]);
 
   const onViewProfile = () => {
-    navigation.navigate(navigationName.findInn.viewProfile, {profile: owner});
+    navigation.navigate(navigationName.logistic.viewProfile, {profile: owner});
   };
 
   const city = getCity(logistic.city);
@@ -34,16 +34,13 @@ const LogisticDetail = ({route, navigation}) => {
     if (!owner) {
       return;
     }
-    navigation.navigate(navigationName.home.chat, {
-      screen: navigationName.chat.chatDetail,
-      params: {
-        name: owner.ownerName || owner.displayName || owner.username,
-        photoUrl: owner.photoURL,
-        destUser: {
-          id: owner.uid,
-          displayName: owner.ownerName || owner.displayName || owner.username,
-          photoURL: owner.photoURL,
-        },
+    navigation.navigate(navigationName.logistic.chat, {
+      name: owner.ownerName || owner.displayName || owner.username,
+      photoUrl: owner.photoURL,
+      destUser: {
+        id: owner.uid,
+        displayName: owner.ownerName || owner.displayName || owner.username,
+        photoURL: owner.photoURL,
       },
     });
   };

@@ -9,7 +9,7 @@ import {
 } from 'react-native-popup-menu';
 import {getDistricts, shortenDistrictName} from '../../../utils/utils';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Contact} from '../../roommate/components/contact';
+import {Contact} from './contact';
 import {styles} from './cart-item.style';
 import {Image, Text} from '../../../components';
 

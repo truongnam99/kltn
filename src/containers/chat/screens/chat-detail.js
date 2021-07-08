@@ -11,6 +11,7 @@ import {activeOpacity} from '../../../components/shared';
 import styles from './chat-detail.style';
 
 const ChatDetail = ({navigation, route}) => {
+  console.log('route: ', route);
   const {selectors, handlers} = useChatDetail();
   const [messageId, setMessageId] = useState(route.params.id);
   const [text, setText] = useState();

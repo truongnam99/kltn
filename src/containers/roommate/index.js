@@ -6,6 +6,8 @@ import {translate} from '../../constants/translate';
 import Roommate from './screens/roommate';
 import Post from './screens/post';
 import {MyPost} from './screens/my-post';
+import ChatDetail from '../chat/screens/chat-detail';
+import Profile from '../profile/screen/profile';
 
 const RoommateStack = createStackNavigator();
 
@@ -33,6 +35,20 @@ export default function RoommateContainer() {
         options={{
           headerTitle: translate.roommate.myPost,
         }}
+      />
+      <RoommateStack.Screen
+        name={navigationName.roommate.profile}
+        component={Profile}
+        options={({route}) => ({
+          title: route.params.profile?.displayName || '',
+        })}
+      />
+      <RoommateStack.Screen
+        name={navigationName.roommate.chat}
+        component={ChatDetail}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
       />
     </RoommateStack.Navigator>
   );

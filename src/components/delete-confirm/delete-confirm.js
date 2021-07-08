@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Modal, StyleSheet, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {Button, Text} from '..';

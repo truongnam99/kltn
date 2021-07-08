@@ -44,10 +44,11 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   changeView: {
-    padding: 4,
+    padding: 5,
     backgroundColor: 'white',
     borderRadius: 4,
     color: lightTheme.primary,
+    elevation: 2,
   },
   loading: {
     width: '100%',

@@ -17,6 +17,7 @@ import Image from './image/image';
 import {Filter} from './filter/filter';
 import Marker from './map/marker';
 import MapPicker from './picker/map-picker';
+import {DeleteConfirm as ConfirmBox} from './delete-confirm/delete-confirm';
 
 export {
   Avatar,
@@ -38,4 +39,5 @@ export {
   Marker,
   MapPicker,
   AreaPicker,
+  ConfirmBox,
 };

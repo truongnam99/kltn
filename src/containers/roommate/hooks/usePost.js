@@ -16,6 +16,7 @@ import {
   selectUpdateRoommateStatus,
 } from '../selectors';
 import {status} from '../../../constants/constants';
+import {navigationName} from '../../../constants/navigation';
 
 const usePostHook = ({data = {}, navigation}) => {
   const [showInnInfo, setShowInnInfo] = useState(data.haveInnContent || false);
@@ -264,13 +265,13 @@ const usePostHook = ({data = {}, navigation}) => {
     } else {
       setLoading(false);
     }
-    if (
-      createRoommateStatus === status.SUCCESS ||
-      updateRoommateStatus === status.SUCCESS
-    ) {
+    if (createRoommateStatus === status.SUCCESS) {
       dispatch(resetCreateRoommateStatus());
+      navigation.goBack(navigationName.roommate.roommate);
+    }
+    if (updateRoommateStatus === status.SUCCESS) {
       dispatch(resetUpdateRoommateStatus());
-      navigation.goBack();
+      navigation.goBack(navigationName.roommate.myPost);
     }
   }, [navigation, createRoommateStatus, updateRoommateStatus, dispatch]);
 
@@ -282,7 +283,7 @@ const usePostHook = ({data = {}, navigation}) => {
     }
     if (deleteRoommateStatus === status.SUCCESS) {
       dispatch(resetDeleteRoommateStatus());
-      navigation.goBack();
+      navigation.goBack(navigationName.roommate.myPost);
     }
   }, [deleteRoommateStatus, navigation, dispatch]);
 

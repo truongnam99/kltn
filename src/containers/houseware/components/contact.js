@@ -4,10 +4,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {activeOpacity} from '../../../components/shared';
 import {navigationName} from '../../../constants/navigation';
 import {dial} from '../../../utils/utils';
+
 export const Contact = ({owner, navigation}) => {
   const onChatPress = () => {
     if (owner) {
-      navigation.navigate(navigationName.roommate.chat, {
+      navigation.navigate(navigationName.houseware.chat, {
         name: owner.displayName,
         photoUrl: owner.photoURL,
         destUser: {

@@ -9,6 +9,7 @@ import Profile from '../profile/screen/profile';
 import {navigationName} from '../../constants/navigation';
 import {translate} from '../../constants/translate';
 import {headerOptions} from '../../config/index';
+import ChatDetail from '../chat/screens/chat-detail';
 
 export default function FinnInnContainer() {
   const HomeStack = createStackNavigator();
@@ -48,6 +49,13 @@ export default function FinnInnContainer() {
         component={Profile}
         options={({route}) => ({
           title: route.params.profile?.displayName || '',
+        })}
+      />
+      <HomeStack.Screen
+        name={navigationName.findInn.chat}
+        component={ChatDetail}
+        options={({route}) => ({
+          title: route.params.name,
         })}
       />
     </HomeStack.Navigator>

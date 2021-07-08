@@ -14,6 +14,7 @@ import {selectCreateInnStatus, selectDeleteInnStatus} from '../selectors';
 import {selectUserInfo} from '../../login/selectors';
 import {uploadImagesToFirebase} from '../../../service/firebaseService';
 import {status} from '../../../constants/constants';
+import {navigationName} from '../../../constants/navigation';
 
 export const useCreateInn = ({data = {}, navigation}) => {
   const dispatch = useDispatch();
@@ -186,7 +187,7 @@ export const useCreateInn = ({data = {}, navigation}) => {
   const onCreateInn = async () => {
     const result = await handleCreateInn();
     if (result) {
-      navigation.goBack();
+      navigation.goBack(navigationName.findInn.findInn);
     }
   };
 
@@ -474,7 +475,7 @@ export const useCreateInn = ({data = {}, navigation}) => {
       setShowDeleteConfirmModal(false);
       dispatch(deleteInn(data.uid));
     } finally {
-      navigation.goBack();
+      navigation.goBack(navigationName.findInn.myInn);
     }
   }, [dispatch, data, navigation]);
 

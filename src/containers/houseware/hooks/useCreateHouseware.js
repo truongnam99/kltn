@@ -12,6 +12,7 @@ import {
 import {selectUserInfo} from '../../login/selectors';
 import {selectCreateHouseware, selectUpdateHouseware} from '../selectors';
 import {showMessageFail} from '../../../utils/utils';
+import {navigationName} from '../../../constants/navigation';
 
 export const useCreateHouseware = ({navigation, data = {}}) => {
   const userInfo = useSelector(selectUserInfo);
@@ -180,11 +181,11 @@ export const useCreateHouseware = ({navigation, data = {}}) => {
       setLoading(false);
     }
     if (statusCreateHouseware === status.SUCCESS) {
-      navigation.goBack();
+      navigation.goBack(navigationName.houseware.houseware);
       dispatch(resetCreateHousewareStatus());
     }
     if (statusUpdateHouseware === status.SUCCESS) {
-      navigation.goBack();
+      navigation.goBack(navigationName.houseware.myHouseware);
       dispatch(resetUpdateHousewareStatus());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -14,12 +14,15 @@ export const navigationName = {
     innDetail: 'inn-inn-detail',
     myInn: 'inn-my-inn',
     viewProfile: 'inn-view-profile',
+    chat: 'inn-chat',
   },
   logistic: {
     logistic: 'logistic-logistic',
     logisticDetail: 'logistic-logistic-detail',
     createLogistic: 'logistic-create-logistic',
     myLogistic: 'logistic-my-logistic',
+    viewProfile: 'logistic-view-profile',
+    chat: 'logistic-chat',
   },
   chat: {
     chat: 'chat-chat',
@@ -37,10 +40,14 @@ export const navigationName = {
     roommate: 'roommate-roommate',
     post: 'roommate-post',
     myPost: 'roommate-my-post',
+    profile: 'roommate-profile',
+    chat: 'roommate-chat',
   },
   houseware: {
     houseware: 'houseware-houseware',
     createHouseware: 'houseware-create-houseware',
     myHouseware: 'houseware-my-houseware',
+    profile: 'houseware-profile',
+    chat: 'houseware-chat',
   },
 };
