@@ -31,6 +31,8 @@ export const DELETE_INN = 'inn/DELETE_INN';
 export const DELETE_INN_SUCCESS = 'inn/DELETE_INN_SUCCESS';
 export const DELETE_INN_FAIL = 'inn/DELETE_INN_FAIL';
 
+export const RESET_CREATE_INN_STATUS = 'inn/RESET_CREATE_INN_STATUS';
+
 export const INN_SHOW_LOADING = 'inn/INN_SHOW_LOADING';
 export const SET_IS_END = 'inn/SET_IS_END';
 export const INN_SET_lAST = 'inn/INN_SET_LAST';

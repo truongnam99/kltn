@@ -11,7 +11,6 @@ import {activeOpacity} from '../../../components/shared';
 import styles from './chat-detail.style';
 
 const ChatDetail = ({navigation, route}) => {
-  console.log('route: ', route);
   const {selectors, handlers} = useChatDetail();
   const [messageId, setMessageId] = useState(route.params.id);
   const [text, setText] = useState();
@@ -26,8 +25,8 @@ const ChatDetail = ({navigation, route}) => {
       for (const msg of messages) {
         if (msg.users.find(item => item === route.params.destUser.id)) {
           tempMessageId = msg.id;
+          break;
         }
-        break;
       }
       setMessageId(tempMessageId);
     }
@@ -46,13 +45,13 @@ const ChatDetail = ({navigation, route}) => {
     if (!text) {
       return;
     }
+    setText(null);
     await handleSendMessage({
       text,
       messageId: messageId,
       destUser: route.params.destUser,
       setMessageId,
     });
-    setText(null);
     flatListScrollToEnd();
   };
 

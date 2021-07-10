@@ -28,6 +28,10 @@ export const useMyHouseware = ({navigation}) => {
     }
   }, [fetchMyHousewaresStatus]);
 
+  const onGotoCreateHouseware = () => {
+    navigation.navigate(navigationName.houseware.createHouseware);
+  };
+
   const onCartItemPress = useCallback(
     item => {
       navigation.navigate(navigationName.houseware.createHouseware, {
@@ -46,6 +50,6 @@ export const useMyHouseware = ({navigation}) => {
 
   return {
     selectors: {housewares, isLoading},
-    handlers: {onCartItemPress, onMarkSold},
+    handlers: {onCartItemPress, onMarkSold, onGotoCreateHouseware},
   };
 };

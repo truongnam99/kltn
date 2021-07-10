@@ -43,7 +43,7 @@ export const shortenPrice = value => {
 };
 
 export const dial = async phoneNumber => {
-  const pn = unFormatString(phoneNumber, 'phoneNumber');
+  const pn = formatString(phoneNumber, 'phoneNumber');
   if (!pn) {
     showMessageInfo('No phone number');
   }

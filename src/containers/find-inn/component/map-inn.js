@@ -110,7 +110,6 @@ const MapInn = ({
               <Marker
                 key={index}
                 coordinate={item.coordinate}
-                title={item.room_name}
                 description={shortenPrice(item.room_price)}
                 onPress={() => {
                   onMakerPress(item);

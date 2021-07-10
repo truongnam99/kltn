@@ -112,6 +112,12 @@ const translate = {
     SELECTED_ITEMS_COUNT_TEXT: 'd item(s) have been selected',
     NOTHING_TO_SHOW: 'Không có tỉnh nào để hiển thị',
   },
+  pickerTranslate: {
+    PLACEHOLDER: 'Tất cả',
+    SEARCH_PLACEHOLDER: 'Tìm kiếm...',
+    SELECTED_ITEMS_COUNT_TEXT: 'd item(s) have been selected',
+    NOTHING_TO_SHOW: 'Không có phần tử để hiển thị',
+  },
   statusPicker: {
     PLACEHOLDER: 'Trạng thái phòng',
     SELECTED_ITEMS_COUNT_TEXT: 'd item(s) have been selected',

@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {TextInput} from '..';
@@ -18,6 +18,8 @@ const MapPicker = ({
   const [text, setText] = useState();
   const [listPlaces, setListPlaces] = useState([]);
 
+  const mapRef = useRef(null);
+
   const onMapPress = useCallback(
     event => {
       setPoint(event.nativeEvent.coordinate);
@@ -28,6 +30,9 @@ const MapPicker = ({
 
   const onItemSearchPress = useCallback(value => {
     setPoint(value?.coordinate);
+    if (value?.coordinate && mapRef?.current) {
+      mapRef.current.animateCamera({center: value?.coordinate});
+    }
     setListPlaces([]);
   }, []);
 
@@ -104,9 +109,10 @@ const MapPicker = ({
         containerStyle={styles.searchTextContaner}
       />
       <MapView
+        ref={mapRef}
         initialRegion={{
-          latitude: 10.821473,
-          longitude: 106.62865,
+          latitude: defaultValue?.latitude || 10.821473,
+          longitude: defaultValue?.longitude || 106.62865,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}

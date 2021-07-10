@@ -4,7 +4,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './logistic-detail.style';
 import {translate} from '../../../constants/translate';
-import {dial, getCity, shortenDistrictName} from '../../../utils/utils';
+import {
+  dial,
+  formatString,
+  getCity,
+  shortenDistrictName,
+} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import {Image, Text} from '../../../components';

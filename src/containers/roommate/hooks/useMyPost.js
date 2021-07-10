@@ -18,6 +18,10 @@ export const useMyPost = ({navigation}) => {
     selectFetchMyRoommateStatus,
   );
 
+  const onOpenPost = useCallback(() => {
+    navigation.navigate(navigationName.roommate.post);
+  }, [navigation]);
+
   const onGotoCreateRoommate = data => {
     navigation.navigate(navigationName.roommate.post, {
       data,
@@ -46,6 +50,6 @@ export const useMyPost = ({navigation}) => {
 
   return {
     selectors: {posts, userInfo, loading},
-    handlers: {handleFoundRoommate, onGotoCreateRoommate},
+    handlers: {handleFoundRoommate, onGotoCreateRoommate, onOpenPost},
   };
 };

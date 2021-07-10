@@ -104,6 +104,7 @@ const CreateLogistic = ({route, navigation}) => {
         tiltle="Khu vực hoạt động"
         onChangeValue={value => handleSetLogistic('area', value)}
         cityId={logistic.city}
+        defaultValue={logistic.area}
       />
 
       <CustomInput

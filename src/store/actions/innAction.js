@@ -14,6 +14,7 @@ import {
   INN_RELOAD_LIST,
   INN_SET_lAST,
   INN_SHOW_LOADING,
+  RESET_CREATE_INN_STATUS,
   SET_IS_END,
   UPDATE_INNS,
   UPDATE_MY_INNS,
@@ -126,5 +127,11 @@ export const deleteInnFail = payload => {
   return {
     type: DELETE_INN_FAIL,
     payload,
+  };
+};
+
+export const resetCreateInnStatus = () => {
+  return {
+    type: RESET_CREATE_INN_STATUS,
   };
 };

@@ -92,8 +92,6 @@ const ImagePicker = ({
 
   const rePickerImage = useCallback(
     index => {
-      console.log('index: ', index);
-      // setRePickerImageIndex(index);
       rePickerImageIndex = index;
       launchImageLibrary(
         {

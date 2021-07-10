@@ -3,7 +3,7 @@ import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {activeOpacity} from '../../../components/shared';
 import {navigationName} from '../../../constants/navigation';
-import {dial} from '../../../utils/utils';
+import {dial, formatString} from '../../../utils/utils';
 export const Contact = ({owner, navigation}) => {
   const onChatPress = () => {
     if (owner) {

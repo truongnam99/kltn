@@ -1,5 +1,6 @@
 import {produce} from 'immer';
 import {call, put, select, takeLatest} from 'redux-saga/effects';
+import {uploadImagesToFirebase} from '../../service/firebaseService';
 import {
   createInnInAlgolia,
   createInnInFirebase,
@@ -103,6 +104,11 @@ export function* createInnWatcher() {
 
 function* createInnTask({payload}) {
   const {inns, myInns} = yield select(state => state.innReducer);
+  const imageUrls = yield call(
+    uploadImagesToFirebase,
+    payload.upload_room_images,
+  );
+  payload.upload_room_images = imageUrls;
   if (payload.uid) {
     try {
       yield call(updateInnInFirebase, payload);

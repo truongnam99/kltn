@@ -43,9 +43,11 @@ export const ActionButtonItem = ({
 
   return (
     <Animatable.View ref={animationRef} animation={fadeIn} duration={500}>
-      <Text numberOfLines={1} style={styles.text}>
-        {title}
-      </Text>
+      <View style={styles.textContainer}>
+        <Text numberOfLines={1} style={styles.text}>
+          {title}
+        </Text>
+      </View>
       <View
         style={[
           styles.buttonActionBase,
@@ -60,7 +62,13 @@ export const ActionButtonItem = ({
   );
 };
 
-export const ActionButton = ({children, buttonColor, ...rest}) => {
+export const ActionButton = ({
+  children,
+  buttonColor,
+  onPress,
+  icon,
+  ...rest
+}) => {
   const [openActionItem, setOpenActionItem] = useState(false);
 
   const rotateAnimationRef = useRef(null);
@@ -80,6 +88,9 @@ export const ActionButton = ({children, buttonColor, ...rest}) => {
   }, [setOpenActionItem]);
 
   const _renderItem = useCallback(() => {
+    if (!children) {
+      return null;
+    }
     const actionButtonItems = Array.isArray(children) ? children : [children];
     return (
       <>
@@ -95,7 +106,7 @@ export const ActionButton = ({children, buttonColor, ...rest}) => {
         })}
       </>
     );
-  }, [openActionItem, children]);
+  }, [openActionItem, children, closeActionItem]);
 
   return (
     <View style={styles.absolute}>
@@ -107,9 +118,18 @@ export const ActionButton = ({children, buttonColor, ...rest}) => {
         ]}>
         <TouchableOpacity
           activeOpacity={activeOpacity}
-          onPress={onActionButtonPress}>
+          onPress={onPress || onActionButtonPress}>
           <Animatable.View ref={rotateAnimationRef}>
-            <Ionicons name="add" size={32} color="white" style={[styles.add]} />
+            {!icon ? (
+              <Ionicons
+                name="add"
+                size={32}
+                color="white"
+                style={[styles.add]}
+              />
+            ) : (
+              icon
+            )}
           </Animatable.View>
         </TouchableOpacity>
       </View>
@@ -139,10 +159,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    position: 'absolute',
+    backgroundColor: '#f2f2f2',
+    paddingHorizontal: 4,
+  },
+  textContainer: {
+    alignItems: 'flex-end',
     right: 64,
     top: 20,
-    textAlign: 'right',
+    position: 'absolute',
     width: 150,
+    elevation: 1,
   },
 });

@@ -62,7 +62,7 @@ export function fetchDataFromAlgolia({
   maxRadius = 5000,
 }) {
   let filter = '';
-  let facetFilter = '';
+  let facetFilter = [];
   if (minPrice || maxPrice) {
     if (minPrice && maxPrice) {
       filter += `room_price:${minPrice} TO ${maxPrice}`;
@@ -88,13 +88,10 @@ export function fetchDataFromAlgolia({
     filter += ` AND parking_situation:${kitchen}`;
   }
   if (city) {
-    facetFilter += `full_address_object.city.code:${city}`;
+    facetFilter.push(`full_address_object.city.code:${city}`);
   }
   if (district) {
-    if (facetFilter) {
-      facetFilter += ' AND ';
-    }
-    facetFilter += `full_address_object.district.code:${district}`;
+    facetFilter.push(`full_address_object.district.code:${district}`);
   }
 
   if (typeOfItem === 'map') {

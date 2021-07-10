@@ -1,6 +1,7 @@
 import React, {memo, useState} from 'react';
 import {View, Text} from 'react-native';
 import Picker from 'react-native-dropdown-picker';
+import {translate} from '../../constants/translate';
 import {dropdownStyles as styles} from './picker.style';
 
 const BasePicker = ({
@@ -15,6 +16,7 @@ const BasePicker = ({
   listItemLabelStyle,
   textStyle,
   titleStyle,
+  translation = translate.pickerTranslate,
 }) => {
   const [open, setOpen] = useState(false);
   const onPress = () => setOpen(!open);
@@ -50,6 +52,7 @@ const BasePicker = ({
         modalContentContainerStyle={styles.modalContentContainerStyle}
         listItemLabelStyle={[styles.listItemLabelStyle, listItemLabelStyle]}
         textStyle={[styles.textStyle, textStyle]}
+        translation={translation}
       />
     </View>
   );

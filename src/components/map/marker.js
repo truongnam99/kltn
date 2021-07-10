@@ -11,10 +11,12 @@ const MapMarker = ({title, description, coordinate, onPress, ...props}) => {
     }
     return (
       <View style={styles.container}>
-        <Text numberOfLines={1} style={[styles.mw100, styles.font]}>
-          {title}
-        </Text>
-        <Text style={styles.font}>{description}</Text>
+        {title && (
+          <Text numberOfLines={1} style={[styles.mw100, styles.font]}>
+            {title}
+          </Text>
+        )}
+        {description && <Text style={styles.font}>{description}</Text>}
       </View>
     );
   }, [title, description]);

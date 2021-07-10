@@ -18,6 +18,7 @@ import {
   DELETE_INN,
   DELETE_INN_SUCCESS,
   DELETE_INN_FAIL,
+  RESET_CREATE_INN_STATUS,
 } from '../actions/types';
 import {status} from '../../constants/constants';
 
@@ -83,10 +84,16 @@ const innReducer = (state = initialState, {type, payload}) => {
         draft.createInn.message = '';
         draft.inns = [payload, ...draft.inns];
         draft.count = draft.count + 1;
+        draft.myInns = [payload, ...draft.myInns];
         break;
       case CREATE_INN_FAIL:
         draft.createInn.status = status.FAIL;
         draft.createInn.message = payload;
+        break;
+
+      case RESET_CREATE_INN_STATUS:
+        draft.createInn.status = '';
+        draft.createInn.message = '';
         break;
 
       case DELETE_INN:

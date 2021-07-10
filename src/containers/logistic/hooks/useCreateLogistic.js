@@ -48,7 +48,7 @@ export const useCreateLogistic = ({data = {}, navigation}) => {
       uid: userInfo.uid,
     },
     images: data.image ? [{uri: data.image}] : [],
-    area: data.area || [],
+    area: data.area?.filter(item => item) || [],
     exactAddress: data.exact_address,
     price: data.price,
     city: data.full_address_object?.city.Id || '79',

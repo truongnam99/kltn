@@ -34,7 +34,7 @@ export const useInn = ({navigation}) => {
   const onFetchInn = useCallback(
     (props = {}) => {
       handleFetchInn({
-        searchText: headerText,
+        arcsehText: headerText,
         district: filter.district?.Id,
         city: filter.city?.Id,
         minPrice: filter.price?.minPrice,

@@ -18,9 +18,10 @@ const AreaPicker = ({
   textStyle,
   titleStyle,
   onChangeValue,
+  defaultValue = [],
 }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState(defaultValue);
   const [districts, setDistricts] = useState(getDistricts(cityId));
   const onPress = () => setOpen(!open);
 

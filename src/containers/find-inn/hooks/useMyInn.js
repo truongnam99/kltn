@@ -9,6 +9,11 @@ export const useMyInn = ({navigation}) => {
   const myInns = useSelector(selectMyInns);
   const {status: createMyInnStatus} = useSelector(selectFetchMyInnStatus);
   const [loading, setLoading] = useState(true);
+
+  const onGotoCreateInn = () => {
+    navigation.navigate(navigationName.findInn.createInn);
+  };
+
   const onOpenCreateInnLikeUpdate = useCallback(
     data => {
       navigation.navigate(navigationName.findInn.createInn, {
@@ -39,7 +44,7 @@ export const useMyInn = ({navigation}) => {
   }, [createMyInnStatus]);
 
   return {
-    handlers: {handleFetchMyInn, onOpenCreateInnLikeUpdate},
+    handlers: {handleFetchMyInn, onOpenCreateInnLikeUpdate, onGotoCreateInn},
     seletors: {myInns, loading},
   };
 };
