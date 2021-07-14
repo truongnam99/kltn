@@ -21,10 +21,12 @@ const SmallItem = ({
         <Image image={images && images[0]} style={styles.image} />
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.textName}>{room_name}</Text>
-        <Text>{exact_room_address}</Text>
+        <Text style={styles.textName} numberOfLines={2}>
+          {room_name}
+        </Text>
+        <Text numberOfLines={2}>{exact_room_address}</Text>
         <View>
-          <Text>Giá: {numeralPrice(room_price)}đ</Text>
+          <Text>{'$ ' + numeralPrice(room_price)}đ</Text>
         </View>
       </View>
     </View>

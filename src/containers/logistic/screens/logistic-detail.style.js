@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
+import {lightTheme} from '../../../config/theme';
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
   container: {
     margin: 8,
     borderRadius: 8,
@@ -49,6 +53,24 @@ const styles = StyleSheet.create({
   },
   me16: {
     marginEnd: 16,
+  },
+  contactContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    justifyContent: 'space-around',
+    padding: 4,
+    elevation: 6,
+  },
+  buttonContact: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    borderColor: lightTheme.primary,
+    borderWidth: 1,
   },
 });
 

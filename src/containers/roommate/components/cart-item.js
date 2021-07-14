@@ -17,6 +17,7 @@ import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import Text from '../../../components/text/text';
 import {Image} from '../../../components';
+import {GenderIcon, JobIcon} from '../../../components/icon';
 import {shortenDistrictName} from '../../../utils/utils';
 
 const maxNumberOfLines = 5;
@@ -136,10 +137,17 @@ const CartItem = ({
         onTextLayout={onTextLayout}>
         {content}
         {getGender(props.gender) && (
-          <Text>{`\nNghề nghiệp: ${getJob(props.job)}`}</Text>
+          <Text>
+            {'\n'} <JobIcon size={16} />
+            {`${getJob(props.job)}`}
+          </Text>
         )}
         {getGender(props.gender) && (
-          <Text>{`\nGiới tính: ${getGender(props.gender)}`}</Text>
+          <Text>
+            {'\n'}
+            <GenderIcon size={18} />
+            {`${getGender(props.gender)}`}
+          </Text>
         )}
         {props.age && props.age.length && (
           <Text>{`\nTuổi từ: ${props.age[0]} - ${props.age[1]}`}</Text>

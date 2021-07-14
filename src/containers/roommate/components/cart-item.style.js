@@ -41,6 +41,10 @@ const styles = StyleSheet.create({
   dot: {
     fontWeight: 'bold',
   },
+  line: {
+    borderTopColor: lightTheme.grayC4,
+    borderTopWidth: 1,
+  },
 });
 
 export default styles;

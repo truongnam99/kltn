@@ -2,6 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {activeOpacity} from '../../../components/shared';
+import {lightTheme} from '../../../config/theme';
 import {navigationName} from '../../../constants/navigation';
 import {dial} from '../../../utils/utils';
 
@@ -31,12 +32,12 @@ export const Contact = ({owner, navigation}) => {
         <MaterialIcons
           name="chat"
           size={32}
-          color="#0E8DF1"
+          color={lightTheme.primary}
           style={styles.me16}
         />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={activeOpacity} onPress={onDialPress}>
-        <MaterialIcons name="call" size={32} color="#0E8DF1" />
+        <MaterialIcons name="call" size={32} color={lightTheme.primary} />
       </TouchableOpacity>
     </View>
   );

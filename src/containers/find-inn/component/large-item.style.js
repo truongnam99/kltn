@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  row: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
 });
 
 export default styles;

@@ -1,14 +1,34 @@
 import React, {useCallback, useState} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {ImageView, Text} from '../../../components/index';
 import Image from '../../../components/image/image';
-import {dial, formatString, numeralPrice} from '../../../utils/utils';
+import {dial, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import styles from './find-inn-detail.style';
 import {Preview} from '../../../components/preview';
+import {lightTheme} from '../../../config/theme';
+import {
+  AirConditionerIcon,
+  AreaIcon,
+  BathroomIcon,
+  BedRoomIcon,
+  ElectrictIcon,
+  FridgeIcon,
+  GuardIcon,
+  KitchenIcon,
+  ParkingIcon,
+  PedAllowIcon,
+  TiviIcon,
+  WashingMachineIcon,
+  WaterIcon,
+  WifiIcon,
+  WindowIcon,
+} from '../../../components/icon';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
@@ -59,7 +79,13 @@ const FindInnDetail = ({route, navigation}) => {
           </TouchableOpacity>
         )}
         <View style={styles.detailContainer}>
-          <View style={[styles.primaryContainer, styles.row, styles.alignEnd]}>
+          <View
+            style={[
+              styles.primaryContainer,
+              styles.row,
+              styles.alignEnd,
+              styles.center,
+            ]}>
             <Image
               image={inn.created_by?.photoURL}
               style={styles.avatar}
@@ -77,13 +103,48 @@ const FindInnDetail = ({route, navigation}) => {
 
           <View style={styles.primaryContainer}>
             <Text style={styles.name}>{inn.room_name}</Text>
-            <Text>Địa chỉ: {inn.exact_room_address}</Text>
-            <Text>Số điện thoại: {inn.phone_number}</Text>
-            <Text>Giá: {numeralPrice(inn.room_price)} đ</Text>
-            <Text>Diện tích: {inn.room_area} m2</Text>
-            <Text>Điện: {numeralPrice(inn.electric_price)} k/kw</Text>
-            <Text>Cộc: {numeralPrice(inn.deposit)} đ</Text>
-            <Text>Nước: {numeralPrice(inn.water_price)} k/m3</Text>
+
+            <Text>
+              <Ionicons name="location-outline" size={16} />
+              {' ' + inn.exact_room_address}
+            </Text>
+            <Text>
+              <AntDesign name="phone" size={16} /> {' ' + inn.phone_number}
+            </Text>
+            <View
+              style={[
+                styles.row,
+                styles.sb,
+                styles.lineTop,
+                styles.mv,
+                styles.pv,
+                styles.lineBottom,
+              ]}>
+              <View>
+                <Text>GIÁ PHÒNG</Text>
+                <Text style={styles.price}>
+                  {numeralPrice(inn.room_price)} đ
+                </Text>
+              </View>
+              <View>
+                <Text>TIỀN CỘC</Text>
+                <Text style={styles.price}>{numeralPrice(inn.deposit)} đ</Text>
+              </View>
+            </View>
+            <View style={[styles.row, styles.sb]}>
+              <View style={styles.center}>
+                <AreaIcon />
+                <Text>{inn.room_area} m2</Text>
+              </View>
+              <View style={styles.center}>
+                <ElectrictIcon />
+                <Text>{numeralPrice(inn.electric_price)} k/kw</Text>
+              </View>
+              <View style={styles.center}>
+                <WaterIcon />
+                <Text>{numeralPrice(inn.water_price)} k/m3</Text>
+              </View>
+            </View>
           </View>
 
           <View style={styles.primaryContainer}>
@@ -93,56 +154,116 @@ const FindInnDetail = ({route, navigation}) => {
 
           <View style={styles.primaryContainer}>
             <Text types="bold,h2">Tiện ích</Text>
-            {inn.air_conditioner && <Text>- Máy lạnh</Text>}
-            {inn.room_bathroom && <Text>- Phòng tắm</Text>}
-            {inn.parking_situation && <Text>- Chỗ đổ xe</Text>}
-            {inn.room_wifi && <Text>- Wifi</Text>}
-            {inn.room_refrigerator && <Text>- Tủ lạnh</Text>}
-            {inn.room_washing_machine && <Text>- Máy rửa chén</Text>}
-            {inn.security_guard && <Text>- Bảo vệ</Text>}
-            {inn.room_bed && <Text>- Phòng ngủ</Text>}
-            {inn.room_tivi && <Text>- Tivi</Text>}
-            {inn.room_pets_allowed && <Text>- Cho phép nuôi thú cưng</Text>}
-            {inn.room_closet && <Text>- Rèm cửa</Text>}
-            {inn.room_kitchen && <Text>- Nhà bếp</Text>}
-            {inn.window && <Text>- Cửa số</Text>}
+            <View style={styles.row}>
+              {inn.air_conditioner && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <AirConditionerIcon />
+                  <Text>Máy lạnh</Text>
+                </View>
+              )}
+              {inn.room_bathroom && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <BathroomIcon />
+                  <Text>Phòng tắm</Text>
+                </View>
+              )}
+              {inn.parking_situation && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <ParkingIcon />
+                  <Text>Chỗ đổ xe</Text>
+                </View>
+              )}
+              {inn.room_wifi && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <WifiIcon />
+                  <Text>Wifi</Text>
+                </View>
+              )}
+              {inn.room_refrigerator && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <FridgeIcon />
+                  <Text>Tủ lạnh</Text>
+                </View>
+              )}
+              {inn.room_washing_machine && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <WashingMachineIcon />
+                  <Text>Máy giặt</Text>
+                </View>
+              )}
+              {inn.security_guard && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <GuardIcon />
+                  <Text>Bảo vệ</Text>
+                </View>
+              )}
+              {inn.room_bed && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <BedRoomIcon />
+                  <Text>Phòng ngủ</Text>
+                </View>
+              )}
+              {inn.room_tivi && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <TiviIcon />
+                  <Text>Tivi</Text>
+                </View>
+              )}
+              {inn.room_pets_allowed && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <PedAllowIcon />
+                  <Text>Cho nuôi thú cưng</Text>
+                </View>
+              )}
+              {inn.room_kitchen && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <KitchenIcon />
+                  <Text>Nhà bếp</Text>
+                </View>
+              )}
+              {inn.window && (
+                <View style={[styles.center, styles.iconWidth, styles.mv]}>
+                  <WindowIcon />
+                  <Text>Cửa số</Text>
+                </View>
+              )}
+            </View>
           </View>
 
           <View style={styles.primaryContainer}>
             <Text types="bold,h2">Chú ý</Text>
             {inn.attention && <Text>{inn.attention}</Text>}
           </View>
-          <View style={styles.primaryContainer}>
-            <Text
-              style={StyleSheet.flatten([{marginBottom: 6}])}
-              types="bold,h2">
-              Liên hệ
-            </Text>
-            <View style={styles.rowLayout}>
-              <TouchableOpacity
-                activeOpacity={activeOpacity}
-                onPress={onGotoChat}>
-                <MaterialIcons
-                  name="chat"
-                  size={32}
-                  color="#0E8DF1"
-                  style={styles.me16}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={activeOpacity}
-                onPress={() => dial(inn.phone_number)}>
-                <MaterialIcons
-                  name="call"
-                  size={32}
-                  color="#0E8DF1"
-                  style={styles.me16}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
         </View>
       </ScrollView>
+      <View style={styles.contactContainer}>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onGotoChat}
+          style={styles.buttonContact}>
+          <MaterialIcons
+            name="chat"
+            size={32}
+            color={lightTheme.primary}
+            style={styles.me16}
+          />
+          <Text>Nhắn tin</Text>
+        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            activeOpacity={activeOpacity}
+            onPress={() => dial(inn.phone_number)}
+            style={styles.buttonContact}>
+            <MaterialIcons
+              name="call"
+              size={32}
+              color={lightTheme.primary}
+              style={styles.me16}
+            />
+            <Text>Gọi điện</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };

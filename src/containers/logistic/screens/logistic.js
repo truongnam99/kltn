@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  FlatList,
-  TouchableOpacity,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -19,7 +14,6 @@ import {
   ItemFilterContainer,
 } from '../../../components/filter/filter';
 import {useLogistic} from '../hooks/useLogistic';
-import {lightTheme} from '../../../config/theme';
 import {translate} from '../../../constants/translate';
 import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
 import {activeOpacity} from '../../../components/shared';

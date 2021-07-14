@@ -4,17 +4,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './logistic-detail.style';
 import {translate} from '../../../constants/translate';
-import {
-  dial,
-  formatString,
-  getCity,
-  shortenDistrictName,
-} from '../../../utils/utils';
+import {dial, getCity, shortenDistrictName} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import {Image, Text} from '../../../components';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Preview} from '../../../components/preview';
+import {lightTheme} from '../../../config/theme';
 
 const LogisticDetail = ({route, navigation}) => {
   const {logistic} = route.params;
@@ -51,83 +47,88 @@ const LogisticDetail = ({route, navigation}) => {
   };
 
   return (
-    <ScrollView>
-      <Preview
-        visible={!!previewImage}
-        onClose={onPreviewClose}
-        images={[previewImage]}
-      />
-      <TouchableOpacity
-        style={styles.container}
-        activeOpacity={activeOpacity}
-        onPress={onPreviewOpen}>
-        <Image image={logistic.image} style={styles.image} />
-      </TouchableOpacity>
-      <View style={styles.infoContainer}>
-        <View style={styles.userContainer}>
-          <Image
-            image={logistic.owner.photoURL}
-            style={styles.userImage}
-            isAvata={true}
-          />
-          <Text style={styles.username}>
-            {owner.userName || owner.displayName}
-          </Text>
-          <TouchableOpacity
-            activeOpacity={activeOpacity}
-            onPress={onViewProfile}>
-            <MaterialIcons name="info-outline" size={20} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.contentContainer}>
-          <Text types="bold,h2">{translate.logistic.area}</Text>
-          {logistic.area && (
-            <Text>
-              {logistic.area
-                ?.map(item =>
-                  shortenDistrictName(
-                    city.Districts.find(d => d.Id === item)?.Name,
-                  ),
-                )
-                .join(', ')}
+    <View style={styles.flex}>
+      <ScrollView>
+        <Preview
+          visible={!!previewImage}
+          onClose={onPreviewClose}
+          images={[previewImage]}
+        />
+        <TouchableOpacity
+          style={styles.container}
+          activeOpacity={activeOpacity}
+          onPress={onPreviewOpen}>
+          <Image image={logistic.image} style={styles.image} />
+        </TouchableOpacity>
+        <View style={styles.infoContainer}>
+          <View style={styles.userContainer}>
+            <Image
+              image={logistic.owner.photoURL}
+              style={styles.userImage}
+              isAvata={true}
+            />
+            <Text style={styles.username}>
+              {owner.userName || owner.displayName}
             </Text>
-          )}
-        </View>
-        <View style={styles.contentContainer}>
-          <Text types="bold,h2">{translate.logistic.price}</Text>
-          <Text>{logistic.price}</Text>
-        </View>
-        <View style={styles.contentContainer}>
-          <Text types="bold,h2">{translate.logistic.detail}</Text>
-          <Text>{logistic.notes}</Text>
-        </View>
-        <View style={styles.contentContainer}>
-          <Text types="bold,h2">{translate.logistic.contact}</Text>
-          <View style={styles.rowLayout}>
             <TouchableOpacity
               activeOpacity={activeOpacity}
-              onPress={onGotoChat}>
-              <MaterialIcons
-                name="chat"
-                size={32}
-                color="#0E8DF1"
-                style={styles.me16}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={activeOpacity}
-              onPress={() => dial(logistic.owner.phoneNumber)}>
-              <MaterialIcons
-                name="call"
-                size={32}
-                color="#0E8DF1"
-                style={styles.me16}
-              />
+              onPress={onViewProfile}>
+              <MaterialIcons name="info-outline" size={20} />
             </TouchableOpacity>
           </View>
+          <View style={styles.contentContainer}>
+            <Text types="bold,h2">{translate.logistic.area}</Text>
+            {logistic.area && (
+              <Text>
+                {logistic.area
+                  ?.map(item =>
+                    shortenDistrictName(
+                      city.Districts.find(d => d.Id === item)?.Name,
+                    ),
+                  )
+                  .join(', ')}
+              </Text>
+            )}
+          </View>
+          <View style={styles.contentContainer}>
+            <Text types="bold,h2">{translate.logistic.price}</Text>
+            <Text>{logistic.price}</Text>
+          </View>
+          <View style={styles.contentContainer}>
+            <Text types="bold,h2">{translate.logistic.detail}</Text>
+            <Text>{logistic.notes}</Text>
+          </View>
+        </View>
+      </ScrollView>
+      <View style={styles.contactContainer}>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onGotoChat}
+          style={styles.buttonContact}>
+          <MaterialIcons
+            name="chat"
+            size={32}
+            color={lightTheme.primary}
+            style={styles.me16}
+          />
+          <Text>Nhắn tin</Text>
+        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            activeOpacity={activeOpacity}
+            onPress={() => dial(logistic.owner.phoneNumber)}
+            style={styles.buttonContact}>
+            <MaterialIcons
+              name="call"
+              size={32}
+              color={lightTheme.primary}
+              style={styles.me16}
+            />
+            <Text>Gọi điện</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

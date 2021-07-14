@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   alignEnd: {
     alignItems: 'flex-end',
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   me16: {
-    marginEnd: 16,
+    marginEnd: 8,
   },
   avatar: {
     borderRadius: 32,
@@ -70,6 +71,60 @@ const styles = StyleSheet.create({
   },
   ml6: {
     marginLeft: 6,
+  },
+  mr: {
+    marginRight: 4,
+  },
+  sb: {
+    justifyContent: 'space-between',
+  },
+  sa: {
+    justifyContent: 'space-around',
+  },
+  lineTop: {
+    borderTopWidth: 1,
+    borderTopColor: lightTheme.grayC4,
+  },
+  lineBottom: {
+    borderBottomWidth: 1,
+    borderBottomColor: lightTheme.grayC4,
+  },
+  mv: {
+    marginVertical: 6,
+  },
+  pv: {
+    paddingVertical: 6,
+  },
+  center: {
+    alignItems: 'center',
+  },
+  iconWidth: {
+    width: '25%',
+  },
+  contactContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    justifyContent: 'space-around',
+    padding: 4,
+    elevation: 6,
+  },
+  buttonContact: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    borderColor: lightTheme.primary,
+    borderWidth: 1,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  jcenter: {
+    justifyContent: 'center',
   },
 });
 
