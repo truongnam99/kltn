@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {Contact} from './contact';
 import {styles} from './cart-item.style';
 import {Image, Text} from '../../../components';
+import {navigationName} from '../../../constants/navigation';
 
 const Owner = ({image, name, belowOwner}) => {
   return (
@@ -109,6 +110,12 @@ const CartItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberOfDisplays]);
 
+  const onGotoProfile = () => {
+    navigation.navigate(navigationName.houseware.profile, {
+      profile: owner,
+    });
+  };
+
   const _renderAction = useCallback(() => {
     if (isMe) {
       return (
@@ -158,11 +165,13 @@ const CartItem = ({
     <View style={[styles.container, containerStyle]}>
       <View style={[styles.row, styles.headerContainer]}>
         {owner && (
-          <Owner
-            image={owner.photoURL}
-            name={owner.displayName}
-            belowOwner={_renderBelowOwner}
-          />
+          <TouchableOpacity activeOpacity={0.8} onPress={onGotoProfile}>
+            <Owner
+              image={owner.photoURL}
+              name={owner.displayName}
+              belowOwner={_renderBelowOwner}
+            />
+          </TouchableOpacity>
         )}
         {_renderAction()}
       </View>
