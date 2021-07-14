@@ -60,3 +60,5 @@ buck-out/
 android/java_pid*.hprof
 
 serviceAccountKey.json
+secretkey.js
+android/app/src/main/res/values/strings.xml

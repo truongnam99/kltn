@@ -32,8 +32,12 @@ const useHooks = ({navigation}) => {
   };
 
   const signInWithPhoneNumber = async phoneNumber => {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setConfirm(confirmation);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const setUserCredential = userCredential => {

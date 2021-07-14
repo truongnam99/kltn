@@ -35,6 +35,11 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 30,
   },
+  imageMessage: {
+    width: 144,
+    height: 144,
+    borderRadius: 8,
+  },
 });
 
 export default styles;

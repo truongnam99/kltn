@@ -1,6 +1,7 @@
 import storage from '@react-native-firebase/storage';
 import messaging from '@react-native-firebase/messaging';
 import {generateId} from '../utils/utils';
+import {fcmKey} from '../../secretkey';
 
 export const uploadImagesToFirebase = images => {
   if (!images && !images.length) {
@@ -38,8 +39,7 @@ export const postMessage = async (deviceToken, userName, message) => {
       method: 'post',
       headers: new Headers({
         'Content-Type': 'application/json',
-        Authorization:
-          'key=AAAA3M28g7w:APA91bHLi1WyKFQAlVGA77GhMWI8B-oLOtSwnY3isG3eWOyiUr81S6qoeYKiiuYCyRNWfOm4XuMYAH8K1MQ7letcNeTIXN-qwoGoIiMV1X_LCSb4SpAG-REYs_cIm6F8s6Xwml0ai2Qj',
+        Authorization: `key=${fcmKey}`,
       }),
       body: JSON.stringify({
         to: deviceToken,

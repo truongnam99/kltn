@@ -42,6 +42,8 @@ const PhoneLogin = ({navigation}) => {
       }
       await signInWithPhoneNumber(unFormatString(phoneNumber, 'phoneNumber'));
       navigation.navigate(navigationName.login.confirmCode);
+    } catch (error) {
+      showMessageFail('Không thể đăng nhập bằng số điện thoại này');
     } finally {
       setIsLoading(false);
     }

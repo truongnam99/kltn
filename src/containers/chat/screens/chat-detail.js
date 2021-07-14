@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, FlatList, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity, Modal, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Message from '../components/message';
 import {Text, TextInput} from '../../../components';
 import dayjs from 'dayjs';
@@ -15,8 +16,13 @@ const ChatDetail = ({navigation, route}) => {
   const [messageId, setMessageId] = useState(route.params.id);
   const [text, setText] = useState();
   const flatList = useRef();
-  const {handleSendMessage, handleReadLastMessage} = handlers;
-  const {messages, uid} = selectors;
+  const {
+    handleSendMessage,
+    handleReadLastMessage,
+    openImagePicker,
+    setImage,
+  } = handlers;
+  const {messages, uid, image} = selectors;
   const message = messages.find(item => item.id === messageId);
 
   useEffect(() => {
@@ -41,13 +47,14 @@ const ChatDetail = ({navigation, route}) => {
     }
   }, [message, messageId, uid, handleReadLastMessage]);
 
-  const onSendMessage = async () => {
-    if (!text) {
+  const onSendMessage = async (type = null) => {
+    if (!text && !image) {
       return;
     }
     setText(null);
     await handleSendMessage({
       text,
+      type,
       messageId: messageId,
       destUser: route.params.destUser,
       setMessageId,
@@ -85,6 +92,14 @@ const ChatDetail = ({navigation, route}) => {
         )}
       />
       <View style={styles.sendMessageContainer}>
+        <TouchableOpacity activeOpacity={0.8} onPress={openImagePicker}>
+          <MaterialIcons
+            name="add-photo-alternate"
+            size={32}
+            color={lightTheme.primary}
+            style={styles.imageStyle}
+          />
+        </TouchableOpacity>
         <TextInput
           placeholder="message..."
           containerStyle={styles.textContainerStyle}
@@ -98,6 +113,32 @@ const ChatDetail = ({navigation, route}) => {
           <Ionicons name="send" size={32} color={lightTheme.primary} />
         </TouchableOpacity>
       </View>
+      <Modal visible={!!image} transparent={true}>
+        <View style={styles.sendMessageModel}>
+          <View style={styles.sendMessageView}>
+            <View style={styles.imagePickerContainer}>
+              <Image
+                source={{
+                  uri: image,
+                }}
+                style={styles.image}
+              />
+            </View>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity
+                activeOpacity={activeOpacity}
+                onPress={() => setImage(null)}>
+                <Ionicons name="close" size={32} color={lightTheme.grayC4} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={activeOpacity}
+                onPress={() => onSendMessage('image')}>
+                <Ionicons name="send" size={32} color={lightTheme.primary} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
