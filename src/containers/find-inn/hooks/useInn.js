@@ -34,11 +34,10 @@ export const useInn = ({navigation}) => {
   const onFetchInn = useCallback(
     (props = {}) => {
       if (typeOfItem === 'map' && !location) {
-        showMessageInfo('Vui lòng chọn một địa điểm');
         return;
       }
       handleFetchInn({
-        arcsehText: headerText,
+        searchText: headerText,
         district: filter.district?.Id,
         city: filter.city?.Id,
         minPrice: filter.price?.minPrice,

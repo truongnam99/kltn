@@ -9,14 +9,7 @@ import {Image, Marker, Text} from '../../../components';
 import {activeOpacity} from '../../../components/shared';
 import {styles} from './map-inn.style';
 import {lightTheme} from '../../../config/theme';
-
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
+import {ElectrictIcon, WaterIcon} from '../../../components/icon';
 
 const MapInn = ({
   inns,
@@ -31,7 +24,6 @@ const MapInn = ({
   const [inn, setInn] = useState(null);
   const [showInnContainer, setShowInnContainer] = useState(false);
   const innContainerRef = useRef(null);
-  const preShowInnContainer = usePrevious(showInnContainer);
 
   const onCloseInnContainer = useCallback(() => {
     setShowInnContainer(false);
@@ -41,14 +33,11 @@ const MapInn = ({
     if (!inn) {
       return null;
     }
-    if (showInnContainer === preShowInnContainer) {
+
+    if (!showInnContainer) {
       return null;
     }
-    if (!showInnContainer) {
-      innContainerRef?.current?.bounceOutDown();
-    } else {
-      innContainerRef?.current?.bounceInUp();
-    }
+
     return (
       <Animatable.View style={styles.innContainer} ref={innContainerRef}>
         <TouchableOpacity
@@ -61,9 +50,15 @@ const MapInn = ({
             {inn.room_name}
           </Text>
           <Text numberOfLines={2}>{inn.exact_room_address}</Text>
-          <Text>{'Giá: ' + shortenPrice(inn.room_price)}</Text>
-          <Text>{'Điện: ' + shortenPrice(inn.electric_price)}</Text>
-          <Text>{'Nước: ' + shortenPrice(inn.water_price)}</Text>
+          <Text>{' $ ' + shortenPrice(inn.room_price)}</Text>
+          <Text>
+            <ElectrictIcon size={16} />
+            {shortenPrice(inn.electric_price)}
+          </Text>
+          <Text>
+            <WaterIcon size={16} />
+            {shortenPrice(inn.water_price)}
+          </Text>
         </View>
         <MaterialIcons
           name="close"
@@ -73,13 +68,7 @@ const MapInn = ({
         />
       </Animatable.View>
     );
-  }, [
-    inn,
-    showInnContainer,
-    preShowInnContainer,
-    onCloseInnContainer,
-    onViewDetail,
-  ]);
+  }, [inn, showInnContainer, onCloseInnContainer, onViewDetail]);
   const onMakerPress = useCallback(
     value => {
       setInn(value);

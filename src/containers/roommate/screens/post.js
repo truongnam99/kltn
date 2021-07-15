@@ -4,7 +4,7 @@ import Slider from '@ptomasroos/react-native-multi-slider';
 
 import {
   Button,
-  CheckBox,
+  // CheckBox,
   TextInput,
   BasePicker,
   Text,
@@ -48,7 +48,7 @@ const Post = ({route, navigation}) => {
     onSelectJob,
     onSelectGender,
     onAgeChange,
-    onChangeShowInnInfo,
+    // onChangeShowInnInfo,
     onInnNameChange,
     onInnOwnerChange,
     onInnPriceChange,
@@ -117,15 +117,16 @@ const Post = ({route, navigation}) => {
         onValuesChange={onAgeChange}
         containerStyle={styles.sliderContainer}
         step={1}
+        sliderLength={360}
       />
 
-      <CheckBox
+      {/* <CheckBox
         types=""
         checked={showInnInfo}
         onChange={onChangeShowInnInfo}
         text={translate.post.innInfo}
         textStyle={styles.fontSize}
-      />
+      /> */}
       {showInnInfo && (
         <View>
           <CustomInput

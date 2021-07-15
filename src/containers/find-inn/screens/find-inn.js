@@ -147,6 +147,7 @@ const FindInn = ({navigation}) => {
         renderItem={item => (
           <TouchableOpacity
             onPress={() => onViewDetail(item.item)}
+            activeOpacity={activeOpacity}
             style={styles.smallItemContainer}>
             <SmallItem
               images={item.item.upload_room_images}

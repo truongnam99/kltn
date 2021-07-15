@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   resetCreateRoommateStatus,
@@ -20,6 +20,20 @@ import {navigationName} from '../../../constants/navigation';
 
 const usePostHook = ({data = {}, navigation}) => {
   const [showInnInfo, setShowInnInfo] = useState(data.haveInnContent || false);
+  const userInfo = useSelector(selectUserInfo);
+  const age = useMemo(() => {
+    try {
+      if (!userInfo?.birthday) {
+        return 22;
+      }
+      return (
+        parseInt(new Date().getFullYear()) -
+        parseInt(userInfo.birthday.substring(6))
+      );
+    } catch (error) {
+      return 22;
+    }
+  }, [userInfo]);
   const [roommate, setRoommate] = useState(
     data.id
       ? {
@@ -44,9 +58,9 @@ const usePostHook = ({data = {}, navigation}) => {
           innDeposit: null,
           city: '79',
           district: null,
-          job: 0,
-          gender: 0,
-          age: [20, 30],
+          job: userInfo.job || 0,
+          gender: userInfo.gender,
+          age: [age - 3, age + 3],
         },
   );
   const dispatch = useDispatch();
@@ -54,7 +68,6 @@ const usePostHook = ({data = {}, navigation}) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
 
-  const userInfo = useSelector(selectUserInfo);
   const {status: createRoommateStatus} = useSelector(
     selectCreateRoommateStatus,
   );

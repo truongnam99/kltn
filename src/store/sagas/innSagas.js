@@ -41,14 +41,13 @@ export function* fetchInnWatcher() {
 
 function* fetchInnTask({type, payload}) {
   try {
+    if (payload.reload) {
+      yield put(reloadInn());
+    }
     const {isEnd, count, last} = yield select(state => state.innReducer);
-
     if (isEnd && !payload.reload) {
       yield put(fetchInnSuccess([]));
       return;
-    }
-    if (payload.reload) {
-      yield put(reloadInn());
     }
     let data = null;
     if (

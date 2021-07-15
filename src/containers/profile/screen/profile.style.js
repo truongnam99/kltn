@@ -60,6 +60,10 @@ const styles = StyleSheet.create({
   center: {
     textAlignVertical: 'center',
   },
+  uneditable: {
+    backgroundColor: '#f2f2f2',
+    color: lightTheme.grayC4,
+  },
 });
 
 export default styles;

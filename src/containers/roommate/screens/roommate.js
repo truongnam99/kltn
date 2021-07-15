@@ -114,6 +114,7 @@ const Roommate = ({navigation}) => {
         callBack={filterCallBack}
         showPricePicker={false}
         styleContainer={styles.filterModelContainer}
+        defaultValue={filter}
       />
     </View>
   );

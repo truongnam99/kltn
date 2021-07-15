@@ -114,22 +114,15 @@ const Profile = ({navigation, route}) => {
           value={updateValue.displayName}
           title={translate.name}
           type="outline"
-          onChangeText={onChangeName}
-          required={true}
-          error={validation.displayName}
-          showHint={validation.displayName}
-          hint="Tên không được để trống"
+          editable={false}
+          textInputStyle={styles.uneditable}
         />
         <CTextInput
+          textInputStyle={styles.uneditable}
           value={formatString(updateValue.phoneNumber, 'phoneNumber')}
           title={translate.phoneNumber}
           type="outline"
-          onChangeText={onChangePhone}
-          required={true}
-          error={validation.phoneNumber}
-          showHint={validation.phoneNumber}
-          hint="Số điện thoại không hợp lệ"
-          keyboardType="phone-pad"
+          editable={false}
         />
         <CTextInput
           value={updateValue.email}
@@ -148,7 +141,7 @@ const Profile = ({navigation, route}) => {
             dateText: styles.dateText,
           }}
           style={styles.dateTouchBody}
-          onDateChange={date => onUpdateProfile(date, 'phoneNumber')}
+          onDateChange={date => onUpdateProfile(date, 'birthday')}
         />
         <BasePicker
           containerStyle={styles.marginTop}

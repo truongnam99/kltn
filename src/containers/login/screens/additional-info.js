@@ -136,7 +136,10 @@ const AdditionalInfo = ({navigation}) => {
       phoneNumber: unFormatString(userInfo.phoneNumber, 'phoneNumber'),
     });
     handleSetUser(user);
-    navigation.replace(navigationName.homeContainer);
+    navigation.reset({
+      index: 0,
+      routes: [{name: navigationName.homeContainer}],
+    });
     setIsLoading(false);
   };
 

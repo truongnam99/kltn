@@ -17,7 +17,7 @@ const Loading = ({navigation}) => {
   useEffect(() => {
     const currentUser = auth().currentUser;
     if (!currentUser) {
-      navigation.navigate(navigationName.login.login);
+      navigation.replace(navigationName.login.login);
     } else {
       if (!userInfo) {
         const reference = database().ref('/users/' + currentUser.uid);
@@ -25,13 +25,19 @@ const Loading = ({navigation}) => {
           const user = data.toJSON();
           if (user) {
             dispatch(setUser(user));
-            navigation.replace(navigationName.homeContainer);
+            navigation.reset({
+              index: 0,
+              routes: [{name: navigationName.homeContainer}],
+            });
           } else {
-            navigation.navigate(navigationName.login.additionalUserInfo);
+            navigation.replace(navigationName.login.additionalUserInfo);
           }
         });
       } else {
-        navigation.replace(navigationName.homeContainer);
+        navigation.reset({
+          index: 0,
+          routes: [{name: navigationName.homeContainer}],
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

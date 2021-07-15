@@ -98,7 +98,10 @@ const useHooks = ({navigation}) => {
       const user = data.toJSON();
       if (user) {
         dispatch(setUser(user));
-        navigation.replace(navigationName.homeContainer);
+        navigation.reset({
+          index: 0,
+          routes: [{name: navigationName.homeContainer}],
+        });
       } else {
         navigation.navigate(navigationName.login.additionalUserInfo);
       }

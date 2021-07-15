@@ -10,6 +10,9 @@ import {selectUserInfo} from '../../login/selectors';
 import {status} from '../../../constants/constants';
 
 const useHook = ({navigation}) => {
+  const {status: fetchRoommateStatus} = useSelector(selectFetchRoommateStatus);
+  const roommates = useSelector(selectRoommates);
+  const userInfo = useSelector(selectUserInfo);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
@@ -17,11 +20,11 @@ const useHook = ({navigation}) => {
       Id: '79',
       Name: 'Thành phố Hồ Chí Minh',
     },
+    gender: userInfo.gender,
+    job: userInfo.job,
+    age: userInfo.age,
   });
   const dispatch = useDispatch();
-  const {status: fetchRoommateStatus} = useSelector(selectFetchRoommateStatus);
-  const roommates = useSelector(selectRoommates);
-  const userInfo = useSelector(selectUserInfo);
 
   const onOpenPost = useCallback(() => {
     navigation.navigate(navigationName.roommate.post);
@@ -71,6 +74,7 @@ const useHook = ({navigation}) => {
 
   const handleFetchRoommate = useCallback(
     (props = {reload: false}) => {
+      console.log('props: ', props);
       dispatch(
         fetchRoommate({
           cityId: filter?.city?.Id,
