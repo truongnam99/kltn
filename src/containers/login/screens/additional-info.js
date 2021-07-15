@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {View, ScrollView, TouchableOpacity} from 'react-native';
+import {View, ScrollView, TouchableOpacity, Modal} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import dayjs from 'dayjs';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -9,6 +9,7 @@ import {TextInput, Avatar, Text, BasePicker, Button} from '../../../components';
 import {translate} from '../../../constants/translate';
 import styles from './additional-info.style';
 import {navigationName} from '../../../constants/navigation';
+import {termsAndPolicies} from '../../../termsAndPolicies';
 import {
   cities,
   formatString,
@@ -36,6 +37,10 @@ const AdditionalInfo = ({navigation}) => {
   const {userCredential} = selectors;
   const nameRef = useRef();
   const phoneNumberRef = useRef();
+
+  const [acceptedTermsAndPolicies, setAcceptedTermsAndPolicies] = useState(
+    false,
+  );
 
   const [userInfo, setUserInfo] = useState({
     uid: userCredential.uid,
@@ -232,6 +237,25 @@ const AdditionalInfo = ({navigation}) => {
         </View>
       </ScrollView>
       <ModalLoading isShow={isLoading} />
+      <Modal visible={!acceptedTermsAndPolicies} transparent={true}>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text types="bold,h2" style={styles.headerTerm}>
+              Điều khoản và chính sách ứng dụng
+            </Text>
+            <ScrollView>
+              <Text>{termsAndPolicies}</Text>
+            </ScrollView>
+            <TouchableOpacity
+              style={styles.buttonAcceptTerm}
+              onPress={() => setAcceptedTermsAndPolicies(true)}>
+              <Text style={styles.textAcceptTerm}>
+                Tôi chấp nhận và đồng ý các điều khoản và chính sách trên
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
   detailContainer: {
     margin: 8,
+    marginBottom: 0,
   },
   name: {
     fontSize: 16,

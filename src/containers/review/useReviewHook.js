@@ -31,7 +31,8 @@ export const useReviewHook = reviewId => {
         .doc(reviewId)
         .get();
       if (result.exists) {
-        const data = result.data();
+        let data = result.data();
+        data.items = data.items?.reverse();
         const myReview = data.items?.find(item => {
           return item.userId === uid;
         });
@@ -90,8 +91,8 @@ export const useReviewHook = reviewId => {
           });
         setReviewed(true);
         setRate({
-          numberOfRate: 1,
-          rateAvg: review.rate,
+          numberOfRate: rate.numberOfRate + 1,
+          rateAvg,
           items: [item, ...rate.items],
         });
       }

@@ -9,7 +9,7 @@ import {selectUserInfo} from '../../../containers/login/selectors';
 import {navigationName} from '../../../constants/navigation';
 import {selectInns, selectCount, selectFetchInnStatus} from '../selectors';
 import {status} from '../../../constants/constants';
-import {showMessageFail} from '../../../utils/utils';
+import {showMessageFail, showMessageInfo} from '../../../utils/utils';
 
 export const useInn = ({navigation}) => {
   const [typeOfItem, setTypeOfItem] = useState('large');
@@ -33,6 +33,10 @@ export const useInn = ({navigation}) => {
 
   const onFetchInn = useCallback(
     (props = {}) => {
+      if (typeOfItem === 'map' && !location) {
+        showMessageInfo('Vui lòng chọn một địa điểm');
+        return;
+      }
       handleFetchInn({
         arcsehText: headerText,
         district: filter.district?.Id,

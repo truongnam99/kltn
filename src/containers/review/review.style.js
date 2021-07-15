@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     borderRadius: 8,
-    marginHorizontal: 10,
+    marginHorizontal: 8,
     padding: 8,
     marginBottom: 8,
   },
@@ -35,11 +35,6 @@ export const styles = StyleSheet.create({
     borderRadius: 32,
     marginRight: 8,
   },
-  line: {
-    height: 1,
-    backgroundColor: lightTheme.grayC4,
-    marginVertical: 8,
-  },
   row: {
     flexDirection: 'row',
   },
@@ -50,13 +45,15 @@ export const styles = StyleSheet.create({
     marginLeft: 6,
   },
   fz: {
-    fontSize: 16,
+    fontSize: 14,
   },
   reviewAt: {
     fontStyle: 'italic',
   },
   itemContainer: {
     padding: 8,
+  },
+  line: {
     borderBottomColor: lightTheme.grayC4,
     borderBottomWidth: 1,
   },

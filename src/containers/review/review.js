@@ -24,11 +24,16 @@ export const Review = ({reviewId, containerStyle}) => {
     return (
       <>
         <View style={[styles.mt]}>
-          <Text types="bold,h2">Bài đánh giá</Text>
+          <Text types="bold">Bài đánh giá</Text>
         </View>
         {renderItem?.map((item, index) => {
           return (
-            <View key={index} style={styles.itemContainer}>
+            <View
+              key={index}
+              style={[
+                styles.itemContainer,
+                renderItem?.length - 1 > index && styles.line,
+              ]}>
               <View style={styles.row}>
                 <Image
                   image={item.user.photoURL}
@@ -74,14 +79,14 @@ export const Review = ({reviewId, containerStyle}) => {
     if (reviewed) {
       return (
         <>
-          <Text types="bold,h2">Viết đánh giá</Text>
+          <Text types="bold">Viết đánh giá</Text>
           <Text types="italic">Bạn đã viết đánh giá rồi!</Text>
         </>
       );
     }
     return (
       <>
-        <Text types="bold,h2">Viết đánh giá</Text>
+        <Text types="bold">Viết đánh giá</Text>
         <AirbnbRating
           count={5}
           reviews={['Rât tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']}
@@ -138,7 +143,9 @@ export const Review = ({reviewId, containerStyle}) => {
             imageSize={28}
             readonly={true}
           />
-          <Text style={styles.textRatingResult}>{rate?.rateAvg}/5</Text>
+          <Text style={styles.textRatingResult}>
+            {rate?.rateAvg?.toFixed(1)}/5
+          </Text>
           <Text style={styles.numberOfRate}>
             {' (' + rate?.numberOfRate + ' lượt)'}{' '}
           </Text>

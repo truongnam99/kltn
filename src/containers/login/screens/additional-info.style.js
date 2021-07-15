@@ -56,6 +56,39 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 3,
   },
+  modalBackground: {
+    backgroundColor: '#c4c4c4a4',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    margin: 20,
+    marginVertical: 50,
+    padding: 10,
+    borderRadius: 8,
+  },
+  headerTerm: {
+    borderBottomColor: lightTheme.grayC4,
+    borderBottomWidth: 1,
+    marginBottom: 10,
+  },
+  buttonAcceptTerm: {
+    backgroundColor: lightTheme.primary,
+    paddingVertical: 8,
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    marginTop: 10,
+  },
+  buttonSave: {
+    marginTop: 10,
+  },
+  textAcceptTerm: {
+    textAlign: 'center',
+    color: 'white',
+  },
 });
 
 export default styles;

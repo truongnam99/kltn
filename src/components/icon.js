@@ -79,3 +79,11 @@ export const GenderIcon = ({size = 32}) => (
 export const JobIcon = ({size = 32}) => (
   <MaterialIcons name="work" size={size} color="#4E9ECD" />
 );
+
+export const EmailIcon = ({size = 32}) => (
+  <MaterialCommunityIcons
+    name="email-edit-outline"
+    size={size}
+    color="#FF6666"
+  />
+);

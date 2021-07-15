@@ -175,6 +175,7 @@ export const showMessageFail = (message, options = {}) => {
     type: 'danger',
     icon: 'danger',
     ...options,
+    duration: 2000,
   });
 };
 

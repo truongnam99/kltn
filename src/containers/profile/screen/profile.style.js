@@ -53,6 +53,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
   },
+  contactWithUs: {
+    marginVertical: 20,
+    fontSize: 16,
+  },
+  center: {
+    textAlignVertical: 'center',
+  },
 });
 
 export default styles;
