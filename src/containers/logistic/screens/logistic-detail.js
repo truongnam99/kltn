@@ -11,6 +11,7 @@ import {Image, Text} from '../../../components';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Preview} from '../../../components/preview';
 import {lightTheme} from '../../../config/theme';
+import {Review} from '../../review/review';
 
 const LogisticDetail = ({route, navigation}) => {
   const {logistic} = route.params;
@@ -99,6 +100,7 @@ const LogisticDetail = ({route, navigation}) => {
             <Text>{logistic.notes}</Text>
           </View>
         </View>
+        <Review reviewId={logistic.id} />
       </ScrollView>
       <View style={styles.contactContainer}>
         <TouchableOpacity

@@ -29,6 +29,7 @@ import {
   WifiIcon,
   WindowIcon,
 } from '../../../components/icon';
+import {Review} from '../../review/review';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
@@ -235,6 +236,7 @@ const FindInnDetail = ({route, navigation}) => {
             {inn.attention && <Text>{inn.attention}</Text>}
           </View>
         </View>
+        <Review reviewId={inn.uid} />
       </ScrollView>
       <View style={styles.contactContainer}>
         <TouchableOpacity
