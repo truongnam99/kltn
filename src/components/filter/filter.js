@@ -141,11 +141,12 @@ export const Filter = memo(
       console.info('dont have onCallback');
     },
     showPricePicker = true,
+    defaultValue,
   }) => {
     const [openModal, setOpenModal] = useState(false);
     const [filterValue, setFilterValue] = useState({
-      city: '79',
-      district: '',
+      city: defaultValue?.city || '79',
+      district: defaultValue?.district || '',
       price: {
         minPrice: 0,
         maxPrice: 10000000,
@@ -171,13 +172,24 @@ export const Filter = memo(
     const handleChangeFilter = useCallback(
       (value, field) => {
         setFilterValue(preState => {
+          if (field === 'city') {
+            if (filterValue.city !== value) {
+              return {
+                ...preState,
+                city: value,
+                district: null,
+              };
+            } else {
+              return preState;
+            }
+          }
           return {
             ...preState,
             [field]: value,
           };
         });
       },
-      [setFilterValue],
+      [filterValue, setFilterValue],
     );
 
     const _renderFilter = useCallback(() => {

@@ -17,18 +17,10 @@ import {gender as genders, jobs} from '../../../constants/constants';
 const Filter = ({styleContainer, callBack, isShow, defaultValue}) => {
   const animationRef = useRef(null);
   const [isActive, setIsActive] = useState(isShow);
-  const [city, setCity] = useState(defaultValue.city.Id);
-  const [district, setDistrict] = useState();
+  const [city, setCity] = useState(defaultValue?.city?.Id || '79');
+  const [district, setDistrict] = useState(defaultValue?.district?.Id);
   const [gender, setGender] = useState(defaultValue.gender);
   const [job, setJob] = useState(defaultValue.job);
-
-  useEffect(() => {
-    if (!city) {
-      return;
-    }
-
-    setDistrict(null);
-  }, [city]);
 
   const onSetDistrict = useCallback(
     value => {
@@ -39,9 +31,13 @@ const Filter = ({styleContainer, callBack, isShow, defaultValue}) => {
 
   const onSetCity = useCallback(
     value => {
-      setCity(value());
+      const newCity = value();
+      if (newCity !== city) {
+        setCity(newCity);
+        setDistrict(null);
+      }
     },
-    [setCity],
+    [city, setCity],
   );
 
   const onChangeGender = useCallback(value => setGender(value), [setGender]);

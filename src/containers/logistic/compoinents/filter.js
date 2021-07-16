@@ -8,19 +8,11 @@ import {translate} from '../../../constants/translate';
 import {fadeDownIn, fadeDownOut} from '../../../assets/animation';
 import styles from './filter.style';
 
-const Filter = ({styleContainer, callBack, isShow}) => {
+const Filter = ({styleContainer, callBack, isShow, defaultValue}) => {
   const animationRef = useRef(null);
-  const [city, setCity] = useState('79');
-  const [district, setDistrict] = useState();
+  const [city, setCity] = useState(defaultValue?.city?.Id || '79');
+  const [district, setDistrict] = useState(defaultValue?.district?.Id);
   const [isActive, setIsActive] = useState(isShow);
-
-  useEffect(() => {
-    if (!city) {
-      return;
-    }
-
-    setDistrict(null);
-  }, [city]);
 
   const handleSetDistrict = useCallback(
     value => {
@@ -43,9 +35,16 @@ const Filter = ({styleContainer, callBack, isShow}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShow]);
 
-  if (!isActive) {
-    return null;
-  }
+  const onChangeCity = useCallback(
+    value => {
+      const newCity = value();
+      if (newCity !== city) {
+        setCity(newCity);
+        setDistrict(null);
+      }
+    },
+    [city],
+  );
 
   const onApplyPress = () => {
     const selectCity = getCity(city);
@@ -58,6 +57,10 @@ const Filter = ({styleContainer, callBack, isShow}) => {
     });
   };
 
+  if (!isActive) {
+    return null;
+  }
+
   return (
     <Animatable.View
       ref={animationRef}
@@ -66,7 +69,7 @@ const Filter = ({styleContainer, callBack, isShow}) => {
       style={StyleSheet.flatten([styles.container, styleContainer])}>
       <CityPicker
         value={city}
-        setValue={setCity}
+        setValue={onChangeCity}
         containerStyle={styles.picker}
       />
       <DistrictPicker

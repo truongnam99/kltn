@@ -88,6 +88,7 @@ const Logistic = ({navigation}) => {
         isShow={isShowFilter}
         callBack={filterCallBack}
         showPricePicker={false}
+        defaultValue={filter}
       />
       {role === 1 && (
         <ActionButton buttonColor="rgba(231,76,60,1)">

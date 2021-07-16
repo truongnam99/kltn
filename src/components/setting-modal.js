@@ -12,29 +12,25 @@ import Text from './text/text';
 import {globalStyles} from '../global.style';
 import {selectUid} from '../containers/login/selectors';
 import {useDispatch, useSelector} from 'react-redux';
-import {getObject, saveObject, showMessageFail} from '../utils/utils';
+import {saveObject, showMessageFail, showMessageInfo} from '../utils/utils';
 import {getSetting} from '../store/actions/globalAction';
+import {selectSetting} from '../containers/global/selectors';
 
 export const SettingModal = ({visible, onClose}) => {
   const [city, setCity] = useState('79');
   const [district, setDistrict] = useState();
   const uid = useSelector(selectUid);
+  const setting = useSelector(selectSetting);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getSetting = async () => {
-      const result = await getObject(uid);
-      if (result?.setting) {
-        if (result?.setting?.city) {
-          setCity(result?.setting?.city);
-        }
-        if (result?.setting?.district) {
-          setDistrict(result?.setting?.district);
-        }
-      }
-    };
-    getSetting();
-  }, [uid]);
+    if (setting?.city) {
+      setCity(setting?.city);
+    }
+    if (setting?.district) {
+      setDistrict(setting?.district);
+    }
+  }, [setting]);
 
   const onChangeCity = useCallback(
     value => {
@@ -63,6 +59,7 @@ export const SettingModal = ({visible, onClose}) => {
         setting: {city, district},
       });
       dispatch(getSetting(uid));
+      showMessageInfo('Cài đặt sẽ được áp dụng vào lần mở áp tiếp theo');
       onClose();
     } catch (error) {
       showMessageFail('Lưu cài đặt bị lỗi');

@@ -9,6 +9,7 @@ import {navigationName} from '../../constants/navigation';
 import {setUser} from '../../store/actions/userAction';
 import styles from './loading.style';
 import {selectUserInfo} from '../login/selectors';
+import {getSetting} from '../../store/actions/globalAction';
 
 const Loading = ({navigation}) => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Loading = ({navigation}) => {
     if (!currentUser) {
       navigation.replace(navigationName.login.login);
     } else {
+      dispatch(getSetting(currentUser.uid));
       if (!userInfo) {
         const reference = database().ref('/users/' + currentUser.uid);
         reference.once('value').then(data => {

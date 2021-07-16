@@ -8,8 +8,13 @@ import {
 import {selectFetchRoommateStatus, selectRoommates} from '../selectors';
 import {selectUserInfo} from '../../login/selectors';
 import {status} from '../../../constants/constants';
+import {selectSetting} from '../../global/selectors';
+import {getCity} from '../../../utils/utils';
 
 const useHook = ({navigation}) => {
+  const setting = useSelector(selectSetting);
+  const city = getCity(setting?.city);
+  const district = city?.Districts.find(item => item.Id === setting?.district);
   const {status: fetchRoommateStatus} = useSelector(selectFetchRoommateStatus);
   const roommates = useSelector(selectRoommates);
   const userInfo = useSelector(selectUserInfo);
@@ -17,9 +22,10 @@ const useHook = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
     city: {
-      Id: '79',
-      Name: 'Thành phố Hồ Chí Minh',
+      Id: city?.Id || '79',
+      Name: city?.Name || 'TP. Hồ Chí Minh',
     },
+    district: district || null,
     gender: userInfo.gender,
     job: userInfo.job,
     age: userInfo.age,

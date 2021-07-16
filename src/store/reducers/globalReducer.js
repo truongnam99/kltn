@@ -7,7 +7,7 @@ const initialState = {
   },
 };
 
-export const housewareReducer = (state = initialState, {type, payload}) => {
+export const globalReducer = (state = initialState, {type, payload}) => {
   return produce(state, draft => {
     switch (type) {
       case SET_SETTING:

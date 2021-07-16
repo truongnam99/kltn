@@ -18,7 +18,7 @@ import {styles} from './houseware.style';
 
 export const Houseware = ({navigation}) => {
   const {selectors, handlers} = useHouseware({navigation});
-  const {housewares, loading, uid} = selectors;
+  const {housewares, loading, uid, filter} = selectors;
   const {
     onGotoCreateHouseware,
     onGotoMyPost,
@@ -31,7 +31,11 @@ export const Houseware = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.filter} onStartShouldSetResponder={() => true}>
-        <Filter showPricePicker={false} onCallback={handleApplyFilter} />
+        <Filter
+          showPricePicker={false}
+          onCallback={handleApplyFilter}
+          defaultValue={filter}
+        />
       </View>
       <FlatList
         style={styles.flatlist}

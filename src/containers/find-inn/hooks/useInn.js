@@ -9,18 +9,23 @@ import {selectUserInfo} from '../../../containers/login/selectors';
 import {navigationName} from '../../../constants/navigation';
 import {selectInns, selectCount, selectFetchInnStatus} from '../selectors';
 import {status} from '../../../constants/constants';
-import {showMessageFail, showMessageInfo} from '../../../utils/utils';
+import {getCity, showMessageFail} from '../../../utils/utils';
+import {selectSetting} from '../../global/selectors';
 
 export const useInn = ({navigation}) => {
+  const setting = useSelector(selectSetting);
+  const city = getCity(setting?.city);
+  const district = city?.Districts.find(item => item.Id === setting?.district);
   const [typeOfItem, setTypeOfItem] = useState('large');
   const [loading, setLoading] = useState(true);
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [headerText, setHeaderText] = useState('');
   const [filter, setFilter] = useState({
     city: {
-      Id: '79',
-      Name: 'TP. Hồ Chí Minh',
+      Id: city?.Id || '79',
+      Name: city?.Name || 'TP. Hồ Chí Minh',
     },
+    district: district || null,
     maxRadius: 5000,
   });
   const [location, setLocation] = useState(null);
@@ -105,7 +110,6 @@ export const useInn = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    onFetchInn();
     const subscriber = firestore()
       .collection('Messages')
       .where('users', 'array-contains', uid)

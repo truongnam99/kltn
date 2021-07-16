@@ -9,12 +9,10 @@ import {
   CityPicker,
   DistrictPicker,
 } from '../../../components';
-import {getCity, getObject, numeralPrice} from '../../../utils/utils';
+import {getCity, numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
 import {fadeDownIn, fadeDownOut} from '../../../assets/animation';
 import styles from './filter.style';
-import {useSelector} from 'react-redux';
-import {selectUid} from '../../login/selectors';
 
 const MIN_AREA = 10;
 const MAX_AREA = 200;
@@ -27,43 +25,20 @@ const Filter = ({
   isShow,
   showPricePicker = true,
   typeOfItem,
+  defaultValue,
 }) => {
   const animationRef = useRef(null);
-  const uid = useSelector(selectUid);
   const [isActive, setIsActive] = useState(isShow);
   const [price, setPrice] = useState({
     minPrice: 0,
     maxPrice: 10000000,
   });
-  const [city, setCity] = useState('79');
-  const [district, setDistrict] = useState();
+  const [city, setCity] = useState(defaultValue?.city?.Id || '79');
+  const [district, setDistrict] = useState(defaultValue?.district?.Id);
   const [area, setArea] = useState([10, 200]);
   const [garage, setGarage] = useState(false);
   const [kitchen, setKitchen] = useState(false);
   const [maxRadius, setMaxRadius] = useState([5000]);
-
-  useEffect(() => {
-    if (!city) {
-      return;
-    }
-
-    setDistrict(null);
-  }, [city]);
-
-  useEffect(() => {
-    const getSetting = async () => {
-      const result = await getObject(uid);
-      if (result?.setting) {
-        if (result?.setting?.city) {
-          setCity(result?.setting?.city);
-        }
-        if (result?.setting?.district) {
-          setDistrict(result?.setting?.district);
-        }
-      }
-    };
-    getSetting();
-  }, [uid]);
 
   const onSetDistrict = useCallback(
     value => {
@@ -74,9 +49,13 @@ const Filter = ({
 
   const onSetCity = useCallback(
     value => {
-      setCity(value());
+      const newCity = value();
+      if (newCity !== city) {
+        setCity(newCity);
+        setDistrict(null);
+      }
     },
-    [setCity],
+    [city, setCity],
   );
 
   const onChangeArea = useCallback(value => {

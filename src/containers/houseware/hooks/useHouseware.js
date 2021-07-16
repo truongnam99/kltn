@@ -7,15 +7,18 @@ import {
   fetchHousewares,
   updateHousewareIsActive,
 } from '../../../store/actions/housewareAction';
+import {selectSetting} from '../../global/selectors';
 import {selectUid} from '../../login/selectors';
 import {selectFetchHousewares, selectHousewares} from '../selectors';
 
 export const useHouseware = ({navigation}) => {
+  const setting = useSelector(selectSetting);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({
     searchText: '',
-    city: '79',
+    city: setting?.city || '79',
+    district: setting?.district || '',
   });
   const housewares = useSelector(selectHousewares);
   const uid = useSelector(selectUid);
@@ -80,7 +83,7 @@ export const useHouseware = ({navigation}) => {
   );
 
   return {
-    selectors: {housewares, loading, uid},
+    selectors: {housewares, loading, uid, filter},
     handlers: {
       onGotoCreateHouseware,
       onGotoMyPost,

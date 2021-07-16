@@ -274,6 +274,7 @@ const FindInn = ({navigation}) => {
         isShow={isShowFilter}
         callBack={filterCallBack}
         typeOfItem={typeOfItem}
+        defaultValue={filter}
       />
       {_renderSeachResult()}
       {role === 1 && (
