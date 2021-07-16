@@ -1,26 +1,30 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {
-  ContactSupportIcon,
-  FeedbackIcon,
-  LicenseIcon,
-  SettingIcon,
-} from './icon';
+import {ContactSupportIcon, LicenseIcon, SettingIcon} from './icon';
 import Text from './text/text';
 import {Line} from './line';
 import {SettingModal} from './setting-modal';
 import {TermsAndPoliciesModal} from './terms-and-policies-modal';
+import {sendMail} from '../utils/utils';
+import {selectUid} from '../containers/login/selectors';
+import {useSelector} from 'react-redux';
 
 export const AboutUs = ({}) => {
+  const uid = useSelector(selectUid);
   const [openTerm, setOpenTerm] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);
   return (
     <View style={styles.container}>
-      <View style={[styles.row, styles.rowCenter]}>
-        <FeedbackIcon />
-        <Text types="h2" style={styles.ml}>
-          Phản hồi
-        </Text>
+      <View>
+        <TouchableOpacity
+          onPress={() => setOpenSetting(true)}
+          activeOpacity={0.8}
+          style={[styles.row, styles.rowCenter]}>
+          <SettingIcon />
+          <Text types="h2" style={styles.ml}>
+            Thiết lập
+          </Text>
+        </TouchableOpacity>
       </View>
       <Line />
       <View>
@@ -35,27 +39,24 @@ export const AboutUs = ({}) => {
         </TouchableOpacity>
       </View>
       <Line />
+
       <View>
         <TouchableOpacity
-          onPress={() => setOpenSetting(true)}
           activeOpacity={0.8}
+          onPress={() =>
+            sendMail(
+              '[kltn]',
+              '---------------------------------------------------\n' +
+                uid +
+                '\n---------------------------------------------------\n\n',
+            )
+          }
           style={[styles.row, styles.rowCenter]}>
-          <SettingIcon />
+          <ContactSupportIcon />
           <Text types="h2" style={styles.ml}>
-            Thiết lập
+            Liên hệ với chúng tôi
           </Text>
         </TouchableOpacity>
-      </View>
-      <Line />
-      <View style={[styles.row, styles.rowCenter]}>
-        <ContactSupportIcon />
-        <Text types="h2" style={styles.ml}>
-          Thông tin liên hệ với chúng tôi
-        </Text>
-      </View>
-      <View style={styles.ml}>
-        <Text>Số ĐT: 0949 709 036</Text>
-        <Text>Email: 17520784@gm.uit.edu.vn</Text>
       </View>
       <TermsAndPoliciesModal
         visible={openTerm}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Avatar from './avatar/avatar';
 import Text from './text/text';
 import {
@@ -9,21 +9,23 @@ import {
   HomeIcon,
   GenderIcon,
   JobIcon,
+  EditProfileIcon,
 } from './icon';
 import {getCity, shortenCityName} from '../utils/utils';
 import {getGender, getProfileJobs} from '../constants/constants';
+import {Line} from './line';
 
-export const ViewProfile = ({user, isMe}) => {
+export const ViewProfile = ({
+  user,
+  isMe,
+  openUpdateProfile = () => console.log('handel openUpdateProfile'),
+}) => {
   const hometown = shortenCityName(getCity(user.homeTown)?.Name);
   return (
     <View style={styles.container}>
-      {isMe ? (
+      {isMe && (
         <Text types="h3,bold" style={styles.tcenter}>
           Thông tin cá nhân
-        </Text>
-      ) : (
-        <Text types="bold,h2" style={styles.wrapContent}>
-          {user.displayName}
         </Text>
       )}
       <View style={[styles.row, styles.mt]}>
@@ -64,6 +66,18 @@ export const ViewProfile = ({user, isMe}) => {
           </View>
         </View>
       </View>
+      <Line />
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={openUpdateProfile}
+          style={[styles.row, styles.center]}>
+          <EditProfileIcon />
+          <Text types="h2" style={styles.ml}>
+            Cập nhật thông tin tài khoản
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -95,6 +109,9 @@ const styles = StyleSheet.create({
   },
   tcenter: {
     textAlign: 'center',
+  },
+  center: {
+    alignItems: 'center',
   },
   wrapContent: {
     flexWrap: 'wrap',

@@ -49,6 +49,10 @@ export const TiviIcon = () => (
   <MaterialCommunityIcons name="television-classic" size={32} color="#E4AE25" />
 );
 
+export const EditProfileIcon = () => (
+  <MaterialCommunityIcons name="account-edit" size={32} color="#1DA1C0" />
+);
+
 export const WindowIcon = () => (
   <MaterialCommunityIcons
     name="microsoft-windows"

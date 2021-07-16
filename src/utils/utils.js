@@ -56,6 +56,19 @@ export const dial = async phoneNumber => {
   }
 };
 
+export const sendMail = async (subject, body) => {
+  try {
+    await Linking.openURL(
+      `mailto:17520784@gm.uit.edu.vn?
+      ${subject ? '&subject=' + subject : ''}${body ? '&body=' + body : ''}`,
+    );
+  } catch (error) {
+    showMessageInfo(
+      'Không thể mở ứng dụng Mail! Vui lòng liên hệ về địa chỉ email sau:\n17520784@gm.uit.edu.vn',
+    );
+  }
+};
+
 export const openFacebook = async id => {
   if (!id) {
     showMessageInfo('No facebook id');
