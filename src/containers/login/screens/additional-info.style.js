@@ -70,11 +70,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
-  headerTerm: {
-    borderBottomColor: lightTheme.grayC4,
-    borderBottomWidth: 1,
-    marginBottom: 10,
-  },
   buttonAcceptTerm: {
     backgroundColor: lightTheme.primary,
     paddingVertical: 8,

@@ -1,7 +1,8 @@
 import storage from '@react-native-firebase/storage';
 import numeral from 'numeral';
-import {Linking, Alert} from 'react-native';
+import {Linking} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import province from '../constants/provice.json';
 
@@ -194,4 +195,13 @@ export const showMessageInfo = (message, options = {}) => {
     type: 'warning',
     icon: 'info',
   });
+};
+
+export const saveObject = async (key, value) => {
+  await AsyncStorage.setItem(key, JSON.stringify(value));
+};
+
+export const getObject = async key => {
+  const result = await AsyncStorage.getItem(key);
+  return JSON.parse(result);
 };

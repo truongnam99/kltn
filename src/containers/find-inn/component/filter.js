@@ -9,10 +9,12 @@ import {
   CityPicker,
   DistrictPicker,
 } from '../../../components';
-import {getCity, numeralPrice} from '../../../utils/utils';
+import {getCity, getObject, numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
 import {fadeDownIn, fadeDownOut} from '../../../assets/animation';
 import styles from './filter.style';
+import {useSelector} from 'react-redux';
+import {selectUid} from '../../login/selectors';
 
 const MIN_AREA = 10;
 const MAX_AREA = 200;
@@ -27,6 +29,7 @@ const Filter = ({
   typeOfItem,
 }) => {
   const animationRef = useRef(null);
+  const uid = useSelector(selectUid);
   const [isActive, setIsActive] = useState(isShow);
   const [price, setPrice] = useState({
     minPrice: 0,
@@ -46,6 +49,21 @@ const Filter = ({
 
     setDistrict(null);
   }, [city]);
+
+  useEffect(() => {
+    const getSetting = async () => {
+      const result = await getObject(uid);
+      if (result?.setting) {
+        if (result?.setting?.city) {
+          setCity(result?.setting?.city);
+        }
+        if (result?.setting?.district) {
+          setDistrict(result?.setting?.district);
+        }
+      }
+    };
+    getSetting();
+  }, [uid]);
 
   const onSetDistrict = useCallback(
     value => {

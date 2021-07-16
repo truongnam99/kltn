@@ -18,6 +18,7 @@ import {
 } from '../../../utils/utils';
 import {gender, profileJobs, role} from '../../../constants/constants';
 import {ModalLoading} from '../../../components/modal-loading';
+import {globalStyles} from '../../../global.style';
 
 const CTextInput = ({...props}) => {
   return (
@@ -243,7 +244,7 @@ const AdditionalInfo = ({navigation}) => {
       <Modal visible={!acceptedTermsAndPolicies} transparent={true}>
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <Text types="bold,h2" style={styles.headerTerm}>
+            <Text types="bold,h2" style={globalStyles.modalHeader}>
               Điều khoản và chính sách ứng dụng
             </Text>
             <ScrollView>

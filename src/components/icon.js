@@ -2,6 +2,7 @@ import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {lightTheme} from '../config/theme';
 
 export const AreaIcon = () => (
@@ -86,4 +87,36 @@ export const EmailIcon = ({size = 32}) => (
     size={size}
     color="#FF6666"
   />
+);
+
+export const LicenseIcon = ({size = 32}) => (
+  <MaterialCommunityIcons name="license" size={size} color="#2D75B7" />
+);
+
+export const PhoneIcon = ({size = 32}) => (
+  <MaterialIcons name="local-phone" size={size} color={lightTheme.primary} />
+);
+
+export const SettingIcon = ({size = 32}) => (
+  <MaterialIcons name="settings" size={size} color="#7C7C7C" />
+);
+
+export const BirthdayIcon = ({size = 32}) => (
+  <MaterialIcons name="cake" size={size} color="#D46D84" />
+);
+
+export const LogoutIcon = ({size = 32}) => (
+  <MaterialIcons name="logout" size={size} color="#D46D84" />
+);
+
+export const ContactSupportIcon = ({size = 32}) => (
+  <MaterialIcons name="contact-mail" size={size} color="#B80600" />
+);
+
+export const FeedbackIcon = ({size = 32}) => (
+  <MaterialIcons name="feedback" size={size} color="#D46D84" />
+);
+
+export const HomeIcon = ({size = 32}) => (
+  <Ionicons name="home" size={size} color="#86C3D2" />
 );

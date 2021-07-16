@@ -152,3 +152,7 @@ export const RESET_CREATE_HOUSEWARE_STATUS =
   'houseware/RESET_CREATE_HOUSEWARE_STATUS';
 export const RESET_UPDATE_HOUSEWARE_STATUS =
   'houseware/RESET_UPDATE_HOUSEWARE_STATUS';
+
+export const GET_SETTING = 'setting/GET_SETTING';
+export const SAVE_SETTING = 'setting/SAVE_SETTING';
+export const SET_SETTING = 'setting/SET_SETTING';

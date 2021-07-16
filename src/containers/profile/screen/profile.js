@@ -20,6 +20,9 @@ import {cities, formatString, getCity} from '../../../utils/utils';
 import useHooks from '../hooks';
 import styles from './profile.style';
 import {Contact} from '../../roommate/components/contact';
+import {ViewProfile} from '../../../components/view-profile';
+import {LogoutButton} from '../../../components/logout-button';
+import {AboutUs} from '../../../components/about-us';
 
 const CTextInput = ({...props}) => {
   return <TextInput {...props} containerStyle={styles.marginTop} />;
@@ -111,7 +114,7 @@ const Profile = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
         <CTextInput
-          value={updateValue.displayName}
+          value={'updateValue.displayName'}
           title={translate.name}
           type="outline"
           editable={false}
@@ -185,65 +188,15 @@ const Profile = ({navigation, route}) => {
   ]);
 
   const _renderProfile = useCallback(() => {
-    return (
-      <>
-        <View style={styles.imageContainer}>
-          <Avatar
-            source={user.photoURL}
-            size="large"
-            isShowDetailFullScreen={false}
-          />
-        </View>
-        <CTextInput
-          value={user.displayName}
-          title={translate.name}
-          type="outline"
-          editable={false}
-        />
-        <CTextInput
-          value={formatString(user.phoneNumber, 'phoneNumber')}
-          title={translate.phoneNumber}
-          type="outline"
-          editable={false}
-        />
-        <CTextInput
-          value={user.email}
-          title={translate.email}
-          type="outline"
-          editable={false}
-        />
-        <CTextInput
-          title={translate.birthday}
-          value={user.birthday}
-          type="outline"
-          editable={false}
-        />
-        <CTextInput
-          value={getCity(user.homeTown)?.Name}
-          title="Quê quán"
-          type="outline"
-          editable={false}
-        />
-        <CTextInput
-          value={getGender(user.gender)}
-          title={translate.gender}
-          type="outline"
-          editable={false}
-        />
-        <CTextInput
-          value={getProfileJobs(user.job)}
-          title={translate.job}
-          type="outline"
-          editable={false}
-        />
-      </>
-    );
-  }, [user]);
+    return <ViewProfile user={user} isMe={!isMe} />;
+  }, [user, isMe]);
 
   return (
     <ScrollView style={styles.container}>
-      {editable ? _renderEditProfile() : _renderProfile()}
-      {_renderButton()}
+      {_renderProfile()}
+      {/* {editable ? _renderEditProfile() : _renderProfile()} */}
+      <AboutUs />
+      <LogoutButton onPress={onShowConfirmLogoutBox} />
       <ConfirmBox
         title="Bạn có muốn đăng xuất không"
         onConfirm={onConfirmLogout}
