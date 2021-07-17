@@ -36,7 +36,7 @@ export const ModalUpdateProfile = ({
     <Modal visible={visible} transparent={true} animationType="fade">
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
-          <Text types="bold,h2" style={globalStyles.modalHeader}>
+          <Text types="bold,h2" style={globalStyles.modalHeaderFullScreen}>
             Cập nhật thông tin cá nhân
           </Text>
           <ScrollView style={styles.main}>
@@ -147,8 +147,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'white',
-    margin: 20,
-    marginVertical: 50,
     padding: 10,
     borderRadius: 8,
   },

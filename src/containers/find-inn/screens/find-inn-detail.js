@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {ImageView, Text} from '../../../components/index';
 import Image from '../../../components/image/image';
-import {dial, numeralPrice} from '../../../utils/utils';
+import {dial, formatString, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import styles from './find-inn-detail.style';
@@ -23,6 +23,7 @@ import {
   KitchenIcon,
   ParkingIcon,
   PedAllowIcon,
+  ReportIcon,
   TiviIcon,
   WashingMachineIcon,
   WaterIcon,
@@ -30,6 +31,9 @@ import {
   WindowIcon,
 } from '../../../components/icon';
 import {Review} from '../../review/review';
+import {getTypeInn} from '../../../constants/constants';
+import {globalStyles} from '../../../global.style';
+import {ReportContainer} from '../../../components/report-container';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
@@ -110,7 +114,8 @@ const FindInnDetail = ({route, navigation}) => {
               {' ' + inn.exact_room_address}
             </Text>
             <Text>
-              <AntDesign name="phone" size={16} /> {' ' + inn.phone_number}
+              <AntDesign name="phone" size={16} />{' '}
+              {' ' + formatString(inn.phone_number, 'phoneNumber')}
             </Text>
             <View
               style={[
@@ -122,14 +127,22 @@ const FindInnDetail = ({route, navigation}) => {
                 styles.lineBottom,
               ]}>
               <View>
-                <Text>GIÁ PHÒNG</Text>
-                <Text style={styles.price}>
+                <Text style={globalStyles.tcenter}>GIÁ PHÒNG</Text>
+                <Text style={[styles.price, globalStyles.tcenter]}>
                   {numeralPrice(inn.room_price)} đ
                 </Text>
               </View>
               <View>
-                <Text>TIỀN CỘC</Text>
-                <Text style={styles.price}>{numeralPrice(inn.deposit)} đ</Text>
+                <Text style={globalStyles.tcenter}>TIỀN CỘC</Text>
+                <Text style={[styles.price, globalStyles.tcenter]}>
+                  {numeralPrice(inn.deposit)} đ
+                </Text>
+              </View>
+              <View>
+                <Text style={globalStyles.tcenter}>LOẠI</Text>
+                <Text style={[styles.price, globalStyles.tcenter]}>
+                  {getTypeInn(inn.type)}
+                </Text>
               </View>
             </View>
             <View style={[styles.row, styles.sb]}>
@@ -235,7 +248,19 @@ const FindInnDetail = ({route, navigation}) => {
             <Text types="bold,h2">Chú ý</Text>
             {inn.attention && <Text>{inn.attention}</Text>}
           </View>
+          <ReportContainer id={inn.uid} collection="Inns">
+            <View
+              style={[
+                styles.primaryContainer,
+                styles.row,
+                globalStyles.center,
+              ]}>
+              <ReportIcon size={24} />
+              <Text style={styles.ml6}>Báo cáo vi phạm</Text>
+            </View>
+          </ReportContainer>
         </View>
+
         <Review reviewId={inn.uid} />
       </ScrollView>
       <View style={styles.contactContainer}>

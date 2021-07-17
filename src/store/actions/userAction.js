@@ -7,6 +7,7 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
   RESET_UPDATE_USER_STATUS,
+  RESET_MESSAGE,
 } from './types';
 
 export const setUser = user => {
@@ -33,6 +34,12 @@ export const createUser = user => {
 export const logout = () => {
   return {
     type: LOGOUT,
+  };
+};
+
+export const resetMessage = () => {
+  return {
+    type: RESET_MESSAGE,
   };
 };
 

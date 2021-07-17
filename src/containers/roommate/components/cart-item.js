@@ -17,8 +17,10 @@ import {navigationName} from '../../../constants/navigation';
 import {activeOpacity} from '../../../components/shared';
 import Text from '../../../components/text/text';
 import {Image} from '../../../components';
-import {GenderIcon, JobIcon} from '../../../components/icon';
+import {GenderIcon, JobIcon, ReportIcon} from '../../../components/icon';
 import {shortenDistrictName} from '../../../utils/utils';
+import {ReportContainer} from '../../../components/report-container';
+import {globalStyles} from '../../../global.style';
 
 const maxNumberOfLines = 5;
 
@@ -128,7 +130,14 @@ const CartItem = ({
             </MenuOptions>
           </Menu>
         ) : (
-          <Contact navigation={props.navigation} owner={owner} />
+          <View style={globalStyles.row}>
+            <Contact navigation={props.navigation} owner={owner} />
+            <View style={globalStyles.ml8}>
+              <ReportContainer collection="Roommates" id={id}>
+                <ReportIcon size={16} />
+              </ReportContainer>
+            </View>
+          </View>
         )}
       </View>
       <Text

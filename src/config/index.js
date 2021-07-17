@@ -11,5 +11,7 @@ export const headerOptions = {
   headerTintColor: 'white',
 };
 
+export const maxReportAllow = 5;
+
 export const MAP_BOX_ACCESS_TOKEN =
   'pk.eyJ1IjoidHJ1b25nbmFtIiwiYSI6ImNrcTdxeTZzMjA4dHcydnJzNnFyc2tvNmwifQ.UaZdk2qAnkpxQaoSmEipdQ';

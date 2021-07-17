@@ -68,4 +68,8 @@ export const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
   },
+  buttonReportContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
 });

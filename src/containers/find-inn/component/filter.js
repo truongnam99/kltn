@@ -4,6 +4,7 @@ import Slider from '@ptomasroos/react-native-multi-slider';
 import * as Animatable from 'react-native-animatable';
 
 import {
+  BasePicker,
   Button,
   CheckBox,
   CityPicker,
@@ -13,6 +14,7 @@ import {getCity, numeralPrice} from '../../../utils/utils';
 import {translate} from '../../../constants/translate';
 import {fadeDownIn, fadeDownOut} from '../../../assets/animation';
 import styles from './filter.style';
+import {typeInnsWithAll} from '../../../constants/constants';
 
 const MIN_AREA = 10;
 const MAX_AREA = 200;
@@ -34,6 +36,7 @@ const Filter = ({
     maxPrice: 10000000,
   });
   const [city, setCity] = useState(defaultValue?.city?.Id || '79');
+  const [type, setType] = useState(0);
   const [district, setDistrict] = useState(defaultValue?.district?.Id);
   const [area, setArea] = useState([10, 200]);
   const [garage, setGarage] = useState(false);
@@ -81,6 +84,10 @@ const Filter = ({
     setMaxRadius(value);
   }, []);
 
+  const onChangeType = useCallback(value => {
+    setType(value);
+  }, []);
+
   const onApplyPress = useCallback(() => {
     const selectCity = getCity(city);
     const selectDistrict = selectCity?.Districts.find(
@@ -101,12 +108,13 @@ const Filter = ({
       },
       district: selectDistrict,
       city: selectCity,
+      type,
       area: selectArea,
       kitchen,
       garage,
       maxRadius: maxRadius[0],
     });
-  }, [callBack, city, district, price, area, kitchen, garage, maxRadius]);
+  }, [callBack, city, type, district, price, area, kitchen, garage, maxRadius]);
 
   useEffect(() => {
     if (isShow && !isActive) {
@@ -143,6 +151,13 @@ const Filter = ({
           setValue={onSetDistrict}
           containerStyle={[styles.picker, styles.marginBottom]}
           cityId={city}
+        />
+        <BasePicker
+          containerStyle={[styles.picker]}
+          title="Loại trọ"
+          items={typeInnsWithAll}
+          value={type}
+          setValue={onChangeType}
         />
       </KeyboardAvoidingView>
       {showPricePicker && (

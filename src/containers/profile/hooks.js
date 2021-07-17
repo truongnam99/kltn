@@ -5,6 +5,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch} from 'react-redux';
 import {
   logout,
+  resetMessage,
   resetUpdateUserStatus,
   updateUser,
 } from '../../store/actions/userAction';
@@ -53,6 +54,7 @@ const useHooks = ({navigation, route}) => {
   const onSignOut = async () => {
     await auth().signOut();
     navigation.replace(navigationName.loading);
+    dispatch(resetMessage());
     dispatch(logout());
   };
 

@@ -11,11 +11,13 @@ import {
   ImagePicker,
   Text,
   MapPicker,
+  BasePicker,
 } from '../../../components';
 import {translate} from '../../../constants/translate';
 import {useCreateInn} from '../hooks/useCreateInn';
 import {styles} from './create-inn.style';
 import {DeleteConfirm} from '../../../components/delete-confirm/delete-confirm';
+import {typeInns} from '../../../constants/constants';
 
 const CustomInput = props => {
   return (
@@ -48,6 +50,7 @@ const CreateInn = ({route, navigation}) => {
     onCreateInn,
     onDeleteInn,
     onChangeName,
+    onChangeType,
     onChangeAddress,
     onChangeImages,
     onChangeCity,
@@ -91,6 +94,16 @@ const CreateInn = ({route, navigation}) => {
         onChangeText={onChangeName}
         placeholder="Nhà trọ Như Ý"
         {...validation.name}
+      />
+      <BasePicker
+        containerStyle={styles.marginTop}
+        title="Loại trọ"
+        items={typeInns}
+        value={inn.type}
+        setValue={onChangeType}
+        required={true}
+        titleStyle={styles.fontSize}
+        textStyle={styles.fontSize}
       />
       <CityPicker
         titleStyle={styles.titleStyle}

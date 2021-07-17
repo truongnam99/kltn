@@ -54,7 +54,8 @@ function* fetchInnTask({type, payload}) {
       payload.searchText ||
       payload.minArea ||
       payload.maxArea ||
-      payload.typeOfItem === 'map'
+      payload.typeOfItem === 'map' ||
+      !!payload.type
     ) {
       const aaa = yield call(fetchDataFromAlgolia, {...payload, count});
       data = aaa.hits;

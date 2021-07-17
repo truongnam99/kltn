@@ -31,6 +31,7 @@ import {
   ItemFilter,
   ItemFilterContainer,
 } from '../../../components/filter/filter';
+import {getTypeInn} from '../../../constants/constants';
 
 const FindInn = ({navigation}) => {
   const {handlers, selectors} = useInn({navigation});
@@ -63,12 +64,15 @@ const FindInn = ({navigation}) => {
       return null;
     }
     const filterItems = [];
-    const {price, district, city, area, kitchen, garage} = filter;
+    const {price, district, city, area, kitchen, garage, type} = filter;
     if (city?.Name) {
       filterItems.push(shortenCityName(city.Name));
     }
     if (district?.Name) {
       filterItems.push(shortenDistrictName(district.Name));
+    }
+    if (type) {
+      filterItems.push(getTypeInn(type));
     }
     if (price) {
       const min = shortenPrice(price.minPrice);

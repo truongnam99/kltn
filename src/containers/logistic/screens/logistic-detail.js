@@ -12,6 +12,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Preview} from '../../../components/preview';
 import {lightTheme} from '../../../config/theme';
 import {Review} from '../../review/review';
+import {globalStyles} from '../../../global.style';
+import {ReportContainer} from '../../../components/report-container';
+import {ReportIcon} from '../../../components/icon';
 
 const LogisticDetail = ({route, navigation}) => {
   const {logistic} = route.params;
@@ -99,7 +102,19 @@ const LogisticDetail = ({route, navigation}) => {
             <Text types="bold,h2">{translate.logistic.detail}</Text>
             <Text>{logistic.notes}</Text>
           </View>
+          <ReportContainer id={logistic.id} collection="Logistics">
+            <View
+              style={[
+                styles.contentContainer,
+                globalStyles.row,
+                globalStyles.center,
+              ]}>
+              <ReportIcon size={24} />
+              <Text style={globalStyles.ml8}>Báo cáo vi phạm</Text>
+            </View>
+          </ReportContainer>
         </View>
+
         <Review reviewId={logistic.id} />
       </ScrollView>
       <View style={styles.contactContainer}>

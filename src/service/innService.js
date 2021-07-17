@@ -29,7 +29,6 @@ export function fetchDataFromFirebase({
   if (city) {
     query = query.where('full_address_object.city.code', '==', city);
   }
-
   if (district) {
     query = query.where('full_address_object.district.code', '==', district);
   }
@@ -60,32 +59,36 @@ export function fetchDataFromAlgolia({
   typeOfItem,
   location,
   maxRadius = 5000,
+  type,
 }) {
-  let filter = '';
+  let filters = [];
   let facetFilter = [];
   if (minPrice || maxPrice) {
     if (minPrice && maxPrice) {
-      filter += `room_price:${minPrice} TO ${maxPrice}`;
+      filters.push(`room_price:${minPrice} TO ${maxPrice}`);
     } else if (minPrice) {
-      filter += `room_price > ${minPrice}`;
+      filters.push(`room_price > ${minPrice}`);
     } else {
-      filter += `room_price < ${maxPrice}`;
+      filters.push(`room_price < ${maxPrice}`);
     }
   }
   if (minArea || maxArea) {
     if (minArea && maxArea) {
-      filter += ` AND room_area:${minArea} TO ${maxArea}`;
+      filters.push(`room_area:${minArea} TO ${maxArea}`);
     } else if (minArea) {
-      filter += ` AND room_area > ${minArea}`;
+      filters.push(`room_area > ${minArea}`);
     } else {
-      filter += ` AND room_area < ${maxArea}`;
+      filters.push(`room_area < ${maxArea}`);
     }
   }
   if (kitchen) {
-    filter += ` AND room_ketchen:${kitchen}`;
+    filters.push(`room_ketchen:${kitchen}`);
+  }
+  if (type) {
+    filters.push(`type = ${type}`);
   }
   if (garage) {
-    filter += ` AND parking_situation:${kitchen}`;
+    filters.push(`parking_situation:${kitchen}`);
   }
   if (city) {
     facetFilter.push(`full_address_object.city.code:${city}`);
@@ -93,6 +96,7 @@ export function fetchDataFromAlgolia({
   if (district) {
     facetFilter.push(`full_address_object.district.code:${district}`);
   }
+  const filter = filters.join(' AND ');
 
   if (typeOfItem === 'map') {
     return clientIndex.search(searchText, {

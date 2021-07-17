@@ -13,6 +13,9 @@ import {Contact} from './contact';
 import {styles} from './cart-item.style';
 import {Image, Text} from '../../../components';
 import {navigationName} from '../../../constants/navigation';
+import {globalStyles} from '../../../global.style';
+import {ReportContainer} from '../../../components/report-container';
+import {ReportIcon} from '../../../components/icon';
 
 const Owner = ({image, name, belowOwner}) => {
   return (
@@ -128,7 +131,17 @@ const CartItem = ({
       );
     }
     return (
-      showContact && owner && <Contact owner={owner} navigation={navigation} />
+      showContact &&
+      owner && (
+        <View style={globalStyles.row}>
+          <Contact owner={owner} navigation={navigation} />
+          <View style={globalStyles.ml8}>
+            <ReportContainer collection="Housewares" id={id}>
+              <ReportIcon size={16} />
+            </ReportContainer>
+          </View>
+        </View>
+      )
     );
   }, [
     showContact,

@@ -1,4 +1,4 @@
-import {SET_CHANGE_MESSAGES} from '../actions/types';
+import {RESET_MESSAGE, SET_CHANGE_MESSAGES} from '../actions/types';
 
 const messageReducer = (
   state = {
@@ -22,6 +22,13 @@ const messageReducer = (
             };
           }, {}),
         },
+      };
+    case RESET_MESSAGE:
+      return {
+        message: {},
+        isLoading: false,
+        isEnd: false,
+        last: null,
       };
     default:
       return state;

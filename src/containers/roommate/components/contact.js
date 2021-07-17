@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {activeOpacity} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 import {navigationName} from '../../../constants/navigation';
-import {dial, formatString} from '../../../utils/utils';
+import {dial} from '../../../utils/utils';
 export const Contact = ({owner, navigation}) => {
   const onChatPress = () => {
     if (owner) {
@@ -30,13 +30,13 @@ export const Contact = ({owner, navigation}) => {
       <TouchableOpacity activeOpacity={activeOpacity} onPress={onChatPress}>
         <MaterialIcons
           name="chat"
-          size={32}
+          size={28}
           color={lightTheme.primary}
           style={styles.me16}
         />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={activeOpacity} onPress={onDialPress}>
-        <MaterialIcons name="call" size={32} color={lightTheme.primary} />
+        <MaterialIcons name="call" size={28} color={lightTheme.primary} />
       </TouchableOpacity>
     </View>
   );

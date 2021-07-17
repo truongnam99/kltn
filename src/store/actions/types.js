@@ -81,6 +81,7 @@ export const MESSAGE_SET_END = 'message/MESSAGE_SET_END';
 export const MESSAGE_DETAIL_SET_END = 'message/MESSAGE_DETAIL_SET_END';
 export const CHANGE_MESSAGE = 'message/CHANGE_MESSAGE';
 export const SET_CHANGE_MESSAGES = 'message/SET_CHANGE_MESSAGES';
+export const RESET_MESSAGE = 'message/RESET_MESSAGE';
 
 // roommate
 export const FETCH_ROOMMATE = 'roommate/FETCH_ROOMMATE';

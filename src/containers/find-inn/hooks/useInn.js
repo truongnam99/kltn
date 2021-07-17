@@ -47,6 +47,7 @@ export const useInn = ({navigation}) => {
         city: filter.city?.Id,
         minPrice: filter.price?.minPrice,
         maxPrice: filter.price?.maxPrice,
+        type: filter.type,
         minAge: filter.age ? filter.age[0] : null,
         maxAge: filter.age ? filter.age[1] : null,
         minArea: filter.area ? filter.area[0] : null,

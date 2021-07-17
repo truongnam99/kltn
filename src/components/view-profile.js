@@ -66,18 +66,22 @@ export const ViewProfile = ({
           </View>
         </View>
       </View>
-      <Line />
-      <View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={openUpdateProfile}
-          style={[styles.row, styles.center]}>
-          <EditProfileIcon />
-          <Text types="h2" style={styles.ml}>
-            Cập nhật thông tin tài khoản
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {isMe && (
+        <>
+          <Line />
+          <View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={openUpdateProfile}
+              style={[styles.row, styles.center]}>
+              <EditProfileIcon />
+              <Text types="h2" style={styles.ml}>
+                Cập nhật thông tin tài khoản
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </View>
   );
 };

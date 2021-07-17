@@ -31,6 +31,7 @@ export const useCreateInn = ({data = {}, navigation}) => {
   const [inn, setInn] = useState({
     images: data.upload_room_images?.map(item => ({uri: item})) || [],
     innName: data.room_name,
+    type: 1,
     innOwner: userInfo?.displayName,
     innStatus: data.available_status || 1,
     innPrice: formatString(data.room_price, 'currency'),
@@ -356,6 +357,13 @@ export const useCreateInn = ({data = {}, navigation}) => {
     [hanleChangeInn],
   );
 
+  const onChangeType = useCallback(
+    value => {
+      hanleChangeInn(value, 'type');
+    },
+    [hanleChangeInn],
+  );
+
   const onChangeRoomTivi = useCallback(
     value => {
       hanleChangeInn(value, 'roomTivi');
@@ -404,6 +412,7 @@ export const useCreateInn = ({data = {}, navigation}) => {
       const payload = {
         ...data,
         room_name: inn.innName,
+        type: inn.type,
         room_owner: inn.innOwner,
         created_by: userInfo || data.created_by,
         available_status: inn.innStatus,
@@ -503,6 +512,7 @@ export const useCreateInn = ({data = {}, navigation}) => {
   return {
     handlers: {
       onCreateInn,
+      onChangeType,
       onDeleteInn,
       onCloseDeleteConfirmModal,
       onConfirmDelete,

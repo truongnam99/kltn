@@ -11,7 +11,9 @@ export function* getSettingWatcher() {
 function* getSettingTask({payload}) {
   try {
     const result = yield call(getObject, payload);
-    yield put(setSetting(result.setting));
+    if (result?.setting) {
+      yield put(setSetting(result.setting));
+    }
   } catch (error) {
     showMessageFail('Không lấy được setting');
   }

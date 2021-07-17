@@ -5,6 +5,14 @@ export const gender = [
   {value: 0, label: translate.female},
 ];
 
+export const typeInns = [
+  {value: 1, label: 'Trọ riêng'},
+  {value: 2, label: 'Ký túc xá'},
+  {value: 3, label: 'Ở chung chủ'},
+];
+
+export const typeInnsWithAll = [{value: 0, label: 'Tất cả'}, ...typeInns];
+
 export const jobs = [
   {value: 0, label: translate.all},
   {value: 1, label: translate.jobs.student},
@@ -45,6 +53,14 @@ export const getProfileJobs = value => {
 
 export const getRole = value => {
   return role.find(item => item.value === value)?.label;
+};
+
+export const getTypeInn = value => {
+  return typeInns.find(item => item.value === value)?.label;
+};
+
+export const getTypeInnWithAll = value => {
+  return typeInnsWithAll.find(item => item.value === value)?.label;
 };
 
 export const status = {

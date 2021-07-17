@@ -31,13 +31,13 @@ export const Contact = ({owner, navigation}) => {
       <TouchableOpacity activeOpacity={activeOpacity} onPress={onChatPress}>
         <MaterialIcons
           name="chat"
-          size={32}
+          size={28}
           color={lightTheme.primary}
           style={styles.me16}
         />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={activeOpacity} onPress={onDialPress}>
-        <MaterialIcons name="call" size={32} color={lightTheme.primary} />
+        <MaterialIcons name="call" size={28} color={lightTheme.primary} />
       </TouchableOpacity>
     </View>
   );
