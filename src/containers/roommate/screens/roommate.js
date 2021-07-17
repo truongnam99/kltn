@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,8 +18,10 @@ import {
 import {shortenCityName, shortenDistrictName} from '../../../utils/utils';
 import {activeOpacity} from '../../../components/shared';
 import {getGender, getJob} from '../../../constants/constants';
+import {ModalComment} from '../../../components/modal-comment';
 
 const Roommate = ({navigation}) => {
+  const [id, setId] = useState();
   const {selectors, handlers} = useRoommate({navigation});
   const {roommates, userInfo, loading, isShowFilter, filter} = selectors;
   const {
@@ -31,6 +33,14 @@ const Roommate = ({navigation}) => {
     onGotoUpdateRoommate,
     handleFetchRoommate,
   } = handlers;
+
+  const onOpenCommentModal = useCallback(id => {
+    setId(id);
+  }, []);
+
+  const onCloseCommentModal = useCallback(() => {
+    setId(null);
+  }, []);
 
   const _renderFilter = () => {
     const filterItems = [];
@@ -90,6 +100,7 @@ const Roommate = ({navigation}) => {
               navigation={navigation}
               onUpdate={onGotoUpdateRoommate}
               item={item.item}
+              onOpenCommentModal={onOpenCommentModal}
             />
           </View>
         )}
@@ -98,7 +109,7 @@ const Roommate = ({navigation}) => {
         onEndReachedThreshold={100}
         ListEmptyComponent={<ListEmptyComponent loading={loading} />}
       />
-      {/* {userInfo.role === 0 && ( */}
+      <ModalComment id={id} visible={!!id} onClose={onCloseCommentModal} />
       <ActionButton buttonColor="rgba(231,76,60,1)">
         <ActionButtonItem title="Tạo" onPress={onOpenPost}>
           <Ionicons name="md-create" style={styles.actionButtonIcon} />
@@ -107,7 +118,6 @@ const Roommate = ({navigation}) => {
           <Ionicons name="list" style={styles.actionButtonIcon} />
         </ActionButtonItem>
       </ActionButton>
-      {/* )} */}
 
       <Filter
         isShow={isShowFilter}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -15,8 +15,10 @@ import {
 } from '../../../components';
 import {translate} from '../../../constants/translate';
 import {styles} from './houseware.style';
+import {ModalComment} from '../../../components/modal-comment';
 
 export const Houseware = ({navigation}) => {
+  const [id, setId] = useState();
   const {selectors, handlers} = useHouseware({navigation});
   const {housewares, loading, uid, filter} = selectors;
   const {
@@ -27,6 +29,14 @@ export const Houseware = ({navigation}) => {
     onCartItemPress,
     onMarkSold,
   } = handlers;
+
+  const onOpenCommentModal = useCallback(id => {
+    setId(id);
+  }, []);
+
+  const onCloseCommentModal = useCallback(() => {
+    setId(null);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -52,11 +62,13 @@ export const Houseware = ({navigation}) => {
             onMarkSold={onMarkSold}
             onUpdate={onCartItemPress}
             item={item}
+            onOpenCommentModal={onOpenCommentModal}
           />
         )}
         ListEmptyComponent={<ListEmptyComponent loading={loading} />}
         ListFooterComponent={<FooterListComponent isLoading={loading} />}
       />
+      <ModalComment id={id} visible={!!id} onClose={onCloseCommentModal} />
       <ActionButton buttonColor="rgba(231,76,60,1)">
         <ActionButtonItem
           title={translate.new}

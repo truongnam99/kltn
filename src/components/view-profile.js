@@ -11,7 +11,7 @@ import {
   JobIcon,
   EditProfileIcon,
 } from './icon';
-import {getCity, shortenCityName} from '../utils/utils';
+import {formatString, getCity, shortenCityName} from '../utils/utils';
 import {getGender, getProfileJobs} from '../constants/constants';
 import {Line} from './line';
 
@@ -40,7 +40,9 @@ export const ViewProfile = ({
           <View>{isMe && <Text types="bold,h2">{user.displayName}</Text>}</View>
           <View style={[styles.row]}>
             <PhoneIcon size={20} />
-            <Text types="h2">{' ' + user.phoneNumber}</Text>
+            <Text types="h2">
+              {' ' + formatString(user.phoneNumber, 'phoneNumber')}
+            </Text>
           </View>
           <View style={[styles.row]}>
             <BirthdayIcon size={20} />
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 8,
+    elevation: 1,
   },
   info: {
     flex: 1,

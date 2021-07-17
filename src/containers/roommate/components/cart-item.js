@@ -20,7 +20,6 @@ import {Image} from '../../../components';
 import {GenderIcon, JobIcon, ReportIcon} from '../../../components/icon';
 import {shortenDistrictName} from '../../../utils/utils';
 import {ReportContainer} from '../../../components/report-container';
-import {globalStyles} from '../../../global.style';
 
 const maxNumberOfLines = 5;
 
@@ -35,6 +34,7 @@ const CartItem = ({
   onUpdate,
   createdAt,
   district,
+  onOpenCommentModal,
   ...props
 }) => {
   const districtName = shortenDistrictName(district.Name);
@@ -130,14 +130,9 @@ const CartItem = ({
             </MenuOptions>
           </Menu>
         ) : (
-          <View style={globalStyles.row}>
-            <Contact navigation={props.navigation} owner={owner} />
-            <View style={globalStyles.ml8}>
-              <ReportContainer collection="Roommates" id={id}>
-                <ReportIcon size={16} />
-              </ReportContainer>
-            </View>
-          </View>
+          <ReportContainer collection="Roommates" id={id}>
+            <ReportIcon size={20} />
+          </ReportContainer>
         )}
       </View>
       <Text
@@ -185,6 +180,14 @@ const CartItem = ({
           <Text style={styles.seeMore}>{translate.seeMore}</Text>
         )}
       </TouchableOpacity>
+      <View style={styles.line}>
+        <Contact
+          navigation={props.navigation}
+          owner={owner}
+          id={id}
+          onOpenCommentModal={onOpenCommentModal}
+        />
+      </View>
     </View>
   );
 };

@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
   itemStyle: {
     marginBottom: space3,
+    elevation: 5,
   },
   flastList: {
     margin: space3,

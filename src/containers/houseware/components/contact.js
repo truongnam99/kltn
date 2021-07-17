@@ -1,12 +1,15 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Text} from '../../../components';
+import {CommentIcon} from '../../../components/icon';
 import {activeOpacity} from '../../../components/shared';
 import {lightTheme} from '../../../config/theme';
 import {navigationName} from '../../../constants/navigation';
+import {globalStyles} from '../../../global.style';
 import {dial} from '../../../utils/utils';
 
-export const Contact = ({owner, navigation}) => {
+export const Contact = ({owner, navigation, id, onOpenCommentModal}) => {
   const onChatPress = () => {
     if (owner) {
       navigation.navigate(navigationName.houseware.chat, {
@@ -28,24 +31,45 @@ export const Contact = ({owner, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={activeOpacity} onPress={onChatPress}>
-        <MaterialIcons
-          name="chat"
-          size={28}
-          color={lightTheme.primary}
-          style={styles.me16}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity={activeOpacity} onPress={onDialPress}>
-        <MaterialIcons name="call" size={28} color={lightTheme.primary} />
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onChatPress}
+          style={[globalStyles.row, styles.center]}>
+          <MaterialIcons name="chat" size={28} color={lightTheme.primary} />
+          <Text style={globalStyles.ml6}>Nhắn tin</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity
+          style={[globalStyles.row, styles.center]}
+          onPress={() => onOpenCommentModal(id)}
+          activeOpacity={0.8}>
+          <CommentIcon size={28} />
+          <Text style={globalStyles.ml6}>Bình luận</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onDialPress}
+          style={[globalStyles.row, styles.center]}>
+          <MaterialIcons name="call" size={28} color={lightTheme.primary} />
+          <Text style={globalStyles.ml6}>Gọi điện</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    borderTopColor: lightTheme.grayC4,
+    borderTopWidth: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 6,
+    paddingTop: 6,
   },
   me16: {
     marginEnd: 16,

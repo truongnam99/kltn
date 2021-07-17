@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    elevation: 1,
     backgroundColor: 'white',
   },
   row: {

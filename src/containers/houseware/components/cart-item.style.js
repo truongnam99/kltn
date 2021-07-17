@@ -45,11 +45,8 @@ export const styles = StyleSheet.create({
   },
   bottomItemContainer: {
     backgroundColor: 'white',
-    position: 'absolute',
     width: '100%',
-    start: 10,
-    bottom: 0,
-    paddingVertical: 5,
+    paddingVertical: 6,
   },
   imageView: {
     overflow: 'hidden',

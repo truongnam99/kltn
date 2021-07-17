@@ -13,8 +13,8 @@ import {Contact} from './contact';
 import {styles} from './cart-item.style';
 import {Image, Text} from '../../../components';
 import {navigationName} from '../../../constants/navigation';
-import {globalStyles} from '../../../global.style';
 import {ReportContainer} from '../../../components/report-container';
+import {globalStyles} from '../../../global.style';
 import {ReportIcon} from '../../../components/icon';
 
 const Owner = ({image, name, belowOwner}) => {
@@ -77,11 +77,11 @@ const CartItem = ({
   district,
   createdAt,
   isActive,
-  showContact = true,
   isMe = false,
   onMarkSold,
   onUpdate,
   item,
+  onOpenCommentModal,
 }) => {
   const [numberOfDisplays, setNumberOfDisplays] = useState(1);
   const cityName = shortenDistrictName(
@@ -89,27 +89,29 @@ const CartItem = ({
   );
 
   const BottomItem = useCallback(() => {
-    if (items?.length <= 1) {
-      return;
-    }
-    return (
-      <View style={styles.bottomItemContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            if (items.length > 1) {
-              if (numberOfDisplays === 1) {
-                setNumberOfDisplays(items.length);
-              } else {
-                setNumberOfDisplays(1);
+    if (items?.length > 1 && numberOfDisplays === 1) {
+      return (
+        <View style={styles.bottomItemContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              if (items.length > 1) {
+                if (numberOfDisplays === 1) {
+                  setNumberOfDisplays(items.length);
+                } else {
+                  setNumberOfDisplays(1);
+                }
               }
-            }
-          }}>
-          <Text style={styles.textBottomColor}>
-            {numberOfDisplays > 1 ? 'Thu gọn' : 'Xem thêm'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
+            }}>
+            <Text style={styles.textBottomColor}>
+              {numberOfDisplays <= 1 && 'Xem thêm...'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return null;
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberOfDisplays]);
 
@@ -131,29 +133,13 @@ const CartItem = ({
       );
     }
     return (
-      showContact &&
-      owner && (
-        <View style={globalStyles.row}>
-          <Contact owner={owner} navigation={navigation} />
-          <View style={globalStyles.ml8}>
-            <ReportContainer collection="Housewares" id={id}>
-              <ReportIcon size={16} />
-            </ReportContainer>
-          </View>
+      <ReportContainer collection="Housewares" id={id}>
+        <View style={[globalStyles.row, styles.center]}>
+          <ReportIcon size={20} />
         </View>
-      )
+      </ReportContainer>
     );
-  }, [
-    showContact,
-    isMe,
-    owner,
-    navigation,
-    onMarkSold,
-    id,
-    isActive,
-    item,
-    onUpdate,
-  ]);
+  }, [isMe, onMarkSold, id, isActive, item, onUpdate]);
 
   const _renderBelowOwner = useCallback(() => {
     const time = createdAt
@@ -208,6 +194,12 @@ const CartItem = ({
         />
       ) : null}
       {BottomItem()}
+      <Contact
+        owner={owner}
+        navigation={navigation}
+        id={id}
+        onOpenCommentModal={onOpenCommentModal}
+      />
     </View>
   );
 };

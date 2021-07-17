@@ -45,6 +45,30 @@ export const FridgeIcon = () => (
   <MaterialCommunityIcons name="fridge-outline" size={32} color="#4CB9CA" />
 );
 
+export const CommentIcon = ({size}) => (
+  <MaterialCommunityIcons
+    name="comment-multiple"
+    size={size}
+    color={lightTheme.primary}
+  />
+);
+
+export const CloseIcon = ({size}) => (
+  <MaterialCommunityIcons name="close" size={size} color={lightTheme.grayC4} />
+);
+
+export const AddPhotoIcon = ({size}) => (
+  <MaterialIcons
+    name="add-photo-alternate"
+    size={size}
+    color={lightTheme.grayC4}
+  />
+);
+
+export const SendIcon = ({size}) => (
+  <Ionicons name="send" size={32} color={lightTheme.primary} />
+);
+
 export const WashingMachineIcon = () => (
   <MaterialCommunityIcons name="washing-machine" size={32} color="#F75683" />
 );

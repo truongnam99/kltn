@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     marginBottom: 8,
+    elevation: 5,
   },
 });
 

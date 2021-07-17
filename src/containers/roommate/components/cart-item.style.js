@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   line: {
     borderTopColor: lightTheme.grayC4,
     borderTopWidth: 1,
+    marginTop: 4,
   },
 });
 
