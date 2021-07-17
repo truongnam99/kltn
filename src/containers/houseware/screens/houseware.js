@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {
@@ -12,15 +12,18 @@ import {
   ListEmptyComponent,
   FooterListComponent,
   Filter,
+  TextInput,
 } from '../../../components';
 import {translate} from '../../../constants/translate';
 import {styles} from './houseware.style';
 import {ModalComment} from '../../../components/modal-comment';
+import {globalStyles} from '../../../global.style';
+import {SearchIcon} from '../../../components/icon';
 
 export const Houseware = ({navigation}) => {
   const [id, setId] = useState();
   const {selectors, handlers} = useHouseware({navigation});
-  const {housewares, loading, uid, filter} = selectors;
+  const {housewares, loading, uid, filter, searchText} = selectors;
   const {
     onGotoCreateHouseware,
     onGotoMyPost,
@@ -28,6 +31,8 @@ export const Houseware = ({navigation}) => {
     handleApplyFilter,
     onCartItemPress,
     onMarkSold,
+    onChangeSearchText,
+    onSearch,
   } = handlers;
 
   const onOpenCommentModal = useCallback(id => {
@@ -40,6 +45,22 @@ export const Houseware = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <View style={[globalStyles.row, styles.searchContainer]}>
+        <TextInput
+          containerStyle={styles.searchContainerStyle}
+          textInputStyle={styles.searchTextInputStyle}
+          value={searchText}
+          onChangeText={onChangeSearchText}
+        />
+        <View>
+          <TouchableOpacity
+            onPress={onSearch}
+            activeOpacity={0.8}
+            style={styles.searchButton}>
+            <SearchIcon />
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={styles.filter} onStartShouldSetResponder={() => true}>
         <Filter
           showPricePicker={false}

@@ -74,4 +74,7 @@ const styles = StyleSheet.create({
   me16: {
     marginEnd: 16,
   },
+  center: {
+    alignItems: 'center',
+  },
 });

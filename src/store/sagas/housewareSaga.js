@@ -1,10 +1,14 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
+import firestore from '@react-native-firebase/firestore';
 import {
   createHouseware,
+  createHousewareInAlgolia,
   fetchHousewares,
   fetchMyHousewares,
   updateHouseware,
+  updateHousewareInAlgolia,
   updateHousewareIsActive,
+  updateHousewareIsActiveInAlgolia,
 } from '../../service/housewareService';
 import {uploadImagesToFirebase} from '../../service/firebaseService';
 import {
@@ -51,6 +55,10 @@ function* createHousewareTask({payload}) {
         id: docRef.id,
         ...document.data(),
       };
+      yield call(createHousewareInAlgolia, {
+        objectID: docRef.id,
+        ...document.data(),
+      });
       yield put(createHousewareSuccess(data));
     } else {
       yield put(createHousewareFail());
@@ -73,7 +81,7 @@ function* fetchHousewaresTask({payload}) {
     if (reload) {
       yield put(resetListHouseware());
     }
-    const {endOfHousewares, last} = yield select(
+    const {endOfHousewares, last, housewares} = yield select(
       state => state.housewareReducer,
     );
     if (endOfHousewares) {
@@ -87,16 +95,32 @@ function* fetchHousewaresTask({payload}) {
     }
 
     options.last = last;
+    options.count = housewares?.length || 0;
     const results = yield call(fetchHousewares, options);
 
-    if (results.docs.length) {
-      const data = results.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        };
-      });
-      yield put(setLastHouseware(results.docs[results.docs.length - 1]));
+    if (results?.docs?.length || results?.hits) {
+      let data = [];
+      if (options.searchText) {
+        data = results.hits.map(hit => {
+          return {
+            ...hit,
+            id: hit.objectID,
+            createdAt: new firestore.Timestamp(
+              hit.createdAt.seconds,
+              hit.createdAt.nanoseconds,
+            ),
+          };
+        });
+        yield put(setLastHouseware(null));
+      } else {
+        data = results.docs.map(doc => {
+          return {
+            id: doc.id,
+            ...doc.data(),
+          };
+        });
+        yield put(setLastHouseware(results.docs[results.docs.length - 1]));
+      }
       yield put(fetchHousewaresSuccess(data));
     } else {
       yield put(setEndOfHousewares(true));
@@ -139,6 +163,7 @@ export function* updateHousewareIsAtiveWatcher() {
 
 function* updateHousewareIsActiveTask({payload}) {
   try {
+    yield call(updateHousewareIsActiveInAlgolia, payload);
     yield call(updateHousewareIsActive, payload);
     yield put(updateHousewareIsActiveSuccess(payload));
     showMessageSuccess('Cập nhật trạng thái thành công');
@@ -155,6 +180,7 @@ export function* updateHousewareWatcher() {
 
 function* updateHousewareTask({payload}) {
   try {
+    yield call(updateHousewareInAlgolia, payload);
     yield call(updateHouseware, payload);
     yield put(updateHousewareSuccess(payload));
     showMessageSuccess('Đã cập nhật bài viết');

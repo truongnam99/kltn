@@ -97,6 +97,10 @@ export const KitchenIcon = () => (
   <MaterialIcons name="kitchen" size={32} color={lightTheme.iconColor} />
 );
 
+export const SearchIcon = ({size = 32}) => (
+  <MaterialIcons name="search" size={size} color={lightTheme.primary} />
+);
+
 export const PedAllowIcon = () => (
   <MaterialIcons name="pets" size={32} color="#5E1FCC" />
 );

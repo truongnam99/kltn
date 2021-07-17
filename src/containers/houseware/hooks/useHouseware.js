@@ -12,6 +12,7 @@ import {selectUid} from '../../login/selectors';
 import {selectFetchHousewares, selectHousewares} from '../selectors';
 
 export const useHouseware = ({navigation}) => {
+  const [searchText, setSearchText] = useState();
   const setting = useSelector(selectSetting);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -49,7 +50,14 @@ export const useHouseware = ({navigation}) => {
     if (loading) {
       return;
     }
-    dispatch(fetchHousewares(filter));
+    dispatch(fetchHousewares({...filter, searchText}));
+  };
+
+  const onSearch = () => {
+    if (loading) {
+      return;
+    }
+    dispatch(fetchHousewares({...filter, searchText, reload: true}));
   };
 
   const handleApplyFilter = useCallback(
@@ -61,10 +69,14 @@ export const useHouseware = ({navigation}) => {
       setFilter(preState => {
         return {...preState, ...newFilter};
       });
-      dispatch(fetchHousewares({reload: true, ...newFilter}));
+      dispatch(fetchHousewares({reload: true, ...newFilter, searchText}));
     },
-    [setFilter, dispatch, loading],
+    [setFilter, dispatch, loading, searchText],
   );
+
+  const onChangeSearchText = useCallback(value => {
+    setSearchText(value);
+  }, []);
 
   const onCartItemPress = useCallback(
     item => {
@@ -83,14 +95,16 @@ export const useHouseware = ({navigation}) => {
   );
 
   return {
-    selectors: {housewares, loading, uid, filter},
+    selectors: {housewares, loading, uid, filter, searchText},
     handlers: {
       onGotoCreateHouseware,
       onGotoMyPost,
+      onSearch,
       onFetchHouseware,
       handleApplyFilter,
       onCartItemPress,
       onMarkSold,
+      onChangeSearchText,
     },
   };
 };
