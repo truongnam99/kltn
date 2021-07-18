@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
   },
   flatlist: {
     paddingHorizontal: space3,
+    paddingTop: space3,
   },
   actionButtonIcon: {
     fontSize: 20,

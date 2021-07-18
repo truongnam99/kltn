@@ -88,7 +88,7 @@ export function fetchDataFromAlgolia({
     filters.push(`type = ${type}`);
   }
   if (garage) {
-    filters.push(`parking_situation:${kitchen}`);
+    filters.push(`parking_situation:${garage}`);
   }
   if (city) {
     facetFilter.push(`full_address_object.city.code:${city}`);
