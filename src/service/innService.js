@@ -99,7 +99,7 @@ export function fetchDataFromAlgolia({
   const filter = filters.join(' AND ');
 
   if (typeOfItem === 'map') {
-    return clientIndex.search(searchText, {
+    return clientIndex.search('', {
       cacheable: true,
       filters: filter,
       facets: '*',

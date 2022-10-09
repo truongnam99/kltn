@@ -80,7 +80,6 @@ const useHook = ({navigation}) => {
 
   const handleFetchRoommate = useCallback(
     (props = {reload: false}) => {
-      console.log('props: ', props);
       dispatch(
         fetchRoommate({
           cityId: filter?.city?.Id,

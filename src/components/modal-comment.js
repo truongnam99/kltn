@@ -43,6 +43,9 @@ export const ModalComment = memo(({visible, id, onClose = () => {}}) => {
   }, [id]);
 
   const onPost = async () => {
+    if (!text) {
+      return;
+    }
     try {
       if (!id) {
         showMessageFail('Chưa chọn bài viết để comment');

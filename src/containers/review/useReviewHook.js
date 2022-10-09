@@ -52,6 +52,9 @@ export const useReviewHook = reviewId => {
 
   const onPostReview = async () => {
     try {
+      if (!review.text) {
+        return;
+      }
       if (!userInfo) {
         throw new Error('Lỗi không có userInfo');
       }

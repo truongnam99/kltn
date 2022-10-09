@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, ScrollView} from 'react-native';
+import {TouchableOpacity, ScrollView, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {
@@ -75,7 +75,7 @@ export const CreateHouseware = ({navigation, route}) => {
         />
       )}
       {houseware.items.map((item, index) => (
-        <>
+        <View key={index}>
           <TouchableOpacity
             activeOpacity={activeOpacity}
             style={styles.row}
@@ -92,7 +92,7 @@ export const CreateHouseware = ({navigation, route}) => {
             index={index}
             itemPassed={item}
           />
-        </>
+        </View>
       ))}
       <TouchableOpacity
         activeOpacity={activeOpacity}
@@ -101,11 +101,15 @@ export const CreateHouseware = ({navigation, route}) => {
         <MaterialIcons name="add" size={32} style={styles.iconAddHouseware} />
         <Text style={styles.textAddHouseware}>{translate.addHouseware}</Text>
       </TouchableOpacity>
-      <Button
-        title={data ? translate.post.update : translate.post.post}
-        onPress={onCreateHouseware}
-        loading={loading}
-      />
+      <View style={styles.buttonWrapper}>
+        <Button
+          title={data ? translate.post.update : translate.post.post}
+          onPress={onCreateHouseware}
+          loading={loading}
+          containerStyle={styles.marginBottom}
+          type="outline"
+        />
+      </View>
     </ScrollView>
   );
 };

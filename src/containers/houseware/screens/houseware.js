@@ -71,7 +71,7 @@ export const Houseware = ({navigation}) => {
       <FlatList
         style={styles.flatlist}
         data={housewares}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => item.id}
         onEndReached={onFetchHouseware}
         onEndReachedThreshold={0}
         renderItem={({item}) => (

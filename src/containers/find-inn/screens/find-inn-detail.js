@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {ImageView, Text} from '../../../components/index';
+import {ImageView, Marker, Text} from '../../../components/index';
 import Image from '../../../components/image/image';
 import {dial, formatString, numeralPrice} from '../../../utils/utils';
 import {navigationName} from '../../../constants/navigation';
@@ -34,6 +34,7 @@ import {Review} from '../../review/review';
 import {getTypeInn} from '../../../constants/constants';
 import {globalStyles} from '../../../global.style';
 import {ReportContainer} from '../../../components/report-container';
+import MapView from 'react-native-maps';
 
 const FindInnDetail = ({route, navigation}) => {
   const {inn} = route.params;
@@ -248,6 +249,27 @@ const FindInnDetail = ({route, navigation}) => {
             <Text types="bold,h2">Chú ý</Text>
             {inn.attention && <Text>{inn.attention}</Text>}
           </View>
+
+          {inn.coordinate && (
+            <MapView
+              initialRegion={{
+                latitude: inn.coordinate?.latitude || 10.821473,
+                longitude: inn.coordinate?.longitude || 106.62865,
+                latitudeDelta: 0.045922,
+                longitudeDelta: 0.045421,
+              }}
+              style={[styles.mapStyle]}>
+              {inn.coordinate && (
+                <Marker
+                  coordinate={{
+                    latitude: inn.coordinate?.latitude,
+                    longitude: inn.coordinate?.longitude,
+                  }}
+                />
+              )}
+            </MapView>
+          )}
+
           <ReportContainer id={inn.uid} collection="Inns">
             <View
               style={[

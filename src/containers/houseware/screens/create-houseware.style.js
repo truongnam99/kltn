@@ -36,4 +36,13 @@ export const styles = StyleSheet.create({
   inputContainerStyle: {
     paddingBottom: 4,
   },
+  marginBottom: {
+    paddingTop: 8,
+    paddingBottom: 20,
+    width: 120,
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });

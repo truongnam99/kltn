@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
   jcenter: {
     justifyContent: 'center',
   },
+  mapStyle: {
+    height: 300,
+    marginBottom: 6,
+  },
 });
 
 export default styles;

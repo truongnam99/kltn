@@ -53,7 +53,7 @@ const AdditionalInfo = ({navigation}) => {
       ? dayjs(userCredential.birthday).format('DD/MM/YYYY')
       : dayjs().format('DD/MM/YYYY'),
     homeTown: '79',
-    role: 0,
+    role: 1,
     gender: 0,
     job: 1,
   });
@@ -224,16 +224,6 @@ const AdditionalInfo = ({navigation}) => {
           pickerContainerStype={styles.pickerContainerStype}
           titleStyle={styles.titleStyle}
           setValue={value => onUpdateUserInfo(value, 'job')}
-          required={true}
-        />
-        <BasePicker
-          containerStyle={styles.marginTop}
-          title={translate.role}
-          items={role}
-          value={userInfo.role}
-          pickerContainerStype={styles.pickerContainerStype}
-          titleStyle={styles.titleStyle}
-          setValue={value => onUpdateUserInfo(value, 'role')}
           required={true}
         />
         <View style={styles.scrollViewLastItem}>

@@ -16,7 +16,10 @@ const Message = ({sendBy, photoUrl, text, uid, type, image}) => {
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => setImagePicked(image)}>
-              <Image image={image} style={styles.imageMessage} />
+              <Image
+                image={image}
+                style={[styles.imageMessage, styles.leftText]}
+              />
             </TouchableOpacity>
           ) : (
             <Text style={StyleSheet.flatten([styles.text, styles.leftText])}>
